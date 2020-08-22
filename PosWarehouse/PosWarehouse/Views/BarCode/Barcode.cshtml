@@ -1,0 +1,334 @@
+﻿@model PosWarehouse.ViewModel.BarCodeModel
+@{
+    ViewBag.Title = "Barcode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Barcode Print</h1>
+    </div>
+</div>
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Barcode
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Barcode Print</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Style<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-barcode"></i>
+                                                        </span>
+                                                        @Html.DropDownListFor(c => c.ProductStyle, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control select2", @id = "productstyle", @style = "max-width: 580px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 text-left">
+                                            <button class="btn btn-success" type="button" id="add"><i class="fa fa-search"></i> Search</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Grid View</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    Barcode
+                                                                </th>
+                                                                <th>
+                                                                    Name
+                                                                </th>
+
+                                                                <th>
+                                                                    Price
+                                                                </th>
+                                                                <th>
+                                                                    Brand
+                                                                </th>
+                                                                <th>
+                                                                    Quantity
+                                                                </th>
+                                                                <th>
+                                                                    Action
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForBarCode"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <a class="btn btn-success" id="Print"><i class="fa fa-save"></i> Print</a>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("Barcode", "BarCode")"><i class="fa fa-cut"></i> Cancel</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="DemobarcodeModal" class="modal fade" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h2 class="modal-title text-center">Barcode Display</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="scroller" style="height: 500px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+
+                        <div class="col-md-12" id="displayBarcode">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function tableQuantityValidation() {
+        $('.valrequired ').each(function () {
+            if (!$(this).hasClass('input-validation-error') && !$(this).val()) {
+                $(this).addClass('input-validation-error');
+            }
+        });
+
+        var empty = $('.valrequired ').filter(function () {
+            return this.value === "";
+        });
+        if (!empty.length) {
+            return true;
+        }
+        return false;
+    }
+
+    jQuery(document).ready(function() {
+        //for select2 dropdownlist
+
+        $('.select2').select2({
+            allowClear: true
+        });
+
+        loadGridDataFromLocalStorage();
+
+
+        $("#add").click(function() {
+            fromDataGetAndSaveLocalStroge();
+
+        });
+
+        function fromDataGetAndSaveLocalStroge() {
+            var productstyle = $("#productstyle option:selected").text();
+            //var quantity = $("#quantity").val();
+
+            var dataList = JSON.stringify({ 'productstyle': productstyle });
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("SendDataAndGetData", "BarCode")',
+                data: dataList,
+
+                success: function(data) {
+
+                    var tableQuantity = data.length;
+
+                    $("#gridTableBodyForBarCode").html("");
+                    for (var i = 0; i < tableQuantity; i++) {
+                        $("#gridTableBodyForBarCode").append('<tr>' +
+                            '<td>' +
+                            data[i].ItemCode +
+                            '</td>' +
+                            '<td>' +
+                            data[i].ItemName +
+                            '</td>' +
+                            '<td>' +
+                            data[i].SalePrice +
+                            '</td>' +
+                            '<td>' +
+                            data[i].BrandName +
+                            '</td>' +
+                            '<td style="width: 10%">' +
+                            '<input type="number" class="valrequired form-control input-circle" id="quantity" placeholder="Quantity">' +
+                            '</td>' +
+                            '<td><a data-itemId="0" href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                            '</tr>');
+                    }
+                }
+            });
+        }
+
+        // After Add A New Order In The List, If You Want, You Can Remove It.
+        $(document).on('click',
+            'a.deleteItem',
+            function(e) {
+
+                e.preventDefault();
+                var $self = $(this);
+                if ($(this).attr('data-ItemCode') != "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(1000,
+                        function() {
+                            $(this).remove();
+                        });
+                }
+            });
+
+        function loadGridDataFromLocalStorage() {
+            var retrievedGridObjectData = JSON.parse(localStorage.getItem('gridObjectArrayForBarCode'));
+            if (retrievedGridObjectData != null) {
+
+                var tableQuantity = retrievedGridObjectData.length;
+
+                $("#gridTableBodyForBarCode").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#gridTableBodyForBarCode").append('<tr>' +
+                        '<td>' +
+                        retrievedGridObjectData[i].ItemCode +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObjectData[i].ItemName +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObjectData[i].SalePrice +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObjectData[i].BrandName +
+                        '</td>' +
+                        '<td>' +
+                        //retrievedGridObjectData[i].Quantity +
+                        '</td>' +
+                        '<td><a href="javascript:;" data-itemcode="' +
+                        retrievedGridObjectData[i].ItemCode +
+                        '" data-saleprice="' +
+                        retrievedGridObjectData[i].SalePrice +
+                        '" class="btn btn-danger btn-xs deleteItem"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>');
+                }
+            }
+        }
+
+        //form Clear
+        function clearForm() {
+            $('.select2').select2('val', '');
+        }
+
+        //all Grid Data print
+        $("#Print").click(function(e) {
+            gridPrint();
+        });
+
+        function gridPrint() {
+            var allTableValue = [];
+            allTableValue.length = 0;
+
+            $.each($("#gridTableBodyForBarCode tr"),
+                function() {
+                    allTableValue.push({
+                        ItemCode: $(this).find('td:eq(0)').text(),
+                        ItemName: $(this).find('td:eq(1)').text(),
+                        SalePrice: $(this).find('td:eq(2)').text(),
+                        BrandName: $(this).find('td:eq(3)').text(),
+                        quantity: $(this).find('#quantity').val()
+                    });
+                });
+
+            var dataList = JSON.stringify({ objBarCodeModel: allTableValue });
+
+            if (allTableValue != "") {
+                
+                if (tableQuantityValidation()) {
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("PrintAllTableValue", "BarCode")',
+                        data: dataList,
+                        beforeSend: function() {
+                            $('#preLoader').show();
+                        },
+                        success: function (data) {
+                            if (data.length > 0) {
+                                window.open('/Report/PrintBarcode/', '_blank');
+                            } else {
+                                toastr.error("This Data Cann't Saved !!");
+                                $('#preLoader').hide();
+                            }
+                            $('#preLoader').hide();
+                        }
+
+                    });
+                } else {
+                    toastr.error("Quantity Cann't Be Empty!");
+                    $('#preLoader').hide();
+                }
+               
+
+            } else {
+                toastr.error("No Data found !! Select data..");
+                $('#preLoader').hide();
+            }
+
+        }
+    });
+</script>
+
+

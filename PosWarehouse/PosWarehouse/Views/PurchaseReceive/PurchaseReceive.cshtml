@@ -1,0 +1,1669 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.PurchaseReceiveModel
+@{
+    ViewBag.Title = "PurchaseReceive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+<style>
+    .highlight {
+        background-color: yellow
+    }
+</style>
+
+<link href="~/Content/css/typeahead.css" rel="stylesheet" />
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Purchase Receive
+                </div>
+               
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    @*<div class="row">
+                            <div class="col-md-12">
+
+                                <div class="portlet light bordered">
+                                    <div class="portlet-title">
+                                        <div class="caption font-green-sharp">
+                                            <i class="icon-speech font-green-sharp"></i>
+                                            <span class="caption-subject bold uppercase"> Product Search</span>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="input-icon">
+
+                                                    @Html.TextBoxFor(c => c.SearchKey, new { @class = "form-control typeahead input-circle", style = "width: 450px" })
+                                                    @Html.ValidationMessageFor(c => c.SearchKey)
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Search</button>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>*@
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Product Receive Details</span>
+
+                                    </div>
+                                <div class="tools">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="checkbox-list" style="margin-top: 8px;">
+                                                @Html.CheckBoxFor(c => c.SOLReceiveYN, new { @class = "checker", @id = "CheckboxOtherRecChallan", @name = "CheckboxOtherRecChallan" }) <strong>Other Receive Challan</strong>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">Purchase Order <span style="color: red">*</span></label>
+                                                <div class="col-md-7">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.PurchaseOrderId, new SelectList(ViewBag.PurchaseOrderList, "Value", "Text"), new { @class = "form-control input-circle", @id = "directPurchase", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.PurchaseOrderId)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Vendor<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.VendorId, new SelectList(ViewBag.VendorList, "Value", "Text", Model.VendorId), new { @class = "form-control input-circle", @id = "vendorId", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.VendorId)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Delivery To <span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.DeliveryShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.DeliveryShopId), new { @class = "form-control input-circle", @id = "deliveryShop", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.DeliveryShopId)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Purchase Date</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.PurchaseDate, new { @class = "form-control datepicker input-circle fa fa-calendar", autocomplete = "off", @id = "purchaseDate", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.PurchaseDate)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="col-md-7">
+                                                    <a class="btn btn-success selectProduct" data-toggle="modal" href="#directPurchaseProductModal" id="selectProduct">
+                                                        <i class="fa fa-pencil"></i>
+                                                        Select Product
+                                                    </a>
+                                                </div>
+                                                <label class="col-md-5"></label>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group" id="scanProductDiv">
+                                                <label class="col-md-4 control-label">Scan Product</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-barcode"></i>
+                                                        <input type="text" id="ScanBox" class="form-control input-circle" />
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-5"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="otherPurchaseReceiveDiv">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Other Purchase Receive <span style="color: red">*</span></label>
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.OtherPurchaseReceiveNumber, new SelectList(ViewBag.OtherPurchaseReceiveList, "Value", "Text"), new { @class = "form-control input-circle", @id = "OtherPurchaseReceiveNumber", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group" id="autoDeliveryDiv">
+                                                <div class="col-md-8">
+                                                    <input type="checkbox" class="checkbox" checked="checked" id="autoDelivery" />
+                                                    <label style="color: crimson">Auto Delivery</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Total Item</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <input type="text" class="form-control  input-circle" id="totalReceiveItem2" style="width: 150px; background-color: yellow" readonly="readonly" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Product View</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    Barcode
+                                                                </th>
+                                                                <th>
+                                                                    Name
+                                                                </th>
+                                                                <th>
+                                                                    Purchase Price
+                                                                </th>
+                                                                <th>
+                                                                    Sale Price
+                                                                </th>
+                                                                <th>
+                                                                    Order Qty/SOL Qty
+                                                                </th>
+                                                                <th>
+                                                                    Receive Qty
+                                                                </th>
+                                                                <th>
+                                                                    VAT
+                                                                </th>
+                                                                <th>
+                                                                    Amount
+                                                                </th>
+
+                                                                <th style="display:none;">
+                                                                    Profit
+                                                                </th>
+                                                                <th>
+                                                                    PO Num
+                                                                </th>
+                                                                <th>
+                                                                    Delivery to
+                                                                </th>
+                                                                <th>
+                                                                    Action
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForPurchaseReceive"></tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Total Value</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="TotalValue" readonly="readonly">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @*<div class="form-group">
+                                                                <label class="col-md-4 control-label"> Total VAT</label>
+                                                                <div class="col-md-8">
+                                                                    <div class="input-icon">
+                                                                        <i>&#2547;</i>
+                                                                        <input type="text" class="form-control input-circle" id="totalVat">
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label"> Sub Total</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="SubTotal" readonly="readonly">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Discount</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="discount">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        @*<div class="form-group">
+                                                                <label class="col-md-4 control-label"> Additional Cost</label>
+                                                                <div class="col-md-8">
+                                                                    <div class="input-icon">
+                                                                        <i>&#2547;</i>
+                                                                        <input type="text" class="form-control input-circle" id="additionalCost">
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Total Item</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon">
+                                                                    <input type="text" class="form-control  input-circle" id="totalReceiveItem" style="width: 150px; background-color: yellow" readonly="readonly" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label"> Net Total</label>
+                                                            <div class="col-md-8">
+                                                                <div class="input-icon">
+                                                                    <i>&#2547;</i>
+                                                                    <input type="text" class="form-control input-circle" id="netTotal" readonly="readonly">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+
+
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <a class="btn btn-info" id="preview"> Preview</a>
+                                        <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("PurchaseReceiveList", "PurchaseReceive")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<!-- /.modal -->
+<div class="modal fade bs-modal-lg" id="directPurchaseProductModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Product</h4>
+            </div>
+            <div class="modal-body">
+                @*<div class="row">
+                        <div class="col-md-4">
+                            <div class="input-icon">
+                                <i class="fa fa-search"></i>
+                                <input type="text" class="form-control input-circle" id="" style="width: 300px">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <br />
+                    <br />*@
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Product View</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table" id="ModalTableForData">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                            @*<input type="checkbox" id="checkAll" name="value" class="checker">*@
+                                        </th>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Purchase Price
+                                        </th>
+                                        <th>
+                                            Sale Price
+                                        </th>
+                                        <th>
+                                            Style
+                                        </th>
+                                        <th>
+                                            Color
+                                        </th>
+                                        <th>
+                                            Size
+                                        </th>
+                                        <th>
+                                            Vat
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalCheckBoxItemList"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-modal-lg" id="PreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Preview Challan</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Preview Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 text-center"><strong><h3>SaRa LifeStyle Ltd.</h3></strong></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label"><strong>ChallanNo:</strong></label>
+                                    <div class="col-md-7 text-center">
+                                        <p id="challanPre"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-6 control-label"> <strong>Receive Date:</strong></label>
+                                    <div class="col-md-6 text-center">
+                                        <p id="Datepre"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-7 control-label"><strong>Receive For:</strong></label>
+                                    <div class="col-md-5 text-center">
+                                        <p id="receiveFor"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="gridTableForPreview">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        BarCode
+                                    </th>
+                                    <th>
+                                        Item Name
+                                    </th>
+
+                                    <th>
+                                        Sale Price
+                                    </th>
+                                    <th>
+                                        Order Qty
+                                    </th>
+                                    <th>
+                                        Receive Qty
+                                    </th>
+                                    <th>
+                                        Vat
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody id="gridTableForPreviewBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label"><strong>Total Preview Item:</strong></label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control  input-circle" id="totalItemPreview" style="width: 150px;background-color: yellow" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script src="~/Scripts/highlights.js"></script>
+<script>
+
+    function previewModal() {
+         
+        var allPreviewReceiveItem = [];
+        allPreviewReceiveItem.length = 0;
+        $.each($("#gridTableBodyForPurchaseReceive tr"),
+            function () {
+
+                allPreviewReceiveItem.push({
+                    Barcode: $(this).find('td:eq(2)').html(),
+                    ItemName: $(this).find('td:eq(3)').text(),
+                    SalePrice: $(this).find('#salePrice').val(),
+                    OrderQuantity: $(this).find('td:eq(6)').html(),
+                    ReceiveQuantity: $(this).find('#receiveQuantity').val(),
+                    Vat: $(this).find('td:eq(8)').html()
+                });
+
+            });
+        if (allPreviewReceiveItem.length !== 0) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/PurchaseReceive/GetMaxChallanNumber/',
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "") {
+                        $("#challanPre").text(data);
+                    } else {
+                        toastr.warning("No Data Found !.");
+                    }
+                },
+
+            });
+            var purchaseDate = $("#purchaseDate").val();
+            var totalReceiveItem = $("#totalReceiveItem").val();
+            var receiveForShopId = $("#deliveryShop option:selected").text();
+
+            $("#Datepre").text(purchaseDate);
+            $("#receiveFor").text(receiveForShopId);
+            $("#totalItemPreview").val(totalReceiveItem);
+
+
+            $("#gridTableForPreviewBody").html("");
+            for (var i = 0; i < allPreviewReceiveItem.length; i++) {
+                $("#gridTableForPreviewBody").append('<tr>' +
+                    '<td>' +
+                        parseInt(i+1) +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].Barcode +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].ItemName +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].SalePrice +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].OrderQuantity +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].ReceiveQuantity +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].Vat +
+                    '</td>' +
+                    '</tr>'
+                );
+            }
+            $("#PreviewModal").modal("show");
+        } else {
+            toastr.error("Table Data Can't be Empty !.");
+            $("#Preview").modal('hide');
+            return false;
+        }
+        
+    }
+
+    function totalItemCount() {
+        var total = 0;
+        $("#gridTableBodyForPurchaseReceive tr").each(function () {
+            total += parseInt($(this).find('.quantity').val());
+
+        });
+        $("#totalReceiveItem").val(total);
+        $("#totalReceiveItem2").val(total);
+    }
+
+    function scrollStopNumberField() {
+        $('input[type=number]').on('mousewheel', function(e) {
+            $(e.target).blur();
+        });
+    }
+    function rowDataCalculation(data) {
+        var subTotal = data.parents('tr').find('.subTotal');
+        var quantity = data.parents('tr').find('.quantity').val();
+        var purchasePrice = data.parents('tr').find('.purchasePrice').val();
+        var totalPrice = quantity * purchasePrice;
+        subTotal.val(totalPrice);
+    }
+
+    function compute() {
+        var totalValue = 0;
+        var totalVat = 0;
+        var totalAmount = 0;
+        $('#gridTable > tbody  > tr').each(function () {
+            var total = 0;
+            var subTotal = $(this).find('.subTotal').val();
+
+            if (subTotal) {
+                totalValue = parseFloat(totalValue) + parseFloat(subTotal);
+            }
+        });
+
+        $("#SubTotal").val(totalValue);
+        $("#netTotal").val(totalValue);
+        $("#TotalValue").val(totalValue);
+
+
+    }
+    function discountCompute() {
+
+        var discount = $('#discount').val();
+        var totalValue = $('#SubTotal').val() ;
+        var totalDiscountValue = parseFloat(totalValue) - parseFloat(discount);
+        $("#netTotal").val(totalDiscountValue);
+    }
+
+    jQuery(document).ready(function () {
+        var table = $("#ModalTableForData").dataTable({
+            "processing": true,
+            "serverSide": true,
+            "searchHighlight": true,
+            "ajax": {
+                url: '@Url.Action("GetAllProductItemForDirectPurchaseReceive", "PurchaseReceive")',
+                type: 'POST'
+            },
+            "columns": [
+                {
+                    "data": "ProductCode",
+                    "orderable": false,
+                    render: function (data, type, object) {
+                        return "<input type ='checkbox' class ='checker' id='checkbox' value='" + object.ItemId + "'/>" +
+                            " <input type = 'hidden' class ='itemId' value = '" + object.ItemId + "' />"+
+                            " <input type = 'hidden' class ='productId' value = '" + object.ProductId + "' />";
+
+                    }
+                },
+                {
+                    "data": "ProductCode",
+                    render: function (data, type, object) {
+                        return "<p class='productCode'>" + object.ProductCode +"</p>";
+                    }
+                },
+                {
+                    "data": "ItemName",
+                    render: function (data, type, object) {
+                        return "<p class='itemName'>" + object.ItemName + "</p>";
+                    }
+                },
+                {
+                    "data": "PurchasePrice",
+                    render: function (data, type, object) {
+                        return "<p class='purchasePrice'>" + object.PurchasePrice + "</p>";
+                    }
+                },
+                {
+                    "data": "SalePrice",
+                    render: function (data, type, object) {
+                        return "<p class='salePrice'>" + object.SalePrice + "</p>";
+                    }
+                },
+                {
+                    "data": "Style"
+                },
+                {
+                    "data": "ItemColor"
+                },
+                {
+                    "data": "ItemSize"
+                },
+                {
+                    "data": "VatPercent",
+                    render: function (data, type, object) {
+                        return "<p class='Vat'>" + object.VatPercent + "</p>";
+                    }
+                }
+
+            ]
+        });
+
+        //localStorage.removeItem('gridObjectArrayForCheckBoxSelect');
+        //var table = $("#ModalTableForData").dataTable();
+        $("#ModalTableForData").highlight($("#searchBox").val());
+        var vForm = $('#__AjaxAntiForgeryForm');
+        var vToken = $('input[name="__RequestVerificationToken"]', vForm).val();
+
+        $('.typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                async: true,
+                source: function(query, processSync, processAsync) {
+                    return $.ajax({
+                        url: "/PurchaseReceive/GetSearchHintsList",
+                        type: 'GET',
+                        data: { query: query },
+                        dataType: 'json',
+                        success: function(json) {
+                            // in this example, json is simply an array of strings
+                            return processAsync(json);
+                        }
+                    });
+                }
+            });
+        //end
+
+
+        $("#preview").click(function () {
+            if (formValidation()) {
+                previewModal();
+            }
+        });
+
+        //This for Select All checkbox
+        $("#checkAll").change(function() {
+            var checked = $(this).is(":checked");
+
+            if (checked) {
+                $(".checker").prop("checked", true);
+                $(".checker").parent("span").addClass("checked");
+            } else {
+                $(".checker").prop("checked", false);
+                $(".checker").parent("span").removeClass("checked");
+            }
+        });
+        //end
+        // DropDownList change
+        $('#purchaseDate').attr('disabled', true);
+        $('#vendorId').attr('disabled', true);
+        $('#totalVat').attr('disabled', true);
+        $('#discount').attr('disabled', true);
+        $('#additionalCost').attr('disabled', true);
+        $('#deliveryShop').attr('disabled', true);
+        $("#selectProduct").hide();
+        $("#autoDeliveryDiv").hide();
+        //$("#scanProductDiv").hide();
+        $("#directPurchase").change(function () {
+            var Value = this.value;
+            if (Value == "0") {
+                $("#scanProductDiv").hide();
+                $("#selectProduct").show();
+                $('#deliveryShop').attr('disabled', false);
+                $('#vendorId').attr('disabled', false);
+
+            } else {
+
+                $("#scanProductDiv").show();
+                $("#selectProduct").hide();
+                $('#deliveryShop').attr('disabled', true);
+                $('#vendorId').attr('disabled', true);
+
+            }
+        });
+        $("#deliveryShop").change(function () {
+            var value = this.value;
+            if (value) {
+                $("#autoDeliveryDiv").show();
+            } else {
+                $("#autoDeliveryDiv").hide();
+            }
+        });
+        //end
+        $("#purchaseDate").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker("setDate", new Date());
+
+        
+        $("#OtherPurchaseReceiveNumber").change(function () {
+
+            var OtherPurchaseReceiveNumber = $("#OtherPurchaseReceiveNumber").val();
+
+            if (OtherPurchaseReceiveNumber > 0) {
+                var searchData = JSON.stringify({ 'OtherPurchaseReceiveNumber': OtherPurchaseReceiveNumber });
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("GetInfoByotherPurchaseReceiveNumber", "PurchaseReceive")',
+                    data: searchData,
+                    success: function (data) {
+                        //same barcode check
+                        var allBarCode = [];
+                        allBarCode.length = 0;
+                        var checker = false;
+
+                        $.each($("#gridTableBodyForPurchaseReceive tr"),
+                            function() {
+                                var value = $(this).find('td:eq(2)').html();
+                                allBarCode.push({
+                                    value
+                                });
+                            });
+
+                        $.each(allBarCode,
+                            function(i, val) {
+                                for (var j = 0; j < data.length; j++) {
+                                    if (data[j].Barcode === val.value) {
+                                        checker = true;
+                                    }
+                                }
+                            });
+                        //end
+                        if (checker) {
+                            toastr.error("Barcode Same.You can't Select This PO!");
+                            return false;
+
+                        } else {
+
+                            
+                            var tableQuantity = data.length;
+                            //$("#gridTableBodyForPurchaseReceive").html("");
+                            for (var i = 0; i < tableQuantity; i++) {
+                                $("#gridTableBodyForPurchaseReceive").append('<tr>' +
+                                    '<td style="display:none;">' +
+                                    data[i].ItemId +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    data[i].ProductId +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].Barcode +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].ItemName +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle purchasePrice" readonly="readonly" id="purchasePrice" value="' +
+                                    data[i].PurchasePrice +
+                                    '">' +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle" id="salePrice" readonly="readonly" value="' +
+                                    data[i].SalePrice +
+                                    '" placeholder="Sale Price">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].Quantity +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle quantity" readonly="readonly" id="receiveQuantity" value="' +0 +
+                                    '" placeholder="Qty">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].VatPercent +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle subTotal" id="subTotal" readonly="readonly" value="' +
+                                    0+
+                                    '">' +
+                                    '</td style="width: 8%">' +
+                                    '<td style="display:none;">' +
+                                    parseInt(((data[i].SalePrice - data[i].PurchasePrice) / data[i].SalePrice * 100)) +
+                                    '%' +
+                                    '</td>' +
+                                    '<td class="poNumber">' +
+                                    'SOL' +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].DeliveryShopId +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    0 +
+                                    '</td>' +
+                                    '<td></td>' +
+                                    '</tr>'
+                                );
+                            }
+                            totalItemCount();
+                            compute();
+                        }
+                    }
+                });
+            } else {
+                $("#gridTableBodyForPurchaseReceive").html("");
+                $('#TotalValue').val('');
+                $('#totalVat').val('');
+                $('#SubTotal').val('');
+                $('#discount').val('');
+                $('#additionalCost').val('');
+                $('#netTotal').val('');
+
+            }
+        });
+
+        $("#directPurchase").change(function () {
+            var purchaseOrderId = $("#directPurchase option:selected").val();
+            var purchaseOrderNumber = $("#directPurchase option:selected").text();
+            if (purchaseOrderNumber > 0) {
+                var searchData = JSON.stringify({ 'purchaseOrderNumber': purchaseOrderNumber });
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("SearchProductByOrderNumber", "PurchaseReceive")',
+                    data: searchData,
+                    success: function (data) {
+                        //same barcode check
+                        var allBarCode = [];
+                        allBarCode.length = 0;
+                        var checker = false;
+
+                        $.each($("#gridTableBodyForPurchaseReceive tr"),
+                            function() {
+                                var value = $(this).find('td:eq(2)').html();
+                                allBarCode.push({
+                                    value
+                                });
+                            });
+
+                        $.each(allBarCode,
+                            function(i, val) {
+                                for (var j = 0; j < data.length; j++) {
+                                    if (data[j].Barcode === val.value) {
+                                        checker = true;
+                                    }
+                                }
+                            });
+                        //end
+                        if (checker) {
+                            toastr.error("Barcode Same.You can't Select This PO!");
+                            return false;
+
+                        } else {
+
+                            $("#vendorId").val(data[0].VendorId);
+                            $("#deliveryShop").val(data[0].DeliveryShopId);
+                            var tableQuantity = data.length;
+                            //$("#gridTableBodyForPurchaseReceive").html("");
+                            for (var i = 0; i < tableQuantity; i++) {
+                                $("#gridTableBodyForPurchaseReceive").append('<tr>' +
+                                    '<td style="display:none;">' +
+                                    data[i].ItemId +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    data[i].ProductId +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].Barcode +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].ItemName +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle purchasePrice" id="purchasePrice" value="' +
+                                    data[i].PurchasePrice +
+                                    '">' +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle" id="salePrice" value="' +
+                                    data[i].SalePrice +
+                                    '" placeholder="Sale Price">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].Quantity +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle quantity" id="receiveQuantity" value="' +0 +
+                                    '" placeholder="Qty">' +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].VatPercent +
+                                    '</td>' +
+                                    '<td style="width: 8%">' +
+                                    '<input type="number" class="form-control input-circle subTotal" id="subTotal" readonly="readonly" value="' +
+                                    0+
+                                    '">' +
+                                    '</td style="width: 8%">' +
+                                    '<td style="display:none;">' +
+                                    parseInt(((data[i].SalePrice - data[i].PurchasePrice) / data[i].SalePrice * 100)) +
+                                    '%' +
+                                    '</td>' +
+                                    '<td class="poNumber">' +
+                                    purchaseOrderNumber +
+                                    '</td>' +
+                                    '<td>' +
+                                    data[i].DeliveryShopId +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    purchaseOrderId +
+                                    '</td>' +
+                                    '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                                    '</tr>'
+                                );
+                            }
+                            totalItemCount();
+                            compute();
+                        }
+                    }
+                });
+            } else {
+                $("#gridTableBodyForPurchaseReceive").html("");
+                $('#TotalValue').val('');
+                $('#totalVat').val('');
+                $('#SubTotal').val('');
+                $('#discount').val('');
+                $('#additionalCost').val('');
+                $('#netTotal').val('');
+
+            }
+
+        });
+
+        $("#gridTable").on('keyup',
+            '.quantity',
+            function() {
+                var thisRow = $(this);
+                rowDataCalculation(thisRow);
+                totalItemCount();
+                compute();
+            });
+
+        $("#gridTable").on('keyup',
+            '.purchasePrice',
+            function() {
+
+                var thisRow = $(this);
+                rowDataCalculation(thisRow);
+                totalItemCount();
+                compute();
+
+            });
+
+        $("#discount").on('keyup',
+            function() {
+                $(this).val($(this).val());
+                discountCompute();
+
+
+            });
+
+
+        function formValidation() {
+
+            //var purchaseOrderId = $("#directPurchase option:selected").val();
+            //if (purchaseOrderId == '') {
+            //    toastr.error("Select Purchase Order!!");
+
+            //    return false;
+            //}
+
+            var vendorId = $("#vendorId").val();
+            if (vendorId == '') {
+                toastr.error("Select Vendor !!");
+
+                return false;
+            }
+
+            var deliveryShop = $("#deliveryShop").val();
+            if (deliveryShop == '') {
+                toastr.error("Select Delivery Shop !!");
+
+                return false;
+            }
+
+
+            $.each($("#gridTableBodyForPurchaseReceive tr"), function () {
+                var receiveQuantity = $(this).find('#receiveQuantity').val();
+                if (receiveQuantity === 0) {
+                    toastr.error("Receive Qty Must Greater Then 0 OR Equal OrderQty !!");
+                    return false;
+                }
+
+            });
+
+
+            return true;
+        }
+
+        $("#save").click(function(e) {
+            gridSave();
+        });
+
+        function gridSave() {
+            var deliveryShop = 0;
+            var vendorId = $("#vendorId").val();
+            //var purchaseOrderId = $("#directPurchase option:selected").val();
+            var otherPurchaseReceiveYN = $('#CheckboxOtherRecChallan:checkbox:checked').length > 0;
+            var OtherPurchaseReceiveNumber = $("#OtherPurchaseReceiveNumber").val();
+            var purchaseOrderNumber = $("#directPurchase option:selected").val();
+            var purchaseDate = $("#purchaseDate").val();
+            if (purchaseOrderNumber === "0" || purchaseOrderNumber === "" || otherPurchaseReceiveYN) {
+                deliveryShop = $("#deliveryShop").val();
+            }
+            //select PoNumberList
+            var selectedPoNum = [];
+            $.each($("#gridTableBodyForPurchaseReceive tr"),
+                function() {
+                    selectedPoNum.push({
+                        PurchaseOrderNumber: $(this).find('td:eq(11)').text(),
+                        DeliveryShopId: $(this).find('td:eq(12)').text(),
+                        PurchaseOrderId: $(this).find('td:eq(13)').text()
+
+                    });
+                });
+
+            function getUniqueListBy(selectedPoNum, key) {
+                return [...new Map(selectedPoNum.map(item => [item[key], item])).values()];
+            }
+            var uniqSelectedPoNum = getUniqueListBy(selectedPoNum, 'PurchaseOrderNumber');
+
+            //end
+
+            if (formValidation()) {
+                var allPurchaseReceiveItem = [];
+                var errorChecker = false;
+                var saveChecker = true;
+                allPurchaseReceiveItem.length = 0;
+                $.each($("#gridTableBodyForPurchaseReceive tr"),
+                    function() {
+                        if ($(this).find('#receiveQuantity').val() > 0) {
+
+                            allPurchaseReceiveItem.push({
+                                ItemId: $(this).find('td:eq(0)').html(),
+                                ProductId: $(this).find('td:eq(1)').html(),
+                                Barcode: $(this).find('td:eq(2)').html(),
+                                //ItemName: $(this).find('td:eq(3)').text(),
+                                ItemName: '',
+                                PurchasePrice: $(this).find('#purchasePrice').val(),
+                                SalePrice: $(this).find('#salePrice').val(),
+                                OrderQuantity: $(this).find('td:eq(6)').html(),
+                                ReceiveQuantity: $(this).find('#receiveQuantity').val(),
+                                Vat: $(this).find('td:eq(8)').html(),
+                                SubTotalAmount: $(this).find('#subTotal').val(),
+                                PurchaseOrderNumber: $(this).find('td:eq(11)').html(),
+                                Profit: $(this).find('td:eq(10)').html()
+                            });
+                        } else {
+                            errorChecker = true;
+                            saveChecker = false;
+                        }
+                    });
+                if (errorChecker) {
+                    toastr.error("Receive Quantity Must be Greater Than 0.");
+                }
+                if (saveChecker) {
+                    var dataObject = {
+                        'VendorId': vendorId,
+                        'PurchaseDate': purchaseDate,
+                        'DeliveryShopId': deliveryShop,
+                        'OtherPurchaseReceiveNumber': OtherPurchaseReceiveNumber,
+                        'SOLReceiveYN':otherPurchaseReceiveYN,
+                        'ReceiveItemsList': allPurchaseReceiveItem,
+                        'PoNumberList': uniqSelectedPoNum
+
+                    }
+                    var dataList = JSON.stringify({ objPurchaseReceiveModel: dataObject });
+                    if (allPurchaseReceiveItem.length) {
+
+                        $.ajax({
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '@Url.Action("SaveAllPurchaseReceiveItem", "PurchaseReceive")',
+                            data: dataList,
+                            beforeSend: function() {
+                                $('#preLoader').show();
+                            },
+                            success: function (data) {
+                              
+                                if (data.isRedirect) {
+                                    localStorage.removeItem('gridObjectArrayForCheckBoxSelect');
+                                    localStorage.removeItem('gridObjectArrayForScanProduct');
+                                    window.setTimeout(function() {
+                                        window.location = data.redirectUrl;
+                                    },1000);
+                                    toastr.info("Save Successfully.");
+                                    $('#preLoader').hide();
+                                   
+                                }
+                                if (data.purchaseReceiveNumber !== null) {
+                                    window.open('/PurchaseReceive/ShowReport?purchaseReceiveNumber=' + data.purchaseReceiveNumber, '_blank');
+                                }
+
+                            }
+                        });
+                    } else {
+                        toastr.error("No Data found !! Select data..");
+                    }
+                }
+
+            }
+        }
+        $(".selectProduct").click(function () {
+
+        });
+
+        function manageGrid(deleteItem, addItem, updateItem) {
+            var tableRowDataForCheckBox = JSON.parse(localStorage.getItem('gridObjectArrayForCheckBoxSelect'));
+            var tableRowDataForDirectRec = JSON.parse(localStorage.getItem('gridObjectArrayForScanProduct'));
+
+            if (tableRowDataForCheckBox) {
+                if (deleteItem) {
+                    for (var i = 0; i < tableRowDataForCheckBox.length; i++) {
+                        if (tableRowDataForCheckBox[i].barcode === deleteItem) {
+                            tableRowDataForCheckBox.splice(i, 1);
+                        }
+                    }
+                } 
+                if (updateItem) {
+                    var productCode = updateItem.productCode;
+                    var quantity = updateItem.receiveQty;              
+                    for (var i = 0; i < tableRowDataForCheckBox.length; i++) {
+                        if (tableRowDataForCheckBox[i].barcode === productCode) {
+                            tableRowDataForCheckBox[i].receiveQuantity = quantity;
+                        }
+                    } 
+                }
+            } else {
+                if (tableRowDataForDirectRec) {
+                    if (deleteItem) {
+                        for (var l = 0; l < tableRowDataForDirectRec.length; l++) {
+                            if (tableRowDataForDirectRec[l].barcode === deleteItem) {
+                                tableRowDataForDirectRec.splice(l, 1);
+                            }
+                        }
+                    }
+                    if (updateItem) {
+                        var productCode1 = updateItem.productCode;
+                        var quantity1 = updateItem.receiveQty;
+                        for (var j = 0; j < tableRowDataForDirectRec.length; j++) {
+                            if (tableRowDataForDirectRec[j].barcode === productCode1) {
+                                tableRowDataForDirectRec[j].receiveQuantity = quantity1;
+                            }
+                        } 
+                    }
+                }
+            }
+            if (addItem) {
+                if (tableRowDataForCheckBox == null) {
+                    tableRowDataForCheckBox = [];
+                } else {
+                    var barcode = addItem.barcode;
+                    for (var i = 0; i < tableRowDataForCheckBox.length; i++) {
+                        if (tableRowDataForCheckBox[i].barcode === barcode) {
+                            tableRowDataForCheckBox.splice(i, 1);
+                        }
+                    }
+                }
+                tableRowDataForCheckBox.push(addItem);
+            }
+            if (tableRowDataForDirectRec) {
+                localStorage.setItem("gridObjectArrayForScanProduct", JSON.stringify(tableRowDataForDirectRec));
+            }
+            if (tableRowDataForCheckBox) {
+                localStorage.setItem("gridObjectArrayForCheckBoxSelect", JSON.stringify(tableRowDataForCheckBox));
+            }
+            //End
+        }
+
+        function manageGridForScan(addItem) {
+            var productIteList = JSON.parse(localStorage.getItem('gridObjectArrayForScanProduct'));
+            if (addItem) {
+                if (productIteList == null) {
+                    productIteList = [];
+                    productIteList.push(addItem);
+                } else {
+                    var checker = true;
+                    var barcode = addItem.barcode;
+                    for (var i = 0; i < productIteList.length; i++) {
+                        if (productIteList[i].barcode === barcode) {
+                            var receiveQty = parseInt(productIteList[i].receiveQuantity);
+                            productIteList[i].receiveQuantity = receiveQty + 1;
+                            checker = false;
+                            toastr.success("Add Same Item.");
+                        }
+                    }
+                    if (checker) {
+                        productIteList.push(addItem);
+                    }
+                }
+            }
+                           
+            localStorage.setItem('gridObjectArrayForScanProduct', JSON.stringify(productIteList));
+        };
+        // After Add A New Order In The List, If You Want, You Can Remove It.
+        $(document).on('click', 'a.deleteItem', function (e) {
+            e.preventDefault();
+            var productCode = $(this).parents('tr').find('td:eq(2)').html();
+            manageGrid(productCode, null, null);
+
+            var self = $(this);
+            if (self != null) {
+                $(this).parents('tr').css("background-color", "#dc143c").fadeOut(800, function () {
+                    $(this).remove();
+                    totalItemCount();
+                    compute();
+                });
+            } else {
+                toastr.error("Data cann't delete");
+            }
+        });
+
+        $("#ModalTableForData").on('change', 'input[Id="checkbox"]', function () {
+            if ($(this).is(':checked')) {
+                //var tableRowDataForCheckBox = JSON.parse(localStorage.getItem('gridObjectArrayForCheckBoxSelect'));
+
+                var itemId = $(this).val();
+                var productId = $(this).parents('tr').find('.productId').val();
+                var productCode = $(this).parents("td").siblings("td").find(".productCode").text();
+                var itemName = $(this).parents("td").siblings("td").find(".itemName").text();
+                var purchasePrice = $(this).parents("td").siblings("td").find(".purchasePrice").text();
+                var salePrice = $(this).parents("td").siblings("td").find(".salePrice").text();
+                var vatPercent = $(this).parents("td").siblings("td").find(".Vat").text();
+
+                var gridObject = {
+                    'itemId': itemId,
+                    'productId': productId,
+                    'barcode': productCode,
+                    'itemName': itemName,
+                    'quantity': 0,
+                    'receiveQuantity': 0,
+                    'vatPercent': vatPercent,
+                    'purchasePrice': purchasePrice,
+                    'salePrice': salePrice
+                }
+                manageGrid(null, gridObject, null);
+
+                loadLocalStrogeData();
+                toastr.success("This Item is Select");
+
+            }
+
+
+
+        });
+        function loadLocalStrogeData() {
+            var retrievedObjectData = JSON.parse(localStorage.getItem('gridObjectArrayForCheckBoxSelect'));
+
+            if (retrievedObjectData != null) {
+                var tableQuantity = retrievedObjectData.length;
+
+                $("#gridTableBodyForPurchaseReceive").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+
+                    $("#gridTableBodyForPurchaseReceive").append('<tr>' +
+                        '<td style="display:none;">' +
+                        retrievedObjectData[i].itemId +
+                        '</td>' +
+                        '<td style="display:none;">' +
+                        retrievedObjectData[i].productId +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData[i].barcode +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData[i].itemName +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle purchasePrice" id="purchasePrice" value="' +
+                        retrievedObjectData[i].purchasePrice +
+                        '">' +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle" id="salePrice" min= "0" value="' +
+                        retrievedObjectData[i].salePrice +
+                        '" placeholder="Sale Price">' +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData[i].quantity +
+                        '</td>' +
+
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle quantity" id="receiveQuantity" min="0" value="' +
+                        retrievedObjectData[i].receiveQuantity +
+                        '" placeholder="Qty">' +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData[i].vatPercent +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle subTotal" id="subTotal" readonly="readonly" value="' +
+                        parseFloat(retrievedObjectData[i].purchasePrice) * parseFloat(retrievedObjectData[i].receiveQuantity) +
+                        '">' +
+                        '</td style="width: 8%">' +
+
+                        '<td style="display:none;">' +
+                        parseInt(((retrievedObjectData[i].salePrice - retrievedObjectData[i].purchasePrice) / retrievedObjectData[i].salePrice * 100)) +
+                        '%' +
+                        '</td>' +
+                        '<td class="poNumber">Direct</td>' +
+                        '<td>'+0+'</td>' +
+                        '<td style="display:none;"></td>' +
+                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>'
+                    );
+                }
+                totalItemCount();
+                scrollStopNumberField();
+                compute();
+
+            }
+
+        }
+
+        function loadLocalStrogeDirectScanData() {
+            var retrievedObjectData2 = JSON.parse(localStorage.getItem('gridObjectArrayForScanProduct'));
+
+            if (retrievedObjectData2 != null) {
+                var tableQuantity = retrievedObjectData2.length;
+
+                $("#gridTableBodyForPurchaseReceive").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#gridTableBodyForPurchaseReceive").append('<tr>' +
+                        '<td style="display:none;">' +
+                        retrievedObjectData2[i].itemId +
+                        '</td>' +
+                        '<td style="display:none;">' +
+                        retrievedObjectData2[i].productId +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData2[i].barcode +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData2[i].itemName +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle purchasePrice" id="purchasePrice" value="' +
+                        retrievedObjectData2[i].purchasePrice +
+                        '">' +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle" id="salePrice" min= "0" value="' +
+                        retrievedObjectData2[i].salePrice +
+                        '" placeholder="Sale Price">' +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData2[i].quantity +
+                        '</td>' +
+
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle quantity" id="receiveQuantity" min="0" value="' +
+                        retrievedObjectData2[i].receiveQuantity +
+                        '" placeholder="Qty">' +
+                        '</td>' +
+                        '<td>' +
+                        retrievedObjectData2[i].vatPercent +
+                        '</td>' +
+                        '<td style="width: 8%">' +
+                        '<input type="number" class="form-control input-circle subTotal" id="subTotal" readonly="readonly" value="' +
+                        parseFloat(retrievedObjectData2[i].purchasePrice) * parseFloat(retrievedObjectData2[i].receiveQuantity) +
+                        '">' +
+                        '</td style="width: 8%">' +
+
+                        '<td style="display:none;">' +
+                        parseInt(((retrievedObjectData2[i].salePrice - retrievedObjectData2[i].purchasePrice) / retrievedObjectData2[i].salePrice * 100)) +
+                        '%' +
+                        '</td>' +
+                        '<td class="poNumber">Direct</td>' +
+                        '<td>' + 0 + '</td>' +
+                        '<td style="display:none;"></td>' +
+                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>'
+                    );
+                }
+                totalItemCount();
+                scrollStopNumberField();
+                compute();
+
+            }
+
+        }
+
+        //Scan Product start
+        $("#ScanBox").change(function () {
+            localStorage.removeItem('gridObjectArrayForCheckBoxSelect');
+            $('#deliveryShop').attr('disabled', false);
+            $('#vendorId').attr('disabled', false);
+            var otherPurchaseReceiveYN = $('#CheckboxOtherRecChallan:checkbox:checked').length > 0;
+            var barcode = $("#ScanBox").val();
+            var purchaseOrderNumber = $("#directPurchase option:selected").val();
+            var checker = false;
+            if (purchaseOrderNumber !== "" || otherPurchaseReceiveYN ) {
+                $.each($("#gridTableBodyForPurchaseReceive tr"), function () {
+                    var value = $(this).find('td:eq(2)').text();
+                    var orderQty = $(this).find('td:eq(6)').text();
+                    var receiveQuantity = $(this).find('#receiveQuantity').val();
+                    var quantity = $(this).find('.quantity');
+                   
+                    if (otherPurchaseReceiveYN) {
+                        if (value === barcode) {
+                            if (parseInt(receiveQuantity) !== parseInt(orderQty)) {
+                            checker = true;
+                            //$(this).css("background-color", "#ffff00");
+                            toastr.success("Add Same Item.");
+                            $(this).find('#receiveQuantity').val(parseInt(receiveQuantity) + 1);
+                            $("#ScanBox").val("");
+                            rowDataCalculation(quantity);
+                            totalItemCount();
+                            compute();
+
+                            }
+
+                        }
+                    } else {
+                        if (value === barcode) {
+                            //if (parseInt(receiveQuantity) !== parseInt(orderQty)) {
+                            checker = true;
+                            //$(this).css("background-color", "#ffff00");
+                            toastr.success("Add Same Item.");
+                            $(this).find('#receiveQuantity').val(parseInt(receiveQuantity) + 1);
+                            $("#ScanBox").val("");
+                            rowDataCalculation(quantity);
+                            totalItemCount();
+                            compute();
+
+                            //}
+
+                        }
+                    }
+
+                });
+                if (!checker) {
+                    toastr.error("Invalid Barcode!.");
+                    $("#ScanBox").val("");
+                }
+
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/PurchaseReceive/GetProductInfoForScanReceive/',
+                    dataType: 'json',
+                    data: { barcode: barcode },
+                    success: function (data) {
+                        if (data.ItemId !== 0 && data.ProductId !== 0 && data.ProductCode != null ) {
+                            var itemId =data.ItemId;
+                            var productId = data.ProductId; ;
+                            var productCode = data.ProductCode;
+                            var itemName = data.ItemName;
+                            var purchasePrice = data.PurchasePrice;
+                            var salePrice = data.SalePrice;
+                            var vatPercent = data.VatPercent;
+
+                            var gridObject = {
+                                'itemId': itemId,
+                                'productId': productId,
+                                'barcode': productCode,
+                                'itemName': itemName,
+                                'quantity': 0,
+                                'receiveQuantity': 1,
+                                'vatPercent': vatPercent,
+                                'purchasePrice': purchasePrice,
+                                'salePrice': salePrice
+                            }
+                            manageGridForScan(gridObject);
+                            loadLocalStrogeDirectScanData();
+                            $("#ScanBox").val("");
+                        } else {
+                            toastr.error("Invalid Barcode;");
+                            $("#ScanBox").val("");
+                        }
+                       
+                    }
+                });
+            }
+            
+        });
+        //End
+
+        $("#gridTableBodyForPurchaseReceive").on('change', '.quantity', function () {
+            var receiveQty = $(this).val();
+            var productCode = $(this).parents('tr').find('td:eq(2)').html();
+            var updateItem = {
+                'receiveQty': receiveQty,
+                'productCode' : productCode
+            }
+            manageGrid(null, null, updateItem);
+
+        });
+
+        $("#otherPurchaseReceiveDiv").hide();
+        $("#CheckboxOtherRecChallan").change(function () {
+            if (this.checked) {
+                $(".selectProduct").hide();
+                $("#scanProductDiv").show();
+                $("#otherPurchaseReceiveDiv").show();
+                $("#directPurchase").val("");
+                $('#gridTableBodyForPurchaseReceive').html("");
+                $('#directPurchase').attr('disabled', true);
+            } else {
+                $("#scanProductDiv").show();
+                $("#otherPurchaseReceiveDiv").hide();
+                $('#directPurchase').attr('disabled', false);
+                $('#gridTableBodyForPurchaseReceive').html("");
+            }
+        });
+    });
+</script>
+
+

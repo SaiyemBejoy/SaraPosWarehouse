@@ -1,0 +1,125 @@
+﻿@{
+    var employee = Session["authentication"];
+
+    if (employee == null)
+    {
+        @Html.Action("RedirectActionResult", "Auth");
+        //Response.Redirect("~/Auth/Index");
+        //return;
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Cloud POS Warehouse</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+
+    @Styles.Render("~/Content/Assets/css")
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("styles", required: false)
+    <link rel="shortcut icon" href="~/Content/img/favicon.ico.png" />
+
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-footer-fixed">
+    <!-- BEGIN HEADER -->
+    @*@Html.Partial("_TopMenuPartial")*@
+    @{Html.RenderAction("LoadTopMenue", "Auth");}
+    <!-- END HEADER -->
+    <div class="clearfix">
+    </div>
+
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <!-- BEGIN SIDEBAR -->
+            @{Html.RenderAction("Menu", "Home");}
+            <!-- END SIDEBAR -->
+        </div>
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <div id="preLoader"></div>
+                @*<img id="preLoader" src="/Content/PreLoader/757.gif" style="position: absolute;display: none; left: 50%; top: 40%;"/>*@
+
+                @RenderBody()
+            </div>
+        </div>
+        <!-- END CONTENT -->
+    </div>
+
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            @DateTime.Now.Year &copy; SaRa Lifestyle Ltd By Snowtex.
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>*@
+    @*<div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>*@
+    @Scripts.Render("~/bundles/plugins/scripts")
+
+    <script>
+        //For DatePicker start
+
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '1970:2040',
+                dateFormat: "dd/mm/yy"
+            });
+
+        });
+        //For DatePicker end
+
+        jQuery(document).ready(function () {
+            Metronic.init();
+            Layout.init();
+            Demo.init();
+            //chart er
+            //ChartsAmcharts.init();
+            ////ChartsFlotcharts.init();
+            //ChartsFlotcharts.initCharts();
+            //ChartsFlotcharts.initPieCharts();
+            //ChartsFlotcharts.initBarCharts();
+            //End
+            TableManaged.init();
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

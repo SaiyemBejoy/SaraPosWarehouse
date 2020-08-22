@@ -1,0 +1,219 @@
+﻿@model PosWarehouse.ViewModel.PurchaserOrderModelForReport
+@{
+    ViewBag.Title = "ReportForHtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/Content/img/logo-big.png" />
+                    </div>
+                    <div class="col-md-4">
+                        <h3 class="text-center"><b>SaRa Lifestyle Ltd</b></h3>
+                        <h4 class="text-center">Plot No # Shilpa/01, Section #07, Milk Vita Road; Mirpur – 1216. Dhaka</h4>
+                        <h5 class="text-center">PO Number Wise Details</h5>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4><b>Po Number: @Model.PurchaseOrderNumber</b></h4>
+                        <p><b>Order Date: @Model.OrderDate</b></p>
+                        <p><b>Delivery Date: @Model.DeliveryDate</b></p>
+                        <p><b>Delivery For: @Model.DeliveryShopName</b></p>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <p><b>Shop Display Date: @Model.DisplayDate</b></p>
+                        <p><b>Season Name: @Model.SeasonName</b></p>
+                        @foreach (var purchaseItemRpt in Model.PurchaseItemList)
+                        {
+                            <p><b>Designer Name: @purchaseItemRpt.Designer</b></p>
+                            <p><b>Merchandiser Name: @purchaseItemRpt.Merchandiser</b></p>
+                        }
+                    </div>
+                </div>
+                <table class="table table-responsive table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Style#</th>
+                            <th>Garments Category</th>
+                            <th>Garments Type</th>
+                            <th>Fabric Type</th>
+                            <th>Color</th>
+                            <th>Code</th>
+                            <th>Sewing Type</th>
+                            @{
+                                foreach (var purchaseItemSizeRpt in Model.SizeModelListHeading)
+                                {
+                                    <th>@purchaseItemSizeRpt.SizeName</th>
+                                }
+                            }
+                            <th>Total</th>
+                            <th>Retail Price</th>
+                            <th>Fabric Consumption</th>
+                            <th>Fabric Quantity</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var purchaseItemRpt in Model.PurchaseItemList)
+                            {
+                                foreach (var fabricModel2 in purchaseItemRpt.PurchaseItemColorRpt)
+                                {
+                                    <tr>
+                                        <td style="padding: 5px; line-height: 0.428571;vertical-align: middle;">@purchaseItemRpt.ProductStyle</td>
+                                        <td style="padding: 5px;line-height: 0.428571;vertical-align: middle;">@purchaseItemRpt.Category @purchaseItemRpt.Subcategory</td>
+                                        <td style="padding: 5px;line-height: 0.428571;vertical-align: middle;">
+                                            <table class="table table-responsive table-bordered table-hover table-striped">
+                                                @foreach (var fabricModel in Model.FabricModelList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="padding: 4px;line-height: 0.428571">@fabricModel.GarmentsType</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+                                        <td style="padding: 5px;line-height: 0.428571">
+                                            <table class="table table-responsive table-bordered table-hover table-striped">
+                                                @foreach (var fabricModel in Model.FabricModelList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="padding: 4px;line-height: 0.428571">@fabricModel.FabricType</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+                                        <td class="text-center" style="padding: 5px;line-height: 0.428571;vertical-align: middle;">
+                                            @fabricModel2.ColorName
+                                        </td>
+                                        <td style="padding: 5px;line-height: 0.428571;vertical-align: middle;">
+                                            <table class="table table-responsive table-bordered table-hover table-striped">
+                                                @foreach (var fabricModel in Model.FabricModelList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="padding: 4px;line-height: 0.428571">@fabricModel.FabricCode</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+                                        <td style="padding: 5px;line-height: 0.428571;vertical-align: middle;"></td>
+                                        @{
+                                            int total = 0;
+                                            foreach (var purchaseItemSizeRpt in fabricModel2.SizeModelList)
+                                            {
+                                                total = total + purchaseItemSizeRpt.Quantity;
+                                                <td class="text-center" style="padding: 4px;line-height: 0.428571;vertical-align: middle;">@purchaseItemSizeRpt.Quantity</td>
+                                            }
+                                        }
+                                        <td class="text-center" style="padding: 5px;line-height: 0.428571;vertical-align: middle;">@total</td>
+                                        <td class="text-center"  style="padding: 5px;line-height: 0.428571;vertical-align: middle;">@purchaseItemRpt.SalePrice</td>
+                                        <td class="text-center"  style="padding: 5px;line-height: 0.428571;vertical-align: middle;">
+                                            <table class="table table-responsive table-bordered table-hover table-striped">
+                                                @foreach (var fabricModel in Model.FabricModelList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="padding: 4px;line-height: 0.428571">@fabricModel.Consumption</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+                                        <td style="padding: 5px;line-height: 0.428571;vertical-align: middle;">
+                                            <table class="table table-responsive table-bordered table-hover table-striped">
+                                                @foreach (var fabricModel in Model.FabricModelList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" style="padding: 4px;line-height: 0.428571">@fabricModel.FabricQuantity</td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            @foreach (var purchaseItemRpt in Model.PurchaseItemList)
+                            {
+                                <div class="col-md-6">
+                                    <p><b>Embroidary: @purchaseItemRpt.Embroidery</b></p>
+                                    <p><b>Wash: @purchaseItemRpt.Wash</b></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><b>Karchupi: @purchaseItemRpt.Karcupi</b></p>
+                                    <p><b>Print: @purchaseItemRpt.Print</b></p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 50px;">Designer</p>
+                    </div>
+                    <div class="col-md-2">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 50px;">
+                            Merchandiser
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 20px;">
+                            Merchandising Head
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 70px;">
+                            AGM
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 70px;">
+                            AD
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <div style="width: 60%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 50px;">
+                            Director
+                        </p>
+                    </div>
+
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-9">
+                        
+                        <div style="width: 100%; height: 50px; border: 1px solid black; margin-top: -20px">
+                            <div style="width: 100px; height: 50px; border-right: 1px solid #000; float: left;">
+                                <p style="margin: 13px;">Comments</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="width: 70%; height: 1px; background: black;"></div>
+                        <p style="margin-left: 50px;">Receive Confirmation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

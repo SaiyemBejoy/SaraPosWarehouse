@@ -1,0 +1,299 @@
+﻿@model PosWarehouse.ViewModel.QuickSearchModel
+@{
+    ViewBag.Title = "ProductSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="portlet box red">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-comments"></i>Quick Search
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse" data-original-title="" title="">
+            </a>
+            <a href="javascript:;" class="reload" data-original-title="" title="">
+            </a>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Shop:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.ShopId, ViewBag.ShopList as SelectList, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Category:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as SelectList, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Sub Category:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.SubCategoryId, new SelectList(""), new { @class = "form-control", @disabled = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Style:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.ProductStyle, ViewBag.StyleList as SelectList, new { @class = "form-control select2", @style = "max-width: 580px;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Designer:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.DesignerId, ViewBag.DesignerList as SelectList, new { @class = "form-control select2", @style = "max-width: 580px;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Merchandiser:</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(m => m.MerchandiserId, ViewBag.MerchandiserList as SelectList, new { @class = "form-control select2", @style = "max-width: 580px;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="portlet box green-meadow">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Search Product List
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                    <a href="javascript:;" class="reload" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="">
+                    <table class="table table-bordered table-hover" id="prodductSearchTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Style
+                                </th>
+                                <th>
+                                    Barcode
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Category
+                                </th>
+                                <th>
+                                    Subcategory
+                                </th>
+                                <th>
+                                    VAT(%)
+                                </th>
+                                <th>
+                                    MRP
+                                </th>
+                                <th>
+                                    CPU
+                                </th>
+                                @*<th>
+                                        WH STK
+                                    </th>*@
+                                <th>
+                                    STOCK
+                                </th>
+                                <th>
+                                    SHOP Name
+                                </th>
+                                @*<th>
+                                        Warehouse
+                                    </th>*@
+                            </tr>
+                        </thead>
+                        <tbody id="prodductSearchTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script>
+    //var dataObject = {};
+    jQuery(document).ready(function () {
+
+        $("#SubCategoryId").prop("disabled", true);
+        $('.select2').select2({
+            allowClear: true
+        });
+
+     var vForm = $('#__AjaxAntiForgeryForm');
+        var vToken = $('input[name="__RequestVerificationToken"]', vForm).val();
+
+    
+
+        $("#ShopId, #CategoryId, #SubCategoryId, #ProductStyle, #DesignerId, #MerchandiserId ").change(function () {
+            var shopId = $("#ShopId").val();
+            var category = $("#CategoryId").val();
+            var subCategory = $("#SubCategoryId").val();
+            var productStyle = $("#ProductStyle").val();
+            var designerId = $("#DesignerId").val();
+            var merchandiserId = $("#MerchandiserId").val();
+            //Category Wise SubCategory load
+            if (!isNaN(category) && category) {
+                $("#SubCategoryId").empty();
+                var catId = $("#CategoryId").val();
+                if (!isNaN(catId) && catId) {
+                    $("#SubCategoryId").prop("disabled", false);
+                    $.ajax({
+                        type: 'GET',
+                        url: '/QuickSearch/GetSubCategory/',
+                        dataType: 'json',
+                        data: { categoryId: catId },
+                        success: function (subCategoryId) {
+                            $.each(subCategoryId, function (i, subCategoryId) {
+                                $("#SubCategoryId").append('<option value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
+                            });
+                        },
+                        error: function (ex) { alert('Failed to retrieve SubCategory List.' + ex); }
+                    });
+                } else {
+                    $("#SubCategoryId").prop("disabled", true);
+                }
+            }
+            //End
+            //if (!isNaN(shopId) && shopId) {
+            var dataObject = {
+                'ShopId': shopId,
+                'CategoryId': category,
+                'SubCategoryId': subCategory,
+                'MerchandiserId': merchandiserId,
+                'DesignerId': designerId,
+                'ProductStyle': productStyle
+            }
+            $('#prodductSearchTable').DataTable().destroy();
+
+            var table = $("#prodductSearchTable").DataTable({
+                // set the initial value
+                "pageLength": 25,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: '@Url.Action("GetAllProductList", "QuickSearch")',
+                    data: {
+                        objQuickSearchModel: dataObject
+                    },
+                    type: 'POST'
+                },
+                "columns": [
+                    { "data": "ProductStyle" },
+                    { "data": "Barcode" },
+                    { "data": "ItemName" },
+                    { "data": "CategoryName" },
+                    { "data": "SubCategoryName" },
+                    { "data": "Vat" },
+                    { "data": "SalePrice" },
+                    { "data": "PurchasePrice" },
+                    { "data": "Stock" },
+                    { "data": "ShopName" }
+                ]
+            });
+            //$.ajax({
+            //    type: 'POST',
+            //    url: '/QuickSearch/GetAllProductList/',
+            //    dataType: 'json',
+            //    data: { objQuickSearchModel: dataObject },
+            //    beforeSend: function() {
+            //        $('#preLoader').show();
+            //    },
+            //    success: function (result) {
+            //        if (result.length !== 0) {
+            //            tableRowGenerate(result);
+            //            $('#preLoader').hide();
+            //        } else {
+            //            $("#prodductSearchTableBody").html("");
+            //            toastr.error("Data Not Found !.");
+            //            $('#preLoader').hide();
+            //        }
+            //    },
+            //    error: function (ex) { alert('Failed to retrieve product List.' + ex); $('#preLoader').hide(); }
+
+            //});
+
+        });
+    });
+
+    //function tableRowGenerate(data) {
+    //    var productSearchResult = data.length;
+    //    $('#prodductSearchTable').DataTable().destroy();
+    //    $("#prodductSearchTableBody").html("");
+    //    for (var i = 0; i < productSearchResult; i++) {
+    //        $("#prodductSearchTableBody").append('<tr>' +
+    //            '<td>' +
+    //            parseInt(i + 1) +
+    //            '</td>' +
+    //            '<td class="danger">' +
+    //            data[i].Barcode +
+    //            '</td>' +
+    //            '<td class="active" style ="width:30%">' +
+    //            data[i].ItemName +
+    //            '</td>' +
+    //            '<td class="success">' +
+    //            data[i].CategoryName +
+    //            '</td>' +
+    //            '<td class="warning">' +
+    //            data[i].SubCategoryName +
+    //            '</td>' +
+    //            '<td class="danger">' +
+    //            data[i].Vat +
+    //            '</td>' +
+    //            '<td class="active">' +
+    //            data[i].SalePrice +
+    //            '</td>' +
+    //            '<td class="success">' +
+    //            data[i].PurchasePrice +
+    //            '</td>' +
+    //            //'<td class="warning">' +
+    //            //data[i].WarehouseStock +
+    //            //'</td>' +
+    //            '<td class="active">' +
+    //            data[i].Stock +
+    //            '</td>' +
+    //            '<td class="active">' +
+    //            data[i].ShopName +
+    //            '</td>' +
+    //            //'<td class="active">' +
+    //            //data[i].WarehouseName +
+    //            //'</td>' +
+    //            '</tr>');
+    //        //totalItemCount();
+    //    }
+    //    $("#prodductSearchTable").dataTable({
+    //        // Sets the row-num-selection "Show %n entries" for the user
+    //        "lengthMenu": [ 50, 100, 200, 300, 400 ], 
+        
+    //        // Set the default no. of rows to display
+    //        "pageLength": 50 
+    //    });
+    //}
+</script>

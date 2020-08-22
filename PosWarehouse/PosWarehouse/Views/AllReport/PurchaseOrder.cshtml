@@ -1,0 +1,139 @@
+﻿
+@model PosWarehouse.ViewModel.PurchaseOrderReport
+@{
+    ViewBag.Title = "PurchaseOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Purchase Order Report
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("PurchaseOrder", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div class="form-group">
+                                    <div class="radio-list">
+                                        @Html.RadioButtonFor(model => model.ReportType, "1", new { @checked = true }) PDF
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.OrderDatefrom, "Order From Date", new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-calendar"></i>
+                                            @Html.TextBoxFor(c => c.OrderDatefrom, new { @class = "form-control input-circle datepicker", @placeholder = "From Date", @autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(c => c.OrderDatefrom)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.OrderDateTo, "Order To Date", new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-calendar"></i>
+                                            @Html.TextBoxFor(c => c.OrderDateTo, new { @class = "form-control input-circle datepicker", @placeholder = "To Date", @autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(c => c.OrderDateTo)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ShopId, "Shop", new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @{Html.EnableClientValidation(false);}
+                                            @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.PurchaseOrderNumber, "PO Number", new { @class = "col-md-5 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.PurchaseOrderNumber, new { @class = "form-control input-circle", @placeholder = "PO Number", @autocomplete = "off" })
+                                            @Html.ValidationMessageFor(c => c.PurchaseOrderNumber)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-9">
+                                        <div class="radio-list">
+                                            @*<label>
+                                                    @Html.RadioButtonFor(model => model.RadioFor, "D", new { @checked = true }) PO Wise Summary
+                                                </label>*@
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "P", new { @checked = true }) PO Number Wise Details
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "D") Date & Shop Wise Details
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+
+                                <button class="btn btn-success" type="submit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                <a class="btn btn-danger" href="@Url.Action("PurchaseOrder", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+

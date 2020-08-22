@@ -1,0 +1,415 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.MenuMain
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-head">
+    <div class="page-title">
+        <h1>User Menu </h1>
+    </div>
+</div>
+
+
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>User Menu Add
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="form-body form-horizontal">
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.EmployeeRole, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-3">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.DropDownListFor(c => c.EmployeeRole, new SelectList(ViewBag.RoleList, "Value", "Text", Model.EmployeeRole), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(c => c.EmployeeRole)
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="btn btn-success roleUpdate" data-toggle="modal" href="#userRoleUpdateModal" id="roleUpdate">
+                                <i class="fa fa-plus"></i>
+                                <b>User Role Update</b>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.MenuMainName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.DropDownListFor(c => c.MenuMainName, new SelectList(ViewBag.UserMenuList, "Value", "Text", Model.MenuMainId), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(c => c.MenuMainName)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6 text-left">
+                            <button class="btn btn-success" type="submit" id="save"><i class="fa fa-save"></i> Save</button>
+                            <a class="btn btn-danger" href="@Url.Action("Index", "UserMenu")"><i class="fa fa-cut"></i> Clear</a>
+                            <button class="btn btn-warning" type="submit" id="deleteThisMenuPermision"><i class="fa fa-trash"></i> Delete Selectd Menu Permision</button>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet box blue-madison">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Sub Menu Lists
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="subMenuTable">
+                            <thead>
+                            <tr>
+                                <th>Check Menu For Add</th>
+                                <th>Sub Menu Name</th>
+                                <th>URL</th>
+                                <th>Icon</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody id="subMenuTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="userRoleUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> User Role</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 style="text-align: right"><b>User Id</b></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    @Html.DropDownListFor(c => c.UserId, new SelectList(ViewBag.UserIdList, "Value", "Text", Model.UserId), new { @class = "form-control input-circle select2" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 style="text-align: right"><b>User Name</b></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control input-circle" id="userName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 style="text-align: right"><b>User Role</b></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control input-circle" id="userRole" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 style="text-align: right"><b>Active YN</b></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <input type="checkbox" class="form-control input-circle" id="activeYn" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-warning" id="updateRole">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        $('.select2').select2({
+            allowClear: true
+        });
+        $("#UserId").change(function() {
+            var userId = $("#UserId").val();
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("GetInfoByUserId", "UserMenu")',
+                data: { userId: userId },
+                success: function (data) {
+                    if (data != null) {
+                        $("#userName").val(data.UserName);
+                        $("#userRole").val(data.EmployeeRole);
+                        if (data.ActiveYn != "N") {
+                            $("#activeYn").parent("span").attr('class', 'checked');
+                        }
+                       
+                    }
+
+                }
+            });
+
+        });
+        $("#updateRole").click(function() {
+
+        });
+
+        $("#updateRole").click(function () {
+            var userName = $("#userName").val();
+            var userRole = $("#userRole").val();
+            var UserId = $("#UserId").val();
+            var status = $("#activeYn").parent("span").hasClass("checked");            
+            var activeYn = "";
+            if (status) {
+                activeYn = "Y";
+            } else {
+                activeYn = "N";
+            }
+
+            var dataObject = {
+                'UserId': UserId,
+                'EmployeeRole': userRole,
+                'UserName': userName,
+                'ActiveYn': activeYn
+            }
+            var dataList = JSON.stringify({ objMenuMain: dataObject });
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("UpdateUserRoleByUserId", "UserMenu")',
+                data: dataList,
+                success: function (data) {
+                    toastr.success(data.m);
+                   $("#userName").val("");
+                   $("#userRole").val("");
+                   $("#UserId").val("");
+                   $("#activeYn").parent("span").removeClass("checked"); 
+                }
+            });
+
+        });
+
+
+        $("#MenuMainName").change(function () {
+            var menuId = parseInt($("#MenuMainName").val());
+            $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("GetSubmenuByMenuId", "UserMenu")',
+                data: { menuId: menuId },
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function (data) {
+                    var submenuList = data.length;
+                    $("#subMenuTableBody").html("");
+                    for (var i = 0; i < submenuList; i++) {
+                        $("#subMenuTableBody").append('<tr>' +
+                            '<td style="display:none;">' +
+                            data[i].MenuSubId +
+                            '</td>' +
+                            '<td>' +
+                            "<input type ='checkbox' class ='checker'  id='checkbox' value='" +
+                            data[i].MenuSubId +
+                            "'/>" +
+                            '</td>' +
+                            '<td>' +
+                            data[i].MenuSubName +
+                            '</td>' +
+                            '<td>' +
+                            data[i].MenuUrl +
+                            '</td>' +
+                            '<td>' +
+                            data[i].MenuIcon +
+                            '</td>' +
+                            '<td>' +
+                            "<input type ='checkbox' class ='checker checkboxDelete' id='checkboxDelete' value='" +
+                            data[i].MenuSubId +
+                            "'/>" +
+                            '</td>' +
+                            '</tr>');
+                    }
+                    $('#preLoader').hide();
+                }
+            });
+
+
+        });
+
+        $(document).on('change', '.checkboxDelete', function (e) {
+            var menuId = parseInt($("#MenuMainName").val());
+            var role = $("#EmployeeRole").val();
+            var MenuSubId = parseInt($(this).val());
+           
+            var dataObject = {
+                'MenuMainId': menuId,
+                'EmployeeRole': role,
+                'MenuSubId': MenuSubId
+            }
+            var dataList = JSON.stringify({ objMenuMain: dataObject });
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("DeleteUserMenuPermision", "UserMenu")',
+                data: dataList,
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function(data) {
+                    if (data.isRedirect) {
+                        window.setTimeout(function() {
+                                window.location = data.redirectUrl;
+                            },
+                            1000);
+                        toastr.success(data.m);
+                    }
+                    $('#preLoader').hide();
+                }
+            });
+
+        });
+
+        $("#deleteThisMenuPermision").click(function() {
+            var menuId = parseInt($("#MenuMainName").val());
+            var role = $("#EmployeeRole").val();
+            if (role != "" && !isNaN(menuId)) {
+                var dataObject = {
+                    'MenuMainId': menuId,
+                    'EmployeeRole': role,
+                    //'MenuSubId': MenuSubId
+                }
+                var dataList = JSON.stringify({ objMenuMain: dataObject });
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("DeleteSelectedMenuAndSubMenuPermision", "UserMenu")',
+                data: dataList,
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function (data) {
+                    if (data.isRedirect) {
+                        window.setTimeout(function() {
+                            window.location = data.redirectUrl;
+                        },1000);
+                        toastr.success(data.m);  
+                    }
+                    $('#preLoader').hide();
+                }
+            });
+            } else {
+                toastr.error(" Select Role And Menu Name");  
+            }
+
+        });
+        $("#save").click(function() {
+            var menuId = parseInt($("#MenuMainName").val());
+            var role = $("#EmployeeRole").val();
+            var allSubMenuId = [];
+            allSubMenuId.length = 0;
+            $.each($("input[id='checkbox']:checked"),
+                function() {
+                    //allSubMenuId.push(parseInt($(this).val()));
+                    allSubMenuId.push({
+                        MenuSubId: $(this).val(),
+                        MenuSubName: $(this).parents('tr').find('td:eq(2)').text(),
+                        MenuUrl: $(this).parents('tr').find('td:eq(3)').text(),
+                        MenuIcon: $(this).parents('tr').find('td:eq(4)').text()
+                    });
+                });
+
+            var dataObject = {
+                'MenuMainId': menuId,
+                'EmployeeRole': role,
+                'MenuSubs': allSubMenuId
+
+            }
+            var dataList = JSON.stringify({ objMenuMain: dataObject });
+            if (role !== "" && menuId !== "") {
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("SaveUserMenuPermision", "UserMenu")',
+                data: dataList,
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function (data) {
+                    if (data.isRedirect) {
+                        window.setTimeout(function() {
+                            window.location = data.redirectUrl;
+                        },1000);
+                        toastr.info(data.m);    
+                        toastr.success(data.subMenuMessage);  
+                    }
+                    $('#preLoader').hide();
+                }
+                });
+            } else {
+                toastr.error('Value Cannt Empty!.');    
+            }
+        });
+    });
+</script>

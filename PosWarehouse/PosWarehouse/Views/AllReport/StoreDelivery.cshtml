@@ -1,0 +1,288 @@
+﻿@model PosWarehouse.ViewModel.StoreDeliveryReport
+@{
+    ViewBag.Title = "StoreDelivery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Shop Delivery
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("StoreDelivery", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div class="form-group">
+                                    <div class="radio-list">
+                                        @Html.RadioButtonFor(model => model.ReportType, "1", new { @checked = true }) PDF
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" id="deliveryHide">
+                                    @Html.LabelFor(c => c.DeliveryNumber, "Challan Num", new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.DeliveryNumber, new { @class = "form-control input-circle", @autocomplete = "off", @placeholder = " Challan NUM" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.FromDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-calendar"></i>
+                                            @Html.TextBoxFor(c => c.FromDate, new { @class = "form-control input-circle datepicker", @autocomplete = "off", @required = "required", @placeholder = "From Date" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ToDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-calendar"></i>
+                                            @Html.TextBoxFor(c => c.ToDate, new { @class = "form-control input-circle datepicker", @autocomplete = "off", @required = "required", @placeholder = "From Date" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="categoryHide">
+                                    @Html.LabelFor(c => c.CategoryId, "Category", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(c => c.CategoryId, new SelectList(ViewBag.CategoryList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="subCategoryHide">
+                                    @Html.LabelFor(c => c.SubCategoryId, "Sub Category", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(m => m.SubCategoryId, new SelectList(" "), new { @class = "form-control input-circle", @disabled = true })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ProductStyle, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-calendar"></i>
+                                            @Html.TextBoxFor(c => c.ProductStyle, new { @class = "form-control input-circle", @autocomplete = "off", @required = "required", @placeholder = "Style Name" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ShopId, "Shop",new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="DesignerNameHide">
+                                    @Html.LabelFor(c => c.DesignerId, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(m => m.DesignerId, new List<SelectListItem>(), "---Select Name---", new { @class = "form-control input-circle", @disabled = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group"  id="MerchandiserNameHide">
+                                    @Html.LabelFor(c => c.MerchandiserId, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(m => m.MerchandiserId, new List<SelectListItem>(), "---Select Name---", new { @class = "form-control input-circle", @disabled = true })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-9">
+                                        <div class="radio-list">
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "CD", new { @checked = true }) <b>Challan Number Wise Details</b>
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "DSD") <b>Date Wise Shop Delivery</b>
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "SWD") <b>Style Wise Shop Delivery</b>
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "SWLD") <b>Style Wise First launch Date</b>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6 text-left">
+
+                                        <button class="btn btn-success" type="submit" id="reportSubmit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                        @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                        <a class="btn btn-danger" href="@Url.Action("StoreDelivery", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+
+
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@*@Scripts.Render("~/bundles/jqueryval")*@
+
+<script>
+    $(document).ready(function () {
+        $("#categoryHide").hide();
+        $("#subCategoryHide").hide();
+        $("#DesignerNameHide").hide();
+        $("#MerchandiserNameHide").hide(); 
+        $("#FromDate").removeAttr('required');
+        $("#ToDate").removeAttr('required');
+        $("#ShopId").removeAttr('required');
+
+        $(':radio[name=RadioFor]').change(function () {
+            var value = $(this).val();
+            if (value === 'DSD') {
+                $("#deliveryHide").show();
+                $("#categoryHide").hide();
+                $("#subCategoryHide").hide();
+                $("#DeliveryNumber").removeAttr('required');
+                $("#ProductStyle").removeAttr('required');
+                $("#DeliveryNumber").val("");
+                $(function() {
+                    $( ".datepicker" ).datepicker({
+                        format: 'dd/mm/yyyy',//check change
+                        changeMonth: true,
+                        changeYear: true
+                    }).datepicker("setDate", new Date());
+                });
+
+            } else if (value === 'CD') {
+                $("#FromDate").removeAttr('required');
+                $("#ToDate").removeAttr('required');
+                $("#ShopId").removeAttr('required');
+                $("#ProductStyle").removeAttr('required');
+                $("#deliveryHide").show();
+                $("#categoryHide").hide();
+                $("#subCategoryHide").hide();
+                $("#DesignerNameHide").hide();
+                $("#MerchandiserNameHide").hide(); 
+            }
+            else if (value === 'SWLD') {
+                $("#ProductStyle").removeAttr('required');
+                $("#categoryHide").show();
+                $("#subCategoryHide").show();
+                $("#DesignerNameHide").show();
+                $("#MerchandiserNameHide").show(); 
+                $("#deliveryHide").hide();
+
+            }
+           
+        });
+
+        $("#CategoryId").change(function () {
+            $("#SubCategoryId").empty();
+            var catId = $("#CategoryId").val();
+
+            if (!isNaN(catId) && catId) {
+                $("#SubCategoryId").prop("disabled", false);
+                $.ajax({
+                    type: 'POST',
+                    url: '/AllReport/GetSubCategory/',
+                    dataType: 'json',
+                    data: { categoryId: catId },
+                    success: function (subCategoryId) {
+                        $.each(subCategoryId, function (i, subCategoryId) {
+                            $("#SubCategoryId").append('<option value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve SubCategory List.' + ex);
+                        $("#SubCategoryId").prop("disabled", true);
+                    }
+                });
+            } else {
+                $("#SubCategoryId").prop("disabled", true);
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.2.226/Api/Designer',
+            dataType: 'json',
+            success: function (data) {
+                $("#DesignerId").attr("disabled", false);
+                $.each(data, function (i, designerId) {
+                    $("#DesignerId").append('<option value="' + designerId.id + '">' + designerId.name + '</option>');
+                });
+            },
+            error: function (ex) { alert('Failed to retrieve Designer Name List.' + ex); }
+        });
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.2.226/Api/Merchandiser',
+            dataType: 'json',
+            success: function (data) {
+                $("#MerchandiserId").attr("disabled", false);
+                $.each(data, function (i, merchandiserId) {
+                    $("#MerchandiserId").append('<option value="' + merchandiserId.id + '">' + merchandiserId.name + '</option>');
+                });
+            },
+            error: function (ex) { alert('Failed to retrieve Merchandiser List.' + ex); }
+        });
+    });
+</script>

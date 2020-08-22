@@ -1,0 +1,235 @@
+﻿@using System.Threading
+@model PosWarehouse.ViewModel.AttributesModel
+
+@if (Model.Attributes.Any())
+{
+    int counter = 1;
+    <div class="col-md-12">
+        <div class="row">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="icon-speech font-green-sharp"></i>
+                        <span class="caption-subject bold uppercase"> Grid View</span>
+
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="gridTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Attributes
+                                    </th>
+                                    <th>
+                                        Selected Value
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var attribute in Model.Attributes)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td style="vertical-align: middle; width: 10%">@attribute.AttributeName</td>
+                                        <td style="vertical-align: middle;">
+                                            @foreach (var attributeValue in attribute.AttributesValues)
+                                            {
+                                                <span class="label label-success">@attributeValue.AttributeValueName <a class="btn btn-danger btn-xs attarValDelete" data-attrid="@attribute.AttributeId" data-attrvalu="@attributeValue.AttributeValueId"><span class="fa fa-trash-o"></span></a></span>
+                                            }
+                                        </td>
+                                        <td style="vertical-align: middle; width: 10%">
+                                            <button class="attrDelete btn btn-link btn btn-circle btn-danger" data-id="@attribute.AttributeId">Delete</button>
+                                        </td>
+
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+        </div>
+
+    </div>
+
+    <br />
+    <div class="col-md-12">
+        <div class="row">
+            <!-- BEGIN Portlet PORTLET-->
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>@Model.ProductItemList.Count Item Generated
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+                    @using (Html.BeginForm("SaveProductItem", "Product", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            @for (int i = 0; i < Model.ProductItemList.Count; i++)
+
+                            {
+                                <div class="col-md-6">
+                                    <div class="portlet tabbable" style="border: 2px solid #45b6af; padding: 6px;">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <div class="form-group">
+                                                    @Html.CheckBoxFor(c => c.ProductItemList[i].IsActive) @Model.ProductItemList[i].ProductName
+                                                    @Html.HiddenFor(c => c.ProductItemList[i].ProductId, new { value = Model.ProductItemList[i].ProductId })
+                                                    @Html.HiddenFor(c => c.ProductItemList[i].ItemId, new { value = Model.ProductItemList[i].ItemId })
+                                                    @Html.HiddenFor(c => c.ProductItemList[i].ProductName, new { value = Model.ProductItemList[i].ProductName })
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Product Code:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-circle-left">
+                                                                <i class="fa fa-barcode"></i>
+
+                                                            </span>
+
+                                                            @Html.TextBoxFor(c => c.ProductItemList[i].ProductCode, new { @Value = Model.ProductItemList[i].ProductCode, @class = "form-control input-circle-right" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+
+                                            <div class="row itemGroup">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Material Cost:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-circle-left">
+                                                                <b>&#2547;</b>
+                                                            </span>
+                                                            @Html.TextBoxFor(c => c.ProductItemList[i].MaterialCost, new { value = Model.ProductItemList[i].MaterialCost, type = "number", @class = "form-control input-circle-right MaterialCost" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>CM:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-circle-left">
+                                                                <b>&#2547;</b>
+                                                            </span>
+                                                            @Html.TextBoxFor(c => c.ProductItemList[i].CM, new { value = Model.ProductItemList[i].CM, type = "number", @class = "form-control input-circle-right CM" })
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Purchase Price:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-circle-left">
+                                                                <b>&#2547;</b>
+                                                            </span>
+                                                            @Html.TextBoxFor(c => c.ProductItemList[i].PurchasePrice, new { value = Model.ProductItemList[i].PurchasePrice, type = "number", @readonly = "readonly", @class = "form-control input-circle-right PurchasePrice" })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Sale Price:</label>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon input-circle-left">
+                                                                <b>&#2547;</b>
+                                                            </span>
+                                                            @Html.TextBoxFor(c => c.ProductItemList[i].SalePrice, new { value = Model.ProductItemList[i].SalePrice, type = "number", @class = "form-control input-circle-right" })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <button type="submit" id="saveProductItem" class="btn green-meadow">Save All Item</button>
+                    }
+                </div>
+
+            </div>
+            <!-- END Portlet PORTLET-->
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+
+        $(".MaterialCost").keyup(function () {
+            var materialCost = $(this).val();
+            var cm = $(this).parents(".itemGroup").find(".CM").val();
+            var purchasePrice = parseFloat(materialCost) + parseFloat(cm);
+            $(this).parents(".itemGroup").find(".PurchasePrice").val(purchasePrice);
+
+        });
+        $(".CM").keyup(function () {
+            var materialCost = $(this).parents(".itemGroup").find(".MaterialCost").val();
+            var CM = $(this).val();
+            var purchasePrice = parseFloat(materialCost) + parseFloat(CM);
+            $(this).parents(".itemGroup").find(".PurchasePrice").val(purchasePrice);
+
+        });
+        $(".checker").click(function () {
+
+            //if ($(this).prop('checked') === true) {
+            //    $(this).siblings("#isActive").val('1');
+            //} else {
+            //    $(this).siblings("#isActive").val('0');
+            //}
+
+        });
+
+        $('#saveProductItem').click(function () {
+            @*var itemList = @Html.Raw(Json.Encode(Model.ProductItems));
+            console.log(itemList);*@
+            @*$.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '@Url.Action("SaveProductItem", "Product", new { item = Model.ProductItems })',
+                success: function (message) {
+                },
+                error: function (ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+            });*@
+        });
+    });
+</script>
+

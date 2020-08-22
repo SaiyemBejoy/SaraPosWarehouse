@@ -1,0 +1,172 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.VatModel
+    @{
+        ViewBag.Title = "Vat";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+        var vatModel = ViewBag.VatList as List<VatModel>;
+    }
+
+
+    <div class="page-head">
+        <div class="page-title">
+            <h1>Manage VAT</h1>
+        </div>
+    </div>
+
+    <div class="row margin-top-10">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Add VAT
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("SaveAndUpdateVat", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-body">
+                            <br />
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.VatPercent, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.TextBoxFor(c => c.VatPercent, new { @class = "form-control input-circle", @type = "number", @placeholder = "Vat Percent", @id = "vatPercent", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.VatPercent)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.VatStatus, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="checkbox-list" style="margin-top: 8px;">
+
+                                        @Html.CheckBoxFor(c => c.VatStatus, new { @class = "checker" })
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6 text-left">
+                                    @Html.HiddenFor(c => c.VatId)
+                                    <button class="btn btn-success" type="submit" id="save"><i class="fa fa-save"></i> Save</button>
+                                
+                                    <a class="btn btn-danger" href="@Url.Action("Vat", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="portlet box blue-madison">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>VAT Lists
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="vatTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>VAT Percent</th>
+                                    <th>VAT Status</th>
+                                    <th class="text-center" style="width: 20%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (vatModel != null && vatModel.Count != 0)
+                                {
+                                    int counter = 1;
+                                    foreach (var data in vatModel)
+                                    {
+                                        <tr>
+                                            <td>@counter</td>
+                                            <td>@data.VatPercent</td>
+                                            @if (data.IncludeVat == "Y")
+                                            {
+                                                <td>
+                                                    <i class="fa fa-check-circle" style="color: green;"> Include VAT</i>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td><i class="fa fa-times-circle" style="color: red;"></i> Exclude</td>
+                                            }
+                                            <td class="text-center">
+                                                @Html.ActionLink(" Edit", "Vat", "Setup", new { vatId = data.VatId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) 
+                                            </td>
+                                        </tr>
+                                        counter = counter + 1;
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        jQuery(document).ready(function () {
+
+        if (@Model.VatId > 0 ) {
+            $('#save').prop('disabled', false);
+        } else {
+            $('#save').prop('disabled', true);
+        }
+       
+
+
+        var table = $("#vatTable").dataTable();
+
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+    </script>
+
+

@@ -1,0 +1,66 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+.field-validation-error, label.error {
+    color: #ff0000 !important;
+    font-size: x-small;
+}
+
+.input-validation-error, input.error {
+    border: 2px solid #ff0000 !important;
+}
+
+.show-image-div {
+    border: 0 solid #ddd !important;
+    padding: 5px !important;
+    margin-bottom: 1px !important;
+}
+
+.btn-image {
+    border-radius: 0 !important;
+    padding: 3px !important;
+}
+
+.fileUpload {
+    position: relative !important;
+    overflow: hidden;
+}
+
+.fileUpload input.imageUpload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.image-label {
+    margin-top: 40px;
+}
+
+.custom-select-box option {
+    padding: 4px;
+    line-height: 32px;
+    text-indent: 4px;
+    cursor: pointer;
+}

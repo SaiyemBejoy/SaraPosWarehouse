@@ -1,0 +1,210 @@
+﻿@using PosWarehouse.ViewModel
+
+@{
+    ViewBag.Title = "ReceiveList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var stockReceiveModel = ViewBag.returnReceiveList as List<StockReceiveModel>;
+}
+
+<div class="page-head">
+    <div class="page-toolbar">
+        <a href="@Url.Action("ReturnReceive","ReturnReceive")" class="btn btn-circle btn-danger"><i class="fa fa-plus-circle"></i> New Receive</a>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box red-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Return/Damage Receive List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="ReturnDamageReceiveList">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Requisition Number </th>
+                            <th>Challan Number</th>
+                            <th>From Shop Name</th>
+                            <th>Transfer Date</th>
+                            <th>Transfer By</th>
+                            <th>Received Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (stockReceiveModel != null && stockReceiveModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in stockReceiveModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.RequisitionNo</td>
+                                        <td>@data.StockTransferChallanNo</td>
+                                        <td>@data.StockTransferFromShopName</td>
+                                        <td>@data.ReceivedDate</td>
+                                        <td>@data.ReceivedBy</td>
+                                        <td>@data.ReceivedStatus</td>
+                                        <td>
+                                        @if (@data.ReceivedStatus == "Y")
+                                        {
+                                            <a class="btn btn-primary returnReceiveItem" data-toggle="modal" href="#ReturnReceiveItemModal" data-id="@data.StockTransferChallanNo" id="returnReceiveItem">
+                                                <i class="fa fa-eye"></i>
+                                                Receive Item
+                                            </a>
+                                            @Html.ActionLink("Show Report", "ShowReport", "ReturnReceive", new { challanNum = data.StockTransferChallanNo }, new { @class = "btn btn-danger", target = "_blank" })
+                                        }
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<div class="modal fade bs-modal-lg" id="ReturnReceiveItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Return/Damage Receive</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Receive Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 350px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="SelectDataForViewFromTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Item Name
+                                        </th>                                     
+                                        <th>
+                                            Sale Price
+                                        </th>  
+                                        <th>
+                                            Receive Quantity
+                                        </th>
+                                        <th>
+                                            VAT
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalReturnReceiveItemListTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Total Item</strong></label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control  input-circle" id="totalReceiveItem" style="width: 150px; background-color: yellow" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    function totalItemCount() {
+        var total = 0;
+        $("#ModalReturnReceiveItemListTableBody tr").each(function () {
+            total += parseInt($(this).find('td:eq(4)').text());
+
+        });
+        $("#totalReceiveItem").val(total);
+    }
+
+    function returnReceiveItemList(challanNum) {
+        var dataId = JSON.stringify({ challanNum: challanNum });
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '@Url.Action("GetAllReceiveItemByChallanNo", "ReturnReceive")',
+            data: dataId,
+            success: function (data) {
+                var tableQuantity = data.length;
+                if (tableQuantity !== 0) {
+                $("#totalReceiveItem").val("");
+                $("#ModalReturnReceiveItemListTableBody").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#ModalReturnReceiveItemListTableBody").append('<tr>' +
+                        '<td>' +
+                        parseInt(i+1) +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Barcode +
+                        '</td>' +
+                        '<td>' +
+                        data[i].ItemName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].SalePrice +
+                        '</td>' +
+                        '<td>' +
+                        data[i].ReceiveQuantity +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Vat +
+                        '</td>' +
+                        '</tr>'
+                    );
+                    totalItemCount();
+                    }
+                } else {
+                    $("#ModalReturnReceiveItemListTableBody").html("");
+                    toastr.error("Data Not Found .");
+                }
+            }
+        });
+    }
+
+
+    $(document).ready(function() {
+        $("#ReturnDamageReceiveList").dataTable();
+
+        $(document).on('click', '.returnReceiveItem', function () {
+            var challanNum = $(this).data('id');
+            returnReceiveItemList(challanNum);
+        });
+    });
+</script>

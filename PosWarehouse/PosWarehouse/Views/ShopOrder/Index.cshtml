@@ -1,0 +1,170 @@
+﻿@using PosWarehouse.ViewModel
+@using PosWarehouse.ViewModel.ApiModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var shopOrderList = ViewBag.ShopOrderList as List<RequisitionMainModel>;
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Shop Order List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="shopOrderList">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Requisition No </th>
+                            <th> Requisition Date</th>
+                            <th> Requisition By </th>
+                            <th> Shop </th>
+                            <th> Delivery </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (shopOrderList != null && shopOrderList.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in shopOrderList)
+                            {
+                        <tr>
+                            <td>@counter</td>
+                            <td>@data.RequisitionNo</td>
+                            <td>@data.RequisitionDate</td>
+                            <td>@data.CreatedBy</td>
+                            <td>@data.ShopId</td>
+                            @if (data.Delivery_YN != "Y")
+                            {
+                                <td>
+                                    <a class="btn btn-sm red"><i class="fa fa-times"></i> NO</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <a class="btn btn-sm green"><i class="fa fa-check"></i> YES</a>
+                                </td>
+                            }
+                            <td style="width: 15%">
+                                <a class="btn btn-primary orderItem" data-toggle="modal" href="#ShopOrderItemModal" data-id="@data.RequisitionId" id="orderItem">
+                                    <i class="fa fa-pencil"></i>
+                                    View Item
+                                </a>
+                                <a class="btn btn-danger"  href="@Url.Action("CreateOrEdit","StoreDelivery")" >
+                                    <i class="fa fa-area-chart"></i>
+                                    Delivery
+                                </a>
+                            </td>
+                        </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-modal-lg" id="ShopOrderItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Shop Order Item</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Order Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="gridTableForDataShop">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        BarCode
+                                    </th>
+                                    <th>
+                                        Item Name
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody id="ModalItemListTableBodyShop"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+    function orderItemList(requisitionId) {
+
+        var dataId = JSON.stringify({ requisitionId: requisitionId });
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '@Url.Action("GetShopOrderItemList", "ShopOrder")',
+            data: dataId,
+            success: function (data) {
+                var tableQuantity = data.length;
+                $("#ModalItemListTableBodyShop").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#ModalItemListTableBodyShop").append('<tr>' +
+                        '<td>' +
+                        data[i].Barcode +
+                        '</td>' +
+                        '<td>' +
+                        data[i].ItemName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Price +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            }
+        });
+    }
+
+    jQuery(document).ready(function () {
+
+        var table = $("#shopOrderList").dataTable();
+
+        $(".orderItem").click(function () {
+            var requisitionId = $(this).data('id');
+            orderItemList(requisitionId);
+        });
+       
+    });
+</script>

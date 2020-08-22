@@ -1,0 +1,204 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.CategoryModel
+@{
+    ViewBag.Title = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var categoryModel = ViewBag.CategoryList as List<CategoryModel>;
+}
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>*@
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Category</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Category
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateCategory", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.CategoryName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.CategoryName, new { @class = "form-control input-circle", @placeholder = "Category Name", @id = "categoryName", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.CategoryName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.ActiveStatus, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="checkbox-list" style="margin-top: 8px;">
+
+                                    @Html.CheckBoxFor(c => c.ActiveStatus, new { @class = "checker" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.CategoryId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                <a class="btn btn-danger" href="@Url.Action("Category", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Category Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="categoryTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Category Name</th>
+                                <th>Active Status</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (categoryModel != null && categoryModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in categoryModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.CategoryName</td>
+                                        @if (data.Active_YN == "Y")
+                                        {
+                                            <td>
+                                                <i class="fa fa-check-circle" style="color: green;"> Active</i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-times-circle" style="color: red;"></i> InActive</td>
+                                        }
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "Category", "Setup", new { categoryId = data.CategoryId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) ||
+                                            @*@Html.ActionLink(" Delete", "DeleteCategory", "Setup", new { categoryId = data.CategoryId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="test_2">
+
+    <div class="table-checkbox">
+        <input type="checkbox" class="group-checkable1" id="checker" />
+    </div>
+
+
+    <input type="checkbox" class="checkboxes1" value="1" />
+
+
+    <input type="checkbox" class="checkboxes1" value="1" />
+
+
+    <input type="checkbox" class="checkboxes1" value="1" />
+
+
+
+</div>*@
+@Scripts.Render("~/bundles/jqueryval")
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+        
+            //$(".group-checkable1").change(function () {
+            //    var checked = $(this).is(":checked");
+
+            //    if (checked) {
+            //        $(".checkboxes1").prop("checked", true);
+            //        $(".checkboxes1").parent("span").addClass("checked");
+            //    } else {
+            //        $(".checkboxes1").prop("checked", false);
+            //        $(".checkboxes1").parent("span").removeClass("checked");
+            //    }
+            //});
+
+     
+            var table = $("#categoryTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+

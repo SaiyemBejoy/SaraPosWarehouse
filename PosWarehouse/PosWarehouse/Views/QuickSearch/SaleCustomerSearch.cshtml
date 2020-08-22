@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "SaleCustomerSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="portlet box red">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-comments"></i>Sale Customer Search
+        </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse" data-original-title="" title="">
+            </a>
+            <a href="javascript:;" class="reload" data-original-title="" title="">
+            </a>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="portlet box green-meadow">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Search Customer List
+                </div>
+                <div class="tools">
+                    @*<button type="button" class="btn btn-danger" id="ProcessDataSave" >Process Data</button>*@
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                    <a href="javascript:;" class="reload" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="">
+                    <table class="table table-bordered table-hover" id="customerSearchTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                Shop Name
+                            </th>
+                            <th>
+                                Customer Code
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                Enrollment Date
+                            </th>
+                            <th>
+                                Discount
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="customerSearchTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        var vForm = $('#__AjaxAntiForgeryForm');
+        var vToken = $('input[name="__RequestVerificationToken"]', vForm).val();
+
+        var table = $("#customerSearchTable").DataTable({
+            // set the initial value
+            "pageLength": 25,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: '@Url.Action("GetAllSaleCustomerList", "QuickSearch")',
+                type: 'POST'
+            },
+            "columns": [
+                { "data": "SHOP_NAME" },
+                { "data": "CUSTOMER_CODE" },
+                { "data": "CUSTOMER_NAME" },
+                { "data": "CONTACT_NO" },
+                { "data": "EMAIL" },
+                { "data": "ADDRESS" },
+                {
+                    "data": "ENROLMENT_DATE",
+                    format: 'DD/MM/YYYY'
+                },
+                { "data": "DISCOUNT" }
+            ]
+        });
+
+        $("#ProcessDataSave").click(function () {
+            $("#ProcessDataSave").attr("disabled", true);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("ProcessData", "QuickSearch")',
+                //beforeSend: function() {
+                //    $('#preLoader').show();
+                //},
+                success: function (data) {
+                        if (data.isRedirect) {
+                            window.setTimeout(function() {
+                                window.location = data.redirectUrl;
+                            },1000);
+                            toastr.warning("Data Process Successfully.");
+                            //$('#preLoader').hide();
+                            $("#ProcessDataSave").attr("disabled", false);
+                        }
+                }
+            });
+        });
+    });
+</script>

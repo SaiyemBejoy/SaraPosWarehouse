@@ -1,0 +1,8 @@
+﻿.field-validation-error, label.error {
+    color: #ff0000 !important;
+    font-size:revert;
+}
+
+.input-validation-error, input.error {
+    border: 1px solid #ff0000 !important;
+}

@@ -1,0 +1,152 @@
+﻿@using AttributeValue = PosWarehouse.ViewModel.AttributeValue
+@model PosWarehouse.ViewModel.AttributeValue
+@{
+    ViewBag.Title = "Sub Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var attributeValue = ViewBag.AttributeValueList as List<AttributeValue>;
+}
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Attribute Value</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Attribute Value
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateAttributeValue", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.AttributeId, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.DropDownListFor(c => c.AttributeId, new SelectList(ViewBag.AttributeList, "Value", "Text", Model.AttributeId), new { @class = "form-control input-circle", @placeholder = "Attribute Name", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.AttributeId)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.AttributeValueName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.AttributeValueName, new { @class = "form-control input-circle", @placeholder = "Attribute Value Name", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.AttributeValueName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.AttributeValueId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("AttributeValue", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Attribute Value Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="AttributeValueTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Attribute Name</th>
+                                <th>Attribute Value Name</th>
+
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (attributeValue != null && attributeValue.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in attributeValue)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.AttributeName</td>
+                                        <td>@data.AttributeValueName</td>
+
+                                        <td class="text-center">
+                                            @*@Html.ActionLink(" Edit", "AttributeValue", "Setup", new { attributeId = data.AttributeId, attributeValueId = data.AttributeValueId }, new { @class = "btn btn-primary fa fa-edit" }) ||*@
+                                            @*@Html.ActionLink(" Delete", "DeleteAttributeValue", "Setup", new { attributeId = data.AttributeId, attributeValueId = data.AttributeValueId }, new { @class = "btn btn-danger fa fa-trash-o" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+        var table = $("#AttributeValueTable").dataTable();
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>

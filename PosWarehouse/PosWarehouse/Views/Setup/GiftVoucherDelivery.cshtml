@@ -1,0 +1,201 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.GiftVoucherDeliveryModel
+@{
+    ViewBag.Title = "GiftVoucherDelivery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var giftVoucherDeliveryModel = ViewBag.GiftVoucherDeliveryList as List<GiftVoucherDeliveryModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Gift Voucher Delivery</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add  Gift Voucher Delivery
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @*@using (Html.BeginForm("SaveAndUpdateGiftVoucherDelivery", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {*@
+
+                    <div class="form-body form-horizontal">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.GiftVoucherValue, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.DropDownListFor(c => c.GiftVoucherValue, new SelectList(ViewBag.GiftValueList, "Value", "Text", Model.GiftVoucherValue), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.GiftVoucherValue)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="portlet light bordered">
+                            <div class="portlet-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="giftVoucherDeliveryBarcodeTable">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Gift VoucherCode</th>
+                                                <th>Value</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="giftVoucherBarcodeDeliveryBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @placeholder = "Shop Name", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.ShopId)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.NoOfCard, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.TextBoxFor(c => c.NoOfCard, new { @class = "form-control input-circle", @placeholder = "No of Card", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.NoOfCard)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.DeliveryDate, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.TextBoxFor(c => c.DeliveryDate, new { @class = "form-control datepicker input-circle", @placeholder = "Delivery Date", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.DeliveryDate)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @*@Html.HiddenFor(c => c.GiftVoucherDeliveryId)*@
+                                <button class="btn btn-success" id="btnSave" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("GiftVoucherDelivery", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                @*}*@
+
+
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Gift Voucher Delivery Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="giftVoucherDeliveryTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Gift Voucher Code</th>
+                                <th>Gift Voucher Amount</th>
+                                <th>Remaining Amount</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (giftVoucherDeliveryModel != null && giftVoucherDeliveryModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in giftVoucherDeliveryModel)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.GiftVoucherCode</td>
+                                <td>@data.GiftVoucherValue</td>
+                                <td>@data.GiftVoucherRemainingValue</td>
+                                <td class="text-center">
+                                    @*@Html.ActionLink(" Edit", "GiftVoucherDelivery", "Setup", new { shopId = data.ShopId, giftVoucherDeliveryId = data.GiftVoucherDeliveryId }, new { @class = "btn btn-primary fa fa-edit" }) ||*@
+                                    @*@Html.ActionLink(" Delete", "DeleteGiftVoucherDelivery", "Setup", new {shopId = data.ShopId, giftVoucherDeliveryId = data.GiftVoucherDeliveryId }, new { @class = "btn btn-danger fa fa-trash-o" })*@
+                                </td>
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ProjectScripts/GiftVoucherDelivery.js"></script>
+    <script>
+
+        jQuery(document).ready(function () {
+            var table = $("#giftVoucherDeliveryTable").dataTable();
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+        }
+        });
+    </script>
+}
+
+
+

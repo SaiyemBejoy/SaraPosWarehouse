@@ -1,0 +1,119 @@
+﻿@model PosWarehouse.ViewModel.StockTransferDetails
+@{
+    ViewBag.Title = "StockTransfer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Stock Transfer</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Stock Transfer
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("StockTransfer", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div class="form-group">
+                                    <div class="radio-list">
+                                        @Html.RadioButtonFor(model => model.ReportType, "1", new { @checked = true }) PDF
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" id="FromDateDiv">
+                                    @Html.LabelFor(c => c.FromDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            @Html.TextBoxFor(c => c.FromDate, new { @class = "form-control input-circle datepicker", @placeholder = "From Date", @autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(c => c.FromDate)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="ToDateDiv">
+                                    @Html.LabelFor(c => c.ToDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+
+                                            @Html.TextBoxFor(c => c.ToDate, new { @class = "form-control input-circle datepicker", @placeholder = "From Date", @autocomplete = "off", @readonly = "readonly" })
+                                            @Html.ValidationMessageFor(c => c.ToDate)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="ShopIdDiv">
+                                    @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle" })
+                                            @Html.ValidationMessageFor(c => c.ShopId)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-9">
+                                        <div class="radio-list">
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "DST", new { @checked = true })  Stock Transfer Details
+                                            </label>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6 text-left">
+
+                                        <button class="btn btn-success" type="submit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                        <a class="btn btn-danger" href="@Url.Action("StockTransfer", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+
+

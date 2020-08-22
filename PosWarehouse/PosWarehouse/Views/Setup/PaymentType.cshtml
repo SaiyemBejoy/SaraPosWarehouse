@@ -1,0 +1,142 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.PaymentTypeModel
+@{
+    ViewBag.Title = "PaymentType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var paymentTypeModel = ViewBag.PaymentTypeTypeList as List<PaymentTypeModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage PaymentType</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add PaymentType
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdatePaymentType", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br/>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.PaymentTypeName, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.PaymentTypeName, new {@class = "form-control input-circle", @placeholder = "Payment type Name", @style = "max-width: 580px;"})
+                                    @Html.ValidationMessageFor(c => c.PaymentTypeName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.PaymentTypeId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("PaymentType", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>PaymentType Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="paymentTypeTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>PaymentType Name</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (paymentTypeModel != null && paymentTypeModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in paymentTypeModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.PaymentTypeName</td>
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "PaymentType", "Setup", new { paymentTypeId = data.PaymentTypeId }, new { @class = "btn btn-primary fa fa-edit" }) ||
+                                            @*@Html.ActionLink(" Delete", "DeletePaymentType", "Setup", new { paymentTypeId = data.PaymentTypeId }, new { @class = "btn btn-danger fa fa-trash-o" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+
+        var table = $("#paymentTypeTable").dataTable();
+
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>
+
+

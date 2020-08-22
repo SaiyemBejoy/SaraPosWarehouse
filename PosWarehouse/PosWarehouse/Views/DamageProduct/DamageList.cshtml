@@ -1,0 +1,62 @@
+﻿@using PosWarehouse.ViewModel
+@{
+    ViewBag.Title = "DamageList";
+    var damageProductModel = ViewBag.damageList as List<DamageProductModel>;
+}
+<div class="page-head">
+    <div class="page-toolbar">
+        <a href="@Url.Action("Index","DamageProduct")" class="btn btn-circle btn-danger"><i class="fa fa-plus-circle"></i> New Damage</a>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box red-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Warehouse Damage List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="DamageListTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Challan Number</th>
+                            <th>Created Date</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (damageProductModel != null && damageProductModel.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in damageProductModel)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@data.DamageChallanNo</td>
+                                    <td>@data.CreatedDate</td>
+                                    <td>@data.CreatedBy</td>
+                                    <td>
+                                        @Html.ActionLink("Show Report", "ShowReport", "DamageProduct", new { challanNum = data.DamageChallanNo }, new { @class = "btn btn-danger", target = "_blank" })
+                                    </td>
+                                </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#DamageListTable").dataTable();
+    });
+</script>

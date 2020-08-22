@@ -1,0 +1,284 @@
+﻿@using PosWarehouse.ViewModel
+@model  DashboardModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Shop Name</h1>
+    </div>
+    <div class="page-title">
+        <div class="col-md-12">
+            @Html.DropDownList("ShopName", (IEnumerable<SelectListItem>)ViewBag.ShopList, new { @class = " form-control", @style = "width: 200px;", @id = "shopId" })
+        </div>
+    </div>
+</div>
+<!-- END PAGE TITLE -->
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row margin-top-10">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat2">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-red-haze" id="toDaySale">@Model.ToDaysSale <small class="font-red-haze">&#2547;</small></h3>
+                                <small>TODAY SALE</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-basket"></i>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat2">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-purple-soft" id="lastSevenDaysSale">@Model.LastSevenDaysSale <small class="font-purple-sharp">&#2547;</small></h3>
+                                <small>LAST 7 DAYS SALE</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-basket-loaded"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat2">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-blue-sharp" id="currentMonthSale">@Model.CurrentMonthSale <small class="font-blue-sharp">&#2547;</small></h3>
+                                <small>CURRENT MONTH SALE</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-basket"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="dashboard-stat2">
+                        <div class="display">
+                            <div class="number">
+                                <h3 class="font-green-sharp" id="totalSale">@Model.TotalSale <small class="font-green-sharp">&#2547;</small></h3>
+                                <small>TOTAL SALE</small>
+                            </div>
+                            <div class="icon">
+                                <i class="icon-pie-chart"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+}
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="icon-speech font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> Low Stock</span>
+
+                </div>
+            </div>
+            <div class="portlet-body scroller" style="height: 350px">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="lowStockTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                BarCode
+                            </th>
+                            <th>
+                                Style Name
+                            </th>
+                            <th>
+                                Sale Price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="lowStockTableBody"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <i class="icon-speech font-green-sharp"></i>
+                    <span class="caption-subject bold uppercase"> Hot Sale</span>
+                </div>
+            </div>
+            <div class="portlet-body scroller" style="height: 350px">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="hotSaleTable">
+                        <thead>
+                        <tr>
+                            <th>
+                                BarCode
+                            </th>
+                            <th>
+                                Style Name
+                            </th>
+                               
+                            <th>
+                                Sale Quantity
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="hotSaleTableBody"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    jQuery(document).ready(function() {
+
+        $("#shopId").change(function() {
+            var shopId = $("#shopId").val();
+            if (shopId > 0) {
+                var shopInfo = JSON.stringify({ shopId: shopId });
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("AllDashboardInfoByShopId", "Home")',
+                    data: shopInfo,
+                    beforeSend: function() {
+                        $('#preLoader').show();
+                    },
+                    success: function (data1) {
+                        $('#totalSale').html(data1.TotalSale + ' <small class="font-green-sharp">&#2547;</small>');
+                        $('#toDaySale').html(data1.ToDaysSale + ' <small class="font-red-haze">&#2547;</small>');
+                        $('#currentMonthSale').html(data1.CurrentMonthSale + ' <small class="font-blue-sharp">&#2547;</small>');
+                        $('#lastSevenDaysSale').html(data1.LastSevenDaysSale + ' <small class="font-purple-sharp">&#2547;</small>');
+                        $('#preLoader').hide();
+                        if (data1.ShopUrl !== null && data1.ShopUrl !== "") {
+
+                        $.ajax({
+                            type: 'GET',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '/Home/AllLowStockByShopId?shopId=' + shopId,
+                            data: shopInfo,
+                            success: function(lowData) {
+                                var tableQuantity = lowData.length;
+                                if (tableQuantity !== 0) {
+                                $('#lowStockTable').DataTable().destroy();
+                                $("#lowStockTableBody").html("");
+                                for (var i = 0; i < tableQuantity; i++) {
+                                    $("#lowStockTableBody").append('<tr>' +
+                                        '<td>' +
+                                        lowData[i].BarCode +
+                                        '</td>' +
+                                        '<td>' +
+                                        lowData[i].StyleName +
+                                        '</td>' +
+                                        '<td>' +
+                                        lowData[i].Price +
+                                        '</td>' +
+                                        '<td>' +
+                                        lowData[i].Quantity +
+                                        '</td>' +
+                                        '</tr>'
+                                    );
+                                }
+                                    $("#lowStockTable").dataTable();
+                                } else {
+                                    $('#lowStockTable').DataTable().destroy();
+                                    $("#lowStockTableBody").html("");
+                                    $("#lowStockTable").dataTable();
+                                    toastr.warning("Low Stock Data Not Found For This Shop.");
+                                    $('#preLoader').hide();
+                                }
+                            }
+
+                            });
+                            //top 20 dite hobe query te hot sale a
+                        $.ajax({
+                            type: 'GET',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '/Home/AllHotSaleByShopId?shopId=' + shopId,
+                            data: shopInfo,
+                            success: function(hotSaleData) {
+                                var tableQuantity = hotSaleData.length;
+                                if (tableQuantity !==0) {
+                                    $('#hotSaleTable').DataTable().destroy();
+                                    $("#hotSaleTableBody").html("");
+                                    for (var i = 0; i < tableQuantity; i++) {
+                                        $("#hotSaleTableBody").append('<tr>' +
+                                            '<td>' +
+                                            hotSaleData[i].BarCode +
+                                            '</td>' +
+                                            '<td>' +
+                                            hotSaleData[i].StyleName +
+                                            '</td>' +
+                                            '<td>' +
+                                            hotSaleData[i].Quantity +
+                                            '</td>' +
+                                            '</tr>'
+                                        );
+                                    }
+                                    $("#hotSaleTable").dataTable();
+                                } else {
+                                    toastr.warning("Hot Sale Data Not Found For This Shop.");
+                                    $('#preLoader').hide();
+                                }
+                            }
+
+                        });
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '/Home/GetAllSaleInfo',
+                    beforeSend: function () {
+                        $('#preLoader').show();
+                    },
+                    success: function(data) {
+                        $('#totalSale').html(data.TotalSale + ' <small class="font-green-sharp">&#2547;</small>');
+                        $('#toDaySale').html(data.ToDaysSale + ' <small class="font-red-haze">&#2547;</small>');
+                        $('#currentMonthSale').html(data.CurrentMonthSale + ' <small class="font-blue-sharp">&#2547;</small>');
+                        $('#lastSevenDaysSale').html(data.LastSevenDaysSale + ' <small class="font-purple-sharp">&#2547;</small>');
+                        $("#lowStockTableBody").html("");
+                        $("#hotSaleTableBody").html("");
+                        $('#preLoader').hide();
+                    }
+                });
+            }
+
+        });
+    });
+</script>

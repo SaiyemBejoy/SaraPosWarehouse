@@ -1,0 +1,330 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN Portlet PORTLET-->
+        <div class="portlet box red-sunglo">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Damage
+                </div>
+
+            </div>
+            <div class="portlet-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <!-- BEGIN Portlet PORTLET-->
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Damage Entry
+                                </div>
+
+                            </div>
+                            <div class="portlet-body">
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 control-label">Date:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control  input-circle" value="@ViewBag.Date" readonly="readonly" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 control-label">Challan No:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control  input-circle" id="ChallanNo" value="@ViewBag.MaxChallanNo" readonly="readonly" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 control-label">Barcode:</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control  input-circle" id="DamageBarcode" placeholder="Scan Barcode" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 text-right">
+                                        <button type="button" class="btn green-meadow" id="damageSave">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Portlet PORTLET-->
+                    </div>
+                    <div class="col-md-8">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-gift"></i>Damage Item
+                                </div>
+                                <div class="caption">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label class="col-md-6 control-label text right">Total Item</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control  input-circle" id="totalDeliveryItem" style="width: 150px;background-color: yellow" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="portlet-body">
+                                <table class="table table-striped  table-responsive table-bordered table-hover" id="DamageEntryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Barcode</th>
+                                            <th>Item Name</th>
+                                            <th>Quantity</th>
+                                            <th>Stock</th>
+                                            <th>Sale Price</th>
+                                            <th>remarks</th>
+                                            <th>Vat</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="DamageEntryTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- END Portlet PORTLET-->
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+        $("#DamageBarcode").focus();
+        $('#DamageBarcode').on('change',
+            function () {
+                var damageBarcode = $("#DamageBarcode").val();
+                GetDamageItemDetailsByBarCode(damageBarcode);
+
+            });
+        $("#DamageEntryTableBody").on('change', '.qty', function () {
+            var thisRow = $(this);
+            deliveryQuantityValidation(thisRow);
+            totalItemCount();
+        });
+        $("#damageSave").click(function(e) {
+            damageItemGridDataSave();
+        });
+    });
+
+    function Validation() {
+
+        //validation for Remarks 
+        var validate = false;
+        $('#DamageEntryTableBody').find('tr input[type=text]').each(function () {
+            if ($(this).val() === "") {
+                validate = true;
+            }
+        });
+        if (validate) {
+            toastr.error("Remarks Can't Be Empty !.");
+            return false;
+        } else {
+            return true;
+        }
+        //End
+    }
+
+    function damageItemGridDataSave() {
+        if (Validation()) {
+        
+            var damageChallanNo = $("#ChallanNo").val();
+                var allDamageItem = [];
+                allDamageItem.length = 0;
+            $.each($("#DamageEntryTableBody tr"),
+                    function() {
+                        allDamageItem.push({
+                            ProductId: $(this).find('td:eq(0)').html(),
+                            ItemId: $(this).find('td:eq(1)').html(),
+                            Barcode: $(this).find('td:eq(2)').html(),
+                            ItemName: $(this).find('td:eq(3)').html(),
+                            Quantity: $(this).find('#qty').val(),
+                            Price: $(this).find('td:eq(6)').html(),
+                            Remarks: $(this).find('#remarks').val()
+                        });
+                    });
+                var dataObject = {
+                    'DamageChallanNo': damageChallanNo,
+                    'DamageProductItemList': allDamageItem
+                }
+            var dataList = JSON.stringify({ objDamageProductModel: dataObject });
+                if (allDamageItem.length) {
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("SaveAllDamageProduct", "DamageProduct")',
+                        data: dataList,
+                        beforeSend: function() {
+                            $('#preLoader').show();
+                        },
+                        success: function (data) {
+                            if (data !== "") {
+                                if (data.isRedirect) {
+                                    window.setTimeout(function() {
+                                        window.location = data.redirectUrl;
+                                    },1000);
+                                    toastr.success("Save Successfully.");
+                                    $('#preLoader').hide();
+                                }
+                            } else {
+                                toastr.error("Data Can't Save !.");
+                                $('#preLoader').hide();
+                            }
+                            
+                        } 
+                });
+            } else {
+                    toastr.error("Table Data Cann't Be Empty!");
+                    $('#preLoader').hide();
+                }
+            
+        }
+    }
+
+    function deliveryQuantityValidation(data2) {
+
+        var quantity = parseInt(data2.parents('tr').find('.qty').val());
+        var currentStock = parseInt(data2.parents('tr').find('.currentStock').val());
+
+        if (quantity > currentStock) {
+            toastr.error(" Quantity Must Be Equal Or Less Than CurrentStock");
+            return false;
+        }
+    }
+
+    function totalItemCount() {
+        var total = 0;
+        $("#DamageEntryTableBody tr").each(function () {
+            total += parseInt($(this).find('#qty').val());
+
+        });
+        $("#totalDeliveryItem").val(total);
+    }
+
+    function GetDamageItemDetailsByBarCode(barcode) {
+        $.ajax({
+            type: 'GET',
+            url: '/DamageProduct/GetProductInfoByBarcode/',
+            dataType: 'json',
+            data: { barcode: barcode },
+            success: function (data) {
+                if (data.Barcode !== null) {
+                    var allProductItemCode = [];
+                    allProductItemCode.length = 0;
+                    var checker = true;
+
+                    $.each($("#DamageEntryTableBody tr"),
+                        function () {
+                            var value = $(this).find('td:eq(2)').html();
+                            var quantity = $(this).find('#qty').val();
+                            allProductItemCode.push({
+                                value,
+                                quantity
+                            });
+                        });
+
+                    $.each(allProductItemCode,
+                        function (i, val) {
+                            if (data.Barcode === val.value) {
+                                checker = false;
+                            }
+                        });
+                    if (checker) {
+                        $("#DamageEntryTableBody").append('<tr>' +
+                            '<td style="display:none" >' +
+                            data.ProductId +
+                            '</td>' +
+                            '<td style="display:none" >' +
+                            data.ItemId +
+                            '</td>' +
+                            '<td>' +
+                            data.Barcode +
+                            '</td>' +
+                            '<td>' +
+                            data.ItemName +
+                            '</td>' +
+                            '<td style="width: 10%">' +
+                            '<input type="text" class="form-control m-input--air m-input--pill qty" style="background-color: yellow;"  id="qty" value="' +
+                            1 +
+                            '">' +
+                            '</td>' +
+                            '<td style="width: 10%">' +
+                            '<input type="text" class="form-control m-input--air m-input--pill currentStock" readonly="readonly" value ="' + data.CurrentStock + '" id="currentStock">' +
+                            '</td>' +
+                            '<td>' +
+                            data.SalePrice +
+                            '</td>' +
+                            '<td>' +
+                            '<input type="text" class="form-control m-input--air m-input--pill remarks"  id="remarks">' +
+                            '</td>' +
+                            '<td>' +
+                            data.Vat +
+                            '</td>' +
+                            '<td>' +
+                            '<a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a>' +
+                            '</td>' +
+                            '</tr>');
+                        totalItemCount();
+                        $("#DamageBarcode").val("");
+                    } else {
+                        $.each($("#DamageEntryTableBody tr"),
+                            function () {
+                                var value = $(this).find('td:eq(2)').html();
+                                var quantity = $(this).find('#qty').val();
+                                var currentStock = parseInt($(this).find('#currentStock').val());
+
+                                if (barcode === value) {
+                                    if (quantity < currentStock) {
+                                        $(this).find('#qty').val(parseInt(quantity) + 1);
+                                        toastr.success(" Add Same Item.");
+                                        totalItemCount();
+                                    }
+                                    else {
+                                        toastr.error("Product out of Stock !.");
+                                        $(this).find('#qty').prop("disabled", true);
+                                    }
+                                }
+                            });
+                        $("#DamageBarcode").val("");
+                        
+                    }
+                } else {
+                    toastr.error("Invalid Barcode !.");
+                    $("#DamageBarcode").val("");
+                }
+            }
+
+        });
+    }
+
+    $(document).on('click', 'a.deleteItem', function (e) {
+        e.preventDefault();
+        var self = $(this);
+        if (self != null) {
+            $(this).parents('tr').css("background-color", "#dc143c").fadeOut(800, function () {
+                $(this).remove();
+                totalItemCount();
+            });
+        } else {
+            t("delete hoi ni");
+            toastr.error("Data cann't delete");
+        }
+    });
+
+</script>

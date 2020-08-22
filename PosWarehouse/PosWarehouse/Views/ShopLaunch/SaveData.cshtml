@@ -1,0 +1,73 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.ShopLaunchModel
+@{
+    ViewBag.Title = "SaveData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Shop launching Date
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="form-body form-horizontal">
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.StyleName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                @Html.DropDownListFor(c => c.StyleName, new SelectList(ViewBag.styleName, "Value", "Text", Model.ProductId), new { @class = "form-control input-circle select2", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(c => c.StyleName)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.LaunchDate, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-calendar"></i>
+                                @Html.TextBoxFor(c => c.LaunchDate, new { @class = "form-control input-circle datepicker2", @readonly= "@readonly", @style = "max-width: 580px;" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6 text-left">
+                            <button class="btn btn-success" type="submit" id="btnSave"><i class="fa fa-save"></i> Save</button>
+                            <a class="btn btn-danger" href="@Url.Action("Index", "ShopLaunch")"><i class="fa fa-cut"></i> Clear</a>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/ProjectScripts/ShopLaunch.js"></script>
+}

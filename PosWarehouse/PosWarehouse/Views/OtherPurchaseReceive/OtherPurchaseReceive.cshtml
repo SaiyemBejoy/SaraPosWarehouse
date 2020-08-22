@@ -1,0 +1,659 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.OtherPurchaseReceiveModel
+@{
+    ViewBag.Title = "OtherPurchaseReceive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .highlight {
+        background-color: yellow
+    }
+</style>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>SOL Receive
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Product Receive Details</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group" id="scanProductDiv">
+                                                <label class="col-md-4 control-label">Scan Product</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-barcode"></i>
+                                                        <input type="text" id="ScanBox" class="form-control input-circle" />
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-5"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Vendor<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.VendorId, new SelectList(ViewBag.VendorList, "Value", "Text", Model.VendorId), new { @class = "form-control input-circle", @id = "vendorId", @style = "max-width: 600px;" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Delivery To <span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.DeliveryShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.DeliveryShopId), new { @class = "form-control input-circle", @id = "deliveryShop", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Total Scan Item</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <input type="text" class="form-control  input-circle" id="totalReceiveItem2" style="width: 150px; background-color: yellow" readonly="readonly" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Product View</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>
+                                                                Barcode
+                                                            </th>
+                                                            <th>
+                                                                Name
+                                                            </th>
+                                                            <th>
+                                                                Sale Price
+                                                            </th>
+                                                            <th>
+                                                                Receive Qty
+                                                            </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForOtherPurchaseReceive"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <a class="btn btn-info" id="preview"> Preview</a>
+                                        <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("OtherPurchaseReceive", "OtherPurchaseReceive")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade bs-modal-lg" id="PreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Preview Challan</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Preview Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 text-center"><strong><h3>SaRa LifeStyle Ltd.</h3></strong></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label"><strong>ChallanNo:</strong></label>
+                                    <div class="col-md-7 text-center">
+                                        <p id="challanPre"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-6 control-label"> <strong>Receive Date:</strong></label>
+                                    <div class="col-md-6 text-center">
+                                        <p id="Datepre"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-7 control-label"><strong>Receive For:</strong></label>
+                                    <div class="col-md-5 text-center">
+                                        <p id="receiveFor"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="gridTableForPreview">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Item Name
+                                        </th>
+
+                                        <th>
+                                            Sale Price
+                                        </th>
+                                        <th>
+                                            Receive Qty
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gridTableForPreviewBody"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label"><strong>Total Preview Item:</strong></label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control  input-circle" id="totalItemPreview" style="width: 150px;background-color: yellow" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+
+    function formValidation() {
+
+        var vendorId = $("#vendorId").val();
+        if (vendorId == '') {
+            toastr.error("Select Vendor !!");
+
+            return false;
+        }
+
+        var deliveryShop = $("#deliveryShop").val();
+        if (deliveryShop == '') {
+            toastr.error("Select Delivery Shop !!");
+
+            return false;
+        }
+
+
+        $.each($("#gridTableBodyForOtherPurchaseReceive tr"), function () {
+            var receiveQuantity = $(this).find('#receiveQuantity').val();
+            if (receiveQuantity === 0) {
+                toastr.error("Receive Qty Must Greater Then 0 OR Equal OrderQty !!");
+                return false;
+            }
+
+        });
+
+
+        return true;
+    }
+
+    function previewModal() {
+
+        var allPreviewReceiveItem = [];
+        allPreviewReceiveItem.length = 0;
+        $.each($("#gridTableBodyForOtherPurchaseReceive tr"),
+            function () {
+
+                allPreviewReceiveItem.push({
+                    Barcode: $(this).find('td:eq(2)').text(),
+                    ItemName: $(this).find('td:eq(3)').text(),
+                    SalePrice: $(this).find('#salePrice').val(),
+                    ReceiveQuantity: $(this).find('#receiveQuantity').val()
+                });
+
+            });
+        if (allPreviewReceiveItem.length !== 0) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/OtherPurchaseReceive/GetMaxChallanNumber/',
+                dataType: 'json',
+                success: function (data) {
+                    if (data !== "") {
+                        $("#challanPre").text(data);
+                    } else {
+                        toastr.warning("No Data Found !.");
+                    }
+                },
+
+            });
+            var totalReceiveItem = $("#totalReceiveItem2").val();
+            var receiveForShopId = $("#deliveryShop option:selected").text();
+
+           
+            $("#receiveFor").text(receiveForShopId);
+            $("#totalItemPreview").val(totalReceiveItem);
+
+
+            $("#gridTableForPreviewBody").html("");
+            for (var i = 0; i < allPreviewReceiveItem.length; i++) {
+                $("#gridTableForPreviewBody").append('<tr>' +
+                    '<td>' +
+                    parseInt(i + 1) +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].Barcode +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].ItemName +
+                    '</td>' +
+                    '<td>' +
+                    allPreviewReceiveItem[i].SalePrice +
+                    '</td>' +
+                    
+                    '<td>' +
+                    allPreviewReceiveItem[i].ReceiveQuantity +
+                    '</td>' +
+                   
+                    '</tr>'
+                );
+            }
+            $("#PreviewModal").modal("show");
+        } else {
+            toastr.error("Table Data Can't be Empty !.");
+            $("#Preview").modal('hide');
+            return false;
+        }
+
+    }
+
+    function totalItemCount() {
+        var total = 0;
+        $("#gridTableBodyForOtherPurchaseReceive tr").each(function () {
+            total += parseInt($(this).find('.quantity').val());
+
+        });
+        $("#totalReceiveItem2").val(total);
+    }
+
+    function scrollStopNumberField() {
+        $('input[type=number]').on('mousewheel', function (e) {
+            $(e.target).blur();
+        });
+    }
+
+    function manageGrid(deleteItem, addItem, updateItem) {
+        var tableRowDataForDirectRec = JSON.parse(localStorage.getItem('gridObjectArrayForOtherScanProduct'));
+
+        if (tableRowDataForDirectRec) {
+            if (deleteItem) {
+                for (var l = 0; l < tableRowDataForDirectRec.length; l++) {
+                    if (tableRowDataForDirectRec[l].barcode === deleteItem) {
+                        tableRowDataForDirectRec.splice(l, 1);
+                    }
+                }
+            }
+            if (updateItem) {
+                var productCode1 = updateItem.productCode;
+                var quantity1 = updateItem.receiveQty;
+                for (var j = 0; j < tableRowDataForDirectRec.length; j++) {
+                    if (tableRowDataForDirectRec[j].barcode === productCode1) {
+                        tableRowDataForDirectRec[j].receiveQuantity = quantity1;
+                    }
+                }
+            }
+        }
+        if (tableRowDataForDirectRec) {
+            localStorage.setItem("gridObjectArrayForOtherScanProduct", JSON.stringify(tableRowDataForDirectRec));
+        }
+        
+        //End
+    }
+
+    function manageGridForScan(addItem) {
+        var productIteList = JSON.parse(localStorage.getItem('gridObjectArrayForOtherScanProduct'));
+        if (addItem) {
+            if (productIteList == null) {
+                productIteList = [];
+                productIteList.push(addItem);
+            } else {
+                var checker = true;
+                var barcode = addItem.barcode;
+                for (var i = 0; i < productIteList.length; i++) {
+                    if (productIteList[i].barcode === barcode) {
+                        var receiveQty = parseInt(productIteList[i].receiveQuantity);
+                        productIteList[i].receiveQuantity = receiveQty + 1;
+                        checker = false;
+                        toastr.success("Add Same Item.");
+                    }
+                }
+                if (checker) {
+                    productIteList.push(addItem);
+                }
+            }
+        }
+
+        localStorage.setItem('gridObjectArrayForOtherScanProduct', JSON.stringify(productIteList));
+    };
+
+    function loadLocalStrogeDirectScanData() {
+        var retrievedObjectData2 = JSON.parse(localStorage.getItem('gridObjectArrayForOtherScanProduct'));
+
+        if (retrievedObjectData2 != null) {
+            var tableQuantity = retrievedObjectData2.length;
+
+            $("#gridTableBodyForOtherPurchaseReceive").html("");
+            for (var i = 0; i < tableQuantity; i++) {
+                $("#gridTableBodyForOtherPurchaseReceive").append('<tr>' +
+                    '<td style="display:none;">' +
+                    retrievedObjectData2[i].itemId +
+                    '</td>' +
+                    '<td style="display:none;">' +
+                    retrievedObjectData2[i].productId +
+                    '</td>' +
+                    '<td>' +
+                    retrievedObjectData2[i].barcode +
+                    '</td>' +
+                    '<td>' +
+                    retrievedObjectData2[i].itemName +
+                    '</td>' +
+                    '<td style="width: 8%">' +
+                    '<input type="number" class="form-control input-circle" id="salePrice" min= "0" value="' +
+                    retrievedObjectData2[i].salePrice +
+                    '" placeholder="Sale Price" readonly="readonly">' +
+                    '</td>' +
+                    '<td style="width: 8%">' +
+                    '<input type="number" class="form-control input-circle quantity" id="receiveQuantity" min="0" value="' +
+                    retrievedObjectData2[i].receiveQuantity +
+                    '" placeholder="Qty" readonly="readonly" >' +
+                    '</td>' +
+                    '<td style="display:none;"></td>' +
+                    '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                    '</tr>'
+                );
+            }
+            totalItemCount();
+            scrollStopNumberField();
+            //compute();
+
+        }
+
+    }
+
+    function gridSave() {
+        var vendorId = $("#vendorId").val();
+        var deliveryShop = $("#deliveryShop").val();
+
+            if (formValidation()) {
+                var allPurchaseReceiveItem = [];
+                var errorChecker = false;
+                var saveChecker = true;
+                allPurchaseReceiveItem.length = 0;
+                $.each($("#gridTableBodyForOtherPurchaseReceive tr"),
+                    function() {
+                        if ($(this).find('#receiveQuantity').val() > 0) {
+
+                            allPurchaseReceiveItem.push({
+                                ItemId: $(this).find('td:eq(0)').text(),
+                                ProductId: $(this).find('td:eq(1)').text(),
+                                Barcode: $(this).find('td:eq(2)').text(),
+                                SalePrice: $(this).find('#salePrice').val(),
+                                ReceiveQuantity: $(this).find('#receiveQuantity').val()
+                              
+                            });
+                        } else {
+                            errorChecker = true;
+                            saveChecker = false;
+                        }
+                    });
+                if (errorChecker) {
+                    toastr.error("Receive Quantity Must be Greater Than 0.");
+                }
+                if (saveChecker) {
+                    var dataObject = {
+                        'VendorId': vendorId,
+                        'DeliveryShopId': deliveryShop,
+                        'ReceiveItemsList': allPurchaseReceiveItem,
+                     
+                    }
+                    var dataList = JSON.stringify({ objOtherPurchaseReceiveModel: dataObject });
+                    if (allPurchaseReceiveItem.length) {
+
+                        $.ajax({
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: '@Url.Action("SaveAll", "OtherPurchaseReceive")',
+                            data: dataList,
+                            beforeSend: function() {
+                                $('#preLoader').show();
+                            },
+                            success: function (data) {
+                              
+                                if (data.isRedirect) {
+                                    localStorage.removeItem('gridObjectArrayForOtherScanProduct');
+                                    window.setTimeout(function() {
+                                        window.location = data.redirectUrl;
+                                    },1000);
+                                    toastr.info("Save Successfully.");
+                                    $('#preLoader').hide();
+                                   
+                                }
+                                if (data.OtherPurchaseReceiveNumber !== null) {
+                                    window.open('/OtherPurchaseReceive/ShowReport?OtherPurchaseReceiveNumber=' + data.OtherPurchaseReceiveNumber, '_blank');
+                                }
+
+                            }
+                        });
+                    } else {
+                        toastr.error("No Data found !! Select data..");
+                    }
+                }
+
+            }
+        }
+
+
+    jQuery(document).ready(function () {
+        $("#ScanBox").focus();
+        loadLocalStrogeDirectScanData()
+        //Scan Product start
+        $("#ScanBox").change(function () {
+            var barcode = $("#ScanBox").val();
+            var purchaseOrderNumber = "";
+            var checker = false;
+            if (purchaseOrderNumber !== "") {
+                $.each($("#gridTableBodyForOtherPurchaseReceive tr"), function () {
+                    var value = $(this).find('td:eq(2)').html();
+                    var orderQty = $(this).find('td:eq(6)').html();
+                    var receiveQuantity = $(this).find('#receiveQuantity').val();
+                    var quantity = $(this).find('.quantity');
+
+                    if (value === barcode) {
+                        //if (receiveQuantity !== orderQty) {
+                        checker = true;
+                        //$(this).css("background-color", "#ffff00");
+                        toastr.success("Add Same Item.");
+                        $(this).find('#receiveQuantity').val(parseInt(receiveQuantity) + 1);
+                        $("#ScanBox").val("");
+                        //rowDataCalculation(quantity);
+                        //totalItemCount();
+                        //compute();
+                    }
+                });
+                if (!checker) {
+                    toastr.error("Invalid Barcode!.");
+                    $("#ScanBox").val("");
+                }
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/OtherPurchaseReceive/GetProductInfoForScanReceive/',
+                    dataType: 'json',
+                    data: { barcode: barcode },
+                    success: function (data) {
+                        if (data.ItemId !== 0 && data.ProductId !== 0 && data.ProductCode != null) {
+                            var itemId = data.ItemId;
+                            var productId = data.ProductId;;
+                            var productCode = data.ProductCode;
+                            var itemName = data.ItemName;
+                            var purchasePrice = data.PurchasePrice;
+                            var salePrice = data.SalePrice;
+                            var vatPercent = data.VatPercent;
+
+                            var gridObject = {
+                                'itemId': itemId,
+                                'productId': productId,
+                                'barcode': productCode,
+                                'itemName': itemName,
+                                'quantity': 0,
+                                'receiveQuantity': 1,
+                                'vatPercent': vatPercent,
+                                'purchasePrice': purchasePrice,
+                                'salePrice': salePrice
+                            }
+                            manageGridForScan(gridObject);
+                            loadLocalStrogeDirectScanData();
+                            $("#ScanBox").val("");
+                        } else {
+                            toastr.error("Invalid Barcode;");
+                            $("#ScanBox").val("");
+                        }
+
+                    }
+                });
+            }
+
+        });
+        //End
+
+        $("#preview").click(function () {
+            if (formValidation()) {
+                previewModal();
+            }
+        });
+
+
+        $(document).on('click', 'a.deleteItem', function (e) {
+            e.preventDefault();
+            var productCode = $(this).parents('tr').find('td:eq(2)').text();
+            manageGrid(productCode, null, null);
+
+            var self = $(this);
+            if (self != null) {
+                $(this).parents('tr').css("background-color", "#dc143c").fadeOut(800, function () {
+                    $(this).remove();
+                    totalItemCount();
+                });
+            } else {
+                toastr.error("Data cann't delete");
+            }
+        });
+
+
+         $("#save").click(function(e) {
+            gridSave();
+        });
+
+        
+    });
+
+</script>

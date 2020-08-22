@@ -1,0 +1,515 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.DiscountPolicyModel
+@{
+    ViewBag.Title = "DiscountPolicy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var discountPolicyList = ViewBag.DiscountPolicyList as List<DiscountPolicyModel>;
+    var categorylist = ViewBag.SelectedCategory as List<CategoryViewModel>;
+    var subCategorylist = ViewBag.SelectedSubCategory as List<SubCategoryViewModel>;
+
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Discount Policy</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Discount Policy
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-body form-horizontal">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @id = "shop", @placeholder = "Shop Name", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.ShopId)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Category</label>
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        <select class="form-control input-circle" id="Category" name="Category">
+                                            <option value="0">--Select Item--</option>
+                                            <option value="1">Category</option>
+                                            <option value="2">Non-Category</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Sub-Category</label>
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        <select class="form-control input-circle" id="SubCategory" name="SubCategory">
+                                            <option value="0">--Select Item--</option>
+                                            <option value="1">SubCategory</option>
+                                            <option value="2">Non-SubCategory</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.CustomerTypeId, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.DropDownListFor(c => c.CustomerTypeId, new SelectList(ViewBag.CustomerTypeList, "Value", "Text", Model.CustomerTypeId), new { @class = "form-control input-circle", @id = "customerType", @placeholder = "Customer Type Name", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.CustomerTypeId)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.DiscountPercent, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.TextBoxFor(c => c.DiscountPercent, new { @class = "form-control input-circle", @placeholder = "Discount ", @id = "discountPercent", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.DiscountPercent)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.StartDate, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-calendar"></i>
+                                        @Html.TextBoxFor(c => c.StartDate, new { @class = "form-control datepicker input-circle fa fa-calendar", @placeholder = "Start Date", @id = "startDate", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.StartDate)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.EndDate, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-calendar"></i>
+                                        @Html.TextBoxFor(c => c.EndDate, new { @class = "form-control datepicker input-circle", @placeholder = "End Date", autocomplete = "off", @id = "endDate", @readonly = "readonly", @style = "max-width: 580px;" })
+                                        @Html.ValidationMessageFor(c => c.EndDate)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <!-- BEGIN POPOVERS PORTLET-->
+                            <div class="portlet box yellow">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-cogs"></i>Category List
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                 
+                                    <div class="scroller" id="CategoryListDiv" style="height: 120px" data-always-visible="1" data-rail-visible="0">
+                                       
+                                        @if (Model.SelectCategoryList.Any())
+                                        {
+                                            foreach (var data in categorylist)
+                                            {
+                                                bool selected = false;
+                                                foreach (var i in Model.SelectCategoryList)
+                                                {
+                                                    if (data.CategoryId == i)
+                                                    {
+                                                        selected = true;
+                                                        <div class="col-md-2">
+                                                            <div class="row">
+                                                                <div class="checkbox-list" style="margin-top: 8px;">
+                                                                    @*<input type="checkbox" id="category" name="category" class="checker" value="@item.CategoryId"/> @item.CategoryName*@
+                                                                    <input type="checkbox" id="category" name="category" class="checker" checked="checked" value="@data.CategoryId"/> @data.CategoryName
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                if (!selected)
+                                                {
+                                                    <div class="col-md-2">
+                                                        <div class="row">
+                                                            <div class="checkbox-list" style="margin-top: 8px;">
+                                                                @*<input type="checkbox" id="category" name="category" class="checker" value="@item.CategoryId"/> @item.CategoryName*@
+                                                                <input type="checkbox" id="category" name="category" class="checker" value="@data.CategoryId"/> @data.CategoryName
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (var data in categorylist)
+                                            {
+                                                <div class="col-md-2">
+                                                    <div class="row">
+                                                        <div class="checkbox-list" style="margin-top: 8px;">
+                                                            <input type="checkbox" id="category" name="category" class="checker" value="@data.CategoryId"/> @data.CategoryName
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END POPOVERS PORTLET-->
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-cogs"></i>Sub-Category List
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="scroller" id="SubCategoryListDiv" style="height: 150px" data-always-visible="1" data-rail-visible="0">
+                                        @if (Model.SelectSubCategoryList.Any())
+                                        {
+                                            foreach (var item in subCategorylist)
+                                            {
+                                                bool selected = false;
+                                                foreach (var i in Model.SelectSubCategoryList)
+                                                {
+                                                    if (item.SubCategoryId == i)
+                                                    {
+                                                        selected = true;
+                                                        <div class="col-md-3">
+                                                            <div class="row">
+                                                                <div class="checkbox-list" style="margin-top: 8px;">
+                                                                    <input type="checkbox" id="subcategory" name="subcategory" class="checker" checked="checked" value="@item.SubCategoryId" />@item.SubCategoryName
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                if (!selected)
+                                                {
+                                                    <div class="col-md-3">
+                                                        <div class="row">
+                                                            <div class="checkbox-list" style="margin-top: 8px;">
+                                                                <input type="checkbox" id="subcategory" name="subcategory" class="checker" value="@item.SubCategoryId" />@item.SubCategoryName
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                            foreach (var item in subCategorylist)
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="row">
+                                                        <div class="checkbox-list" style="margin-top: 8px;">
+                                                            <input type="checkbox" id="subcategory" name="subcategory" class="checker" value="@item.SubCategoryId" />@item.SubCategoryName
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                        </div>
+                        <div class="col-md-3 text-right">
+                            @Html.HiddenFor(c => c.DiscountPolicyId)
+                            <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                            <a class="btn btn-danger" href="@Url.Action("DiscountPolicy", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Discount Policy Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="DiscountPolicyTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Shop Name</th>
+                                <th>Customer Type</th>
+                                <th>Discount(%)</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th class="text-center" style="width: 0%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (discountPolicyList != null && discountPolicyList.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in discountPolicyList)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.ShopName</td>
+                                        <td>@data.CustomerTypeName</td>
+                                        <td>@data.DiscountPercent</td>
+                                        <td>@data.StartDate</td>
+                                        <td>@data.EndDate</td>
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "DiscountPolicy", "Setup", new { discountPolicyId = data.DiscountPolicyId, wareHouseId = data.WareHouseId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) ||
+                                            @*@Html.ActionLink(" Delete", "DeleteCircularPriceChange", "Setup", new { discountPolicyId = data.DiscountPolicyId, wareHouseId = data.WareHouseId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    //Category DropDownList change
+    $("#Category").change(function () {
+        var status = this.value;
+        if (status == "1") {
+            $("#CategoryListDiv").show();
+        }
+        else {
+            $("#CategoryListDiv").hide();
+        }
+    });
+
+    //end
+    //subCategory DropDownList change
+    $("#SubCategory").change(function () {
+        var status = this.value;
+        if (status == "1")
+            $("#SubCategoryListDiv").show();
+        else {
+            $("#SubCategoryListDiv").hide();
+        }
+    });
+    //end
+    jQuery(document).ready(function () {
+
+        //For hide List Viv
+        $("#CategoryListDiv").hide();
+        $("#SubCategoryListDiv").hide();
+        //end
+
+        //jokhon edit kora hoi, tokhon Category and subcategory er div display korar jonno.
+        if (@Model.DiscountPolicyId > 0) {
+            $("#Category").val("1");
+            $("#SubCategory").val("1");
+            $("#CategoryListDiv").show();
+            $("#SubCategoryListDiv").show();
+        }
+        //end
+        var table = $("#DiscountPolicyTable").dataTable();
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+            var message = '@ViewBag.message';
+
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+                "showDuration": "1000",
+                "hideDuration": "1000",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        toastr.success(message);
+        </text>
+        }
+        }
+        //for fronttend Validation/. karon form ajax a submit kora hoise.
+        function validation() {
+
+            var shop = $("#shop").val();
+            if (shop == '') {
+                toastr.error("Shop Can't be Empty!!");
+                return false;
+            }
+            var customerType = $("#customerType").val();
+            if (customerType == '') {
+                toastr.error("CustomerType Can't be Empty!!");
+                return false;
+            }
+
+            var discountPercent = $("#discountPercent").val();
+            if (discountPercent == '') {
+                toastr.error("Discount Percent Can't be Empty!!");
+                return false;
+            }
+            var startDate = $("#startDate").val();
+            if (startDate == '') {
+                toastr.error("StartDate Can't be Empty!!");
+                return false;
+            }
+            var endDate = $("#endDate").val();
+            if (endDate == '') {
+                toastr.error("EndDate Can't be Empty!!");
+                return false;
+            }
+
+            return true;
+        }
+
+        $("#save").click(function(e) {
+
+            dataSave();
+
+
+        });
+
+
+        function dataSave() {
+
+            if (validation()) {
+
+                var shop = $("#shop").val();
+                var customerType = $("#customerType").val();
+                var discountPercent = $("#discountPercent").val();
+                var startDate = $("#startDate").val();
+                var endDate = $("#endDate").val();
+                var discountPolicyId = $("#DiscountPolicyId").val();
+
+                //this for category multiselect.
+
+                var category = [];
+
+                $.each($("input[name='category']:checked"),
+                    function() {
+                        category.push($(this).val());
+                    });
+                var categoryList = category;
+                //end
+
+                //subcategory multiselect
+
+                var subcategory = [];
+
+                $.each($("input[name='subcategory']:checked"),
+                    function() {
+                        subcategory.push($(this).val());
+                    });
+                var subcategoryList = subcategory;
+                //end
+
+                var dataObject = {
+                    'DiscountPolicyId': discountPolicyId,
+                    'ShopId': shop,
+                    'CustomerTypeId': customerType,
+                    'DiscountPercent': discountPercent,
+                    'StartDate': startDate,
+                    'EndDate': endDate,
+                    'SelectCategoryList': categoryList,
+                    'SelectSubCategoryList': subcategoryList
+
+                }
+                //this (if) condition just for validation. Category and Sub-category checkbox validation
+                if (categoryList != "" && subcategoryList != "") {
+
+
+                    var dataList = JSON.stringify({ 'objDiscountPolicyModel': dataObject });
+
+
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("SaveAndUpdateDiscountPolicy", "Setup")',
+                        data: dataList,
+
+                        success: function(data) {
+
+                            if (data.isRedirect) {
+
+                                toastr.info("Save Successfully.");
+
+                                window.setTimeout(function() {
+                                        window.location = data.redirectUrl;
+                                    },
+                                    2000);
+                            }
+
+                        }
+                });
+                } else {
+                    toastr.warning("Select at List one Category and SubCategory!!");
+                }
+
+            }
+        }
+
+    });
+
+</script>

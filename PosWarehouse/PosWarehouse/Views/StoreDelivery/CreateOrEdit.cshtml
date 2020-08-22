@@ -1,0 +1,989 @@
+﻿@model PosWarehouse.ViewModel.StoreDeliveryModel
+@{
+    ViewBag.Title = "CreateOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase">Shop Delivery</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>
+                                                        <span class="caption-subject bold uppercase"> Shop Delivery Info</span>
+
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="form-group">
+
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Rec.Challan Wise Delivery</label>
+                                                        <div class="col-md-6">
+                                                            <div class="checkbox-list" style="margin-top: 8px;">
+                                                                @Html.CheckBoxFor(c => c.ReceiveChallanDeliveryStatus, new { @class = "checker", @id = "CheckboxRecChallan", @name = "CheckboxRecChallan" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Requisition Wise Delivery</label>
+                                                        <div class="col-md-6">
+                                                            <div class="checkbox-list" style="margin-top: 8px;">
+                                                                @Html.CheckBoxFor(c => c.RequisitionDelivery, new { @class = "checker", @name = "RequisitionDelivery" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">From Date</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                <i class="fa fa-calendar"></i>
+                                                                @Html.TextBoxFor(c => c.FromDate, new { @class = "form-control datepicker input-circle", @placeholder = "From Date", @id = "fromDate", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                                                @Html.ValidationMessageFor(c => c.FromDate)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Rec. Challan</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @if (Model.PurchaseReceiveId != 0)
+                                                                {
+                                                                    @Html.DropDownListFor(m => m.PurchaseReceiveNumber, ViewBag.PurchaseReceiveNumberList as SelectList, new { @class = "form-control input-circle purchaseReceiveNumber" })
+                                                                    @Html.ValidationMessageFor(c => c.PurchaseReceiveNumber)
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.DropDownListFor(m => m.PurchaseReceiveNumber, new SelectList(" "), new { @class = "form-control input-circle purchaseReceiveNumber", @disabled = true })
+                                                                    @Html.ValidationMessageFor(c => c.PurchaseReceiveNumber)
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Shop Requisition Num:</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @Html.DropDownListFor(c => c.ShopRequisitionNumber, new SelectList(ViewBag.ShopRequisitionList, "Value", "Text", Model.ShopRequisitionNumber), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Shop <span style="color: red">*</span></label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @Html.DropDownListFor(c => c.DeliveryShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
+                                                                @Html.ValidationMessageFor(c => c.DeliveryShopId)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Season/Occasion </label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @Html.DropDownListFor(c => c.SeasonId, new SelectList(ViewBag.SeasonList, "Value", "Text", Model.SeasonId), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Register Name <span style="color: red">*</span></label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @Html.DropDownListFor(c => c.RegisterId, new SelectList(ViewBag.RegisterInfoList, "Value", "Text", Model.RegisterId), new { @class = "form-control input-circle", @id = "registerId", @style = "max-width: 600px;" })
+                                                                @Html.ValidationMessageFor(c => c.RegisterId)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Delivery Date</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                <i class="fa fa-calendar"></i>
+                                                                @Html.TextBoxFor(c => c.DeliveryDate, new { @class = "form-control datepicker input-circle", @placeholder = "Delivery Date", autocomplete = "off", @id = "deliveryDate", @disabled = "disabled", @style = "max-width: 580px;" })
+                                                                @Html.ValidationMessageFor(c => c.DeliveryDate)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Requistion No <span style="color: red">*</span></label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                <i class="fa fa-text-width"></i>
+
+                                                                @Html.TextBoxFor(c => c.RequistionNo, new { Value = ViewBag.MaxRequisitionNumber, @class = "form-control input-circle", @placeholder = "Requistion No", autocomplete = "off", @readonly = "readonly", @id = "requistionNo", @style = "max-width: 580px;" })
+                                                                @Html.ValidationMessageFor(c => c.RequistionNo)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Barcode</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+                                                                @Html.TextBoxFor(c => c.Barcode, new { @class = "form-control input-circle", @id = "barcode", @placeholder = "Barcode Scan" })
+                                                                @Html.ValidationMessageFor(c => c.Barcode)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" style="text-align: left !important">Product</label>
+                                                        <div class="col-md-7">
+                                                            <div class="input-icon">
+
+                                                                @Html.TextAreaFor(c => c.ProductName, new { @class = "form-control input-circle", @id = "product", @placeholder = "Product Name", @readonly = "readonly" })
+                                                                @Html.ValidationMessageFor(c => c.ProductName)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-6 control-label" style="text-align: left !important">Sale Price</label>
+                                                                <div class="col-md-6">
+                                                                    @Html.TextBoxFor(c => c.SalePrice, new { @class = "form-control input-circle", @id = "salePrice", @placeholder = "Sale Price", @readonly = "readonly" })
+                                                                    @Html.ValidationMessageFor(c => c.SalePrice)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-6 control-label" style="text-align: left !important">Current Stock</label>
+                                                                <div class="col-md-6">
+                                                                    @Html.TextBoxFor(c => c.CurrentStock, new { @class = "form-control input-circle", @id = "currentStock", @readonly = "readonly" })
+                                                                    @Html.ValidationMessageFor(c => c.CurrentStock)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <!-- END SAMPLE TABLE PORTLET-->
+                                        </div>
+                                        <div class="col-md-8">
+                                            <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                            <div class="portlet light bordered">
+                                                <div class="portlet-title">
+                                                    <div class="caption font-green-sharp">
+                                                        <i class="icon-speech font-green-sharp"></i>
+                                                        <span class="caption-subject bold uppercase"> Product Details</span>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6"></div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Total Item</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control  input-circle" id="totalDeliveryItem" style="width: 150px;background-color: yellow" readonly="readonly"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="portlet-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        Barcode
+                                                                    </th>
+                                                                    <th>
+                                                                        Product Name
+                                                                    </th>
+                                                                    <th>
+                                                                        Sale Price
+                                                                    </th>
+                                                                    <th>
+                                                                        Current Stock
+                                                                    </th>
+                                                                    <th>
+                                                                        Delivery.Qty
+                                                                    </th>
+                                                                    <th>
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="storeDeliveryGridTableBody"></tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4"></div>
+                                                        <div class="col-md-4">
+                                                            <a class="btn btn-info" id="preview"> Preview</a>
+                                                            <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                                            <a class="btn btn-danger" id="clear" href="@Url.Action("Index", "StoreDelivery")"><i class="fa fa-cut"></i> Clear</a>
+                                                        </div>
+                                                        <div class="col-md-4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- END SAMPLE TABLE PORTLET-->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- END GENERAL PORTLET-->
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                </div>
+                                <div class="col-md-3 text-right">
+
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="PreviewModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Preview Challan</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Preview Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 text-center"><strong><h3>SaRa LifeStyle Ltd.</h3></strong></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label"><strong>ChallanNo:</strong> </label>
+                                    <div class="col-md-7 text-center">
+                                        <p id="challanPre"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label"> <strong>Date:</strong></label>
+                                    <div class="col-md-7 text-center">
+                                        <p id="Datepre"></p>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-8 control-label"><strong>Requisition NO:</strong></label>
+                                    <div class="col-md-4">
+                                        <p id="PreReQuisition"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-7 control-label"><strong>Delivery Shop:</strong></label>
+                                    <div class="col-md-5 text-center">
+                                        <p id="DeliveryShopPre"></p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <br />
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="gridTableForPreview">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        BarCode
+                                    </th>
+                                    <th>
+                                        Item Name
+                                    </th>
+                                        
+                                    <th>
+                                        Sale Price
+                                    </th>
+                                    <th>
+                                        Deli.Quantity
+                                    </th>
+                                        
+                                </tr>
+                                </thead>
+                                <tbody id="gridTableForPreviewBody"></tbody>
+                                
+                            </table>
+                            
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-5 control-label"><strong>Total Preview Item:</strong></label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control  input-circle" id="totalDeliveryItemPreview" style="width: 150px;background-color: yellow" readonly="readonly"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    function totalItemCount() {
+        var total = 0;
+        $("#storeDeliveryGridTableBody tr").each(function() {
+            total += parseInt($(this).find('#deliveryQuantity').val());
+            
+        });
+        $("#totalDeliveryItem").val(total);
+    }
+    function resetForm() {
+        $('#barcode').val("");
+
+    }
+
+    function validationForm() {
+
+        var deliveryShopId = $("#DeliveryShopId").val();
+        if (deliveryShopId == '') {
+            toastr.error("Select Shop Name.");
+            return false;
+        }
+        var registerId = $("#registerId").val();
+        if (registerId == '') {
+            toastr.error("Select Register Name.");
+            return false;
+        }
+        var requistionNo = $("#requistionNo").val();
+        if (requistionNo == '') {
+            toastr.error("Requistion No Cann't Be Empty!!");
+            return false;
+        }
+
+        return true;
+    }
+
+    function validationCheckWithStock() {
+        var totalCurrentStock = 0;
+        var totalDeliveryItem = 0;
+        $("#storeDeliveryGridTableBody tr").each(function () {
+            totalCurrentStock += parseInt($(this).find('.currentStock').val());
+            totalDeliveryItem += parseInt($(this).find('#deliveryQuantity').val());
+        });
+        if (totalDeliveryItem > totalCurrentStock || totalDeliveryItem === 0) {
+            toastr.warning("Delivery Quantity Must Be Equal Or Less Than CurrentStock");
+            return false;
+        }
+
+        return true;
+    }
+    function scrollStopNumberField() {
+        $('input[type=number]').on('mousewheel', function(e) {
+            $(e.target).blur();
+        });
+    }
+
+    function storeDeliveryGridDataSave() {
+        var checkboxRecChallan = $('#CheckboxRecChallan').prop('checked');
+        var fromDate = $("#FromDate").val();
+        var deliveryDate = $("#deliveryDate").val();
+        var requistionNo = $("#requistionNo").val();
+        var purchaseReceiveNumber = $("#PurchaseReceiveNumber option:selected").val();
+        var deliveryShopId = $("#DeliveryShopId option:selected").val();
+        var seasonId = $("#SeasonId option:selected").val();
+        var registerId = $("#registerId option:selected").val();
+
+        if (validationForm()) {
+            var allStoreDeliveryItem = [];
+            allStoreDeliveryItem.length = 0;
+            $.each($("#storeDeliveryGridTableBody tr"),
+                function() {
+
+                    allStoreDeliveryItem.push({
+                        ProductId: $(this).find('td:eq(0)').html(),
+                        ItemId: $(this).find('td:eq(1)').html(),
+                        Barcode: $(this).find('td:eq(2)').html(),
+                        //ItemName: $(this).find('td:eq(3)').html(),
+                        ItemName: '',
+                        SalePrice: $(this).find('td:eq(4)').html(),
+                        CurrentStock: $(this).find('td:eq(5)').html(),
+                        DeliveryQuantity: $(this).find('#deliveryQuantity').val(),
+                        Vat: $(this).find('td:eq(7)').html(),
+                        PurchasePrice: $(this).find('td:eq(8)').html()
+                    });
+
+                });
+            var dataObject = {
+                'ReceiveChallanDeliveryStatus': checkboxRecChallan,
+                'FromDate': fromDate,
+                'RequistionNo': requistionNo,
+                'PurchaseReceiveNumber': purchaseReceiveNumber,
+                'DeliveryShopId': deliveryShopId,
+                'SeasonId': seasonId,
+                'RegisterId': registerId,
+                'DeliveryDate': deliveryDate,
+                'ProductInventoryList': allStoreDeliveryItem
+            }
+            var dataList = JSON.stringify({ objStoreDeliveryModel: dataObject });
+            if (allStoreDeliveryItem.length) {
+                if (validationCheckWithStock()) {
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("SaveAllStoreDeliveryItem", "StoreDelivery")',
+                        data: dataList,
+                        beforeSend: function() {
+                            $('#preLoader').show();
+                        },
+                        success: function (data) {
+                                if (data.isRedirect) {
+                                        window.setTimeout(function() {
+                                            window.location = data.redirectUrl;
+                                        },1000);
+
+                                    toastr.success("Save Successfully.");
+                                    $('#preLoader').hide();
+                            }
+                            if (data.deliveryNumber !== null) {
+                                window.open('/StoreDelivery/ShowReport?storeDeliveryNo=' + data.deliveryNumber, '_blank');
+                            }
+
+                            }
+                        });
+                   }
+            } else {
+                toastr.error("Table Data Cann't Be Empty!");
+                }
+            }
+
+    }
+
+    $(document).ready(function () {
+        $('#fromDate').attr('disabled', true);
+        $('#ShopRequisitionNumber').attr('disabled', true);
+
+        $("#RequisitionDelivery").change(function () {
+            if(this.checked) {
+                $('#ShopRequisitionNumber').attr('disabled', false);
+                $("#storeDeliveryGridTableBody").html("");
+                $("#PurchaseReceiveNumber").val("");
+                $("#totalDeliveryItem").val("");
+                $('#CheckboxRecChallan').parent('.checked').removeClass('checked');  
+                $('#fromDate').attr('disabled', true);
+                $('#PurchaseReceiveNumber').attr('disabled', true);
+
+            } else {
+                $('#ShopRequisitionNumber').attr('disabled', true);
+            }
+        });
+
+        $(".datepicker2").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy"
+        });
+
+        //$('#CheckboxRecChallan').on('change', function () {
+        $("#CheckboxRecChallan").change(function () {
+            if(this.checked) {
+                $('#fromDate').attr('disabled', false);
+                $('#barcode').attr('disabled', true);
+                $('#PurchaseReceiveNumber').attr('disabled', true);
+                $("#storeDeliveryGridTableBody").html("");
+                $('#RequisitionDelivery').parent('.checked').removeClass('checked');  
+                $('#ShopRequisitionNumber').attr('disabled', true);
+            } else {
+                $('#fromDate').attr('disabled', true);
+                $('#barcode').attr('disabled', false);
+                $('#PurchaseReceiveNumber').attr('disabled', true);
+                $("#storeDeliveryGridTableBody").html("");
+                $("#PurchaseReceiveNumber").val("");
+                $("#totalDeliveryItem").val("");
+            }
+        });
+
+        $('#fromDate').on('change', function () {
+            $("#storeDeliveryGridTableBody").html("");
+            $("#totalDeliveryItem").val("");
+            $("#PurchaseReceiveNumber").empty();
+            var date = $("#fromDate").val();
+            $("#PurchaseReceiveNumber").prop("disabled", false);
+            $.ajax({
+                type: 'POST',
+                url: '/StoreDelivery/GetDateWisePurchaseReceiveNumber/',
+                dataType: 'json',
+                data: { purchaseDate: date },
+                success: function (data) {
+                    if (data.Value !== "") {
+                        $.each(data, function (i, dds) {
+                            $("#PurchaseReceiveNumber").append('<option value="' + dds.Value + '">' + dds.Text + '</option>');
+                        });
+                    } else {
+                        toastr.warning("No Data Found !.");
+                    }
+                },
+                error: function (ex) { alert('Failed to retrieve purchaseDate List.' + ex); }
+            });
+
+        });
+
+        $('#barcode').on('change', function () {
+            var barcode = $("#barcode").val();
+            $.ajax({
+                type: 'POST',
+                url: '/StoreDelivery/GetProductItemDetailsByBarcode/',
+                dataType: 'json',
+                data: { barcode: barcode },
+                success: function (data) {
+
+                    $("#barcode").val(data.Barcode);
+                    $("#product").val(data.ItemName);
+                    $("#salePrice").val(data.SalePrice);
+                    $("#currentStock").val(data.CurrentStock);
+
+                    var barcode = $('#barcode').val();
+                    var product = $('#product').val();
+                    var salePrice = $('#salePrice').val();
+
+                    var allProductItemCode = [];
+                    allProductItemCode.length = 0;
+                    var checker = true;
+
+                    $.each($("#storeDeliveryGridTableBody tr"), function () {
+                        var value = $(this).find('td:eq(2)').html();
+                        var quantity = $(this).find('#deliveryQuantity').val();
+                        allProductItemCode.push({
+                            value, quantity
+                        });
+                    });
+
+                    if (allProductItemCode.length > 0) {
+
+                        $.each(allProductItemCode, function (i, val) {
+                            if (data.Barcode == val.value) {
+                                checker = false;
+                            }
+                        });
+                        if (checker) {
+                            if (!isNaN(data.ItemId) && data.ItemId) {
+                                if (data.CurrentStock > 0) {
+
+                                $("#storeDeliveryGridTableBody").append('<tr>' +
+                                    '<td style="display:none;">' +
+                                    data.ProductId +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    data.ItemId +
+                                    '</td>' +
+                                    '<td>' +
+                                    barcode +
+                                    '</td>' +
+                                    '<td>' +
+                                    product +
+                                    '</td>' +
+                                    '<td>' +
+                                    salePrice +
+                                    '</td>' +
+                                    '<td style ="width: 13%">' +
+                                    '<input type="number" class="form-control input-circle currentStock" readonly="readonly" id="currentStock" value="' + data.CurrentStock + '"' +
+                                    '</td>' +
+                                    '<td style ="width: 13%">' +
+                                    '<input type="number" class="form-control input-circle deliveryQuantity" id="deliveryQuantity" min="0" value="'+1+'"' +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                     data.Vat +
+                                    '</td>' +
+                                    '<td style="display:none;">' +
+                                    data.purchasePrice +
+                                    '</td>' +
+                                    '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                                        '</tr>');
+
+                                scrollStopNumberField();
+                                    resetForm();
+                                totalItemCount();
+                                } else {
+                                    toastr.info("This Product is not Available!");
+                                    $("#barcode").val("");
+                                    $("#product").val("");
+                                    $("#salePrice").val("");
+                                    $("#currentStock").val("");
+                                }
+
+                            } else {
+                                toastr.error("Invalid BarCode!!.");
+                                $("#barcode").val("");
+                                $("#product").val("");
+                                $("#salePrice").val("");
+                                $("#currentStock").val("");
+                            }
+                        } else {
+                            $.each($("#storeDeliveryGridTableBody tr"), function () {
+                                var value = $(this).find('td:eq(2)').html();
+                                var quantity = parseInt($(this).find('#deliveryQuantity').val());
+                                var currentStock = parseInt($(this).find('#currentStock').val());
+                                if (barcode == value) {
+                                    if (quantity < currentStock ) {
+                                        $(this).find('#deliveryQuantity').val(parseInt(quantity) + 1);
+                                        resetForm();
+                                        totalItemCount();
+                                        toastr.success(" Add Same Item.");
+                                    } else {
+                                        toastr.error(" Product Stock Out!");
+                                        return false;
+                                    }
+
+                                }
+                            });
+
+                        }
+                    } else {
+                        if (!isNaN(data.ItemId) && data.ItemId) {
+                            if (data.CurrentStock > 0) {
+                            $("#storeDeliveryGridTableBody").append('<tr>' +
+                                '<td style="display:none;">' +
+                                data.ProductId +
+                                '</td>' +
+                                '<td style="display:none;">' +
+                                data.ItemId +
+                                '</td>' +
+                                '<td>' +
+                                barcode +
+                                '</td>' +
+                                '<td>' +
+                                product +
+                                '</td>' +
+                                '<td>' +
+                                salePrice +
+                                '</td>' +
+                                '<td style ="width: 13%">' +
+                                '<input type="number" class="form-control input-circle currentStock" readonly="readonly" id="currentStock" value="' + data.CurrentStock + '"' +
+                                '</td>' +
+                                '<td style ="width: 13%">' +
+                                '<input type="number" class="form-control input-circle deliveryQuantity" id="deliveryQuantity" min ="0" value="'+1+'"' +
+                                '</td>' +
+                                '<td style="display:none;">' +
+                                data.Vat +
+                                '</td>' +
+                                '<td style="display:none;">' +
+                                data.purchasePrice +
+                                '</td>' +
+                                '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                                    '</tr>');
+                                scrollStopNumberField();
+                                resetForm();
+                            totalItemCount();
+                            } else {
+                                toastr.info("This Product is not Available!");
+                                $("#barcode").val("");
+                                $("#product").val("");
+                                $("#salePrice").val("");
+                                $("#currentStock").val("");
+                            }
+
+                        } else {
+                            toastr.error("Invalid BarCode!!.");
+                            $("#barcode").val("");
+                            $("#product").val("");
+                            $("#salePrice").val("");
+                            $("#currentStock").val("");
+                        }
+
+                    }
+                }
+
+            });
+
+        });
+
+        $("#storeDeliveryGridTableBody").on('change', '.deliveryQuantity', function () {
+                var thisRow = $(this);
+            deliveryQuantityValidation(thisRow);
+            totalItemCount();
+        });
+        function deliveryQuantityValidation(data2) {
+
+            var quantity = parseInt(data2.parents('tr').find('.deliveryQuantity').val());
+            var currentStock =parseInt(data2.parents('tr').find('.currentStock').val());
+
+            if (quantity > currentStock) {
+                toastr.error("Delivery Quantity Must Be Equal Or Less Than CurrentStock");
+                return false;
+            }
+        }
+
+        $(document).on('click', 'a.deleteItem', function (e) {
+            e.preventDefault();
+            var self = $(this);
+            if (self != null) {
+                $(this).parents('tr').css("background-color", "#dc143c").fadeOut(800, function () {
+                    $(this).remove();
+                    totalItemCount();
+                });
+            } else {
+                t("delete hoi ni");
+                toastr.error("Data cann't delete");
+            }
+        });
+
+        $(".purchaseReceiveNumber").change(function () {
+            var purchaseReceiveNumber = $("#PurchaseReceiveNumber").val();
+            $.ajax({
+                type: 'POST',
+                url: '/StoreDelivery/ReceiveChallanWiseProductItem/',
+                dataType: 'json',
+                data: { purchaseReceiveNumber: purchaseReceiveNumber },
+                success: function (data) {
+                    var storeDataDeliveryTableQuantity = data.length;
+                    $("#storeDeliveryGridTableBody").html("");
+                    for (var i = 0; i < storeDataDeliveryTableQuantity; i++) {
+                        $("#storeDeliveryGridTableBody").append('<tr>' +
+                            '<td style="display:none;">' +
+                            data[i].ProductId +
+                            '</td>' +
+                            '<td style="display:none;">' +
+                            data[i].ItemId +
+                            '</td>' +
+                            '<td>' +
+                            data[i].Barcode +
+                            '</td>' +
+                            '<td>' +
+                            data[i].ItemName +
+                            '</td>' +
+                            '<td>' +
+                            data[i].SalePrice +
+                            '</td>' +
+                            '<td style ="width: 11%">' +
+                            //data[i].ReceiveQuantity +
+                            '<input type="number" class="form-control input-circle currentStock" readonly="readonly" id="currentStock" value="' + data[i].ReceiveQuantity + '"' +
+                            '</td>' +
+                            '<td style="width: 11%">' +
+                            '<input type="number" class="form-control input-circle deliveryQuantity" id="deliveryQuantity" min="0" value="'+
+                            data[i].ReceiveQuantity +
+                            '" placeholder="Qty">' +
+                            '</td>' +
+                            '<td style="display:none;">' +
+                            data[i].Vat +
+                            '</td>' +
+                            '<td style="display:none;">' +
+                            data[i].PurchasePrice +
+                            '</td>' +
+                            '<td><a data-itemId="0" href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                            '</tr>');
+                        scrollStopNumberField();
+                        totalItemCount();
+                    }
+                }
+
+            });
+        });
+
+         $("#save").click(function(e) {
+             storeDeliveryGridDataSave();
+        });
+
+
+        $("#preview").click(function () {
+
+            previewModal();
+           
+        });
+
+        $("#ShopRequisitionNumber").change(function() {
+            var shopRequisitionNumber = $("#ShopRequisitionNumber").val();
+            $.ajax({
+                type: 'GET',
+                url: '/ShopOrder/GetShopOrderInfoByRequisitionNum/',
+                dataType: 'json',
+                data: { requisitionNumber: shopRequisitionNumber },
+                success: function (data) {
+                    if (data !== "") {
+                        $("#requistionNo").val(data.RequisitionNo);
+                        $("#DeliveryShopId").append('<option selected="selected" value="' + data.ShopId + '">' + data.ShopName + '</option>');
+                    } else {
+                        toastr.warning("No Data Found !.");
+                    }
+
+                    var storeDataDeliveryRequisitionQuantity = data.RequisitionDeliveryItemList.length;
+                    $("#storeDeliveryGridTableBody").html("");
+                    for (var i = 0; i < storeDataDeliveryRequisitionQuantity; i++) {
+                        $("#storeDeliveryGridTableBody").append('<tr>' +
+                            '<td style="display:none;">' +
+                            data.RequisitionDeliveryItemList[i].ProductId +
+                            '</td>' +
+                            '<td style="display:none;">' +
+                            data.RequisitionDeliveryItemList[i].ItemId +
+                            '</td>' +
+                            '<td>' +
+                            data.RequisitionDeliveryItemList[i].Barcode +
+                            '</td>' +
+                            '<td>' +
+                            data.RequisitionDeliveryItemList[i].ItemName +
+                            '</td>' +
+                            '<td>' +
+                            data.RequisitionDeliveryItemList[i].Price +
+                            '</td>' +
+                            '<td style ="width: 11%">' +
+                            '<input type="number" class="form-control input-circle currentStock" readonly="readonly" id="currentStock" value="' + data.RequisitionDeliveryItemList[i].ProductStock + '"' +
+                            '</td>' +
+                            '<td style="width: 11%">' +
+                            '<input type="number" class="form-control input-circle deliveryQuantity" id="deliveryQuantity" min="0" value="' + 0 +'" placeholder="Qty">' +
+                            '</td>' +
+                            '<td style="display:none;">' +
+                            data.RequisitionDeliveryItemList[i].Vat +
+                            '</td>' +
+                            '<td><a data-itemId="0" href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                            '</tr>');
+
+                        $('input[type=number]').on('mousewheel', function(e) {
+                            $(e.target).blur();
+                        });
+                    }
+
+                },
+                error: function (ex) { alert('Failed to retrieve ShopName List.' + ex); }
+            });
+        });
+
+        $("#fromDate").datepicker({ dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true}).datepicker("setDate", new Date());
+        $("#deliveryDate").datepicker({ dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true }).datepicker("setDate", new Date());
+
+    });
+
+    function previewModal() {
+        var allPreviewStoreDeliveryItem = [];
+        allPreviewStoreDeliveryItem.length = 0;
+        $.each($("#storeDeliveryGridTableBody tr"),
+            function () {
+
+                allPreviewStoreDeliveryItem.push({
+                    ProductId: $(this).find('td:eq(0)').html(),
+                    ItemId: $(this).find('td:eq(1)').html(),
+                    Barcode: $(this).find('td:eq(2)').html(),
+                    ItemName: $(this).find('td:eq(3)').html(),
+                    SalePrice: $(this).find('td:eq(4)').html(),
+                    CurrentStock: $(this).find('td:eq(5)').html(),
+                    DeliveryQuantity: $(this).find('#deliveryQuantity').val(),
+                    Vat: $(this).find('td:eq(7)').html()
+                });
+
+            });
+        if (allPreviewStoreDeliveryItem.length !== 0) {
+
+        $.ajax({
+            type: 'GET',
+            url: '/StoreDelivery/GetMaxChallanNumber/',
+            dataType: 'json',
+            success: function (data) {
+                if (data !=="") {
+                    $("#challanPre").text(data);
+                } else {
+                    toastr.warning("No Data Found !.");
+                }
+            },
+            
+        });
+        var deliveryDate = $("#deliveryDate").val();
+        var requistionNo = $("#requistionNo").val();
+        var totalDeliveryItem = $("#totalDeliveryItem").val();
+        var deliveryShopId = $("#DeliveryShopId option:selected").text();
+
+        $("#PreReQuisition").text(requistionNo);
+        $("#Datepre").text(deliveryDate);
+        $("#DeliveryShopPre").text(deliveryShopId);
+        $("#totalDeliveryItemPreview").val(totalDeliveryItem);
+
+
+        
+        $("#gridTableForPreviewBody").html("");
+        for (var i = 0; i < allPreviewStoreDeliveryItem.length; i++) {
+            $("#gridTableForPreviewBody").append('<tr>' +
+                '<td>' +
+                allPreviewStoreDeliveryItem[i].Barcode +
+                '</td>' +
+                '<td>' +
+                allPreviewStoreDeliveryItem[i].ItemName +
+                '</td>' +
+                '<td>' +
+                allPreviewStoreDeliveryItem[i].SalePrice +
+                '</td>' +
+                '<td>' +
+                allPreviewStoreDeliveryItem[i].DeliveryQuantity +
+                '</td>' +
+                '</tr>'
+            );
+            }
+        $("#PreviewModal").modal("show");
+        } else {
+            toastr.error("Table Data Can't be Empty !.");
+            $("#Preview").modal('hide');
+            return false;
+        }
+    }
+</script>

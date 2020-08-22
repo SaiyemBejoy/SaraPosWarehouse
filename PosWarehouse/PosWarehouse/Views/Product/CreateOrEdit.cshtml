@@ -1,0 +1,820 @@
+﻿@model PosWarehouse.ViewModel.ProductModel
+@{
+    ViewBag.Title = "CreateOrEdit";
+}
+<link href="~/Content/Assets/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" />
+<div class="page-head">
+    <div class="page-title">
+        @if (Model.ProductId != 0)
+        {
+            <h1>Edit Product  <small><a href="@Url.Action("Index", "Product")" style="text-decoration: none !important">go back to product list</a></small></h1>
+        }
+        else
+        {
+            <h1>Add Product  <small><a href="@Url.Action("Index", "Product")" style="text-decoration: none !important">go back to product list</a></small></h1>
+        }
+    </div>
+    <div class="page-toolbar">
+
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                @if (Model.ProductId != 0)
+                {
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Edit Product
+                    </div>
+                }
+                else
+                {
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Add Product
+                    </div>
+                }
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+                    <a href="@Url.Action("CreateOrEdit", "Product")" class="reload"></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="tabbable-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a class="active" id="product-tab" data-toggle="tab" href="#product" role="tab" aria-controls="product" aria-selected="true">Product Info</a>
+                        </li>
+                        <li>
+                            <a class="" id="item-tab" data-toggle="tab" href="#Item" role="tab" aria-controls="Item" aria-selected="false">Generate Items & Code</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+
+                        @*Product Info Start*@
+                        <div class="tab-pane active" id="product">
+                            <div class="row margin-top-15">
+                                <div class="col-md-12">
+                                    <div class="portlet box blue-hoki">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-gift"></i>Product Information
+                                            </div>
+                                            <div class="tools">
+                                                <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            @using (Html.BeginForm("SaveOrUpdate", "Product", FormMethod.Post, new { @class = "form-horizontal margin-top-20 product-datils-form", id = "productDetails", role = "form", @enctype = "multipart/form-data" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(c => c.ProductId)
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+
+                                                        <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
+                                                            <br />
+                                                            <div class="portlet-body">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.ProductName, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i class="fa fa-text-width"></i>
+
+                                                                            @Html.TextBoxFor(c => c.ProductName, new { @class = "form-control input-circle", placeholder = "Enter Product Name" })
+                                                                            @Html.ValidationMessageFor(c => c.ProductName)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.ProductStyle, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i class="fa fa-text-width"></i>
+                                                                            @Html.TextBoxFor(c => c.ProductStyle, new { @class = "form-control input-circle", placeholder = " Enter Product Style" })
+                                                                            @Html.ValidationMessageFor(c => c.ProductStyle)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.ProductDescription, new { @class = "control-label" })
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextAreaFor(c => c.ProductDescription, new { @class = "form-control input-circle", rows = "5", placeholder = "Enter Full Description" })
+                                                                        @Html.ValidationMessageFor(c => c.ProductDescription)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.CategoryId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as SelectList, new { @class = "form-control input-circle" })
+                                                                        @Html.ValidationMessageFor(c => c.CategoryId)
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.SubCategoryId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @if (Model.SubCategoryId != 0)
+                                                                        {
+                                                                            @Html.DropDownListFor(m => m.SubCategoryId, ViewBag.SubCategoryList as SelectList, new { @class = "form-control input-circle" })
+                                                                            @Html.ValidationMessageFor(c => c.SubCategoryId)
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.DropDownListFor(m => m.SubCategoryId, new SelectList(" "), new { @class = "form-control input-circle", @disabled = true })
+                                                                            @Html.ValidationMessageFor(c => c.SubCategoryId)
+                                                                        }
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.BrandId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(c => c.BrandId, new SelectList(ViewBag.BrandList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                                                        @Html.ValidationMessageFor(c => c.BrandId)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.DesignerId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(c => c.DesignerId, new List<SelectListItem>(), "---Select Name---", new { @class = "form-control input-circle" })
+
+                                                                        @Html.ValidationMessageFor(c => c.DesignerId)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.MerchandiserId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(c => c.MerchandiserId, new List<SelectListItem>(), "---Select Name---", new { @class = "form-control input-circle" })
+
+                                                                        @Html.ValidationMessageFor(c => c.MerchandiserId)
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
+                                                            <br />
+                                                            <div class="portlet-body">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.MaterialCost, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", placeholder = "Material Cost" })
+                                                                            @Html.ValidationMessageFor(c => c.MaterialCost)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.CM, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "" })
+                                                                            @Html.ValidationMessageFor(c => c.CM)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.PurchasePrice, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.PurchasePrice, new { @class = "form-control input-circle", @readonly = "@readonly", type = "number", placeholder = " Purchase Price" })
+                                                                            @Html.ValidationMessageFor(c => c.PurchasePrice)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.SalePrice, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.SalePrice, new { @class = "form-control input-circle", type = "number", placeholder = "Enter Selling Price" })
+                                                                            @Html.ValidationMessageFor(c => c.SalePrice)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.Karchupi, new { @class = "col-form-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="checkbox-list" style="margin-top: 6px;">
+
+                                                                            @Html.CheckBoxFor(c => c.Karchupi, new { @class = "checker" })
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.Wash, new { @class = "control-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+
+                                                                            @Html.TextBoxFor(c => c.Wash, new { @class = "form-control input-circle", placeholder = " " })
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.Print, new { @class = "control-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+
+                                                                            @Html.TextBoxFor(c => c.Print, new { @class = "form-control input-circle", placeholder = " " })
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.Embroidery, new { @class = "control-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="input-icon">
+
+                                                                            @Html.TextBoxFor(c => c.Embroidery, new { @class = "form-control input-circle", placeholder = " " })
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.IncludeVat, new { @class = "control-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8 mt-2">
+                                                                        @Html.CheckBoxFor(c => c.IncludeVat, new { @class = "make-switch" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.IsActive, new { @class = "col-form-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8 mt-2">
+                                                                        @Html.CheckBoxFor(c => c.IsActive, new { @class = "make-switch" })
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
+                                                            <br />
+                                                            <div class="portlet-body">
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-4"></div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                                            <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;">
+                                                                                @if (Model.ProductImageString != null)
+                                                                                {
+                                                                                    <img src="@Path.Combine("/Files/ProductImage/", Model.ProductImageString)" alt="">
+                                                                                    @Html.HiddenFor(c => c.ProductImageString)
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img src="" alt="">
+                                                                                }
+
+                                                                            </div>
+                                                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
+                                                                            </div>@*<span style="color: red">*</span>*@
+                                                                            @if (Model.ProductId != 0)
+                                                                            {
+                                                                                <div>
+                                                                                    <span class="btn default btn-file">
+                                                                                        <span class="fileinput-new">
+                                                                                            Select image
+                                                                                        </span>
+                                                                                        <span class="fileinput-exists">
+                                                                                            Change
+                                                                                        </span>
+                                                                                        @{Html.EnableClientValidation(false);}
+                                                                                        @Html.TextBoxFor(c => c.ProductImage, new { @type = "file" })
+                                                                                        @Html.HiddenFor(c => c.ProductImage, new { @Value = Model.ProductImageString })
+
+                                                                                    </span>
+                                                                                    <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput">
+                                                                                        Remove
+                                                                                    </a>
+                                                                                </div>
+                                                                                @Html.ValidationMessageFor(m => m.ProductImage)
+                                                                                Html.EnableClientValidation(true);
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <div>
+                                                                                    <span class="btn default btn-file">
+                                                                                        <span class="fileinput-new">
+                                                                                            Select image
+                                                                                        </span>
+                                                                                        <span class="fileinput-exists">
+                                                                                            Change
+                                                                                        </span>
+
+                                                                                        @Html.TextBoxFor(c => c.ProductImage, new { @type = "file" })
+                                                                                        @Html.HiddenFor(c => c.ProductImage, new { @Value = Model.ProductImageString })
+
+                                                                                    </span>
+                                                                                    <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput">
+                                                                                        Remove
+                                                                                    </a>
+                                                                                </div>
+
+                                                                                @Html.ValidationMessageFor(m => m.ProductImage)
+                                                                            }
+                                                                        </div>
+                                                                        <div class="clearfix margin-top-10">
+                                                                            <span class="label label-info">NOTE!</span>
+                                                                            <span style="color: red"> Image should be 600 X 600. </span><br />
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-6 text-left">
+
+                                                                        <label>Purchase Measuring Unit<span style="color: red">*</span></label>
+
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-icon">
+                                                                            @Html.DropDownListFor(c => c.PurchaseMeasuringUnitId, new SelectList(ViewBag.MeasuringUnitList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                                                            @Html.ValidationMessageFor(c => c.PurchaseMeasuringUnitId)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-6 text-left">
+
+                                                                        <label>Sales Measuring Unit<span style="color: red">*</span></label>
+
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-icon">
+                                                                            @Html.DropDownListFor(c => c.SalesMeasuringUnitId, new SelectList(ViewBag.MeasuringUnitList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                                                            @Html.ValidationMessageFor(c => c.SalesMeasuringUnitId)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-6 text-left">
+
+                                                                        <label>1 Purchase Unit = ? Sales Unit</label>
+
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-icon">
+                                                                            @*<input type="text" class="form-control input-circle" id="" placeholder="">*@
+                                                                            @Html.TextBoxFor(c => c.PurchaseUnitSaleUnit, new { @class = "form-control input-circle" })
+                                                                            @Html.ValidationMessageFor(c => c.PurchaseUnitSaleUnit)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <br />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-4 text-center">
+                                                        <div class="form-group row">
+                                                            <button class="btn btn-success btn-pro-save" type="submit"><i class="fa fa-save"></i> SAVE</button>
+                                                            <a class="btn btn-danger" href="@Url.Action("Index", "Product")"><i class="fa fa-cut"></i> Clear</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4"></div>
+                                                </div>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*Product Info End*@
+
+                        @*Generate Items & Code Section Start*@
+                        <div class="tab-pane" id="Item">
+                            @if (Model.ProductId == 0)
+                            {
+                                <div class="portlet box blue-hoki margin-top-15">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="fa fa-gift"></i>Generate Items & Code
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <p>You need to save the product before you can Generate Items & Code.</p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="portlet box blue-hoki margin-top-15">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="fa fa-gift"></i>Product Variation
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="form-group row">
+                                            <div class="col-sm-2 text-right">
+                                                @Html.LabelFor(c => c.AttributeId, new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-sm-8">
+                                                @Html.DropDownListFor(m => m.AttributeId, ViewBag.AttributeList as SelectList, new { @class = "form-control input-circle" })
+                                                @Html.ValidationMessageFor(c => c.AttributeId)
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-8">
+                                            <input type='text' id='search' class="form-control input-circle" style="width: 20%" placeholder='Search Text' autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-2 text-right">
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="checkbox-list" id="AttributeBody" style="margin-left: 20px;">
+                                                </div><br />
+                                                <div id="AttributeSave">
+
+                                                </div>
+                                                @*<span class="label label-success">Red <a class="btn btn-danger btn-xs"><span class="fa fa-trash-o"></span></a></span>*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" id="attribute" style="margin-left: 0px !important; margin-right: 0px !important;">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        @*Generate Items & Code End*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Content/Assets/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+@*<script src="~/Scripts/jquery.sparkline.min.js"></script>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+        //For text Editor
+        //tinymce.init({ selector: 'textarea', width: '100%' });
+
+        function getAttribute() {
+            var productId = '@Model.ProductId';
+            var purchasePrice = '@Model.PurchasePrice';
+            var salePrice = '@Model.SalePrice';
+            var materialCost = '@Model.MaterialCost';
+            var CM = '@Model.CM';
+            $.ajax({
+                url: '/Product/GetProductAttribute/',
+                data: { productId: productId, purchasePrice: purchasePrice, salePrice: salePrice, materialCost: materialCost, CM: CM},
+                contentType: "application/html; charset=utf-8",
+                type: "GET",
+                cache: !0,
+                datatype: "html",
+                success: function (t) {
+                    $("#attribute").html(t);
+                },
+                error: function(ex) {
+                    $("#attribute").html("No Data Found");
+                }
+            });
+        }
+
+    $(document).ready(function () {
+        ///ERP thake designer/maschaddiser Er Name Er jonno 
+        var saveDesignerId = '@Model.DesignerId';
+        var saveMerchandiserId = '@Model.MerchandiserId';
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.2.226/Api/Designer',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, designerId) {
+                    if (designerId.id === saveDesignerId) {
+                        $("#DesignerId").append('<option selected="selected" value="' + designerId.id + '">' + designerId.name + '</option>');
+                    } else {
+                        $("#DesignerId").append('<option value="' + designerId.id + '">' + designerId.name + '</option>');
+                    }
+                    
+                });
+            },
+            error: function (ex) { alert('Failed to retrieve Designer Name List.' + ex); }
+        });
+        $.ajax({
+            type: 'GET',
+            url: 'http://192.168.2.226/Api/Merchandiser',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, merchandiserId) {
+                    if (merchandiserId.id === saveMerchandiserId) {
+                        $("#MerchandiserId").append('<option selected="selected" value="' + merchandiserId.id + '">' + merchandiserId.name + '</option>');
+                    } else {
+                        $("#MerchandiserId").append('<option value="' + merchandiserId.id + '">' + merchandiserId.name + '</option>');
+                    }
+                    
+                });
+            },
+            error: function (ex) { alert('Failed to retrieve Merchandiser List.' + ex); }
+        });
+        //End
+        //Purchase Price Calculation
+        $("#MaterialCost").keyup(function () {
+            var materialCost = $("#MaterialCost").val();
+            var CM = $("#CM").val();
+            var purchasePrice = parseFloat(materialCost) + parseFloat(CM);
+            $("#PurchasePrice").val(purchasePrice);
+
+        });
+        $("#CM").keyup(function () {
+            var materialCost = $("#MaterialCost").val();
+            var CM = $("#CM").val();
+            var purchasePrice = parseFloat(materialCost) + parseFloat(CM);
+            $("#PurchasePrice").val(purchasePrice);
+
+        });
+
+        //End
+        @{
+            if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+            {
+            <text>
+                var message = '@ViewBag.message';
+
+
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "2000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.success(message);
+            </text>
+            }
+        }
+        var productId = @Model.ProductId;
+        if (productId != null && productId !== 0) {
+            getAttribute();
+        }
+            //Cascading Dropdown Ajax Request Start
+            //For SubCategory Data
+            $("#CategoryId").change(function () {
+                $("#SubCategoryId").empty();
+                var catId = $("#CategoryId").val();
+
+                if (!isNaN(catId) && catId) {
+                    $("#SubCategoryId").prop("disabled", false);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Product/GetSubCategory/',
+                        dataType: 'json',
+                        data: { categoryId: catId },
+                        success: function (subCategoryId) {
+                            $.each(subCategoryId, function (i, subCategoryId) {
+                                $("#SubCategoryId").append('<option value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
+                            });
+                        },
+                        error: function (ex) { alert('Failed to retrieve SubCategory List.' + ex); }
+                    });
+                } else {
+                    $("#SubCategoryId").prop("disabled", true);
+                }
+            });
+
+
+            $("#AttributeId").change(function() {
+                $("#search").val("");
+                $("#AttributeBody").html("");
+                $("#AttributeSave").html("");
+                var attributeId = $("#AttributeId").val();
+
+                if (!isNaN(attributeId) && attributeId) {
+                    var attribute = "";
+                    var attributeName = "";
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Product/GetAttributeValue/',
+                        dataType: 'json',
+                        data: { attributeId: attributeId },
+                        success: function (productAttribute) {
+                            $.each(productAttribute, function (i, productAttribute) {
+                                attribute = productAttribute.AttributeId;
+                                attributeName = productAttribute.Attribute;
+                                $("#AttributeBody").append('<label class="checkbox-inline"><input type="checkbox" class="contant" data-name="' + productAttribute.AttributeValue + '" value="' + productAttribute.AttributeValueId + '"> ' + productAttribute.AttributeValue +' </label>');
+                            });
+                            $("#AttributeSave").append('<button class="btn btn-success" id="saveAttr" data-name="' + attributeName +'" data-id="' + attribute +'">Save</button>');
+                        },
+                        error: function (ex) { alert('Failed to retrieve SubCategory List.' + ex); }
+                    });
+                } else {
+                    $("#SubCategoryId").prop("disabled", true);
+                }
+            });
+
+            $('#AttributeSave').on('click', '#saveAttr', function () {
+                var productId = '@Model.ProductId';
+                var attributeId = $(this).data("id");
+                var attributeName = $(this).data("name");
+                var attribute = [];
+
+                $("input:checkbox:checked").each(function () {
+                    if (!isNaN(parseInt($(this).val())) && parseInt($(this).val())) {
+                        var attributeValue = {
+                            'productId': productId,
+                            'attributeId': attributeId,
+                            'attributeValueId': (parseInt($(this).val()))
+                        }
+                        attribute.push(attributeValue);
+
+                    }
+                });
+                var dataListAttr = JSON.stringify({ 'objProductAttributes': attribute });
+
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '/Product/SaveProductAttribute/',
+                    data: dataListAttr,
+                    success: function (message) {
+                        $("#AttributeBody").html("");
+                        $("#AttributeSave").html("");
+                        $("#AttributeId").val("");
+                        getAttribute();
+                    },
+                    error: function (ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+                });
+            });
+
+            $('#attribute').on('click', '.attarValDelete', function () {
+                var productId = @Model.ProductId;
+                var attributeId = $(this).data("attrid");
+                var attributeValueId = $(this).data("attrvalu");
+
+                console.log(productId, attributeId, attributeValueId);
+
+                $.ajax({
+                    type: 'POST',
+                    //contentType: 'application/json',
+                    dataType: 'json',
+                    //url: '/Product/DeleteProductAttributeValue/',
+                    url: '@Url.Action("DeleteProductAttribute", "Product")',
+                    data: { productId, attributeId, attributeValueId },
+                    success: function (message) {
+                        alert(message);
+                        $("#AttributeBody").html("");
+                        $("#AttributeSave").html("");
+                        $("#AttributeId").val("");
+                        getAttribute();
+                    },
+                    error: function(ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+                });
+            });
+
+            $('#attribute').on('click', '.attrDelete', function() {
+                    var productId = @Model.ProductId;
+                var attributeId = $(this).data("id");
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/Product/DeleteProductAttribute/',
+                    data: { productId, attributeId },
+                    success: function (message) {
+                        alert(message);
+                        $("#AttributeBody").html("");
+                        $("#AttributeSave").html("");
+                        $("#AttributeId").val("");
+                        getAttribute();
+                    },
+                    error: function (ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+                });
+            });
+
+       
+            //$("#attribute").on('click', '#saveProductItem', function() {
+            //    alert("hi");
+            //});
+
+        $('#search').keyup(function () {
+            var text = $(this).val().toLowerCase();
+            var item3 = "";
+            var items = document.getElementsByClassName('contant');
+
+            // Search 
+            if (text !=="") {
+                for (var i = 0; i < items.length; i++) {
+                    var itemName = items[i].dataset.name.toLowerCase();
+
+                    if (itemName.indexOf(text) >= 0){
+                        item3 = document.getElementsByClassName('checkbox-inline')[i];
+                        $(item3).css("color", "red");
+                    } else {
+                        item3 = document.getElementsByClassName('checkbox-inline')[i];
+                        $(item3).css("color", "");
+                    }
+
+                
+                 
+                }
+            } else {
+                $(".checkbox-inline").removeAttr("style");
+            }
+            
+        });
+       
+    });
+</script>
+

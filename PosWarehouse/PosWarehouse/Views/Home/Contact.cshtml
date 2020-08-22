@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+
+<div class='container'>
+
+    <!-- Search control -->
+    <div>
+        <input type='text' id='search' placeholder='Search Text' autocomplete="off">
+    </div>
+
+    <!-- Content list -->
+    <div class='content'>
+        <p>In this post, I show how you can add and remove new element within your web page with jQuery...</p>
+    </div>
+
+    <div class='content'>
+        <p>There are many cases when we have to remove some unused values from the Array which no longer needed within the program...</p>
+    </div>
+
+    <div class='content'>
+
+        <p>If you are familiar with PHP where for reading parameters from URL you can use either $_GET or $_REQUEST which take the name of the argument and return value of it...</p>
+    </div>
+
+    <div class='content'>
+        
+        <p>In this quick tutorial, I show How you can show text above Image when the user hovers the image using only HTML and CSS, no jQuery and JavaScript...</p>
+    </div>
+ 
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#search').keyup(function(){
+            // Search text
+            var text = $(this).val();
+ 
+            // Hide all content class element
+            $('.content').hide();
+
+            // Search 
+            $('.content :contains("'+text+'")').closest('.content').show();
+ 
+        });
+    });
+</script>

@@ -1,0 +1,148 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.SeasonModel
+@{
+    ViewBag.Title = "Season";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var seasonModel = ViewBag.SeasonList as List<SeasonModel>;
+}
+
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Season</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Season
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateSeason", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.SeasonName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.SeasonName, new { @class = "form-control input-circle", @placeholder = "Season Name", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.SeasonName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.SeasonId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("Season", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Season Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="categoryTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Season Name</th>                               
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (seasonModel != null && seasonModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in seasonModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.SeasonName</td>
+                                        
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "Season", "Setup", new { seasonId = data.SeasonId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) ||
+                                            @*@Html.ActionLink(" Delete", "DeleteSeason", "Setup", new { seasonId = data.SeasonId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+            var table = $("#categoryTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+

@@ -1,0 +1,77 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.PoCuttingModel
+@{
+    ViewBag.Title = "PoCuttingList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var poCuttingModel = ViewBag.PoCuttingList as List<PoCuttingModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Po Cutting</h1>
+    </div>
+    <div class="page-toolbar">
+        <a href="@Url.Action("PoCutting", "PoCutting")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> New Po Cutting</a>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Po Cutting List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="PoCuttingTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Po Cutting No </th>
+                            <th> Purchase Order Number</th>
+                            <th> Created By</th>
+                            <th> Po Cutting Date</th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (poCuttingModel != null && poCuttingModel.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in poCuttingModel)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@data.PoCuttingId</td>
+                                    <td>@data.PurchaseOrderNumber</td>
+                                    <td>@data.UpdateBy</td>
+                                    <td>@data.UpdateDate</td>
+                                    <td style="width: 17%">
+                                        @*<a class="btn btn-primary purchaseReceiveItem" data-toggle="modal" href="#PurchaseReceiveItemModal" data-id="@data.PurchaseReceiveId" id="purchaseReceiveItem">
+                                            <i class="fa fa-eye"></i>
+                                            View Item
+                                        </a>
+                                        @Html.ActionLink("Show Report", "ShowReport", "PurchaseReceive", new { purchaseReceiveNumber = data.PurchaseReceiveNumber }, new { @class = "btn btn-danger", target = "_blank" })*@
+
+                                    </td>
+                                </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+
+        var table = $("#PoCuttingTable").dataTable();
+    });
+</script>

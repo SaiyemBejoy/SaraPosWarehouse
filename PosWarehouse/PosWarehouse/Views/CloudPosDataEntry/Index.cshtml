@@ -1,0 +1,88 @@
+﻿@model PosWarehouse.ViewModel.CloudPosDataEntryModel
+@{
+    ViewBag.Title = "Index";
+}
+<div class="page-head">
+    <div class="page-title">
+        <h1>Data Entry Form</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add CVS Data (Format [BARCODE, NAME, category_name, sub_category_name, ATTRIBUTE_NAME, SUB_PRODUCT_DESCRIPTION])
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("PostDataFile", "CloudPosDataEntry", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.File, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.File, new { @class = "form-control input-circle", @type = "file" })
+                                    @Html.ValidationMessageFor(c => c.File)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Upload</button>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    jQuery(document).ready(function () {
+
+        @{
+            if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+            {
+                <text>
+                    var message = '@ViewBag.message';
+
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "positionClass": "toast-top-center",
+                        "onclick": null,
+                        "showDuration": "1000",
+                        "hideDuration": "1000",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr.success(message);
+                </text>
+            }
+        }
+    });
+
+</script>
+
+

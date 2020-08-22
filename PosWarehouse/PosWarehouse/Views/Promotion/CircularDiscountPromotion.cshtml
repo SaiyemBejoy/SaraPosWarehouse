@@ -1,0 +1,930 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.CircularDiscountPromotionMain
+
+@{
+    ViewBag.Title = "CircularDiscountPromotion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var circularDiscountPromotionModel = ViewBag.DiscountPromotionList as List<CircularDiscountPromotionMain>;
+    var promotionshopList = ViewBag.ShopList as List<ShopViewModel>;
+
+}
+
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Circular Discount Promotion</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Circular Discount Promotion
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN Portlet PORTLET-->
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Circular Discount Promotion</span>
+
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.DiscountCircularName, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.DiscountCircularName, new { @class = "form-control input-circle", @id = "discountCircularName", @placeholder = "Circular Name ", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.DiscountCircularName)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.ValidFrom, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.ValidFrom, new { @class = "form-control datepicker input-circle fa fa-calendar", @id = "validFrom", @placeholder = "Valid From", autocomplete = "off", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.ValidFrom)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.ValidTo, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.ValidTo, new { @class = "form-control datepicker input-circle fa fa-calendar", @id = "validTo", @placeholder = "Valid To", autocomplete = "off", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.ValidTo)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+                                                    <a class="btn btn-success" data-toggle="modal" href="#shopModal">
+                                                        Select Shop
+                                                    </a>
+                                                    <input type="text"  class="form-control input-circle" id="selectedShopCount" style="background-color: darkorange" readonly="readonly" />
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END Portlet PORTLET-->
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Circular Details</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+
+                                    <div class="row">
+                                        @*<div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Category</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.CircularDiscountPromotionSub.CategoryId, new SelectList(ViewBag.CategoryList, "Value", "Text"), new { @class = "form-control input-circle", @placeholder = "Category Name", @id = "categoryId", @style = "max-width: 580px;" })
+                                                        @Html.ValidationMessageFor(c => c.CircularDiscountPromotionSub.CategoryId)
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Sub-Category</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.CircularDiscountPromotionSub.SubCategoryId, new SelectList(ViewBag.SubCategoryList, "Value", "Text"), new { @class = "form-control input-circle", @placeholder = "Sub Category Name", @id = "subcategoryId", @style = "max-width: 580px;" })
+                                                        @Html.ValidationMessageFor(c => c.CircularDiscountPromotionSub.SubCategoryId)
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>*@
+                                        @*this Section Hide for view,Database a Value 0 Save Hosse..
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Style</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        <select class="form-control input-circle" id="Style" name="Style" style="max-width: 600px">
+                                                            <option value="0">--Select Item(Static Data)--</option>
+                                                            <option value="1">HYUF-5</option>
+                                                            <option value="2">UGSH-7</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                       End*@
+                                        @*<div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Discount(%)<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-bell-o"></i>
+                                                        <input type="number" class="form-control input-circle" id="discount" placeholder="Discount(%)">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>*@
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Barcode:<span style="color: red">*</span></label>
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-barcode"></i>
+                                                        <input type="text" autocomplete="off" class="form-control input-circle" id="barcode" placeholder="Barcode">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button class="btn btn-success" id="searchBtn" type="submit"><i class="fa fa-search"></i> Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Description:<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-bell-o"></i>
+                                                        <input type="text" autocomplete="off" class="form-control input-circle" readonly="readonly" id="description">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Pruchase Price:<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-bell-o"></i>
+                                                        <input type="text" autocomplete="off" class="form-control input-circle" readonly="readonly" id="purchasePrice">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-6 control-label">Sale Price:<span style="color: red">*</span></label>
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        <input type="text" autocomplete="off" class="form-control input-circle" readonly="readonly" id="salePrice">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">New Price:<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        <input type="text" autocomplete="off" class="form-control input-circle" readonly="readonly" id="newPrice">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Discount(%):<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-neuter"></i>
+                                                        <input type="number" class="form-control input-circle" id="discountPercent">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">DiscountAmt:<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-neuter"></i>
+                                                        <input type="number" class="form-control input-circle" id="discountAmt">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+                                            <div class="col-md-6">
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <button class="btn btn-success" type="button" id="addtoGrid"><i class="fa fa-save"></i> Add to Grid</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Grid View</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>
+                                                                #
+                                                            </th>
+                                                            <th>
+                                                                Barcode
+                                                            </th>
+                                                            <th>
+                                                                Product Name
+                                                            </th>
+                                                            <th>
+                                                                Purchase Price
+                                                            </th>
+                                                            <th>
+                                                                Sale Price
+                                                            </th>
+                                                            <th>
+                                                                Discount(%)
+                                                            </th>
+                                                            <th>
+                                                                DiscountAmount
+                                                            </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBody"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+
+
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        @Html.HiddenFor(c => c.DiscountCircularId)
+
+
+                                        <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("CircularDiscountPromotion", "Promotion")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    @*}*@
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Circular Discount Promotion Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="CircularDiscountPromotionTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Circular Name</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th class="text-center" style="width: 0%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (circularDiscountPromotionModel != null && circularDiscountPromotionModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in circularDiscountPromotionModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.DiscountCircularName</td>
+                                        <td>@data.ValidFrom</td>
+                                        <td>@data.ValidTo</td>
+                                        <td class="text-center">
+                                            @*@Html.ActionLink(" Edit", "CircularDiscountPromotion", "Promotion", new { discountCircularId = data.DiscountCircularId, wareHouseId = data.WareHouseId, shopId = data.ShopId }, new { @class = "btn btn-primary fa fa-edit btn-xs", id = "edit" }) ||
+                                            @Html.ActionLink(" Delete", "DeleteCircularDiscountPromotion", "Promotion", new { discountCircularId = data.DiscountCircularId, wareHouseId = data.WareHouseId, shopId = data.ShopId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--For Shop Modal Section-->
+<div id="shopModal" class="modal fade" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h2 class="modal-title text-center">Shop List</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="scroller" style="height: 200px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="checkbox" class="checkAll"/> Select All
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="checkWarehouse" name="shopName" class="checkbox" /> Warehouse
+                        </div>
+                        @if (@Model.CircularDiscountPromotionShopList.Any())
+                        {
+                            foreach (var data in promotionshopList)
+                            {
+                                bool selected = false;
+                                foreach (var i in Model.CircularDiscountPromotionShopList)
+                                {
+                                    if (data.ShopId == i)
+                                    {
+                                        selected = true;
+                                        <div class="col-md-6">
+
+                                            <p>
+                                                <input type="checkbox" id="proshoplist" name="proshopName" class="checker" checked="checked" value="@data.ShopId"> @data.ShopName
+
+                                            </p>
+
+                                        </div>
+
+                                    }
+                                }
+                                if (!selected)
+                                {
+                                    <div class="col-md-6">
+
+                                        <p>
+                                            <input type="checkbox" id="proshoplist" name="proshopName" class="checker" value="@data.ShopId"> @data.ShopName
+
+                                        </p>
+
+                                    </div>
+                                }
+
+
+                            }
+                        }
+                        else
+                        {
+                            foreach (var data in promotionshopList)
+                            {
+                                <div class="col-md-6">
+
+                                    <p>
+                                        <input type="checkbox" id="proshoplist" name="proshopName" class="checker" value="@data.ShopId"> @data.ShopName
+
+                                    </p>
+
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    //When user click edit button
+    function editForm() {
+
+        var progridObjectArray = JSON.parse(localStorage.getItem('progridObjectArray'));
+        if (progridObjectArray == null) {
+            progridObjectArray = [];
+        }
+        @{
+                if (Model.CircularDiscountPromotionSubList != null)
+                {
+                    foreach (var data2 in Model.CircularDiscountPromotionSubList)
+                    {
+
+                        <text>
+
+                            var gridObject = {
+                                'categoryId': @data2.CategoryId,
+                                'categoryName': "@data2.CategoryName",
+                                'DiscountCircularSubId': @data2.DiscountCircularSubId,
+                                'subcategoryId': @data2.SubCategoryId,
+                                'subcategoryName': "@data2.SubCategoryName",
+                                'styleId': @data2.StyleId,
+                                'discount': @data2.Discount
+                            }
+
+                                progridObjectArray.push(gridObject);
+
+                        </text>
+
+                    }
+
+                }
+
+            }
+        localStorage.setItem('progridObjectArray', JSON.stringify(progridObjectArray));
+
+        loadGridFromLocalStroge();
+
+    }
+
+    function loadGridFromLocalStroge() {
+        var retrievedproGridObject = JSON.parse(localStorage.getItem('progridObjectArray'));
+
+        if (retrievedproGridObject != null) {
+            var tableQuantity = retrievedproGridObject.length;
+
+            $("#gridTableBody").html("");
+            for (var i = 0; i < tableQuantity; i++) {
+                $("#gridTableBody").append('<tr>' +
+                    '<td>' +
+                    parseInt(i + 1) +
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].barcode +
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].description +   
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].purchasePrice +
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].salePrice +
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].discountPercent +
+                    '</td>' +
+                    '<td>' +
+                    retrievedproGridObject[i].discountAmount +
+                    '</td>' +
+                    '<td><a href="javascript:;" data-barcode="' +
+                    retrievedproGridObject[i].barcode +
+                     '" class="btn btn-danger deleteItem">Remove</a></td>' +
+                    '</tr>');
+            }
+
+
+        }
+
+    }
+
+    //for fronttend Validation.. Ajax a submit kora hoise, sha jonno ai validation diwa hoise.
+    function gridTablevalidation() {
+
+        var categoryId = $("#categoryId").val();
+        if (categoryId == '') {
+            toastr.error("Category cann't be empty !!");
+
+            return false;
+        }
+
+        var subcategoryId = $("#subcategoryId").val();
+        if (subcategoryId == '') {
+            toastr.error("SUB-Category cann't be empty !!");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    function circularfromvalidation() {
+
+        var discountCircularName = $("#discountCircularName").val();
+        if (discountCircularName == '') {
+            toastr.error("Circular Name cann't be empty !!");
+            return false;
+        }
+        var validFrom = $("#validFrom").val();
+        if (validFrom == '') {
+            toastr.error("Valid from cann't be empty !!");
+            return false;
+        }
+        var validTo = $("#validTo").val();
+        if (validTo == '') {
+            toastr.error("Valid To cann't be empty !!");
+            return false;
+        }
+        return true;
+    }
+    //end For frontend validation
+
+    // for grid table save
+
+    function tableProGridSave() {
+
+        var tableProdata = JSON.parse(localStorage.getItem('progridObjectArray'));
+
+        if (circularfromvalidation()) {
+
+            if (tableProdata) {
+
+                var discountCircularName = $("#discountCircularName").val();
+                var validFrom = $("#validFrom").val();
+                var validTo = $("#validTo").val();
+                var discountCircularId = $("#DiscountCircularId").val();
+
+                var favorite = [];
+
+                $.each($("input[name='proshopName']:checked"),
+                    function() {
+
+                        favorite.push($(this).val());
+
+                    });
+                var proshoplist = favorite;
+
+                var dataObject = {
+                    'DiscountCircularId': discountCircularId,
+                    'DiscountCircularName': discountCircularName,
+                    'ValidFrom': validFrom,
+                    'ValidTo': validTo,
+                    'CircularDiscountPromotionShopList': proshoplist,
+                    'CircularDiscountPromotionItemList': tableProdata
+                }
+                //this (if) condition just for validation. shop checkbox validation
+                if (proshoplist != "") {
+                    var dataList = JSON.stringify({ 'objCircularDiscountPromotionMainModel': dataObject });
+
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("SaveCircularDiscountPromotion", "Promotion")',
+                    data: dataList,
+
+                success: function(data) {
+
+                    if (data.isRedirect) {
+
+                        toastr.info("Save Successfully.");
+                        localStorage.removeItem("progridObjectArray");
+
+                        discountPromotion();
+
+                        window.setTimeout(function() {
+                                window.location = data.redirectUrl;
+                            },
+                            2000);
+                    }
+                        }
+                    
+                    });
+                } else {
+                    toastr.info("Please Select at List one shop");
+                }
+
+        } else {
+            toastr.info("Grid table have no data !!");
+
+            }
+        }
+
+    }
+
+    //For Circular Discount Promotion
+    function discountPromotion() {
+        $("#discountCircularName").val('');
+        $("#validFrom").val('');
+        $("#validTo").val('');
+    }
+
+    jQuery(document).ready(function () {
+        //This for Select All checkbox
+        $(".checkAll").change(function () {
+            var checked = $(this).is(":checked");
+            var i = 0;
+            //
+            if (checked) {
+                $(".checker").prop("checked", true);
+                $(".checker").parent("span").addClass("checked");
+                $(".checkbox").prop("checked", true);
+                $(".checkbox").parent("span").addClass("checked");
+                //$("#countShop").val(i);
+            } else {
+                $(".checker").prop("checked", false);
+                $(".checker").parent("span").removeClass("checked");
+                $(".checkbox").prop("checked", false);
+                $(".checkbox").parent("span").removeClass("checked");
+            }
+
+           
+        });
+
+        var $checkboxes = $('input[type="checkbox"]');
+        $checkboxes.change(function () {
+            var sdfs = $(this).val();
+            var countCheckedCheckboxes = $checkboxes.filter(':checked').length; 
+            $('#selectedShopCount').val(countCheckedCheckboxes);
+        });
+       
+        //end
+       
+        //When user click edit button
+        var editGridCount = @Model.CircularDiscountPromotionSubList.Count();
+
+        if (editGridCount > 0 && editGridCount != null) {
+            localStorage.removeItem("progridObjectArray");
+            editForm();
+        }
+        //When user click edit button  END
+        var table = $("#CircularDiscountPromotionTable").dataTable();
+
+
+        loadGridFromLocalStroge();
+
+        @{
+            if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+            {
+                <text>
+                    var message = '@ViewBag.message';
+
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "positionClass": "toast-top-center",
+                        "onclick": null,
+                        "showDuration": "1000",
+                        "hideDuration": "1000",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr.success(message);
+                </text>
+            }
+        }
+
+
+        $("#addtoGrid").click(function () {
+
+            if (gridTablevalidation()) {
+
+            var progridObjectArray = JSON.parse(localStorage.getItem('progridObjectArray'));
+
+            //var categoryId = $("#categoryId").val();
+            //var categoryName = $("#categoryId option:selected").text();
+            //var subcategoryId = $("#subcategoryId").val();
+            //var subcategoryName = $("#subcategoryId option:selected").text();
+                var barcode = $("#barcode").val();
+                var description = $("#description").val();
+                var purchasePrice = $("#purchasePrice").val();
+                var salePrice = $("#salePrice").val();
+                var discountPercent = $("#discountPercent").val();
+                var discountAmt = $("#discountAmt").val();
+
+                if (discountAmt === '') {
+                toastr.error("Discount  Can't be Empty !");
+            } else {
+                var gridObject = {
+                    'barcode': barcode,
+                    'description': description,
+                    'purchasePrice': purchasePrice,
+                    'salePrice': salePrice,
+                    'discountPercent': discountPercent,
+                    'discountAmount': discountAmt
+                }
+
+                if (progridObjectArray == null) {
+                    progridObjectArray = [];
+                } else {
+                    for (var i = 0; i < progridObjectArray.length; i++) {
+                        if (progridObjectArray[i].barcode === barcode &&
+                            progridObjectArray[i].discountPercent === discountPercent &&
+                            progridObjectArray[i].discountAmount === discountAmt) {
+                            progridObjectArray.splice(i, 1);
+                        }
+                    }
+                }
+
+                progridObjectArray.push(gridObject);
+
+
+                // Put the object into storage
+                localStorage.setItem('progridObjectArray', JSON.stringify(progridObjectArray));
+
+                //alert("One Item Add to Grid Table");
+                toastr.success("One Item Add to Grid Table");
+                loadGridFromLocalStroge();
+                clearItem();
+
+              }
+           }
+        });
+
+        // After Add A New Order In The List, If You Want, You Can Remove It.
+        $("#gridTable").on('click',
+            '.deleteItem',
+            function() {
+                var barcode = $(this).data("barcode");
+                var progridObjectArray = JSON.parse(localStorage.getItem('progridObjectArray'));
+
+                for (var j = 0; j < progridObjectArray.length; j++) {
+
+                    if (progridObjectArray[j].barcode === barcode) {
+                        localStorage.removeItem("progridObjectArray");
+                        progridObjectArray.splice(j, 1);
+                        localStorage.setItem('progridObjectArray', JSON.stringify(progridObjectArray));
+                        loadGridFromLocalStroge();
+                        toastr.success("One Item Remove From Grid Table");
+                    }
+                }
+            });
+
+        //for Clear Button
+        $("#clear").click(function() {
+            localStorage.removeItem("progridObjectArray");
+        });
+
+        //end
+        //For from clear
+        function clearItem() {
+            $("#barcode").val('');
+            $("#description").val('');
+            $("#purchasePrice").val('');
+            $("#salePrice").val('');
+            $("#discountPercent").val('');
+            $("#discountAmt").val('');
+        }
+
+        //search Button er jonno
+        $("#searchBtn").click(function () {
+            var barcode = $("#barcode").val();
+            var searchData = JSON.stringify({ 'barcode': barcode });
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("SearchProductItemByBarcode", "Promotion")',
+                data: searchData,
+
+                success: function (data) {
+                    var itemName = data.ProductName;
+                    var purchasePrice = data.PurchasePrice;
+                    var salePrice = data.SalePrice;
+
+                    $("#description").val(itemName);
+                    $("#purchasePrice").val(purchasePrice);
+                    $("#salePrice").val(salePrice);
+                }
+
+
+            });
+        });
+
+        $('#discountPercent').on('keyup', function () {
+            var salePrice = $("#salePrice").val();
+            var discountPercent = $("#discountPercent").val();
+            var discountPrice = (parseFloat(salePrice) * parseFloat(discountPercent)) / 100;     
+            $("#newPrice").val(Math.round(salePrice-discountPrice)); 
+            $("#discountAmt").val(Math.round(discountPrice));
+        });
+        $('#discountAmt').on('keyup', function () {
+            var salePrice = $("#salePrice").val();
+            var discountAmt = $("#discountAmt").val();
+            var discountPercent = (parseFloat(discountAmt) / parseFloat(salePrice)) * 100;      
+            $("#newPrice").val(Math.round(salePrice - discountAmt)); 
+            $("#discountPercent").val(Math.round(discountPercent));
+        });
+        //For All Data save
+
+        $("#save").click(function(e) {
+
+            tableProGridSave();
+
+
+        });
+
+    });
+
+</script>

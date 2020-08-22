@@ -1,0 +1,153 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.AttributeModel
+@{
+    ViewBag.Title = "Attribute";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var attributeModel = ViewBag.AttributeList as List<AttributeModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Attribute</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Attribute
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateAttribute", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br/>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.AttributeName, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.AttributeName, new {@class = "form-control input-circle", @placeholder = "Attribute Name", @style = "max-width: 580px;"})
+                                    @Html.ValidationMessageFor(c => c.AttributeName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DisplayOrder, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.DisplayOrder, new {@class = "form-control input-circle", @placeholder = "Display Order", @type="number", @style = "max-width: 580px;"})
+                                    @Html.ValidationMessageFor(c => c.DisplayOrder)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.AttributeId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("Attribute", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Attribute Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="attributeTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Attribute Name</th>
+                                <th>Display Order</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (attributeModel != null && attributeModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in attributeModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.AttributeName</td>
+                                        <td>@data.DisplayOrder</td>
+                                        <td class="text-center">
+                                            @*@Html.ActionLink(" Edit", "Attribute", "Setup", new { attributeId = data.AttributeId }, new { @class = "btn btn-primary fa fa-edit " }) ||*@
+                                            @*@Html.ActionLink(" Delete", "DeleteAttribute", "Setup", new { attributeId = data.AttributeId }, new { @class = "btn btn-danger fa fa-trash-o " })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+
+        var table = $("#attributeTable").dataTable();
+
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>

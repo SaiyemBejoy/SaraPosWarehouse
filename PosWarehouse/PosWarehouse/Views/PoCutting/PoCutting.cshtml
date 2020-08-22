@@ -1,0 +1,418 @@
+﻿@model PosWarehouse.ViewModel.PoCuttingModel
+@{
+    ViewBag.Title = "PoCutting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>PO Cutting
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> PURCHASE ORDER Details</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">PO Number<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        @Html.DropDownListFor(c => c.PurchaseOrderNumber, new SelectList(ViewBag.PurchaseOrderList, "Value", "Text", Model.PurchaseOrderNumber), new { @class = "form-control input-circle select2", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Order Date<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.OrderDate, new { @class = "form-control  input-circle fa fa-calendar", autocomplete = "off", @readonly = "readonly", @style = "max-width: 800px;"})
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Delivery Date<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.DeliveryDate, new { @class = "form-control  input-circle fa fa-calendar", autocomplete = "off", @readonly = "readonly", @style = "max-width: 600px;" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Shop Display Date<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.DisplayDate, new { @class = "form-control  input-circle fa fa-calendar", autocomplete = "off", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Vendor<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.VendorName, new { @class = "form-control input-circle", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Delivery For<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.DeliveryShopName, new { @class = "form-control input-circle", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Season<span style="color: red">*</span></label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.SeasonName, new { @class = "form-control input-circle", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Product View</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="cuttingGridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    BarCode
+                                                                </th>
+                                                                <th>
+                                                                    Name
+                                                                </th>
+                                                                <th>
+                                                                    Order Qty
+                                                                </th>
+                                                                <th>
+                                                                    Cutting Qty
+                                                                </th>   
+                                                                <th>
+                                                                    Purchase Price
+                                                                </th>
+                                                                <th>
+                                                                    Sale Price
+                                                                </th>
+                                                                                                                           
+                                                                <th>
+                                                                    VAT
+                                                                </th>
+                                                               
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="cuttingItemListTableBody"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-body">
+
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-bordered table-hover" id="CuttingFabricTable">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    Fabric Type
+                                                                </th>
+                                                                <th>
+                                                                    Fabric Code
+                                                                </th>
+                                                                <th>
+                                                                    Consumption
+                                                                </th>
+                                                                <th>
+                                                                    Fabric Qty
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="CuttingFabricTableBody"></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END GENERAL PORTLET-->
+                                <div class="form-group">
+                                    <div class="col-md-3 text-right">
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <button class="btn btn-success" id="save"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" id="clear" href="@Url.Action("PurchaseOrderList", "PurchaseOrder")"><i class="fa fa-cut"></i> Clear</a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        //for select2 dropdownlist
+        $('.select2').select2({
+            allowClear: true
+        });
+
+        //corsor focus change korar jonno
+        $(document).on('keydown', '.cuttingQuantity', function (e) {
+            if (e.keyCode === 13) //if its a enter key
+            {
+                var tabindex = $(this).attr('tabindex');
+                tabindex++;
+                $('[tabindex=' + tabindex + ']').focus();
+            }
+        });
+        //End
+
+        $("#PurchaseOrderNumber").change(function () {
+            var purchaseOrderNumber = $("#PurchaseOrderNumber option:selected").val();
+            if (purchaseOrderNumber > 0 && purchaseOrderNumber != null) {
+                var searchData ={ 'purchaseOrderNumber': purchaseOrderNumber };
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("SearchProductByOrderNumber", "PoCutting")',
+                    data: searchData,
+                    beforeSend: function() {
+                        $('#preLoader').show();
+                    },
+                    success: function(data) {
+                        $("#OrderDate").val(data.listData[0].OrderDate);
+                        $("#DeliveryDate").val(data.listData[0].DeliveryDate);
+                        $("#DisplayDate").val(data.listData[0].DisplayDate);
+                        $("#VendorName").val(data.listData[0].VendorName);
+                        $("#DeliveryShopName").val(data.listData[0].DeliveryShopName);
+                        $("#SeasonName").val(data.listData[0].SeasonName);
+                        loadGridTable(data.listData);
+                        loadGridFabricTable(data.fabricData);
+                        $('#preLoader').hide();
+
+                    }
+                });
+            } else {
+                $("#cuttingItemListTableBody").html("");
+            }
+
+        });
+
+        $("#save").click(function(e) {
+            AllDataSave();
+        });
+
+
+    });
+
+    function validation() {
+        var checker = true;
+        $.each($("#cuttingItemListTableBody tr"), function () {
+            var cuttingQuantity = $(this).find('.cuttingQuantity').val();
+            if (cuttingQuantity === '') {
+                alert("Cutting Qty Must be Required !.");
+                checker = false;
+                return false;
+            }
+        });
+        return checker;
+    }
+
+    function loadGridTable(data) {
+        var tableQuantity = data.length;
+        $("#cuttingItemListTableBody").html("");
+        for (var i = 0; i < tableQuantity; i++) {
+            $("#cuttingItemListTableBody").append('<tr>' +
+                '<td style="display:none;">' +
+                data[i].ItemId +
+                '</td>' +
+                '<td style="display:none;">' +
+                data[i].ProductId +
+                '</td>' +
+                '<td>' +
+                parseInt(i + 1) +
+                '</td>' +
+                '<td>' +
+                data[i].Barcode +
+                '</td>' +
+                '<td style="width: 30%">' +
+                data[i].ItemName +
+                '</td>' +
+                '<td>' +
+                data[i].Quantity +
+                '</td>' +
+                '<td style="width: 8%">' +
+                '<input type="number" class="form-control input-circle cuttingQuantity" id="cuttingQuantity" min = 0 placeholder="Qty" tabindex="' +
+                (i + 1) +
+                '">' +
+                '</td>' +
+                '<td style="width: 8%">' +
+                data[i].PurchasePrice +
+                '</td>' +
+                '<td style="width: 8%">' +
+                data[i].SalePrice +
+                '</td>' +
+                '<td>' +
+                data[i].VatPercent +
+                '</td>' +
+                //'<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                '</tr>'
+            );
+            $('[tabindex=' + 1 + ']').focus();
+            scrollStopNumberField();
+            //totalItemCount();
+            //compute();
+        }
+    }
+
+    function loadGridFabricTable(data) {
+        var tableQuantity = data.length;
+        $("#CuttingFabricTableBody").html("");
+        for (var i = 0; i < tableQuantity; i++) {
+            $("#CuttingFabricTableBody").append('<tr>' +
+                '<td>' +
+                parseInt(i + 1) +
+                '</td>' +
+                '<td>' +
+                data[i].FabricType +
+                '</td>' +
+                '<td>' +
+                data[i].FabricCode +
+                '</td>' +
+                '<td>' +
+                data[i].Consumption +
+                '</td>' +
+                '<td>' +
+                data[i].FabricQuantity +
+                '</td>' +
+                '</tr>'
+            );
+        }
+    }
+
+    function scrollStopNumberField() {
+        $('input[type=number]').on('mousewheel',
+            function(e) {
+                $(e.target).blur();
+            });
+    }
+
+    function AllDataSave() {
+            var purchaseOrderNumber = $("#PurchaseOrderNumber option:selected").val();
+            var allPoCuttingItem = [];
+            allPoCuttingItem.length = 0;
+            $.each($("#cuttingItemListTableBody tr"),
+                function() {
+                    allPoCuttingItem.push({
+                        ItemId: $(this).find('td:eq(0)').text(),
+                        ProductId: $(this).find('td:eq(1)').text(),
+                        Barcode: $(this).find('td:eq(3)').text(),
+                        PoQuantity: $(this).find('td:eq(5)').text(),
+                        CuttingQuantity: $(this).find('.cuttingQuantity').val()
+                    });
+                });
+
+            var dataObject = {
+                'PurchaseOrderNumber': purchaseOrderNumber,
+                'PoCuttingItems': allPoCuttingItem
+            }
+            var dataList = JSON.stringify({ objPoCuttingModel: dataObject });
+        if (allPoCuttingItem.length) {
+            if (validation()) {
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("SavePoCutting", "PoCutting")',
+                data: dataList,
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function (data) {
+                    if (data.isRedirect) {
+                        window.setTimeout(function() {
+                            window.location = data.redirectUrl;
+                        },1000);
+
+                        toastr.success("Save Successfully.");
+                    }
+                    //if (data.deliveryNumber !== null) {
+                    //    window.open('/StoreDelivery/ShowReport?storeDeliveryNo=' + data.deliveryNumber, '_blank');
+                    //}
+                    $('#preLoader').hide();
+                }
+                });
+            }
+
+        } else {
+            toastr.error("No Data found !! Select data..");
+            }
+        
+    }
+        
+    
+
+</script>

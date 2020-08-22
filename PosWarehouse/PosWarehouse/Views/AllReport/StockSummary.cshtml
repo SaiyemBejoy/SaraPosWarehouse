@@ -1,0 +1,369 @@
+﻿@model PosWarehouse.ViewModel.StockSummaryReport
+@{
+    ViewBag.Title = "StockSummary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Stock Summary
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+              
+            @*@using (Html.BeginForm("GetUpdateData", "AllReport", FormMethod.Post))
+            {
+                <button class="btn btn-danger" type="submit"><i class="fa fa-save"></i> Get Update Data</button>
+            }*@
+                </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("StockSummary", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div class="form-group">
+                                    <div class="radio-list">
+                                        @Html.RadioButtonFor(model => model.ReportType, "1", new { @checked = true }) PDF
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-2"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label"></label>
+                                        <div class="col-md-11">
+                                            <div class="radio-list">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.RadioForZero, "WZ", new { @checked = true }) <b>With Zero</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label"></label>
+                                        <div class="col-md-11">
+                                            <div class="radio-list">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.RadioForZero, "WOZ") <b>WithOut Zero</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="form-group" id="ShopIdHide">
+                                        @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-text-width"></i>
+                                                @{Html.EnableClientValidation(false);}
+                                                @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="form-group" id="categoryHide">
+                                        @Html.LabelFor(c => c.CategoryId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-text-width"></i>
+                                                @Html.DropDownListFor(c => c.CategoryId, new SelectList(ViewBag.CategoryList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="form-group" id="subCategoryHide">
+                                        @Html.LabelFor(c => c.SubCategoryId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(m => m.SubCategoryId, new SelectList(" "), new { @class = "form-control input-circle", @disabled = true })
+                                                @*@Html.DropDownListFor(m => m.SubCategoryId, new SelectList(ViewBag.SubCategoryList, "Value", "Text"), new { @class = "form-control input-circle"})*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="styleDropdownHide">
+                                    @Html.LabelFor(c => c.ProductId, "StyleName", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            @Html.DropDownListFor(c => c.ProductId, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="styleHide">
+                                    @Html.LabelFor(c => c.StyleName, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.StyleName, new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="form-group" id="barcodeHide">
+                                    @Html.LabelFor(c => c.Barcode, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.Barcode, new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-6">    
+                               
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-1 control-label"></label>
+                                            <div class="col-md-11">
+                                                <div class="radio-list">
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SR", new { @checked = true }) <b>Stock Report Details</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "CR", new { id = "category" }) <b>Category Wise Stock Report</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SCR", new { id = "subCategory" }) <b>Sub-Category Wise Stock Report</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "CSSS") <b>Category/SubCategory/Style Wise Summary</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SCWS") <b>All Shop SubCategory Wise Summary</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SWR", new { id = "styleWise" }) <b>Style Wise Stock Report</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "BR") <b>Barcode Wise Stock Report</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "WHS") <b>Style Wise Warehouse Stock Summary</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "WHD") <b>Style Wise Warehouse Stock Details</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SWH") <b>Style History</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SLS") <b>Shop Low Stock</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SWLS") <b>Style Wise Shop Low Stock</b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                <button class="btn btn-success" type="submit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                @*<button class="btn btn-info" id="processData"><i class="fa fa-download"></i> Get Update Data</button>*@    
+                                <a class="btn btn-primary" id="processData" ><i class="fa fa-download"></i> Get Update Data</a>
+                                <a class="btn btn-danger" href="@Url.Action("StockSummary", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({
+            allowClear: true
+        });
+        $('#categoryHide').hide();
+        $('#subCategoryHide').hide();
+        $('#barcodeHide').hide();
+        $('#styleHide').hide();
+        $('#styleDropdownHide').hide();
+        
+
+        $(':radio[name=RadioFor]').change(function() {
+            var value = $(this).val();
+            if (value === 'CR') {
+                $("#SubCategoryId").val(0);
+                $('#categoryHide').show();
+                $('#subCategoryHide').hide();
+                $('#barcodeHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'SCR') {
+                $("#CategoryId").val(0);
+                $('#subCategoryHide').show();
+                $('#categoryHide').hide();
+                $('#barcodeHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'BR') {
+                $("#CategoryId").val(0);
+                $("#SubCategoryId").val(0);
+                $('#barcodeHide').show();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'SWR') {
+                $("#CategoryId").val(0);
+                $("#SubCategoryId").val(0);
+                $('#barcodeHide').hide();
+                $('#styleHide').show();
+                $('#styleDropdownHide').hide();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'SR') {
+                $('#barcodeHide').hide();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'CSSS') {
+                $("#SubCategoryId").show();
+                $('#categoryHide').show();
+                $('#subCategoryHide').show();
+                $('#barcodeHide').show();
+                $('#styleHide').show();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            } else if (value === 'SCWS') {
+                $("#SubCategoryId").show();
+                $('#categoryHide').show();
+                $('#subCategoryHide').show();
+                $('#barcodeHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').hide();
+            } else if (value === 'WHS') {
+                $("#SubCategoryId").show();
+                $('#categoryHide').show();
+                $('#subCategoryHide').show();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').show();
+                $('#ShopIdHide').hide();
+            } else if (value === 'WHD') {
+                $("#SubCategoryId").show();
+                $('#categoryHide').show();
+                $('#subCategoryHide').show();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').show();
+                $('#ShopIdHide').hide();
+            } else if (value === 'SWH') {
+                $("#SubCategoryId").show();
+                $('#categoryHide').show();
+                $('#subCategoryHide').show();
+                $('#styleHide').show();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').hide();
+            }
+            else if (value === 'SLS') {
+                $("#SubCategoryId").hide();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').show();
+            }
+            else if (value === 'SWLS') {
+                $("#SubCategoryId").hide();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#styleHide').hide();
+                $('#styleDropdownHide').show();
+                $('#ShopIdHide').show();
+            }
+        });
+
+        $("#CategoryId").change(function() {
+            $("#SubCategoryId").empty();
+            var categoryName = $("#CategoryId").val();
+
+            if (categoryName !== "") {
+                $("#SubCategoryId").prop("disabled", false);
+                $.ajax({
+                    type: 'POST',
+                    url: '/AllReport/GetSubCategoryByCategoryName/',
+                    dataType: 'json',
+                    data: { categoryName: categoryName },
+                    success: function(data) {
+                        $.each(data, function (i, subCategoryId) {
+                            $("#SubCategoryId").append('<option value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
+                        });
+                    },
+                    error: function(ex) {
+                        alert('Failed to retrieve SubCategory List.' + ex);
+                        $("#SubCategoryId").prop("disabled", true);
+                    }
+
+                });
+            }
+            else {
+                $("#SubCategoryId").prop("disabled", true);
+            }
+                
+        });
+        $('#processData').on('click', function (e) {
+
+        //$("#processData").click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/AllReport/GetUpdateData/',
+                dataType: 'json',     
+                beforeSend: function() {
+                    $('#preLoader').show();
+                },
+                success: function (data) {
+                    $('#preLoader').hide();
+                    alert('Process Success!.');
+
+                    return false;
+                }
+            });
+        });
+    });
+
+
+</script>

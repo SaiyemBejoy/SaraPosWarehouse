@@ -1,0 +1,328 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.GiftVoucherGenerateModel
+@{
+    ViewBag.Title = "GiftVoucherGenerate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var giftVoucherGenerateModel = ViewBag.GiftVoucherGenerateModelList as List<GiftVoucherGenerateModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Gift Voucher</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Gift Voucher Generate
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateGiftVoucherGenerate", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        @*<div class="form-group">
+                                @Html.LabelFor(c => c.CardTypeId, new {@class = "col-md-3 control-label"})
+                                <div class="col-md-6">
+                                    <div class="input-icon">
+                                        <i class="fa fa-text-width"></i>
+                                        @Html.DropDownListFor(c => c.CardTypeId, new SelectList(ViewBag.CardTypeList, "Value", "Text", Model.CardTypeId), new {@class = "form-control input-circle", @placeholder = "Card Type Name", @style = "max-width: 580px;"})
+                                        @Html.ValidationMessageFor(c => c.CardTypeId)
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>*@
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.GiftVoucherValue, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.GiftVoucherValue, new { @class = "form-control input-circle", @id = "giftvoucherValue", @placeholder = "value", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.GiftVoucherValue)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.NoOfCard, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.NoOfCard, new { @class = "form-control input-circle", @id = "noOfcardText", @placeholder = "No Of Card", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.NoOfCard)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.StartFrom, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.StartFrom, new { @class = "form-control input-circle", @id = "startfromtext", @placeholder = "Start from", @readonly = "readonly",@style = "width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.StartFrom)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.EndFrom, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.EndFrom, new { @class = "form-control input-circle", @id = "endfromtext", @placeholder = "End From", @readonly = "readonly", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(c => c.EndFrom)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.GiftVoucherId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Generate</button>
+                                <a class="btn btn-danger" href="@Url.Action("GiftVoucherGenerate", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Gift Voucher  Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="giftVoucherTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Gift Voucher Value</th>
+                                <th>No Of Card</th>
+                                <th>Start From</th>
+                                <th>End From</th>
+
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (giftVoucherGenerateModel != null && giftVoucherGenerateModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in giftVoucherGenerateModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.GiftVoucherValue</td>
+                                        <td>@data.NoOfCard</td>
+                                        <td>@data.StartFrom</td>
+                                        <td>@data.EndFrom</td>
+
+                                        <td class="text-center">
+                                            <a class="btn btn-primary giftVoucherItem" data-toggle="modal" href="#giftVoucherItemModal" data-id="@data.GiftVoucherId" id="giftVoucherItem">
+                                                <i class="fa fa-eye"></i>
+                                                View Item
+                                            </a>
+                                            <a class="btn btn-success giftVoucherPrintItem" data-toggle="modal" href="#giftVoucherPrintItemModal" data-id="@data.GiftVoucherId" id="giftVoucherPrintItem">
+                                                <i class="fa fa-print"></i>
+                                                Print
+                                            </a>
+                                            @*@Html.ActionLink(" Edit", "GiftVoucherGenerate", "Setup", new { cardTypeId = data.CardTypeId, giftVoucherId = data.GiftVoucherId }, new { @class = "btn btn-primary fa fa-edit" }) ||*@
+                                            @*@Html.ActionLink(" Delete", "DeleteGiftvoucherGenerate", "Setup", new { cardTypeId = data.CardTypeId, giftVoucherId = data.GiftVoucherId }, new { @class = "btn btn-danger fa fa-trash-o" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-modal-lg" id="giftVoucherItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">GiftVoucher Item</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> GiftVoucher Item</span>
+
+                        </div>
+
+                    </div>
+                    <div class="portlet-body scroller" style="height: 350px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="GiftVoucherItemTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            GiftVoucher Code
+                                        </th>
+                                        <th>
+                                            value
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="GiftVoucherItemTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Total Item</strong></label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control  input-circle" id="totalGenerateItem" style="width: 150px; background-color: yellow" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-modal-lg" id="giftVoucherPrintItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">GiftVoucher Item</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> GiftVoucher Print Item</span>
+
+                        </div>
+
+                    </div>
+                    <div class="portlet-body scroller" style="height: 350px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="GiftVoucherPrintItemTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            GiftVoucher Code
+                                        </th>
+                                        <th>
+                                            value
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="GiftVoucherPrintItemTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-success" id="printGiftVoucher"> <i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/ProjectScripts/GiftVoucherGenerate.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+        var table = $("#giftVoucherTable").dataTable();
+        @{
+            if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+            {
+                <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "positionClass": "toast-top-center",
+            "onclick": null,
+            "showDuration": "1000",
+            "hideDuration": "1000",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+                </text>
+            }
+        }
+        });
+    </script>
+
+}

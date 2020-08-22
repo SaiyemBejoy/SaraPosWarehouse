@@ -1,0 +1,400 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.CustomerModel
+
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var customerModel = ViewBag.customerList as List<CustomerModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Customer</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Customer
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateCustomer", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                    <div class="row">
+                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="portlet light bordered">
+                            <div class="portlet-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.CustomerCode, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.CustomerCode, new { @class = "form-control input-circle", @placeholder = "Customer Code", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.CustomerCode)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.CustomerTypeId, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(c => c.CustomerTypeId, new SelectList(ViewBag.customerTypeList, "Value", "Text", Model.CustomerTypeId), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.CustomerTypeId)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.CustomerFirstName, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.CustomerFirstName, new { @class = "form-control input-circle", @placeholder = "frist Name", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.CustomerFirstName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.CustomerLastName, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.CustomerLastName, new { @class = "form-control input-circle", @placeholder = "Last Name", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.CustomerLastName)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.DateOfBirth, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.DateOfBirth, new { @class = "form-control datepicker input-circle", @placeholder = "Date Of Birth", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.DateOfBirth)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.DateOfEnrollment, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.DateOfEnrollment, new { @class = "form-control datepicker input-circle", @placeholder = "Date Of Enrollment", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.DateOfEnrollment)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="portlet light bordered">                              
+                            <div class="portlet-body">
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.DateOfExpire, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.DateOfExpire, new { @class = "form-control datepicker input-circle", @placeholder = "Date Of Expire", autocomplete = "off", @readonly = "readonly", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.DateOfExpire)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ContactNo, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.ContactNo, new { @class = "form-control input-circle", @placeholder = "Contact No", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.ContactNo)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.Email, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.Email, new { @class = "form-control input-circle", @placeholder = "Email", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.Email)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.Address, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextAreaFor(c => c.Address, new { @class = "form-control input-circle", rows = "2", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.Address)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.City, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.City, new { @class = "form-control input-circle", @placeholder = "City", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.City)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.PostalCode, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.PostalCode, new { @class = "form-control input-circle", @placeholder = "Postal Code", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.PostalCode)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="portlet light bordered">
+                                
+                            <div class="portlet-body">
+
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.CountryId, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(c => c.CountryId, new SelectList(ViewBag.countryList, "Value", "Text", Model.CountryId), new { @class = "form-control input-circle", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.CountryId)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.DiscountPercent, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.TextBoxFor(c => c.DiscountPercent, new { @class = "form-control input-circle", @placeholder = "Discount Percent", @style = "max-width: 580px;" })
+                                            @Html.ValidationMessageFor(c => c.DiscountPercent)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.WholeSaleCustomerStatus, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="checkbox-list" style="margin-top: 8px;">
+
+                                            @Html.CheckBoxFor(c => c.WholeSaleCustomerStatus, new { @class = "checker" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.StoreCustomerStatus, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="checkbox-list" style="margin-top: 8px;">
+
+                                            @Html.CheckBoxFor(c => c.StoreCustomerStatus, new { @class = "checker" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(c => c.ActiveStatus, new { @class = "col-md-4 control-label" })
+                                    <div class="col-md-8">
+                                        <div class="checkbox-list" style="margin-top: 8px;">
+
+                                            @Html.CheckBoxFor(c => c.ActiveStatus, new { @class = "checker" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                               <br/>
+                               <br/>
+                               <br/>
+                               <br/>
+                            </div>
+                        </div>
+                    </div>   
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6 text-left">
+                                        @Html.HiddenFor(c => c.CustomerId)
+                                        <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                        <a class="btn btn-danger" href="@Url.Action("Customer", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                                       
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Customer List
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                    <input type="button" class="btn btn-primary fa fa-edit btn-xs" value="All Pending Update"/>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="customerTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Customer Code</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>City</th>
+                                <th>Postal Code</th>
+                                <th>Whole sale Customer</th>
+                                <th>Store Customer</th>                         
+                                <th>Active Status</th>
+                                <th>Discount</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (customerModel != null && customerModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in customerModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.CustomerCode</td>
+                                        <td>@data.CustomerFirstName</td>
+                                        <td>@data.CustomerLastName</td>
+                                        <td>@data.ContactNo</td>
+                                        <td>@data.Email</td>
+                                        <td>@data.City</td>
+                                        <td>@data.PostalCode</td>
+                                        @if (data.WholeSaleCustomer == "Y")
+                                        {
+                                            <td>
+                                                <i class="fa fa-check-circle" style="color: green;"> YES</i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-times-circle" style="color: red;"></i> NO</td>
+                                        }
+                                        @if (data.StoreCustomer == "Y")
+                                        {
+                                            <td>
+                                                <i class="fa fa-check-circle" style="color: green;"> YES</i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-times-circle" style="color: red;"></i> NO</td>
+                                        }
+                                        @if (data.Active_YN == "Y")
+                                        {
+                                            <td>
+                                                <i class="fa fa-check-circle" style="color: green;"> Active</i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-times-circle" style="color: red;"></i> InActive</td>
+                                        }
+                                        <td>@data.DiscountPercent</td>
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "Customer", "Setup", new { customerId = data.CustomerId, customerTypeId = data.CustomerTypeId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) |
+                                            @*@Html.ActionLink(" Delete", "DeleteCustomer", "Setup", new { customerId = data.CustomerId, customerTypeId = data.CustomerTypeId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+        var table = $("#customerTable").dataTable();
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+        }
+    });
+
+</script>
+

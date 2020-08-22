@@ -1,0 +1,172 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.SubCategoryModel
+@{
+    ViewBag.Title = "Sub Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var subCategoryModel = ViewBag.SubCategoryList as List<SubCategoryModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Sub Category</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Sub Category
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateSubCategory", "Setup", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br/>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.CategoryId, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.DropDownListFor(c => c.CategoryId, new SelectList(ViewBag.CategoryList, "Value", "Text", Model.CategoryId), new {@class = "form-control input-circle", @placeholder = "Category Name", @style = "max-width: 580px;"})
+                                    @Html.ValidationMessageFor(c => c.CategoryId)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.SubCategoryName, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(c => c.SubCategoryName, new {@class = "form-control input-circle", @placeholder = "Sub Category Name", @style = "max-width: 580px;"})
+                                    @Html.ValidationMessageFor(c => c.SubCategoryName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.ActiveStatus, new {@class = "col-md-3 control-label"})
+                            <div class="col-md-6">
+                                <div class="checkbox-list" style="margin-top: 8px;">
+
+                                    @Html.CheckBoxFor(c => c.ActiveStatus, new {@class = "checker"})
+
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(c => c.SubCategoryId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                <a class="btn btn-danger" href="@Url.Action("SubCategory", "Setup")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sub Category Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="subCategoryTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Category Name</th>
+                                <th>Sub Category Name</th>
+                                <th>Active Status</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (subCategoryModel != null && subCategoryModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in subCategoryModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.CategoryName</td>
+                                        <td>@data.SubCategoryName</td>
+                                        @if (data.Active_YN == "Y")
+                                        {
+                                            <td>
+                                                <i class="fa fa-check-circle" style="color: green;"> Active</i>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-times-circle" style="color: red;"></i> InActive</td>
+                                        }
+                                        <td class="text-center">
+                                            @Html.ActionLink(" Edit", "SubCategory", "Setup", new { categoryId = data.CategoryId, subCategoryId = data.SubCategoryId }, new { @class = "btn btn-primary fa fa-edit" }) ||
+                                            @*@Html.ActionLink(" Delete", "DeleteSubCategory", "Setup", new { categoryId = data.CategoryId, subCategoryId = data.SubCategoryId }, new { @class = "btn btn-danger fa fa-trash-o" })*@
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+        var table = $("#subCategoryTable").dataTable();
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>

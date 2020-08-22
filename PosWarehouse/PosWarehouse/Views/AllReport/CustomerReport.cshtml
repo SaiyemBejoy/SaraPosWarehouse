@@ -1,0 +1,106 @@
+﻿@model PosWarehouse.ViewModel.CustomerReport
+@{
+    ViewBag.Title = "CustomerReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Customer Report
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("CustomerReport", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="radio-list">
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.ReportType, "PDF", new { @checked = true }) PDF
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="radio-list">
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.ReportType, "Excel") Excel
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="form-group" id="ShopIdHide">
+                                        @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-text-width"></i>
+                                                @{Html.EnableClientValidation(false);}
+                                                @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-1 control-label"></label>
+                                            <div class="col-md-11">
+                                                <div class="radio-list">
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "PC", new { @checked = true }) <b>Privilege Customer</b>
+                                                    </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SC") <b> Sale Customer</b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                <button class="btn btn-success" type="submit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                <a class="btn btn-danger" href="@Url.Action("CustomerReport", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+

@@ -1,0 +1,78 @@
+﻿@using System.Diagnostics
+@model PosWarehouse.ViewModel.MenuModel
+<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+<div class="page-sidebar navbar-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <ul class="page-sidebar-menu page-sidebar-fixed" data-keep-expanded="false" data-auto-scroll="false" data-slide-speed="400">
+        @*<li class="start"></li>*@
+
+
+
+        @for (int i = 0; i < Model.MenuMains.Count; i++)
+        {
+            string vliClass;
+
+            if (i == 0)
+            {
+                vliClass = "start";
+            }
+            else if (i == Model.MenuMains.Count - 1)
+            {
+                vliClass = "last";
+            }
+            else
+            {
+                vliClass = "";
+            }
+
+            <li class="@vliClass" id="@Model.MenuMains[i].MenuMainId">
+
+                <a href="@Model.MenuMains[i].MenuUrl">
+                    <i class="@Model.MenuMains[i].MenuIcon"></i>
+                    <span class="title">@Model.MenuMains[i].MenuMainName</span>
+                    @if (Model.MenuMains[i].MenuSubs.Count > 0)
+                    {
+                        <span class="arrow"></span>
+                    }
+                </a>
+                @if (Model.MenuMains[i].MenuSubs.Count > 0)
+                {
+                    <ul class="sub-menu">
+                        @foreach (var subMenu in Model.MenuMains[i].MenuSubs)
+                        {
+                            <li id="@subMenu.MenuSubId">
+                                <a href="@subMenu.MenuUrl">
+                                    <i class="@subMenu.MenuIcon"></i>
+                                     @subMenu.MenuSubName 
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+
+            </li>
+        }
+
+    </ul>
+    <!-- END SIDEBAR MENU -->
+</div>
+
+<script>
+    @{
+        Debug.Assert(Request.Url != null, "Request.Url != null");
+    }
+    var uri = "@Request.Url.AbsolutePath";
+
+    $('li > a').each(function () {
+        if ($(this).attr('href') === uri) {
+            $(this).parents().addClass('active');
+        }
+    });
+</script>

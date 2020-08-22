@@ -1,0 +1,223 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.PurchaseOrderModel
+@{
+    ViewBag.Title = "PurchaseOrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var purchaseOrderModel = ViewBag.PurchaseOrderList as List<PurchaseOrderModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Purchase Order</h1>
+    </div>
+    <div class="page-toolbar">
+        <a href="@Url.Action("PurchaseOrder", "PurchaseOrder")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> New Purchase Order</a>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Purchase Order List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="purchaseOrderList">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> Purchase Order Number </th>
+                            <th> Order Date</th>
+                            <th> Delivery Date </th>
+                            <th> Delivery Shop </th>
+                            <th> Season </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (purchaseOrderModel != null && purchaseOrderModel.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in purchaseOrderModel)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@data.PurchaseOrderNumber</td>
+                                    <td>@data.OrderDate</td>
+                                    <td>@data.DeliveryDate</td>
+                                    <td>@data.DeliveryShopName</td>
+                                    <td>@data.SeasonName</td>
+                                    <td>
+                                        <a class="btn btn-primary purchaseItem" data-toggle="modal" href="#PurchaseItemModal" data-id="@data.PurchaseOrderNumber" id="purchaseItem">
+                                            <i class="fa fa-pencil"></i>
+                                            View Item
+                                        </a>
+                                        @Html.ActionLink("Show Report", "ShowReport", "PurchaseOrder", new { poNumber = data.PurchaseOrderNumber }, new { @class = "btn btn-danger", target = "_blank" })
+                                        @Html.ActionLink("Html Report", "ReportForHtml", "PurchaseOrder", new { poNumber = data.PurchaseOrderNumber }, new { @class = "btn btn-danger", target = "_blank" })
+                                    </td>
+                                </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<div class="modal fade bs-modal-lg" id="PurchaseItemModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Purchase Order</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase"> Order Item</span>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 300px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="gridTableForData">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Item Name
+                                        </th>
+                                        <th>
+                                            Unit Of Measurement
+                                        </th>
+                                        <th>
+                                            Purchase Price
+                                        </th>
+                                        <th>
+                                            Sale Price
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                        <th>
+                                            VAT
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalItemListTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    function purchaseItemList(orderNumber) {
+
+        var dataId = JSON.stringify({ purchaseOrderNumber: orderNumber });
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '@Url.Action("GetPurchaseOrderItemList", "PurchaseOrder")',
+            data: dataId,
+            success: function (data) {
+                var tableQuantity = data.length;
+                $("#ModalItemListTableBody").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#ModalItemListTableBody").append('<tr>' +
+                        '<td>' +
+                        data[i].Barcode +
+                        '</td>' +
+                        '<td>' +
+                        data[i].ItemName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Uom +
+                        '</td>' +                       
+                        '<td>' +
+                        data[i].PurchasePrice +
+                        '</td>' +
+                        '<td>' +
+                        data[i].SalePrice +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Quantity +
+                        '</td>' +
+                        '<td>' +
+                        data[i].VatPercent +
+                        '</td>' +
+                        '</tr>'
+                    );
+                }
+            }
+        });
+    }
+
+    jQuery(document).ready(function () {
+
+        @{
+            if (!string.IsNullOrWhiteSpace(Model.PurchaseOrderNumber))
+            {
+                <text>
+                    window.open('@Url.Action("ShowReport", "PurchaseOrder", new { poNumber = Model.PurchaseOrderNumber })', '_blank');
+                </text>
+            }
+        }
+
+        var table = $("#purchaseOrderList").dataTable();
+
+        $(".purchaseItem").click(function () {
+            var orderNumber = $(this).data('id');
+            purchaseItemList(orderNumber);
+        });
+
+        @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+    });
+
+</script>

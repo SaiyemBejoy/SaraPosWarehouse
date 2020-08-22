@@ -1,0 +1,978 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.CircularPriceChangeMain
+
+@{
+    ViewBag.Title = "CircularPriceChange";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var circularPriceChangeModel = ViewBag.CircularPriceChangeList as List<CircularPriceChangeMain>;
+    var shopList = ViewBag.ShopList as List<ShopViewModel>;
+
+
+}
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Circular Price Change</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Circular Price Change
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="form-horizontal">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN Portlet PORTLET-->
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Circular Information</span>
+
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.CircularName, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.CircularName, new { @class = "form-control input-circle", @autocomplete = "off", @id = "circularName", @placeholder = "Circular Name ", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.CircularName)
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.EffectiveDate, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-calendar"></i>
+                                                        @Html.TextBoxFor(c => c.EffectiveDate, new { @class = "form-control datepicker input-circle fa fa-calendar", @id = "effectDate", @placeholder = "Effective Date", autocomplete = "off", @readonly = "readonly", @style = "max-width: 600px;" })
+                                                        @Html.ValidationMessageFor(c => c.EffectiveDate)
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-4 control-label" })
+                                                <div class="col-md-8">
+
+                                                    <div class="ms-container">
+                                                        <a class="btn btn-success" data-toggle="modal" href="#shopModal">
+                                                            Select Shop
+                                                        </a>
+                                                        @*@Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @multiple = "multiple", @class = "form-control input-circle multi-select", @id = "my_multi_select1", @name = "my_multi_select1[]", @placeholder = "Shop Name", @style = "max-width: 600px;" })
+                                                            @Html.ValidationMessageFor(c => c.ShopId)*@
+
+                                                        @Html.ValidationMessageFor(c => c.ShopId)
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END Portlet PORTLET-->
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Product Details</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">BarCode</label>
+                                                <div class="col-md-8">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-barcode"></i>
+                                                        <input type="text" class="form-control input-circle" autocomplete="off" id="barcode" placeholder="Barcode" style="width: 320px">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="col-md-4 control-label"></label>
+                                            <button class="btn btn-success" type="button" id="searchButton"><i class="fa fa-search"></i> Search</button>
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">ProductName</label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-text-width"></i>
+                                                            <input type="text" class="form-control input-circle" autocomplete="off" id="productName" readonly="readonly" placeholder="Product Name" style="width: 300px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-md-8 control-label">PurchasePrice</label>
+                                                    <div class="col-md-4">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-bell-o"></i>
+                                                            <input type="number" class="form-control input-circle"
+                                                                   autocomplete="off" id="purchasePrice" readonly="readonly" placeholder="Purchase" style="width: 150px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-md-8 control-label">Sale Price</label>
+                                                    <div class="col-md-4">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-bell-o"></i>
+                                                            <input type="number" class="form-control input-circle" autocomplete="off" id="salePrice" placeholder="Sale Price" style="width: 150px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="col-md-6 control-label">New MRP</label>
+                                                    <div class="col-md-6">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-bell-o"></i>
+                                                            <input type="number" class="form-control input-circle" autocomplete="off" id="newPrice" placeholder="New MRP" style="width: 150px" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+                                            <div class="col-md-6">
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <button class="btn btn-success" type="button" id="addtoGrid"><i class="fa fa-save"></i> Add to Grid</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Grid View</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    Code
+                                                                </th>
+                                                                @*<th>
+                                                                        Product Name
+                                                                    </th>*@
+                                                                <th>
+                                                                    Purchase Price
+                                                                </th>
+                                                                <th>
+                                                                    Current MRP
+                                                                </th>
+                                                                <th>
+                                                                    New MRP
+                                                                </th>
+                                                                <th>
+                                                                    Action
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBody"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- END GENERAL PORTLET-->
+                            <div class="form-group">
+                                <div class="col-md-3 text-right">
+                                </div>
+                                <div class="col-md-3 text-right">
+                                    @Html.HiddenFor(c => c.CircularId)
+
+
+                                    <button class="btn btn-success" id="save" type="submit"><i class="fa fa-save"></i> Save</button>
+                                    <a class="btn btn-danger" id="clear" href="@Url.Action("CircularPriceChange", "Promotion")"><i class="fa fa-cut"></i> Clear</a>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                @*}*@
+            </div>
+        </div>
+
+        <div class="portlet box blue-hoki">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Price Change Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="PriceChangeListTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Circular Name</th>
+                                <th>Effective Date</th>
+                                <th>Action</th>
+                                @*<th class="text-center" style="width: 0%">Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (circularPriceChangeModel != null && circularPriceChangeModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in circularPriceChangeModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.CircularName</td>
+                                        <td>@data.EffectiveDate</td>
+                                        <td><a class="btn btn-danger circularId" data-toggle="modal" data-id="@data.CircularId" href="#ViewModal">
+                                                <i class="fa fa-eye"></i> View Detail
+                                            </a>  
+                                            </td>
+                                        @*<td class="text-center">
+                                                <button class="btn btn-success btn-xs" id="edit" type="submit"><i class="fa fa-edit"></i> Edit</button>
+                                               @Html.ActionLink(" Edit", "CircularPriceChange", "Promotion", new { circularId = data.CircularId, wareHouseId = data.WareHouseId, shopId = data.ShopId }, new { @class = "btn btn-primary fa fa-edit btn-xs", id = "edit" }) ||
+                                               @Html.ActionLink(" Delete", "DeleteCircularPriceChange", "Promotion", new { circularId = data.CircularId, wareHouseId = data.WareHouseId, shopId = data.ShopId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })
+                                            </td>*@
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!--For Shop Modal Section-->
+<div id="ViewModal" class="modal fade" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h2 class="modal-title text-center">Change List</h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-8">
+                        <div class="col-md-6">
+                            <label class="col-md-9"><b> Circular Name:</b></label>
+                            <div class="col-md-3"><p id="circularNamedisplay"></p></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-9"><b> Effective Date:</b></label>
+                            <div class="col-md-3"><p id="effectedDate"></p></div>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                <hr/>
+                <div class="scroller" style="height: 512px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="modal-title text-center">Shop List</h4>
+                            <hr/>
+                            <table class="table table-bordered" id="shoplist">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                                </thead>
+                                <tbody id="shoplistBody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="modal-title text-center">Barcode List</h4>
+                            <hr/>
+                            <table class="table table-bordered" id="barcodelist">
+                                <thead>
+                                <tr>
+                                    <th>Barcode</th>
+                                    <th>Pre Sale Price</th>
+                                    <th>New Price</th>
+                                </tr>
+                                </thead>
+                                <tbody id="barcodelistBody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--End Modal section-->
+<!--For Shop Modal Section-->
+<div id="shopModal" class="modal fade" tabindex="-1" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h2 class="modal-title text-center">Shop List</h2>
+            </div>
+
+            <div class="modal-body">
+                <div class="scroller" style="height: 200px" data-always-visible="1" data-rail-visible1="1">
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="checkbox" id="ckbCheckAll" class="checkAll ckbCheckAll" /> Select All
+                        </div>
+                        <div class="col-md-6">
+                            <input type="checkbox" id="checkWarehouse" name="shopName" class="checkbox" /> Warehouse
+                        </div>
+                        @if (@Model.ShopList.Any())
+                        {
+                            foreach (var data in shopList)
+                            {
+                                bool selected = false;
+                                foreach (var i in Model.ShopList)
+                                {
+                                    if (data.ShopId == i)
+                                    {
+                                        selected = true;
+                                        <div class="col-md-6">
+
+                                            <p>
+                                                <input type="checkbox" id="shoplist" name="shopName" class="checker" checked="checked" value="@data.ShopId"> @data.ShopName
+
+                                            </p>
+
+                                        </div>
+
+                                    }
+                                }
+                                if (!selected)
+                                {
+                                    <div class="col-md-6">
+
+                                        <p>
+                                            <input type="checkbox" id="shoplist" name="shopName" class="checker" value="@data.ShopId"> @data.ShopName
+
+                                        </p>
+
+                                    </div>
+                                }
+
+
+                            }
+                        }
+                        else
+                        {
+                            foreach (var data in shopList)
+                            {
+                                <div class="col-md-6">
+                                    <p>
+                                        <input type="checkbox" id="shoplist" name="shopName" class="checker" value="@data.ShopId"> @data.ShopName
+
+                                    </p>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--End Modal section-->
+@*<script src="~/Scripts/jquery-3.3.1.min.js"></script>*@
+
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<script>
+
+
+        //When user click edit button
+        function editForm() {
+
+
+            var gridObjectArray = JSON.parse(localStorage.getItem('gridObjectArray'));
+            if (gridObjectArray == null) {
+                gridObjectArray = [];
+            }
+            @{
+                if (Model.CircularPriceChangeSubList != null)
+                {
+                    foreach (var data2 in Model.CircularPriceChangeSubList)
+                    {
+
+                        <text>
+
+                            var gridObject = {
+                                'barcodeNo': @data2.BarcodeNo,
+                                'circularPriceSubId': @data2.CircularPriceSubId,
+                                'purchasePrice': @data2.PurchasePrice,
+                                'preSalePrice': @data2.PreSalePrice,
+                                'newSalePrice': @data2.NewSalePrice
+                            }
+
+                            gridObjectArray.push(gridObject);
+
+                        </text>
+
+                    }
+
+                }
+
+            }
+            localStorage.setItem('gridObjectArray', JSON.stringify(gridObjectArray));
+            loadGridFromLocalStroge();
+
+        }
+
+        //When user click edit button End
+
+        function loadGridFromLocalStroge() {
+            var retrievedGridObject = JSON.parse(localStorage.getItem('gridObjectArray'));
+
+            if (retrievedGridObject != null) {
+                var tableQuantity = retrievedGridObject.length;
+
+                $("#gridTableBody").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#gridTableBody").append('<tr>' +
+                        '<td>' +
+                        parseInt(i + 1) +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObject[i].barcodeNo +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObject[i].purchasePrice +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObject[i].preSalePrice +
+                        '</td>' +
+                        '<td>' +
+                        retrievedGridObject[i].newSalePrice +
+                        '</td>' +
+                        '<td><a href="javascript:;" data-barcodeno="' +
+                        retrievedGridObject[i].barcodeNo +
+                        '" data-newsaleprice="' +
+                        retrievedGridObject[i].newSalePrice +
+                        '" class="btn btn-danger deleteItem">Remove</a></td>' +
+                        '</tr>');
+                }
+
+
+            }
+
+        }
+
+
+    jQuery(document).ready(function () {
+        //This for Select All checkbox
+        $(".checkAll").change(function () {
+            var checked = $(this).is(":checked");
+
+            if (checked) {
+                $(".checker").prop("checked", true);
+                $(".checker").parent("span").addClass("checked");
+                $(".checkbox").prop("checked", true);
+                $(".checkbox").parent("span").addClass("checked");
+                $(".ckbCheckAll").val("Y");
+
+            } else {
+                $(".checker").prop("checked", false);
+                $(".checker").parent("span").removeClass("checked");
+                $(".checkbox").prop("checked", false);
+                $(".checkbox").parent("span").removeClass("checked");
+                $(".ckbCheckAll").val("N");
+                $("#checkWarehouse").val("N");
+
+            }
+        });
+        $("#checkWarehouse").change(function () {
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $("#checkWarehouse").val("Y");
+                $(".ckbCheckAll").val("N");
+            } else {
+                $("#checkWarehouse").val("N");
+                $(".ckbCheckAll").val("N");
+            }
+        });
+
+        //end
+            //When user click edit button
+            var editGridCount = @Model.CircularPriceChangeSubList.Count();
+
+            if (editGridCount > 0 && editGridCount != null) {
+                localStorage.removeItem("gridObjectArray");
+                editForm();
+            }
+            //When user click edit button  END
+            loadGridFromLocalStroge();
+
+            ComponentsDropdowns.init();
+
+            var table = $("#PriceChangeListTable").dataTable();
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+            //for Clear Button
+            $("#clear").click(function() {
+                localStorage.removeItem("gridObjectArray");
+            });
+
+            //end
+
+            //for fronttend Validation
+            function validation() {
+
+                var purchasePrice = $("#purchasePrice").val();
+                if (purchasePrice == '') {
+                    toastr.error("Purchase Price Only Number!!");
+                    return false;
+                }
+
+                var salePrice = $("#salePrice").val();
+                if (salePrice == '') {
+                    toastr.error("Sale Price Only Number");
+                    return false;
+                }
+
+                var newPrice = $("#newPrice").val();
+                if (newPrice == '') {
+                    toastr.error("New Price Only Number");
+                    return false;
+                }
+                return true;
+            }
+
+            function circulartablevalidation() {
+
+                var circularname = $("#circularName").val();
+                if (circularname == '') {
+                    toastr.error("Circular Name Can't be empty!!");
+                    return false;
+                }
+
+                var effectDate = $("#effectDate").val();
+                if (effectDate == '') {
+                    toastr.error("Effect DateCan't be empty!!");
+                    return false;
+                }
+
+                return true;
+            }
+            //end
+
+            $("#addtoGrid").click(function() {
+
+                if (validation()) {
+
+                    var gridObjectArray = JSON.parse(localStorage.getItem('gridObjectArray'));
+
+                    var barcode = $("#barcode").val();
+                    var circularPriceSubId = "0";
+                    //var productName = $("#productName").val();
+                    var purchasePrice = $("#purchasePrice").val();
+                    var salePrice = $("#salePrice").val();
+                    var newPrice = $("#newPrice").val();
+
+                    if (barcode == '') {
+
+                        toastr.error("BarCode Is Not Available");
+                    } else {
+                        var gridObject = {
+                            'barcodeNo': barcode,
+                            'circularPriceSubId': circularPriceSubId,
+                            //'productName': productName,
+                            'purchasePrice': purchasePrice,
+                            'preSalePrice': salePrice,
+                            'newSalePrice': newPrice
+
+                        }
+
+                        if (gridObjectArray == null) {
+                            gridObjectArray = [];
+                        } else {
+                            for (var i = 0; i < gridObjectArray.length; i++) {
+                                if (gridObjectArray[i].barcodeNo == barcode &&
+                                    gridObjectArray[i].circularPriceSubId == circularPriceSubId &&
+                                    //gridObjectArray[i].productName == productName &&
+                                    gridObjectArray[i].purchasePrice == purchasePrice &&
+                                    gridObjectArray[i].preSalePrice == salePrice &&
+                                    gridObjectArray[i].newSalePrice == newPrice) {
+                                    gridObjectArray.splice(i, 1);
+                                }
+                            }
+                        }
+
+                        gridObjectArray.push(gridObject);
+
+
+                        // Put the object into storage
+                        localStorage.setItem('gridObjectArray', JSON.stringify(gridObjectArray));
+
+                        //alert("One Item Add to Grid Table");
+                        toastr.success("One Item Add to Grid Table");
+                        loadGridFromLocalStroge();
+                        clearItem();
+                    }
+                }
+            });
+
+            function clearItem() {
+                $("#barcode").val('');
+                $("#productName").val('');
+                $("#purchasePrice").val('');
+                $("#salePrice").val('');
+                $("#newPrice").val('');
+            }
+
+            function circularchange() {
+                $("#circularName").val('');
+                $("#effectDate").val('');
+            }
+
+
+            // After Add A New Order In The List, If You Want, You Can Remove It.
+            $("#gridTable").on('click',
+                '.deleteItem',
+                function() {
+                    var barcode = $(this).data("barcodeno");
+                    var newPrice = $(this).data("newsaleprice");
+                    var gridObjectArray = JSON.parse(localStorage.getItem('gridObjectArray'));
+
+                    for (var j = 0; j < gridObjectArray.length; j++) {
+
+                        if (gridObjectArray[j].barcodeNo == barcode && gridObjectArray[j].newSalePrice == newPrice) {
+
+                            localStorage.removeItem("gridObjectArray");
+                            gridObjectArray.splice(j, 1);
+                            localStorage.setItem('gridObjectArray', JSON.stringify(gridObjectArray));
+                            loadGridFromLocalStroge();
+                            toastr.success("One Item Remove From Grid Table");
+
+                        }
+                    }
+
+                });
+        //search Button er jonno
+        $("#searchButton").click(function () {
+            var barcode = $("#barcode").val();
+            var searchData = JSON.stringify({ 'barcode': barcode });
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("SearchProductItemByBarcode", "Promotion")',
+                data: searchData,
+
+                success: function (data) {
+                    var itemName = data.ProductName;
+                    var purchasePrice = data.PurchasePrice;
+                    var salePrice = data.SalePrice;
+
+                    $("#productName").val(itemName);
+                    $("#purchasePrice").val(purchasePrice);
+                    $("#salePrice").val(salePrice);
+                }
+
+
+            });
+        });
+
+        function searchValue() {
+
+        }
+        //end
+
+
+
+            $("#save").click(function(e) {
+
+                tableGridSave();
+
+
+            });
+
+
+            function tableGridSave() {
+
+                var tabledata = JSON.parse(localStorage.getItem('gridObjectArray'));
+                if (circulartablevalidation()) {
+
+
+                if (tabledata) {
+
+                    var circularName = $("#circularName").val();
+                    var effectDate = $("#effectDate").val();
+                    var selectAllShop = $("#ckbCheckAll").val();
+                    if (selectAllShop !== 'Y') {
+                        selectAllShop = 'N';
+                    }
+                    var circularId = $("#CircularId").val();
+                    var warehouseCheck = $("#checkWarehouse").val();
+                    if (warehouseCheck !== 'Y') {
+                        warehouseCheck = 'N';
+                    }
+                    var favorite = [];
+                    $.each($("input[name='shopName']:checked"),
+                        function() {
+                            favorite.push($(this).val());
+                        });
+                    var shopIdList = favorite;
+
+                    var dataObject = {
+                        'CircularId': circularId,
+                        'CircularName': circularName,
+                        'EffectiveDate': effectDate,
+                        'CheckWarehouseYN': warehouseCheck,
+                        'SelectALlShop': selectAllShop,
+                        'ShopList': shopIdList,
+                        'CircularPriceChangeSubList': tabledata
+                    }
+
+                    //this (if) condition just for validation. shop checkbox validation
+                    if (shopIdList !== "") {
+
+                    var dataList = JSON.stringify({ 'objCircularPriceChangeMainModel': dataObject });
+
+
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '@Url.Action("SaveAndUpdateCircularPriceChange", "Promotion")',
+                        data: dataList,
+                        beforeSend: function() {
+                            $('#preLoader').show();
+                        },
+                        success: function (data) {
+                            if (data != null) {
+                                if (data.isRedirect) {
+                                    if (data.notChangeShop !== null) {
+                                        alert(data.notChangeShop);
+                                    }
+                                    $('#preLoader').hide();
+                                    toastr.info("Price Change Successfully.");
+                                    localStorage.removeItem("gridObjectArray");
+                                    circularchange();
+
+                                    window.setTimeout(function() {
+                                            window.location = data.redirectUrl;
+                                        },
+                                        2000);
+                                } else {
+                                    if (data.notChangeShop !== null) {
+                                        alert(data.notChangeShop);
+                                        $('#preLoader').hide();
+                                    }
+                                }
+                            } else {
+                                $('#preLoader').hide();
+                                toastr.error("Price Not Change! Data Not Found !.");
+                            }
+                        }
+                        });
+                    } else {
+                        $('#preLoader').hide();
+                        toastr.info("Please Select at List one shop");
+                    }
+                } else {
+                    toastr.info("Grid table have no data !!");
+                    $('#preLoader').hide();
+                }
+                }
+        }
+        $(document).on('click', '.circularId', function () {
+            var circularId = $(this).data('id');
+            viewCircularChangeList(circularId);
+        });
+    });
+    function viewCircularChangeList(circularId) {
+        var dataId = JSON.stringify({ circularId: circularId });
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("GetChangeAllCircularList", "Promotion")',
+                data: dataId,
+                success: function (data) {
+                    if (data.mainData != null) {
+                        $("#circularNamedisplay").html(data.mainData.CircularName);
+                        $("#effectedDate").html(data.mainData.EffectiveDate);
+                        var tableQuantity = data.subData.length;
+                        var tableShopQuantity = data.shopData.length;
+                        if (tableQuantity !== 0 && tableShopQuantity !== 0 ) {
+                            $("#barcodelistBody").html("");
+                            $("#shoplistBody").html("");
+                            for (var i = 0; i < tableQuantity; i++) {
+                                $("#barcodelistBody").append('<tr>' +
+                                    '<td>' +
+                                    data.subData[i].BarcodeNo +
+                                    '</td>' +
+                                    '<td>' +
+                                    data.subData[i].PreSalePrice +
+                                    '</td>' +
+                                    '<td>' +
+                                    data.subData[i].NewSalePrice +
+                                    '</td>' +
+                                    '</tr>'
+                                   );
+                            
+                            }
+                            for (var i = 0; i < tableShopQuantity; i++) {
+                                $("#shoplistBody").append('<tr>' +
+                                    '<td>' +
+                                    data.shopData[i].ShopName +
+                                    '</td>' +
+                                    '</tr>'
+                                );
+
+                            }
+                        } else {
+                            toastr.error("Data Not Found !.");
+                        }
+                    }
+                }
+            });
+    }
+
+</script>
