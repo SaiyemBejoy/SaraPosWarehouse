@@ -3959,6 +3959,8 @@ namespace PosWarehouse.DAL
                                 "PURCHASE_PRICE," +
                                 "SALE_PRICE," +
                                 "SUM(TOTAL_VALUE)TOTAL_VALUE," +
+                                 "SUM(TOTAL_CM)TOTAL_CM," +
+                                 "SUM(TOTAL_MATERIAL_COST)TOTAL_MATERIAL_COST," +
                                 "CATEGORY_ID," +
                                 "CATEGORY_NAME," +
                                 "SUB_CATEGORY_ID," +

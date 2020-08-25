@@ -256,6 +256,7 @@
     <Compile Include="Controllers\EmployeeDistributionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MenuSetUpController.cs" />
     <Compile Include="Controllers\OtherCompanyDiscountController.cs" />
     <Compile Include="Controllers\OtherPurchaseReceiveController.cs" />
     <Compile Include="Controllers\PoCuttingController.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Controllers\ShopLaunchController.cs" />
     <Compile Include="Controllers\ShopOrderController.cs" />
     <Compile Include="Controllers\StoreDeliveryController.cs" />
+    <Compile Include="Controllers\SubMenuSetUpController.cs" />
     <Compile Include="Controllers\UserMenuController.cs" />
     <Compile Include="DAL\AuthenticationDAL.cs" />
     <Compile Include="DAL\BarCodeDAL.cs" />
@@ -284,6 +286,7 @@
     <Compile Include="DAL\EmployeeDistributionDal.cs" />
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\InvoiceInfoDAL.cs" />
+    <Compile Include="DAL\MenuAndSubMenuDal.cs" />
     <Compile Include="DAL\OtherCompanyOfferDal.cs" />
     <Compile Include="DAL\OtherPurchaseReceiveDal.cs" />
     <Compile Include="DAL\PoCuttingDal.cs" />
@@ -621,6 +624,7 @@
     <Compile Include="ViewModel\HotSaleAndLowStockModel.cs" />
     <Compile Include="ViewModel\InvoiceInfoModel.cs" />
     <Compile Include="ViewModel\LogActionModel.cs" />
+    <Compile Include="ViewModel\MenuSetUpModel.cs" />
     <Compile Include="ViewModel\OtherCompanyOfferDisModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveItemModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveModel.cs" />
@@ -636,6 +640,7 @@
     <Compile Include="ViewModel\StockReceiveItemModel.cs" />
     <Compile Include="ViewModel\StockReceiveModel.cs" />
     <Compile Include="ViewModel\StoreDeliveryModel.cs" />
+    <Compile Include="ViewModel\SubMenuSetUpModel.cs" />
     <Compile Include="ViewModel\WarehouseStockModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1443,6 +1448,8 @@
     <Content Include="Views\OtherCompanyDiscount\OtherCompanyDiscount.cshtml" />
     <Content Include="Views\OtherPurchaseReceive\OtherPurchaseReceive.cshtml" />
     <Content Include="Views\OtherPurchaseReceive\OtherPurchaseReceiveList.cshtml" />
+    <Content Include="Views\MenuSetUp\Index.cshtml" />
+    <Content Include="Views\SubMenuSetUp\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

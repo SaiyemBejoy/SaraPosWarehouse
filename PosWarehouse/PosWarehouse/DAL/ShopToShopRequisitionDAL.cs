@@ -157,7 +157,9 @@ namespace PosWarehouse.DAL
                         "SHOP_ID," +
                         "PRODUCT_CATEGORY," +
                         "PRODUCT_SUB_CATEGORY  " +
-                      "FROM VEW_ALL_SHOP_STOCK where SHOP_ID = :SHOP_ID AND  ((lower(ITEM_NAME) like lower('" + styleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + styleName.Trim() + " %')) ";
+                      "FROM VEW_ALL_SHOP_STOCK where SHOP_ID = :SHOP_ID AND " +
+                      " ((lower(ITEM_NAME) like lower('" + styleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + styleName.Trim() + " %') OR " +
+                      " (lower(BARCODE) like lower('" + styleName.Trim() + "%'))  or upper(BARCODE)like upper('" + styleName.Trim() + "%')) ";
 
             using (OracleConnection objConnection = GetConnection())
             {

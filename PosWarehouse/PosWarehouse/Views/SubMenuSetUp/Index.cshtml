@@ -1,0 +1,190 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.SubMenuSetUpModel
+@{
+    ViewBag.Title = "Sub Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var subMenuModel = ViewBag.SubMenuList as List<SubMenuSetUpModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Sub Menu</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Sub Menu
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateSubMenu", "SubMenuSetUp", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                <div class="form-body">
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.MenuId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.DropDownListFor(m => m.MenuId, new SelectList(ViewBag.MenuList, "Value", "Text", Model.MenuId), new { @class = "form-control input-circle", @placeholder = "Menu Name", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(m => m.MenuId)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SubMenuName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(m => m.SubMenuName, new { @class = "form-control input-circle", @placeholder = "Sub Menu Name", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(m => m.SubMenuName)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SubMenuURL, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(m => m.SubMenuURL, new { @class = "form-control input-circle", @placeholder = "Sub Menu URL", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(m => m.SubMenuURL)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SubMenuIcon, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(m => m.SubMenuIcon, new { @class = "form-control input-circle", @placeholder = "Sub Menu Icon", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(m => m.SubMenuIcon)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SubMenuOrder, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(m => m.SubMenuOrder, new { @class = "form-control input-circle", @placeholder = "Sub Menu Order", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(m => m.SubMenuOrder)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6 text-left">
+                            @Html.HiddenFor(m => m.SubMenuId)
+                            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                            <a class="btn btn-danger" href="@Url.Action("Index", "SubMenuSetUp")"><i class="fa fa-cut"></i> Clear</a>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sub Menu Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="subMenuTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Menu Name</th>
+                                <th>Sub Menu Name</th>
+                                <th>URL</th>
+                                <th>Icon</th>
+                                <th>Order</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (subMenuModel != null && subMenuModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in subMenuModel)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.MenuName</td>
+                                <td>@data.SubMenuName</td>
+                                <td>@data.SubMenuURL</td>
+                                <td>@data.SubMenuIcon</td>
+                                <td>@data.SubMenuOrder</td>
+                                <td class="text-center">
+                                    @Html.ActionLink(" Edit", "Index", "SubMenuSetUp", new { menuId = data.MenuId, submenuId = data.SubMenuId }, new { @class = "btn btn-primary fa fa-edit" }) ||
+                                    @Html.ActionLink(" Delete", "DeleteSubMenu", "SubMenuSetUp", new { menuId = data.MenuId, submenuId = data.SubMenuId }, new { @class = "btn btn-danger fa fa-trash-o" })
+                                </td>
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+        var table = $("#subMenuTable").dataTable();
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>
+
