@@ -62,7 +62,7 @@ namespace PosWarehouse.Controllers
             ViewBag.MenuList = objMenuModel;
 
             
-            //ViewBag.MaxOrderNumber = await _objSetupDal.GetMaxOrderNumberForMenu();
+            ViewBag.MaxOrderNumber = await _objSetupDal.GetMaxOrderNumberForMenu();
 
             if (menuId != null && menuId != 0)
             {

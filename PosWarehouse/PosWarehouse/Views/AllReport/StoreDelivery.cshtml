@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="FromDateDiv">
                                     @Html.LabelFor(c => c.FromDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
                                     <div class="col-md-6">
                                         <div class="input-icon">
@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="ToDateDiv">
                                     @Html.LabelFor(c => c.ToDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
                                     <div class="col-md-6">
                                         <div class="input-icon">
@@ -90,7 +90,7 @@
                                     @Html.LabelFor(c => c.ProductStyle, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
                                     <div class="col-md-6">
                                         <div class="input-icon">
-                                            <i class="fa fa-calendar"></i>
+                                            <i class="fa fa-text-width"></i>
                                             @Html.TextBoxFor(c => c.ProductStyle, new { @class = "form-control input-circle", @autocomplete = "off", @required = "required", @placeholder = "Style Name" })
                                         </div>
                                     </div>
@@ -203,6 +203,8 @@
                 $("#DeliveryNumber").removeAttr('required');
                 $("#ProductStyle").removeAttr('required');
                 $("#DeliveryNumber").val("");
+                $("#FromDateDiv").show();
+                $("#ToDateDiv").show();
                 $(function() {
                     $( ".datepicker" ).datepicker({
                         format: 'dd/mm/yyyy',//check change
@@ -221,6 +223,8 @@
                 $("#subCategoryHide").hide();
                 $("#DesignerNameHide").hide();
                 $("#MerchandiserNameHide").hide(); 
+                $("#FromDateDiv").show();
+                $("#ToDateDiv").show();
             }
             else if (value === 'SWLD') {
                 $("#ProductStyle").removeAttr('required');
@@ -229,7 +233,26 @@
                 $("#DesignerNameHide").show();
                 $("#MerchandiserNameHide").show(); 
                 $("#deliveryHide").hide();
+                $("#FromDateDiv").show();
+                $("#ToDateDiv").show();
 
+            }
+            else if (value === 'SWD') {
+                $("#categoryHide").hide();
+                $("#subCategoryHide").hide();
+                $("#DesignerNameHide").hide();
+                $("#MerchandiserNameHide").hide(); 
+                $("#deliveryHide").show();
+                $("#FromDateDiv").hide();
+                $("#ToDateDiv").hide();
+            } else {
+                $("#categoryHide").show();
+                $("#subCategoryHide").show();
+                $("#DesignerNameHide").show();
+                $("#MerchandiserNameHide").show(); 
+                $("#deliveryHide").show();
+                $("#FromDateDiv").show();
+                $("#ToDateDiv").show();
             }
            
         });

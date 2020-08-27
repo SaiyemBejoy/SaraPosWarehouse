@@ -251,44 +251,43 @@ namespace PosWarehouse.DAL
         }
 
 
-        //public async Task<List<string>> GetMaxOrderNumberForMenu()
-        //{
-        //    var sql = "SELECT " +
-        //              "MAX(MENU_ORDER) + 1 " +
-        //                 "FROM VEW_MENU_MAIN";
-        //    using (OracleConnection objConnection = GetConnection())
-        //    {
-        //        using (OracleCommand objCommand = new OracleCommand(sql, objConnection))
-        //        {
+        public async Task<string> GetMaxOrderNumberForMenu()
+        {
+            var sql = "SELECT " +
+                      "NVL(MAX(MENU_ORDER) + 1,0) MAX_MENU_ORDER  " +
+                         "FROM MENU_MAIN ";
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection))
+                {
 
-        //            await objConnection.OpenAsync();
-        //            using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
-        //            {
-        //                List<string> objMenuOrderNumber = new List<string>();
-        //                try
-        //                {
-        //                    while (await objDataReader.ReadAsync())
-        //                    {
-        //                        string maxOrder = objDataReader["MENU_ORDER"].ToString();
-        //                        objMenuOrderNumber.Add(maxOrder);
-        //                    }
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        string maxOrder = "";
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                 maxOrder = objDataReader["MAX_MENU_ORDER"].ToString();
+                            }
 
-        //                    return objMenuOrderNumber;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    throw new Exception("Error : " + ex.Message);
-        //                }
-        //                finally
-        //                {
-        //                    objDataReader.Dispose();
-        //                    objCommand.Dispose();
-        //                    objConnection.Dispose();
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+                            return maxOrder;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -524,6 +523,46 @@ namespace PosWarehouse.DAL
             return strMessage;
         }
 
+        public async Task<string> GetMaxOrderNumberForSubMenu(int menuId)
+        {
+            var sql = "SELECT " +
+                      " NVL (MAX (MENU_ORDER) + 1, 0)  MAX_SUB_MENU_ORDER  " +
+                         "FROM MENU_SUB WHERE MENU_MAIN_ID = :MENU_MAIN_ID " ;
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":MENU_MAIN_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = menuId;
+
+
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        string maxOrder = "";
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                maxOrder = objDataReader["MAX_SUB_MENU_ORDER"].ToString();
+                            }
+
+                            return maxOrder;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+                }
+            }
+        }
 
         #endregion
     }

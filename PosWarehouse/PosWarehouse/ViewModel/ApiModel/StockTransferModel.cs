@@ -13,6 +13,8 @@ namespace PosWarehouse.ViewModel.ApiModel
 
         public string RequisitionNumber { get; set; }
 
+        public string ShopToShopRequisitionNumber { get; set; }
+
         public string TransferDate { get; set; }
 
         public string TransferToShopId { get; set; }

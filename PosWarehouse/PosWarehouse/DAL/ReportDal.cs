@@ -2055,8 +2055,7 @@ namespace PosWarehouse.DAL
                 try
                 {
                     var sql = "SELECT " +
-                              " ' Style Wise Shop Delivery Details Report  between ' || to_date( '" + storeDeliveryReport.FromDate + "', 'dd/mm/yyyy') || ' to '|| to_date( '" + storeDeliveryReport.ToDate + "', 'dd/mm/yyyy')  RPT_TITLE, " +
-                                "RPT_TITLE," +
+                               " ' Style Wise Shop Delivery'  RPT_TITLE, " +
                                 "WARE_HOUSE_ID," +
                                 "WAREHOUSE_NAME," +
                                 "WAREHOUSE_ADDRESS," +
@@ -2070,7 +2069,7 @@ namespace PosWarehouse.DAL
                                 "REQUISTION_NO," +
                                 "SEASON_ID," +
                                 "SEASON_NAME  " +
-                                " From VEW_RPT_STYL_BARCODE_DELIVERY where DELIVERY_DATE BETWEEN  to_date('" + storeDeliveryReport.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + storeDeliveryReport.ToDate.Trim() + "' , 'dd/mm/yyyy')  ";
+                                " From VEW_RPT_STYL_BARCODE_DELIVERY where  1= 1 ";
 
                     if (!string.IsNullOrEmpty(storeDeliveryReport.DeliveryNumber))
                     {

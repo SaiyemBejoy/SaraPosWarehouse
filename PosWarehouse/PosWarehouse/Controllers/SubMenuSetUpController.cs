@@ -61,6 +61,8 @@ namespace PosWarehouse.Controllers
             var objSubMenuModels = await _objSetupDal.GetSubMenuList(_strWareHouseId, _strShopId);
             ViewBag.SubMenuList = objSubMenuModels;
 
+           // ViewBag.MaxOrderNumber = await _objSetupDal.GetMaxOrderNumberForSubMenu(menuId);
+
             if (menuId != null && menuId != 0 && subMenuId != null && subMenuId != 0)
             {
                 model = await _objSetupDal.GetASubMenu((int)menuId, (int)subMenuId, _strWareHouseId, _strShopId);
@@ -95,6 +97,13 @@ namespace PosWarehouse.Controllers
             TempData["message"] = message;
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetProductInfoByBarcode(int menuId)
+        {
+            var data = await _objSetupDal.GetMaxOrderNumberForSubMenu(menuId);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

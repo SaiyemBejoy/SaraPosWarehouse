@@ -80,7 +80,7 @@
                         <div class="col-md-6">
                             <div class="input-icon">
                                 <i class="fa fa-text-width"></i>
-                                @Html.TextBoxFor(m => m.SubMenuOrder, new { @class = "form-control input-circle", @placeholder = "Sub Menu Order", @style = "max-width: 580px;" })
+                                @Html.TextBoxFor(m => m.SubMenuOrder, new { @class = "form-control input-circle", @readonly = "readonly", @*@Value = ViewBag.MaxOrderNumber,*@ @*@placeholder = "Sub Menu Order",*@ @style = "max-width: 580px;" })
                                 @Html.ValidationMessageFor(m => m.SubMenuOrder)
                             </div>
                         </div>
@@ -159,6 +159,22 @@
 <script>
     jQuery(document).ready(function () {
         var table = $("#subMenuTable").dataTable();
+
+        $('#MenuId').on('change', function () {
+            var menuId = $("#MenuId").val();
+
+             $.ajax({
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("GetProductInfoByBarcode", "SubMenuSetUp")',
+                 data: { menuId: menuId },
+                 success: function (data) {
+                     $("#SubMenuOrder").val(data);
+                }
+            });
+        });
+
         @{
         if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
         {

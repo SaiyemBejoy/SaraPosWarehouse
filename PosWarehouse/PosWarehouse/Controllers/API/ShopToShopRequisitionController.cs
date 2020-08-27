@@ -50,16 +50,16 @@ namespace PosWarehouse.Controllers.Api
 
             string returnMessageForItem = "";
             var returnMessage = await _dal.SaveShopRequisitionMainModel(model);
-            if (Convert.ToInt32(returnMessage) > 0 || returnMessage != null)
+            if (Convert.ToInt32(returnMessage.Item1) > 0 || returnMessage.Item1 != null)
             {
 
                 foreach (var tableData in model.ShopToShopRequisitionMainItemList)
                 {
-                    tableData.RequisitionId = Convert.ToInt32(returnMessage);
+                    tableData.RequisitionId = Convert.ToInt32(returnMessage.Item1);
                     returnMessageForItem = await _dal.SaveShopRequisitionMainItemModel(tableData);
 
                 }
-                return Ok(returnMessageForItem);
+                return Ok(returnMessage.Item2);
 
             }
             return BadRequest();

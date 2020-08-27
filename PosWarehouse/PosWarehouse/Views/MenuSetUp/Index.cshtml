@@ -1,7 +1,7 @@
 ﻿@using PosWarehouse.ViewModel
 @model PosWarehouse.ViewModel.MenuSetUpModel
 @{
-    ViewBag.Title = "Category";
+    ViewBag.Title = "Menu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var menuModel = ViewBag.MenuList as List<MenuSetUpModel>;
@@ -18,7 +18,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Add Category
+                    <i class="fa fa-gift"></i>Add Menu
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse" data-original-title="" title="">
@@ -69,7 +69,7 @@
                         <div class="col-md-6">
                             <div class="input-icon">
                                 <i class="fa fa-text-width"></i>
-                                @Html.TextBoxFor(m => m.MenuOrder, new { @class = "form-control input-circle", @*@readonly = "readonly",*@ @placeholder = "Menu Order", @id = "menuOrder", @style = "max-width: 580px;" })
+                                @Html.TextBoxFor(m => m.MenuOrder, new { @class = "form-control input-circle", @readonly = "readonly", @Value = ViewBag.MaxOrderNumber, @*@placeholder = "Menu Order",*@ @id = "menuOrder", @style = "max-width: 580px;" })
                                 @Html.ValidationMessageFor(m => m.MenuOrder)
                             </div>
                         </div>

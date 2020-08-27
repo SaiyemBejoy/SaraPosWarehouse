@@ -43,6 +43,8 @@ namespace PosWarehouse.ViewModel.ApiModel
 
         public string DeliveryStatus { get; set; }
 
+        public string TransferChallanNumber { get; set; }
+
         public IEnumerable<ShopToShopRequisitionMainItemModel> ShopToShopRequisitionMainItemList { get; set; }
     }
     public class ShopToShopRequisitionMainItemModel
@@ -55,5 +57,6 @@ namespace PosWarehouse.ViewModel.ApiModel
         public string ItemName { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+        public string Vat { get; set; }
     }
 }

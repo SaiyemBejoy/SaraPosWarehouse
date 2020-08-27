@@ -211,9 +211,10 @@ namespace PosWarehouse.DAL
             }
         }
 
-        public async Task<string> SaveShopRequisitionMainModel(ShopToShopRequisitionMainModel objShopToShopRequisitionMainModel)
+        public async Task<Tuple<string, string>> SaveShopRequisitionMainModel(ShopToShopRequisitionMainModel objShopToShopRequisitionMainModel)
         {
             string strMessage;
+            string challanNo;
 
             OracleCommand objOracleCommand = new OracleCommand("PRO_SHOP_REQUISITION_MAIN_SAVE")
             {
@@ -226,6 +227,7 @@ namespace PosWarehouse.DAL
             objOracleCommand.Parameters.Add("P_REQUISITION_SHOPID_FROM", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objShopToShopRequisitionMainModel.RequisitionShopIdTo) ? objShopToShopRequisitionMainModel.RequisitionShopIdTo : null;
              objOracleCommand.Parameters.Add("P_CREATED_BY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objShopToShopRequisitionMainModel.CreatedBy) ? objShopToShopRequisitionMainModel.CreatedBy : null;
             objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+            objOracleCommand.Parameters.Add("P_MAX_REQUISITION_NUMNER", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
 
             using (OracleConnection strConn = GetConnection())
             {
@@ -239,6 +241,7 @@ namespace PosWarehouse.DAL
                     strConn.Close();
 
                     strMessage = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                    challanNo = objOracleCommand.Parameters["P_MAX_REQUISITION_NUMNER"].Value.ToString();
                 }
                 catch (Exception ex)
                 {
@@ -251,7 +254,8 @@ namespace PosWarehouse.DAL
                     objOracleCommand.Dispose();
                 }
             }
-            return strMessage;
+            //return strMessage;
+            return new Tuple<string, string>(strMessage, challanNo);
         }
 
         public async Task<string> SaveShopRequisitionMainItemModel(ShopToShopRequisitionMainItemModel objShopToShopRequisitionMainItemModel)
@@ -313,8 +317,8 @@ namespace PosWarehouse.DAL
                         "REQUISITION_DATE," +
                         "CREATED_BY, " +
                         "DELIVERY_YN, " +
-                        "RECEIVED_YN " +
-                      "FROM VEW_SHOP_REQUISITION_MAIN where REQUISITION_SHOPID_FROM = :REQUISITION_SHOPID_FROM  AND RECEIVED_YN ='N'";
+                        "TRANSFER_CHALLAN_NUM "+
+                      "FROM VEW_SHOP_REQUISITION_MAIN where REQUISITION_SHOPID_FROM = :REQUISITION_SHOPID_FROM ";
 
             using (OracleConnection objConnection = GetConnection())
             {
@@ -342,6 +346,7 @@ namespace PosWarehouse.DAL
                                     RequisitionDate = objDataReader["REQUISITION_DATE"].ToString(),
                                     CreatedBy = objDataReader["CREATED_BY"].ToString(),
                                     DeliveryStatus = objDataReader["DELIVERY_YN"].ToString(),
+                                    TransferChallanNumber = objDataReader["TRANSFER_CHALLAN_NUM"].ToString(),
 
                                 };
                                 
@@ -378,7 +383,7 @@ namespace PosWarehouse.DAL
                         "BARCODE," +
                         "ITEM_NAME," +
                         "PRICE," +
-                        "QUANTITY " +
+                        "QUANTITY,VAT " +
                       "FROM VEW_SHOP_REQUISITION_MAIN_ITEM where REQUISITION_ID = :REQUISITION_ID ";
 
             using (OracleConnection objConnection = GetConnection())
@@ -405,8 +410,8 @@ namespace PosWarehouse.DAL
                                     Barcode = objDataReader["BARCODE"].ToString(),
                                     ItemName = objDataReader["ITEM_NAME"].ToString(),
                                     Quantity = Convert.ToInt32(objDataReader["QUANTITY"].ToString()),
-                                    Price = Convert.ToDouble(objDataReader["PRICE"].ToString())
-
+                                    Price = Convert.ToDouble(objDataReader["PRICE"].ToString()),
+                                    Vat = objDataReader["VAT"].ToString(),
                                 };
 
 
