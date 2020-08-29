@@ -1,0 +1,194 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.GiftVoucherDepositModel
+@{
+    ViewBag.Title = "Gift Voucher Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var gitftVoucherDepositModel = ViewBag.GiftVoucherDepositList as List<GiftVoucherDepositModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Gift Voucher Deposit</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Gift Voucher Deposit
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateGiftVoucherDeposit", "GiftVoucherDeposit", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                <div class="form-body">
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(g => g.GiftVoucherCustomerName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(g => g.GiftVoucherCustomerName, new { @class = "form-control input-circle", @placeholder = "Customer Name", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(g => g.GiftVoucherCustomerName)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(g => g.GiftVoucherCustomerPhone, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(g => g.GiftVoucherCustomerPhone, new { @class = "form-control input-circle", @placeholder = "Customer's Phone Number", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(g => g.GiftVoucherCustomerPhone)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(g => g.GiftVoucherCode, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(g => g.GiftVoucherCode, new { @class = "form-control input-circle", @placeholder = "Gift Voucher Code", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(g => g.GiftVoucherCode)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(g => g.GiftVoucherValue, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.TextBoxFor(g => g.GiftVoucherValue, new { @class = "form-control input-circle",  @placeholder = "Gift Voucher Value", @style = "max-width: 580px;"
+                            })
+                                @Html.ValidationMessageFor(g => g.GiftVoucherValue)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(g => g.DepositShopId, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-6">
+                            <div class="input-icon">
+                                <i class="fa fa-text-width"></i>
+                                @Html.DropDownListFor(g => g.DepositShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.DepositShopId), new { @class = "form-control input-circle", @placeholder = "Deposit From", @style = "max-width: 580px;" })
+                                @Html.ValidationMessageFor(g => g.DepositShopId)
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6 text-left">
+                            @Html.HiddenFor(g => g.GiftVoucherDepositId)
+                            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                            <a class="btn btn-danger" href="@Url.Action("Index", "GiftVoucherDeposit")"><i class="fa fa-cut"></i> Clear</a>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Deposit Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="giftVoucherDepositTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Gift Voucher Code</th>
+                                <th>Value</th>
+                                <th>Customer Name</th>
+                                <th>Deposit From</th>
+                                <th>Deposit By</th>
+                                <th>Deposti Date</th>
+                                @*<th class="text-center" style="width: 20%">Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (gitftVoucherDepositModel != null && gitftVoucherDepositModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in gitftVoucherDepositModel)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.GiftVoucherCode</td>
+                                <td>@data.GiftVoucherValue</td>
+                                <td>@data.GiftVoucherCustomerName</td>
+                                <td>@data.DepositShopName</td>
+                                <td>@data.CreateBy</td>
+                                <td>@data.CreateDate</td>
+                                @*<td class="text-center">
+                                    @Html.ActionLink(" Edit", "Index", "GiftVoucherDeposit", new { giftVoucherId = data.GiftVoucherId, giftVoucherDepositId = data.GiftVoucherDepositId }, new { @class = "btn btn-primary fa fa-edit" })
+                                </td>*@
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    jQuery(document).ready(function () {
+        var table = $("#giftVoucherDepositTable").dataTable();
+
+        @{
+        if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+        {
+        <text>
+        var message = '@ViewBag.message';
+
+
+        toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "1000",
+                    "hideDuration": "1000",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+        }
+        toastr.success(message);
+        </text>
+        }
+     }
+    });
+
+</script>
+
+

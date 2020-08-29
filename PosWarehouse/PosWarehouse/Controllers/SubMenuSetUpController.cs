@@ -12,13 +12,11 @@ namespace PosWarehouse.Controllers
 {
     public class SubMenuSetUpController : Controller
     {
-        private readonly MenuAndSubMenuDal _objSetupDal = new MenuAndSubMenuDal();
+        private readonly MenuAndSubMenuDal _objSubMenuSetupDal = new MenuAndSubMenuDal();
 
         //For All Dropdown Load for this Object.
         private readonly DropdownDAL _objDropdownDal = new DropdownDAL();
 
-
-        // GET: MenuSetUp
         #region "Common"       
         private string _strEmployeeId = "";
         private string _strWareHouseId = "";
@@ -58,14 +56,14 @@ namespace PosWarehouse.Controllers
             LoadSession();
             SubMenuSetUpModel model = new SubMenuSetUpModel();
 
-            var objSubMenuModels = await _objSetupDal.GetSubMenuList(_strWareHouseId, _strShopId);
+            var objSubMenuModels = await _objSubMenuSetupDal.GetSubMenuList(_strWareHouseId, _strShopId);
             ViewBag.SubMenuList = objSubMenuModels;
 
            // ViewBag.MaxOrderNumber = await _objSetupDal.GetMaxOrderNumberForSubMenu(menuId);
 
             if (menuId != null && menuId != 0 && subMenuId != null && subMenuId != 0)
             {
-                model = await _objSetupDal.GetASubMenu((int)menuId, (int)subMenuId, _strWareHouseId, _strShopId);
+                model = await _objSubMenuSetupDal.GetASubMenu((int)menuId, (int)subMenuId, _strWareHouseId, _strShopId);
             }
 
             ViewBag.MenuList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetUserMenuListDropdown(), "MENU_ID", "MENU_NAME");
@@ -84,7 +82,7 @@ namespace PosWarehouse.Controllers
                 objSubMenuModel.WareHouseId = _strWareHouseId;
                 objSubMenuModel.ShopId = _strShopId;
 
-                string strMessage = await _objSetupDal.SaveAndUpdateSubMenu(objSubMenuModel);
+                string strMessage = await _objSubMenuSetupDal.SaveAndUpdateSubMenu(objSubMenuModel);
                 TempData["message"] = strMessage;
             }
             return RedirectToAction("Index");
@@ -93,15 +91,15 @@ namespace PosWarehouse.Controllers
         public async Task<ActionResult> DeleteSubMenu(int menuId, int subMenuId)
         {
             LoadSession();
-            string message = await _objSetupDal.DeleteSubMenu(menuId, subMenuId, _strWareHouseId, _strShopId);
+            string message = await _objSubMenuSetupDal.DeleteSubMenu(menuId, subMenuId, _strWareHouseId, _strShopId);
             TempData["message"] = message;
 
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> GetProductInfoByBarcode(int menuId)
+        public async Task<ActionResult> GetMenuIdFromView(int menuId)
         {
-            var data = await _objSetupDal.GetMaxOrderNumberForSubMenu(menuId);
+            var data = await _objSubMenuSetupDal.GetMaxOrderNumberForSubMenu(menuId);
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }

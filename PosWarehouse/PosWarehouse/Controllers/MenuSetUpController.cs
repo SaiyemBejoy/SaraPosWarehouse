@@ -13,7 +13,7 @@ namespace PosWarehouse.Controllers
     [LogAction]
     public class MenuSetUpController : Controller
     {
-        private readonly MenuAndSubMenuDal _objSetupDal = new MenuAndSubMenuDal();
+        private readonly MenuAndSubMenuDal _objMenuSetupDal = new MenuAndSubMenuDal();
 
         //For All Dropdown Load for this Object.
         private readonly DropdownDAL _objDropdownDal = new DropdownDAL();
@@ -58,15 +58,15 @@ namespace PosWarehouse.Controllers
             LoadSession();
             MenuSetUpModel model = new MenuSetUpModel();
 
-            var objMenuModel = await _objSetupDal.GetMenuList(_strWareHouseId, _strShopId);
+            var objMenuModel = await _objMenuSetupDal.GetMenuList(_strWareHouseId, _strShopId);
             ViewBag.MenuList = objMenuModel;
 
             
-            ViewBag.MaxOrderNumber = await _objSetupDal.GetMaxOrderNumberForMenu();
+            ViewBag.MaxOrderNumber = await _objMenuSetupDal.GetMaxOrderNumberForMenu();
 
             if (menuId != null && menuId != 0)
             {
-                model = await _objSetupDal.GetAMenu((int)menuId, _strWareHouseId, _strShopId);
+                model = await _objMenuSetupDal.GetAMenu((int)menuId, _strWareHouseId, _strShopId);
             }
 
             //ModelState.Clear();
@@ -85,7 +85,7 @@ namespace PosWarehouse.Controllers
                 objMenuModel.WareHouseId = _strWareHouseId;
                 objMenuModel.ShopId = _strShopId;
 
-                string strMessage = await _objSetupDal.SaveAndUpdateMenu(objMenuModel);
+                string strMessage = await _objMenuSetupDal.SaveAndUpdateMenu(objMenuModel);
                 TempData["message"] = strMessage;
             }
             return RedirectToAction("Index");
@@ -95,7 +95,7 @@ namespace PosWarehouse.Controllers
         public async Task<ActionResult> DeleteMenu(int menuId)
         {
             LoadSession();
-            string message = await _objSetupDal.DeleteMenu(menuId, _strWareHouseId, _strShopId);
+            string message = await _objMenuSetupDal.DeleteMenu(menuId, _strWareHouseId, _strShopId);
             TempData["message"] = message;
 
             return RedirectToAction("Index");

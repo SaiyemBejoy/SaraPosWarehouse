@@ -472,6 +472,33 @@ namespace PosWarehouse.ViewModel
 
     }
 
+    public class GiftVoucherDepositModel
+    {
+        [Required]
+        public int GiftVoucherDepositId { get; set; }
+        [Required]
+        public int GiftVoucherId { get; set; }
+        [Required]
+        [DisplayName("Gift Voucher Code")]
+        public string GiftVoucherCode { get; set; }
+        [Required]
+        [DisplayName("Gift Voucher Value")]
+        public string GiftVoucherValue { get; set; }
+        [Required]
+        [DisplayName("Customer Name")]
+        public string GiftVoucherCustomerName { get; set; }
+        [Required]
+        [DisplayName("Customer's Phone No")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "You must enter 11 digits")]
+        public string GiftVoucherCustomerPhone { get; set; }
+        [Required]
+        [DisplayName("Deposit From")]
+        public int DepositShopId { get; set; }
+        public string DepositShopName { get; set; }
+        public string CreateBy { get; set; }
+        public string CreateDate { get; set; }
+    }
+
     public class DiscountPolicyModel
     {      
         public int DiscountPolicyId { get; set; }

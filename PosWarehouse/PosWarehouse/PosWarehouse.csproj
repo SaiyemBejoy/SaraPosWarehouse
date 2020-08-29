@@ -254,6 +254,7 @@
     <Compile Include="Controllers\DamageProductController.cs" />
     <Compile Include="Controllers\CloudPosDataEntryController.cs" />
     <Compile Include="Controllers\EmployeeDistributionController.cs" />
+    <Compile Include="Controllers\GiftVoucherDepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuSetUpController.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="DAL\DropdownDAL.cs" />
     <Compile Include="DAL\Ecom\EcomDal.cs" />
     <Compile Include="DAL\EmployeeDistributionDal.cs" />
+    <Compile Include="DAL\GiftVoucherDepositDAL.cs" />
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\InvoiceInfoDAL.cs" />
     <Compile Include="DAL\MenuAndSubMenuDal.cs" />
@@ -1450,6 +1452,7 @@
     <Content Include="Views\OtherPurchaseReceive\OtherPurchaseReceiveList.cshtml" />
     <Content Include="Views\MenuSetUp\Index.cshtml" />
     <Content Include="Views\SubMenuSetUp\Index.cshtml" />
+    <Content Include="Views\GiftVoucherDeposit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
