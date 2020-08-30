@@ -25,7 +25,7 @@ namespace PosWarehouse.DAL
 
         #region "Gift Voucher Deposit Section"
 
-        public async Task<List<GiftVoucherDepositModel>> GetGiftVoucherDepositList(int giftVoucherId)
+        public async Task<List<GiftVoucherDepositModel>> GetGiftVoucherDepositList(/*int giftVoucherId*/)
         {
 
 
@@ -40,14 +40,15 @@ namespace PosWarehouse.DAL
                          "GIFT_VOU_DEPOSIT_SHOP_NAME," +
                          "CREATE_BY," +
                          "CREATE_DATE " +
-                         "FROM VEW_GIFTVOUCHER_DEPOSIT where GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID ORDER BY GIFT_VOUCHER_DEPOSIT_ID DESC";
+                         "FROM VEW_GIFTVOUCHER_DEPOSIT ORDER BY CREATE_DATE DESC";
+            //"FROM VEW_GIFTVOUCHER_DEPOSIT where GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID ORDER BY GIFT_VOUCHER_DEPOSIT_ID DESC";
 
 
             using (OracleConnection objConnection = GetConnection())
             {
                 using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
                 {
-                    objCommand.Parameters.Add(":GIFT_VOUCHER_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = giftVoucherId;
+                    //objCommand.Parameters.Add(":GIFT_VOUCHER_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = giftVoucherId;
                     await objConnection.OpenAsync();
                     using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
                     {
@@ -204,6 +205,48 @@ namespace PosWarehouse.DAL
                 }
             }
             return strMessage;
+        }
+
+
+        public async Task<string> GetValueForSpecificVoucherCode(string giftVoucherCode)
+        {
+            var sql = "SELECT " +
+                      " GIFT_VOUCHER_VALUE AS GIFT_VOUCHER_VALUE_FOR_CODE " +
+                         "FROM GIFT_VOUCHER_DELIVERY WHERE GIFT_VOUCHER_CODE = :GIFT_VOUCHER_CODE ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":GIFT_VOUCHER_CODE", OracleDbType.Varchar2, ParameterDirection.Input).Value = giftVoucherCode;
+
+
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        string giftVoucherValue = "";
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                giftVoucherValue = objDataReader["GIFT_VOUCHER_VALUE_FOR_CODE"].ToString();
+                            }
+
+                            return giftVoucherValue;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

@@ -223,6 +223,10 @@ namespace PosWarehouse.Controllers.Report
                 {
                     await GenerateSizeWiseSaleSummary(saleDetailsSummary);
                 }
+                else if (saleDetailsSummary.RadioFor == "GVDH")
+                {
+                    await GenerateGiftVoucherDepositSummary(saleDetailsSummary);
+                }
             }
             else if (saleDetailsSummary.ReportType == "Excel")
             {
@@ -449,6 +453,20 @@ namespace PosWarehouse.Controllers.Report
             _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
 
             ShowReport(objSaleDetailsSummary.ReportType, "Size Wise Sale Summary");
+            return 0;
+        }
+        private async Task<int> GenerateGiftVoucherDepositSummary(SaleDetailsSummary objSaleDetailsSummary)
+        {
+            string strPath = Path.Combine(Server.MapPath("~/Reports/Sale/GiftVoucherDeposit.rpt"));
+            _objReportDocument.Load(strPath);
+
+            DataSet objDataSet = (await _objReportDal.GiftVoucherDepositRpt(objSaleDetailsSummary));
+
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(objSaleDetailsSummary.ReportType, "Gift Voucher Deposit History");
             return 0;
         }
         #endregion

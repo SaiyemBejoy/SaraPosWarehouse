@@ -55,7 +55,7 @@ namespace PosWarehouse.Controllers
             LoadSession();
             GiftVoucherDepositModel model = new GiftVoucherDepositModel();
 
-            var objGiftVoucherDepositModel = await _objGiftVoucherDepositDal.GetGiftVoucherDepositList(2);
+            var objGiftVoucherDepositModel = await _objGiftVoucherDepositDal.GetGiftVoucherDepositList();
             ViewBag.GiftVoucherDepositList = objGiftVoucherDepositModel;
 
             //if (giftVoucherId != null && giftVoucherId != 0 && giftVoucherDepositId != null && giftVoucherDepositId != 0)
@@ -81,6 +81,13 @@ namespace PosWarehouse.Controllers
                 TempData["message"] = strMessage;
             }
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> GetValueForVoucherCode(string giftVoucherCode)
+        {
+            var data = await _objGiftVoucherDepositDal.GetValueForSpecificVoucherCode(giftVoucherCode);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

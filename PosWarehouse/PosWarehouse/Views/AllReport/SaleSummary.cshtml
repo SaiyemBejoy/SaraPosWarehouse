@@ -161,10 +161,10 @@
                                                 @Html.RadioButtonFor(model => model.RadioFor, "ASCSS")<strong> All Shop Category/SubCategory Summary</strong>
                                             </label>
                                             <label>
-                                                @Html.RadioButtonFor(model => model.RadioFor, "CWD")<strong>Category//Style Wise Details</strong> 
+                                                @Html.RadioButtonFor(model => model.RadioFor, "CWD")<strong>Category//Style Wise Details</strong>
                                             </label>
                                             <label>
-                                                @Html.RadioButtonFor(model => model.RadioFor, "SWSS")<strong>Size Wise Sale Summary</strong> 
+                                                @Html.RadioButtonFor(model => model.RadioFor, "SWSS")<strong>Size Wise Sale Summary</strong>
                                             </label>
                                             <label>
                                                 @Html.RadioButtonFor(model => model.RadioFor, "IVD")<strong> Invoice Wise Details</strong>
@@ -177,6 +177,9 @@
                                             </label>
                                             <label>
                                                 @Html.RadioButtonFor(model => model.RadioFor, "SCC")<strong> Shop CPU Calculation</strong>
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "GVDH")<strong> Gift Voucher Deposit History</strong>
                                             </label>
                                         </div>
                                     </div>
@@ -245,6 +248,11 @@
                 $("#DesignerNameHide").show();
             } else if (value === 'SWSS') {
                 $('#styleDiv').hide();
+            }
+            else if (value === 'GVDH') {
+                $('#CategoryIdDiv').hide();
+                $('#SubCategoryIdDiv').hide();
+                $('#ShopIdDiv').hide();
             }
             else if (value === 'CWD' || value === 'SWSSR') {
                 $('#styleDiv').show();

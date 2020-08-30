@@ -3936,6 +3936,69 @@ namespace PosWarehouse.DAL
             }
         }
 
+
+        public async Task<DataSet> GiftVoucherDepositRpt(SaleDetailsSummary saleDetailsSummary)
+        {
+            try
+            {
+                DataSet ds = null;
+                DataTable dt = new DataTable();
+                try
+                {
+                    var sql = "SELECT " +
+                              " ' Gift Voucher Deposit History between ' || to_date( '" + saleDetailsSummary.FromDate + "', 'dd/mm/yyyy') || ' to '|| to_date( '" + saleDetailsSummary.ToDate + "', 'dd/mm/yyyy')  RPT_TITLE, " +
+                                "GIFT_VOUCHER_DEPOSIT_ID," +
+                                "GIFT_VOUCHER_ID," +
+                                "GIFT_VOUCHER_CODE," +
+                                "GIFT_VOUCHER_VALUE," +
+                                "GIFT_CUSTOMER_NAME," +
+                                "GIFT_CUSTOMER_PHONE," +
+                                "GIFT_VOU_DEPOSIT_SHOPID," +
+                                "GIFT_VOU_DEPOSIT_SHOP_NAME," +
+                                "CREATE_BY," +
+                                "CREATE_DATE" +
+                              " From VEW_GIFTVOUCHER_DEPOSIT where CREATE_DATE BETWEEN  to_date('" + saleDetailsSummary.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + saleDetailsSummary.ToDate.Trim() + "' , 'dd/mm/yyyy')  ";
+
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_GIFTVOUCHER_DEPOSIT"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
         public async Task<DataSet> ShopCPUCalculation(SaleDetailsSummary saleDetailsSummary)
         {
             try
