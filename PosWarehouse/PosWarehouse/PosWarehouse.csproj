@@ -360,6 +360,12 @@
       <DependentUpon>PurchaseReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\POReceive\StyleWisePurchaseReceiveHistory.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StyleWisePurchaseReceiveHistory.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1504,6 +1510,10 @@
     <EmbeddedResource Include="Reports\POReceive\PurchaseReceive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PurchaseReceive.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\POReceive\StyleWisePurchaseReceiveHistory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StyleWisePurchaseReceiveHistory.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

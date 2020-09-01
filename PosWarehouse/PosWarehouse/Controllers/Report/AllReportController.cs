@@ -568,6 +568,10 @@ namespace PosWarehouse.Controllers.Report
             {
                 await GenerateStyleWiselaunchDate(objDeliveryReport);
             }
+            else if (objDeliveryReport.RadioFor == "SWPRH")
+            {
+                await GenerateStyleWisePurchaseReceive(objDeliveryReport);
+            }
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_ID", "CATEGORY_NAME");
             ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View();
@@ -630,6 +634,19 @@ namespace PosWarehouse.Controllers.Report
         {
             var msg = await _objReportDal.StyleWiseFristLaunchDateSaveRpt(objDeliveryReport);
             return "o";
+        }
+
+        private async Task<int> GenerateStyleWisePurchaseReceive(StoreDeliveryReport objDeliveryReport)
+        {
+            string strPath = Path.Combine(Server.MapPath("~/Reports/POReceive/StyleWisePurchaseReceiveHistory.rpt"));
+            _objReportDocument.Load(strPath);
+            DataSet objDataSet = await _objReportDal.StylewisePurchaseReceiveHistory(objDeliveryReport);
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(objDeliveryReport.ReportType, "Style Wise Purchase Receive History");
+            return 0;
         }
 
         #endregion

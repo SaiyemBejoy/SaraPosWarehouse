@@ -68,6 +68,7 @@ namespace PosWarehouse.ViewModel
 
         public string ToDate { get; set; }
 
+        [DisplayName("Product Style")]
         public string ProductStyle { get; set; }
 
         public int CategoryId { get; set; }

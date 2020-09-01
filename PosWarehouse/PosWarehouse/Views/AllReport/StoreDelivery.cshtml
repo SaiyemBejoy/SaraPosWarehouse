@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="ShopListHide">
                                     @Html.LabelFor(c => c.ShopId, "Shop",new { @class = "col-md-3 control-label" })
                                     <div class="col-md-6">
                                         <div class="input-icon">
@@ -144,6 +144,9 @@
                                             </label>
                                             <label>
                                                 @Html.RadioButtonFor(model => model.RadioFor, "SWLD") <b>Style Wise First launch Date</b>
+                                            </label>
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "SWPRH") <b>Style Wise Purchase Receive History</b>
                                             </label>
 
                                         </div>
@@ -245,7 +248,20 @@
                 $("#deliveryHide").show();
                 $("#FromDateDiv").hide();
                 $("#ToDateDiv").hide();
-            } else {
+                $("#ShopListHide").show();
+            }
+            else if (value === 'SWPRH') {
+                $("#categoryHide").hide();
+                $("#subCategoryHide").hide();
+                $("#DesignerNameHide").hide();
+                $("#MerchandiserNameHide").hide();
+                $("#deliveryHide").show();
+                $("#FromDateDiv").hide();
+                $("#ToDateDiv").hide();
+                $("#deliveryHide").hide();
+                $("#ShopListHide").hide();
+            }   
+            else {
                 $("#categoryHide").show();
                 $("#subCategoryHide").show();
                 $("#DesignerNameHide").show();

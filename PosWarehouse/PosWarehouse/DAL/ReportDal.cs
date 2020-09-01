@@ -2077,7 +2077,7 @@ namespace PosWarehouse.DAL
                     }
                     if (!string.IsNullOrEmpty(storeDeliveryReport.ProductStyle))
                     {
-                        sql = sql + "and PRODUCT_STYLE = '" + storeDeliveryReport.ProductStyle + "' ";
+                        sql = sql + "and LOWER(PRODUCT_STYLE) = '" + storeDeliveryReport.ProductStyle.ToLower().Trim() + "' ";
                     }
                     if (storeDeliveryReport.ShopId > 0)
                     {
@@ -2121,6 +2121,77 @@ namespace PosWarehouse.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<DataSet> StylewisePurchaseReceiveHistory(StoreDeliveryReport storeDeliveryReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                DataTable dt = new DataTable();
+                try
+                {
+                    var sql = "SELECT " +
+                               " ' Style Wise Purchase Receive History'  RPT_TITLE, " +
+                                "VENDOR_ID," +
+                                "VENDOR_NAME," +
+                                "WAREHOUSE_NAME," +
+                                "WAREHOUSE_ADDRESS," +
+                                "DELIVERY_SHOP_ID," +
+                                "DELIVERY_SHOP_NAME," +
+                                "PURCHASE_RECEIVE_NUMBER," +
+                                "PURCHASE_ORDER_NUMBER," +
+                                "PURCHASE_DATE," +
+                                "CREATE_BY," +
+                                "CREATE_DATE," +
+                                "O_PURCHASE_RECEIVE_NUMBER," +
+                                "PRODUCT_ID,  " +
+                                "PRODUCT_STYLE," +
+                                "PO_ORDER_QUANTITY,  " +
+                                "RECEIVE_QUANTITY " +
+                                " From VEW_RPT_STYL_PURREC_HISTORY where  1= 1 ";
+                    if (!string.IsNullOrEmpty(storeDeliveryReport.ProductStyle))
+                    {
+                        sql = sql + "and LOWER(PRODUCT_STYLE) = '" + storeDeliveryReport.ProductStyle.ToLower().Trim() + "' ";
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_STYL_PURREC_HISTORY"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<DataSet> SaleSummaryCategorySubCategoryWiseWVat(SaleDetailsSummary saleDetailsSummary)
         {
             try
