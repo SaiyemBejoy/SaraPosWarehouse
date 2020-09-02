@@ -1,0 +1,263 @@
+﻿@using PosWarehouse.ViewModel
+@{
+    ViewBag.Title = "DamageProductApprove";
+    var damageProductModel = ViewBag.damageList as List<DamageProductModel>;
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box red-haze">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Warehouse Pending Damage List
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="DamageListTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Challan Number</th>
+                            <th>Created Date</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (damageProductModel != null && damageProductModel.Count != 0)
+                        {
+                            int counter = 1;
+                            foreach (var data in damageProductModel)
+                            {
+                                <tr>
+                                    <td>@counter</td>
+                                    <td>@data.DamageChallanNo</td>
+                                    <td>@data.CreatedDate</td>
+                                    <td>@data.CreatedBy</td>
+                                    <td style="width: 20%">
+                                        <a class="btn btn-primary damageProductItem" data-toggle="modal" href="#DamageProductApproveModal" data-id="@data.DamageChallanNo" id="DamageProductApprove">
+                                            <i class="fa fa-eye"></i>
+                                            View Item
+                                        </a>
+                                        @Html.ActionLink("Show Report", "ShowReport", "DamageProduct", new { challanNum = data.DamageChallanNo }, new { @class = "btn btn-danger", target = "_blank" })
+                                    </td>
+                                </tr>
+                                counter = counter + 1;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.modal -->
+<div class="modal fade bs-modal-lg" id="DamageProductApproveModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Damage Product Items</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green-sharp">
+                            <i class="icon-speech font-green-sharp"></i>
+                            <span class="caption-subject bold uppercase">Damage Product Pending for Approval</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><strong>Challan Number:</strong></label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-circle" id="damageChallanNo" style="width: 150px; background-color: yellow" readonly="readonly" />
+                            </div>
+                         </div>
+                     </div>
+                        <div class="portlet-body scroller" style="height: 350px">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="SelectDataForViewFromTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                BarCode
+                                            </th>
+                                            <th>
+                                                Item Name
+                                            </th>
+                                            <th>
+                                                Sale Price
+                                            </th>
+                                            <th>
+                                                Damage Quantity
+                                            </th>
+                                            <th>
+                                                Remarks
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ModalDamageProductListTableBody"></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Total Item</strong></label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control  input-circle" id="totalDamagedItem" style="width: 150px; background-color: yellow" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-success" id="approveBtn">Approve</button>
+                        <button type="button" class="btn btn-warning" id="rejectBtn">Reject</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#DamageListTable").dataTable();
+
+
+        $("#approveBtn").click(function () {
+            var challanno = $("#damageChallanNo").val();
+            var dataList = JSON.stringify({ challanNo: challanno });
+             $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("DamageChallanNoForApproval", "DamageProduct")',
+                 data: dataList,
+                 success: function (data) {
+                     if (data.m != null) {
+                         if (data.isRedirect) {
+                             window.setTimeout(function () {
+                                 window.location = data.redirectUrl;
+                             }, 1000);
+                             toastr.success(data.m);
+                             $('#preLoader').hide();
+                         }
+                         $("#DamageProductApproveModal").hide();
+                     }
+                 }
+            });
+        });
+    });
+
+
+
+    //for popup modal
+    function totalItemCount() {
+        var total = 0;
+        $("#ModalDamageProductListTableBody tr").each(function () {
+            total += parseInt($(this).find('td:eq(4)').html());
+
+        });
+        $("#totalDamagedItem").val(total);
+    }
+
+    function damageProductApproveList(challan_No) {
+
+        var dataId = JSON.stringify({ challanNo: challan_No });
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '@Url.Action("GetDamageProductItemList", "DamageProduct")',
+            data: dataId,
+            success: function (data) {
+                var tableQuantity = data.length;
+                $("#ModalDamageProductListTableBody").html("");
+                for (var i = 0; i < tableQuantity; i++) {
+                    $("#ModalDamageProductListTableBody").append('<tr>' +
+                        '<td>' +
+                        parseInt(i+1) +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Barcode +
+                        '</td>' +
+                        '<td>' +
+                        data[i].ItemName +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Price +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Quantity +
+                        '</td>' +
+                        '<td>' +
+                        data[i].Remarks +
+                        '</td>' +
+                        '</tr>'
+                    );
+                    totalItemCount();
+                }
+            }
+        });
+        $("#damageChallanNo").val(challan_No);
+    }
+
+    jQuery(document).ready(function () {
+
+        //var table = $("#PurchaseReceiveList").dataTable();
+        //var table2 = $("#SelectDataForViewFromTable").dataTable();
+
+        $(document).on('click', '.damageProductItem', function () {
+            var challan_No = $(this).data('id');
+            damageProductApproveList(challan_No);
+        });
+
+        @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+    });
+
+
+</script>
+

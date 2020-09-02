@@ -46,6 +46,7 @@ namespace PosWarehouse.Controllers
         [RoleFilter]
         public async Task<ActionResult> Index()
         {
+            LoadSession();
             ViewBag.Date = DateTime.Now.ToString("dd/MM/yyyy");
             ViewBag.MaxChallanNo = await _objDamageProductDal.GetMaxChallanNumber();
             return View();
@@ -53,7 +54,17 @@ namespace PosWarehouse.Controllers
         [RoleFilter]
         public async Task<ActionResult> DamageList()
         {
+            LoadSession();
             var damageList = await _objDamageProductDal.GetAllDamagelist();
+            ViewBag.damageList = damageList;
+            return View();
+        }
+
+        //[RoleFilter]
+        public async Task<ActionResult> DamageProductApprove()
+        {
+            LoadSession();
+            var damageList = await _objDamageProductDal.GetAllDamagelistForApproval();
             ViewBag.damageList = damageList;
             return View();
         }
@@ -63,6 +74,29 @@ namespace PosWarehouse.Controllers
             var data = await _objStoreDeliveryDal.GetProductItemDetailsByBarcode(barcode);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> GetDamageProductItemList(string challanNo)
+        {
+
+            var objDamageProductItemModel = await _objDamageProductDal.GetDamageProductItem(challanNo);
+
+            return Json(objDamageProductItemModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> DamageChallanNoForApproval(string challanNo)
+        {
+            LoadSession();
+            var returnMessage = "";
+            returnMessage = await _objDamageProductDal.UpdateDamageProductByChallanNo(challanNo, _strEmployeeId);
+            var messageAndReload = new
+            {
+                m = returnMessage,
+                isRedirect = true,
+                redirectUrl = Url.Action("DamageProductApprove")
+            };
+            return Json(messageAndReload, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> SaveAllDamageProduct(DamageProductModel objDamageProductModel)
         {
             string returnMessage = "";

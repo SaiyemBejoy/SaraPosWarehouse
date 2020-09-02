@@ -1465,6 +1465,7 @@
     <Content Include="Views\MenuSetUp\Index.cshtml" />
     <Content Include="Views\SubMenuSetUp\Index.cshtml" />
     <Content Include="Views\GiftVoucherDeposit\Index.cshtml" />
+    <Content Include="Views\DamageProduct\DamageProductApprove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
