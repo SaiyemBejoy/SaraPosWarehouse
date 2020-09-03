@@ -5,6 +5,7 @@
 }
 <div class="page-head">
     <div class="page-toolbar">
+        <a href="@Url.Action("DamageProductReject","DamageProduct")" class="btn btn-circle btn-success"> Show Rejected Damage</a>
         <a href="@Url.Action("Index","DamageProduct")" class="btn btn-circle btn-danger"><i class="fa fa-plus-circle"></i> New Damage</a>
     </div>
 </div>
@@ -27,6 +28,7 @@
                             <th>Challan Number</th>
                             <th>Created Date</th>
                             <th>Created By</th>
+                            <th>Approval Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,15 +38,25 @@
                             int counter = 1;
                             foreach (var data in damageProductModel)
                             {
-                                <tr>
-                                    <td>@counter</td>
-                                    <td>@data.DamageChallanNo</td>
-                                    <td>@data.CreatedDate</td>
-                                    <td>@data.CreatedBy</td>
-                                    <td>
-                                        @Html.ActionLink("Show Report", "ShowReport", "DamageProduct", new { challanNum = data.DamageChallanNo }, new { @class = "btn btn-danger", target = "_blank" })
-                                    </td>
-                                </tr>
+                        <tr>
+                            <td>@counter</td>
+                            <td>@data.DamageChallanNo</td>
+                            <td>@data.CreatedDate</td>
+                            <td>@data.CreatedBy</td>
+                            @if (data.ApproverStatus.Contains("Y"))
+                            {
+                                <td>
+                                    <b>Approved by:</b> @data.ApprovedBy <br /><b>Date:</b> @data.ApprovedDate
+                                </td>
+                            }
+                            else {
+                                <td><b>Pending</b></td>
+                            }
+
+                            <td style="width:20%">
+                                @Html.ActionLink("Show Report", "ShowReport", "DamageProduct", new { challanNum = data.DamageChallanNo }, new { @class = "btn btn-danger", target = "_blank" })
+                            </td>
+                        </tr>
                                 counter = counter + 1;
                             }
                         }

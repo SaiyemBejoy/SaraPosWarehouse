@@ -148,3 +148,4 @@ F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CoreComp
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CopyComplete
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.dll
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.pdb
+F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache

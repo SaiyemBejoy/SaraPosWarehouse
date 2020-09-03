@@ -775,6 +775,7 @@ namespace PosWarehouse.DAL
                                 "RECEIVED_DATE," +
                                 "ITEM_ID," +
                                 "PRODUCT_ID," +
+                                "PRODUCT_STYLE,"+
                                 "ITEM_NAME," +
                                 "BARCODE," +
                                 "QUANTITY," +

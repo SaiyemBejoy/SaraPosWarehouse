@@ -103,8 +103,9 @@ namespace PosWarehouse.Controllers
 
             if (employee != null)
             {
-                return View();
+                    return View();
             }
+           
             return RedirectToAction("Index", "Auth");
         }
         [LogAction]
@@ -123,9 +124,6 @@ namespace PosWarehouse.Controllers
         [ChildActionOnly]
         public async Task<ActionResult> Menu()
         {
-            //string userId = "01-25-01-009";
-            //string headOfficeId = "331";
-            //string branchOfficeId = "1";
             LoadSession();
 
             MenuModel menuModel = new MenuModel();
@@ -140,11 +138,7 @@ namespace PosWarehouse.Controllers
             }
             else
             {
-                menuModel.MenuMains = await _objHomeDal.GetMenuMain(_strEmployeeId, _strWareHouseId, _strShopId);
-                foreach (var menuMain in menuModel.MenuMains)
-                {
-                    menuMain.MenuSubs = await _objHomeDal.GetMenuSub(menuMain.MenuMainId, _strEmployeeId, _strWareHouseId, _strShopId);
-                }
+                ViewBag.MenuPermisionMessage = "You Have No Permision.Please contact with concern Person!.";
             }
             //End 
 

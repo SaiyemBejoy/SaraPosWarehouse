@@ -54,68 +54,43 @@ AS
           ON M.DAMAGE_TRANSFER_ID = I.DAMAGE_TRANSFER_ID;
 
 --------------------------------------------------------
---------------------------------------------------------
 
-DROP TABLE POSWAREHOUSE.DAMAGE_REJECT_ITEM CASCADE CONSTRAINTS;
+---------------------------------------------------
+---------------------------------------------------
+Date: 03/09/2020
 
-CREATE TABLE POSWAREHOUSE.DAMAGE_REJECT_ITEM
-(
-  DAMAGE_REJECT_ITEM_ID  NUMBER                 NOT NULL,
-  DAMAGE_REJECT_ID       NUMBER,
-  ITEM_ID                NUMBER,
-  PRODUCT_ID             NUMBER,
-  ITEM_NAME              VARCHAR2(200 BYTE),
-  BARCODE                VARCHAR2(100 BYTE),
-  QUANTITY               NUMBER,
-  SALE_PRICE             NUMBER,
-  REMARKS                VARCHAR2(500 BYTE)
-)
-TABLESPACE POSWAREHOUSE_DB
-PCTUSED    0
-PCTFREE    10
-INITRANS   1
-MAXTRANS   255
-STORAGE    (
-            PCTINCREASE      0
-            BUFFER_POOL      DEFAULT
-           )
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
 
--------------------------------------------------------
--------------------------------------------------------
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_DMG_PRODUCT_REJECT (
+   P_CHALLAN_NO         IN     VARCHAR2,
+   P_REJECTED_MESSAGE          VARCHAR2,
+   P_REJECTED_BY               VARCHAR2,
+   P_MESSAGE               OUT VARCHAR2)
+AS
+   v_count   INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM DAMAGE_TRANSFER_MAIN
+    WHERE     DAMAGE_TRANSFER_CHALLAN_NUM = P_CHALLAN_NO
+          AND APPROVED_YN IS NULL
+          AND REJECT_YN IS NULL;
 
-DROP TABLE POSWAREHOUSE.DAMAGE_REJECT_MAIN CASCADE CONSTRAINTS;
+   IF (v_count = 0)
+   THEN
+      P_MESSAGE := 'DATA NOT FOUND';
+      RETURN;
+   ELSE
+      UPDATE DAMAGE_TRANSFER_MAIN
+         SET REJECT_YN = 'Y',
+             REJECTED_DATE = SYSDATE,
+             REJECTED_BY = P_REJECTED_BY,
+             REJECTED_MESSAGE = P_REJECTED_MESSAGE
+       WHERE     DAMAGE_TRANSFER_CHALLAN_NUM = P_CHALLAN_NO
+             AND APPROVED_YN IS NULL
+             AND REJECT_YN IS NULL;
 
-CREATE TABLE POSWAREHOUSE.DAMAGE_REJECT_MAIN
-(
-  DAMAGE_REJECT_ID           NUMBER             NOT NULL,
-  DAMAGE_REJECT_CHALLAN_NUM  VARCHAR2(100 BYTE),
-  REJECTED_BY                VARCHAR2(500 BYTE),
-  REJECTED_DATE              DATE,
-  MESSAGE                    CLOB
-)
-LOB (MESSAGE) STORE AS (
-  TABLESPACE POSWAREHOUSE_DB
-  ENABLE       STORAGE IN ROW
-  CHUNK       8192
-  RETENTION
-  NOCACHE
-  LOGGING)
-TABLESPACE POSWAREHOUSE_DB
-PCTUSED    0
-PCTFREE    10
-INITRANS   1
-MAXTRANS   255
-STORAGE    (
-            PCTINCREASE      0
-            BUFFER_POOL      DEFAULT
-           )
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
+      COMMIT;
+      P_MESSAGE := 'REJECTED SUCCESSFULLY';
+   END IF;
+END;
+/

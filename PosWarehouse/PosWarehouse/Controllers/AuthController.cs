@@ -17,20 +17,17 @@ namespace PosWarehouse.Controllers
       readonly AuthenticationDAL _authentication = new AuthenticationDAL();
 
         // GET: Auth
-        /// Sayam Vai Checking check......
         public ActionResult Index(bool? userExist)
         {
             var employee = Session["authentication"] as AuthModel;
             if (employee != null)
-            {
-                return RedirectToAction("About", "Home");
+            { 
+              return RedirectToAction("About", "Home");
             }
-
             var b = !userExist;
             if (b != null && (bool)b)
             {
                 ViewBag.Message = TempData["message"];
-                
             }
             return View("Index");
         }
@@ -39,22 +36,23 @@ namespace PosWarehouse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(AuthModel authModel)
         {
-            //if (ModelState.IsValid)
-            //{
             if (authModel.EmployeeId !=null && authModel.EmployeePassword != null)
             {
-
                 authModel = await _authentication.Login(authModel.EmployeeId, authModel.EmployeePassword);
-
                 if (authModel.Message)
                 {
-                    Session["authentication"] = authModel;
-
-                    return RedirectToAction("About", "Home");
+                    if (authModel.EmployeeRole != "null")//erp er user er role asa na manual e role assagin korte hoi///a jonno ai check kora hoise//role na thakle login oo hoobe na
+                    {
+                        Session["authentication"] = authModel;
+                        return RedirectToAction("About", "Home");
+                    }
+                    else
+                    {
+                        TempData["message"] = "You do not have enough permissions to access this software!. Please contact with your concern person to get access. ";
+                        return RedirectToAction("Index", new { userExist = false });
+                    }
                 }
-
                 TempData["message"] = "Unauthorize access denied for this system !! ";
-
                 return RedirectToAction("Index", new { userExist = false });
             }
             return RedirectToAction("Index");

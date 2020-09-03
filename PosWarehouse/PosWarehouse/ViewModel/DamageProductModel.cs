@@ -13,6 +13,12 @@ namespace PosWarehouse.ViewModel
         public string CreatedBy { get; set; }
         //For Display Data
         public string EmployeeName { get; set; }
+        public string ApproverStatus { get; set; }
+        public string RejectMessage { get; set; }
+        public string RejectedDate { get; set; }
+        public string RejectedBy { get; set; }
+        public string ApprovedDate { get; set; }
+        public string ApprovedBy { get; set; }
         //End
 
         public IEnumerable<DamageProductItemModel> DamageProductItemList { get; set; }

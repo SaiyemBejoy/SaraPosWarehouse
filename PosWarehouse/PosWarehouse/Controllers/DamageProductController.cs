@@ -60,11 +60,20 @@ namespace PosWarehouse.Controllers
             return View();
         }
 
-        //[RoleFilter]
+        [RoleFilter]
         public async Task<ActionResult> DamageProductApprove()
         {
             LoadSession();
             var damageList = await _objDamageProductDal.GetAllDamagelistForApproval();
+            ViewBag.damageList = damageList;
+            return View();
+        }
+
+        [RoleFilter]
+        public async Task<ActionResult> DamageProductReject()
+        {
+            LoadSession();
+            var damageList = await _objDamageProductDal.GetAllRejectedList();
             ViewBag.damageList = damageList;
             return View();
         }
@@ -88,6 +97,19 @@ namespace PosWarehouse.Controllers
             LoadSession();
             var returnMessage = "";
             returnMessage = await _objDamageProductDal.UpdateDamageProductByChallanNo(challanNo, _strEmployeeId);
+            var messageAndReload = new
+            {
+                m = returnMessage,
+                isRedirect = true,
+                redirectUrl = Url.Action("DamageProductApprove")
+            };
+            return Json(messageAndReload, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> DamageChallanNoForReject(string challanNo, string rejectMessage)
+        {
+            LoadSession();
+            var returnMessage = "";
+            returnMessage = await _objDamageProductDal.RejectDamageProductByChallanNo(challanNo, rejectMessage, _strEmployeeId);
             var messageAndReload = new
             {
                 m = returnMessage,

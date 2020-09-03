@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace PosWarehouse.Controllers
 {
+    [LogAction]
     public class SubMenuSetUpController : Controller
     {
         private readonly MenuAndSubMenuDal _objSubMenuSetupDal = new MenuAndSubMenuDal();
@@ -43,7 +44,7 @@ namespace PosWarehouse.Controllers
         #endregion
 
         // GET: SubMenuSetUp
-        //[RoleFilter]
+        [RoleFilter]
         public async Task<ActionResult> Index(int? menuId, int? subMenuId)
         {
             ModelState.Clear();

@@ -45,7 +45,7 @@ namespace PosWarehouse.Controllers
 
         #endregion
 
-        //[RoleFilter]
+        [RoleFilter]
         public async Task<ActionResult> Index(int? menuId)
         {
             ModelState.Clear();

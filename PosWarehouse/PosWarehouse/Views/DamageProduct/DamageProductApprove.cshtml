@@ -55,7 +55,7 @@
 </div>
 
 
-<!-- /.modal -->
+<!-- /.modal for showing challan items -->
 <div class="modal fade bs-modal-lg" id="DamageProductApproveModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -74,44 +74,44 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label class="col-md-3 control-label"><strong>Challan Number:</strong></label>
-                            <div class="col-md-9">
+                            <label class="col-md-6 control-label text-right"><strong>Challan Number:</strong></label>
+                            <div class="col-md-6">
                                 <input type="text" class="form-control input-circle" id="damageChallanNo" style="width: 150px; background-color: yellow" readonly="readonly" />
                             </div>
-                         </div>
-                     </div>
-                        <div class="portlet-body scroller" style="height: 350px">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="SelectDataForViewFromTable">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                #
-                                            </th>
-                                            <th>
-                                                BarCode
-                                            </th>
-                                            <th>
-                                                Item Name
-                                            </th>
-                                            <th>
-                                                Sale Price
-                                            </th>
-                                            <th>
-                                                Damage Quantity
-                                            </th>
-                                            <th>
-                                                Remarks
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ModalDamageProductListTableBody"></tbody>
-                                </table>
-                            </div>
-
+                        </div>
+                    </div>
+                    <div class="portlet-body scroller" style="height: 350px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="SelectDataForViewFromTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Item Name
+                                        </th>
+                                        <th>
+                                            Sale Price
+                                        </th>
+                                        <th>
+                                            Damage Quantity
+                                        </th>
+                                        <th>
+                                            Remarks
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ModalDamageProductListTableBody"></tbody>
+                            </table>
                         </div>
 
                     </div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="row">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-success" id="approveBtn">Approve</button>
-                        <button type="button" class="btn btn-warning" id="rejectBtn">Reject</button>
+                        <button type="button" class="btn btn-warning" id="rejectBtn" data-toggle="modal" data-target="#rejectModal">Reject</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -137,12 +137,44 @@
     <!-- /.modal-dialog -->
 </div>
 
+<!-- /.modal for rejecting items -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="rejectModalLabel">Reject Damage Product</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="challanNoForReject"  class="col-md-6 control-label text-right"><strong>Challan Number:</strong></label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control input-circle" id="challanNoForReject" style="width: 150px; background-color: yellow" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rejectMsg" class="col-form-label" style="color:red">Reject Message: *</label>
+                        <textarea class="form-control" id="rejectMsg" placeholder="Enter the reason for rejecting.." required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" id="confirmRejectBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.end of reject modal -->
 
 <script>
     $(document).ready(function () {
         $("#DamageListTable").dataTable();
 
-
+        //for approve btn
         $("#approveBtn").click(function () {
             var challanno = $("#damageChallanNo").val();
             var dataList = JSON.stringify({ challanNo: challanno });
@@ -166,6 +198,43 @@
                  }
             });
         });
+
+
+        //for reject confirm btn
+        $("#confirmRejectBtn").click(function () {
+            var challanNoReject = $("#challanNoForReject").val();
+            var msgReject = $("#rejectMsg").val();
+
+            if (msgReject != "") {
+                var dataList = JSON.stringify({ challanNo: challanNoReject, rejectMessage: msgReject });
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("DamageChallanNoForReject", "DamageProduct")',
+                    data: dataList,
+                    success: function (data) {
+                        if (data.m != null) {
+                            if (data.isRedirect) {
+                                window.setTimeout(function () {
+                                    window.location = data.redirectUrl;
+                                }, 1000);
+                                toastr.success(data.m);
+                                $('#preLoader').hide();
+                            }
+                            $("#rejectModal").hide();
+                            $("#DamageProductApproveModal").hide();
+                        }
+                    }
+                });
+            }
+            else {
+                toastr.error("Message cann't be empty!!");
+            }
+            
+
+        });
+
     });
 
 
@@ -219,6 +288,7 @@
             }
         });
         $("#damageChallanNo").val(challan_No);
+        $("#challanNoForReject").val(challan_No);
     }
 
     jQuery(document).ready(function () {

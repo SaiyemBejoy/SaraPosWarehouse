@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace PosWarehouse.Controllers
 {
+    [LogAction]
     public class GiftVoucherDepositController : Controller
     {
         private readonly GiftVoucherDepositDAL _objGiftVoucherDepositDal = new GiftVoucherDepositDAL();
@@ -43,6 +44,7 @@ namespace PosWarehouse.Controllers
         #endregion
 
         // GET: GiftVoucherDeposit
+        [RoleFilter]
         public async Task<ActionResult> Index(int? giftVoucherId, int? giftVoucherDepositId)
         {
             ModelState.Clear();
