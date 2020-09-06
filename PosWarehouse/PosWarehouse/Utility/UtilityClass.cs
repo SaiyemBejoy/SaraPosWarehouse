@@ -26,7 +26,7 @@ namespace PosWarehouse.Utility
         };
 
         //For dropdown list
-        public static SelectList GetSelectListByDataTable(DataTable objDataTable, string pValueField, string pTextField)
+    public static SelectList GetSelectListByDataTable(DataTable objDataTable, string pValueField, string pTextField)
     {
         List<SelectListItem> objSelectListItems = new List<SelectListItem>
             {

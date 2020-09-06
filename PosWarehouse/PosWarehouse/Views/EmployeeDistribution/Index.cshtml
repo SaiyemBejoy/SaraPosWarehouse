@@ -283,7 +283,7 @@
                                     <label class="col-md-4 control-label">Role</label>
                                     <div class="col-md-8">
                                         <div class="input-icon">
-                                            <input type="text" class="form-control input-circle" id="role" readonly="readonly">
+                                            <input type="text" class="form-control input-circle" id="role" >
                                         </div> 
                                     </div>
                                 </div>
@@ -551,6 +551,7 @@
         if ($("#employeeId").val() !=="" ) {
             var employeeId = $("#employeeId").val();
             var shopId = $("#shopId").val();
+            var role = $("#role").val();
             var status = $("#activeStatus").parent("span").hasClass("checked");            
             var activeYn = "";
             if (status) {
@@ -561,6 +562,7 @@
             var dataObject = {
                 'EmployeeId': employeeId,
                 'ShopId': shopId,
+                'EmployeeRole': role,
                 'ActiveYn': activeYn
             }
             var dataList = JSON.stringify({ objEmployeeDistributionModel: dataObject });

@@ -18,7 +18,7 @@ namespace PosWarehouse.ViewModel
         [Required]
         [DisplayName("Product Style")]
         public string ProductStyle { get; set; }
-
+        [Required]
         [DisplayName(" Description")]
         public string ProductDescription { get; set; }
         [Required]
@@ -45,6 +45,8 @@ namespace PosWarehouse.ViewModel
 
         [DisplayName("1 Purchase Unit = ? Sales Unit")]
         public string PurchaseUnitSaleUnit { get; set; }
+
+        public int MaterialId { get; set; }
 
         [Required]
         [DisplayName("Category")]

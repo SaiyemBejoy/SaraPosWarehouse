@@ -662,6 +662,7 @@ namespace PosWarehouse.Controllers.Report
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_NAME", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+            ViewBag.ProductColor = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetColorForDropdown(), "ATTRIBUTE_VALUE_NAME", "ATTRIBUTE_VALUE_NAME");
             //var shopData = await _objDataExchangeDal.GetAllShopActiveShopInfo();
             //foreach (var shop in shopData)
             //{
@@ -669,7 +670,7 @@ namespace PosWarehouse.Controllers.Report
             //    {
             //        await ShopStockDataSaveForRpt(shop.ShopId);
             //    }
-                
+
             //}
             return View(stockSummary);
         }
@@ -683,10 +684,10 @@ namespace PosWarehouse.Controllers.Report
             {
                 stockSummaryReport.ReportType = "PDF";
 
-                if (stockSummaryReport.ShopId > 0)
-                {
-                    await ShopStockDataSaveForRpt(stockSummaryReport.ShopId);
-                }
+                //if (stockSummaryReport.ShopId > 0)
+                //{
+                //    await ShopStockDataSaveForRpt(stockSummaryReport.ShopId);
+                //}
 
                 if (stockSummaryReport.RadioFor == "SR")
                 {
@@ -741,6 +742,7 @@ namespace PosWarehouse.Controllers.Report
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_NAME", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+            ViewBag.ProductColor = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetColorForDropdown(), "ATTRIBUTE_VALUE_NAME", "ATTRIBUTE_VALUE_NAME");
             return View(stockSummaryReport);
         }
         private async Task<int> GenerateStockDetailsSummary(StockSummaryReport objStockSummaryReport)

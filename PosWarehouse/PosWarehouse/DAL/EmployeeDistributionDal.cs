@@ -315,6 +315,7 @@ namespace PosWarehouse.DAL
             };
             objOracleCommand.Parameters.Add("P_EMPLOYEE_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objEmployeeDistributionModel.EmployeeId;
             objOracleCommand.Parameters.Add("P_SHOP_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objEmployeeDistributionModel.ShopId;
+            objOracleCommand.Parameters.Add("P_EMPLOYEE_ROLE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objEmployeeDistributionModel.EmployeeRole;
             objOracleCommand.Parameters.Add("P_ACTIVE_YN", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objEmployeeDistributionModel.ActiveYn) ? objEmployeeDistributionModel.ActiveYn : null;   
             objOracleCommand.Parameters.Add("p_message", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
             using (OracleConnection strConn = GetConnection())

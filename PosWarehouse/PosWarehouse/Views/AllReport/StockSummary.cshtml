@@ -131,7 +131,18 @@
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>
-                               
+                                @*<div class="form-group" id="colorHide">
+                                    @Html.LabelFor(c => c.Color, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            <i class="fa fa-text-width"></i>
+                                            @Html.DropDownListFor(c => c.Color, new SelectList(ViewBag.ProductColor, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>*@
+
                             </div>
                             <div class="col-md-6">    
                                
@@ -228,6 +239,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             } else if (value === 'SCR') {
                 $("#CategoryId").val(0);
                 $('#subCategoryHide').show();
@@ -236,6 +248,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             } else if (value === 'BR') {
                 $("#CategoryId").val(0);
                 $("#SubCategoryId").val(0);
@@ -245,6 +258,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+               // $('#colorHide').hide();
             } else if (value === 'SWR') {
                 $("#CategoryId").val(0);
                 $("#SubCategoryId").val(0);
@@ -254,6 +268,7 @@
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             } else if (value === 'SR') {
                 $('#barcodeHide').hide();
                 $('#categoryHide').hide();
@@ -261,6 +276,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             } else if (value === 'CSSS') {
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
@@ -269,6 +285,7 @@
                 $('#styleHide').show();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             } else if (value === 'SCWS') {
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
@@ -277,6 +294,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').hide();
+               // $('#colorHide').hide();
             } else if (value === 'WHS') {
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
@@ -284,6 +302,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').hide();
+                //$('#colorHide').hide();
             } else if (value === 'WHD') {
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
@@ -291,6 +310,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').hide();
+               // $('#colorHide').hide();
             } else if (value === 'SWH') {
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
@@ -298,6 +318,7 @@
                 $('#styleHide').show();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').hide();
+                //$('#colorHide').hide();
             }
             else if (value === 'SLS') {
                 $("#SubCategoryId").hide();
@@ -306,6 +327,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             }
             else if (value === 'SWLS') {
                 $("#SubCategoryId").hide();
@@ -314,6 +336,7 @@
                 $('#styleHide').hide();
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').show();
+                //$('#colorHide').hide();
             }
         });
 

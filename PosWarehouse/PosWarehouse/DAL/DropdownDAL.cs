@@ -205,6 +205,36 @@ namespace PosWarehouse.DAL
             return dt;
         }
 
+        public async Task<DataTable> GetMaterialListDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "MATERIAL_ID, " +
+                      "MATERIAL_NAME " +
+                      "FROM L_MATERIAL_DETAILS ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
         public async Task<DataTable> GetCountryListDropdown()
         {
             DataTable dt = new DataTable();
@@ -443,6 +473,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetPurchaseOrderNumberDropdownDub()
         {
             DataTable dt = new DataTable();
@@ -475,6 +506,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetPurchaseOrderNumberDropdown()
         {
             DataTable dt = new DataTable();
@@ -568,7 +600,6 @@ namespace PosWarehouse.DAL
             return dt;
         }
 
-
         public async Task<DataTable> GetSubCategoryListDropdownForRpt()
         {
             DataTable dt = new DataTable();
@@ -598,6 +629,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetSubCategoryListDropdown(int categoryId)
         {
             DataTable dt = new DataTable();
@@ -910,7 +942,6 @@ namespace PosWarehouse.DAL
             return dt;
         }
 
-
         public async Task<DataTable> GetMeasuringUnitListDropdown()
         {
             DataTable dt = new DataTable();
@@ -970,6 +1001,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetPurchaseReceiveListDropdown(string purchaseDate)
         {
             DataTable dt = new DataTable();
@@ -999,6 +1031,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetPurchaseReceiveListDropdown()
         {
             DataTable dt = new DataTable();
@@ -1061,6 +1094,7 @@ namespace PosWarehouse.DAL
             }
             return dt;
         }
+
         public async Task<DataTable> GetAllShopRequisitionListDropDown()
         {
             DataTable dt = new DataTable();
@@ -1129,6 +1163,36 @@ namespace PosWarehouse.DAL
                       " STOCK_TRANSFER_CHALLAN_NUM " +
                       " FROM VEW_STOCK_TRANSFER_MAIN " +
                       " WHERE TRANSFER_SHOPID_TO = (SELECT WARE_HOUSE_ID FROM WARE_HOUSE)  AND RECEIVE_YN = 'N' ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetColorForDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = " SELECT " +
+                      " ATTRIBUTE_VALUE_NAME " +
+                      " FROM L_ATTRIBUTE_VALUE " +
+                      " WHERE ATTRIBUTE_ID = 5 ";
 
             OracleCommand objCommand = new OracleCommand(sql);
             OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);

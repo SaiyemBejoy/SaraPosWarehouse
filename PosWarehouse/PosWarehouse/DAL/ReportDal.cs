@@ -2741,6 +2741,7 @@ namespace PosWarehouse.DAL
                             "PRODUCT_ID," +
                             "ITEM_ID," +
                             "PRODUCT_STYLE," +
+                            "ITEM_COLOR," +
                             "BARCODE," +
                             "ITEM_NAME," +
                             "PURCHASE_PRICE," +
@@ -2824,6 +2825,7 @@ namespace PosWarehouse.DAL
                             "PRODUCT_ID," +
                             "ITEM_ID," +
                             "PRODUCT_STYLE," +
+                            "ITEM_COLOR," +
                             "BARCODE," +
                             "ITEM_NAME," +
                             "PURCHASE_PRICE," +

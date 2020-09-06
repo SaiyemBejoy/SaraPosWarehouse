@@ -142,10 +142,10 @@ F:\SaRa Project\PosWarehouse\PosWarehouse\bin\EntityFramework.SqlServer.xml
 F:\SaRa Project\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Core.xml
 F:\SaRa Project\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Owin.xml
 F:\SaRa Project\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.Migrations.initialCreate.resources
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.GenerateResource.cache
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CoreCompileInputs.cache
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CopyComplete
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.dll
 F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.pdb
-F:\SaRa Project\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache

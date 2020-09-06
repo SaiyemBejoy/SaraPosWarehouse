@@ -109,6 +109,9 @@ namespace PosWarehouse.ViewModel
         [DisplayName("SubCategory")]
         public string SubCategoryId { get; set; }
 
+        [DisplayName("Color")]
+        public string Color { get; set; }
+
         public string Barcode { get; set; }
 
         public int ProductId { get; set; }
