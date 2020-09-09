@@ -117,6 +117,7 @@ namespace PosWarehouse.Controllers
             ViewBag.AttributeList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAttributeListDropdown(), "ATTRIBUTE_ID", "ATTRIBUTE_NAME");
             ViewBag.MeasuringUnitList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetMeasuringUnitListDropdown(), "UNIT_ID", "UNIT_NAME");
             ViewBag.MaterialList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetMaterialListDropdown(), "MATERIAL_ID", "MATERIAL_NAME");
+            ViewBag.OtherCostList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetOtherCostListDropdown(), "OTHER_COST_ID", "COST_PURPOSE");
             return View(model);
         }
 

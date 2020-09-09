@@ -1,0 +1,157 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.OtherCostDetailsModel
+@{
+    ViewBag.Title = "OtherCostDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var objOtherCostDetailsModel = ViewBag.OtherCostList as List<OtherCostDetailsModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Other Cost Details</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Other Cost
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateOterCost", "OtherCostDetails", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CostPurpose, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(m => m.CostPurpose, new { @class = "form-control input-circle", @placeholder = "Cost Purpose", @id = "costPurpose", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(m => m.CostPurpose)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(m => m.OtherCostId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                <a class="btn btn-danger" href="@Url.Action("Index", "OtherCostDetails")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Other Cost Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="otherCostTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cost Purpose</th>
+                                <th>Create By</th>
+                                <th>Create Date</th>
+                                <th>Update By</th>
+                                <th>Update Date</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (objOtherCostDetailsModel != null && objOtherCostDetailsModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in objOtherCostDetailsModel)
+                                {
+                                    <tr>
+                                        <td>@counter</td>
+                                        <td>@data.CostPurpose</td>
+                                        <td>@data.CreateBy</td>
+                                        <td>@data.CreateDate</td>
+                                        <td>@data.UpdateBy</td>
+                                        <td>@data.UpdateDate</td>
+                                        <td class="text-center">
+                                            @Html.ActionLink("Edit", "Index", "OtherCostDetails", new { otherCostId = data.OtherCostId }, new { @class = "btn btn-primary fa fa-edit btn-xs" })
+                                        </td>
+                                    </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+
+
+        var table = $("#otherCostTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+
+
+

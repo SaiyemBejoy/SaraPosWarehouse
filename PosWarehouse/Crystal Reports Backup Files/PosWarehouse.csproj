@@ -50,13 +50,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
-      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource">
-      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared">
-      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
@@ -254,8 +254,10 @@
     <Compile Include="Controllers\DamageProductController.cs" />
     <Compile Include="Controllers\CloudPosDataEntryController.cs" />
     <Compile Include="Controllers\EmployeeDistributionController.cs" />
+    <Compile Include="Controllers\GiftVoucherDepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MenuSetUpController.cs" />
     <Compile Include="Controllers\OtherCompanyDiscountController.cs" />
     <Compile Include="Controllers\OtherPurchaseReceiveController.cs" />
     <Compile Include="Controllers\PoCuttingController.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Controllers\ShopLaunchController.cs" />
     <Compile Include="Controllers\ShopOrderController.cs" />
     <Compile Include="Controllers\StoreDeliveryController.cs" />
+    <Compile Include="Controllers\SubMenuSetUpController.cs" />
     <Compile Include="Controllers\UserMenuController.cs" />
     <Compile Include="DAL\AuthenticationDAL.cs" />
     <Compile Include="DAL\BarCodeDAL.cs" />
@@ -282,8 +285,10 @@
     <Compile Include="DAL\DropdownDAL.cs" />
     <Compile Include="DAL\Ecom\EcomDal.cs" />
     <Compile Include="DAL\EmployeeDistributionDal.cs" />
+    <Compile Include="DAL\GiftVoucherDepositDAL.cs" />
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\InvoiceInfoDAL.cs" />
+    <Compile Include="DAL\MenuAndSubMenuDal.cs" />
     <Compile Include="DAL\OtherCompanyOfferDal.cs" />
     <Compile Include="DAL\OtherPurchaseReceiveDal.cs" />
     <Compile Include="DAL\PoCuttingDal.cs" />
@@ -355,6 +360,12 @@
       <DependentUpon>PurchaseReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\POReceive\StyleWisePurchaseReceiveHistory.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StyleWisePurchaseReceiveHistory.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -389,6 +400,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DesignerWiseSale.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Sale\GiftVoucherDeposit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftVoucherDeposit.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Sale\InvoiceWiseDetails.cs">
@@ -621,6 +638,7 @@
     <Compile Include="ViewModel\HotSaleAndLowStockModel.cs" />
     <Compile Include="ViewModel\InvoiceInfoModel.cs" />
     <Compile Include="ViewModel\LogActionModel.cs" />
+    <Compile Include="ViewModel\MenuSetUpModel.cs" />
     <Compile Include="ViewModel\OtherCompanyOfferDisModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveItemModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveModel.cs" />
@@ -636,6 +654,7 @@
     <Compile Include="ViewModel\StockReceiveItemModel.cs" />
     <Compile Include="ViewModel\StockReceiveModel.cs" />
     <Compile Include="ViewModel\StoreDeliveryModel.cs" />
+    <Compile Include="ViewModel\SubMenuSetUpModel.cs" />
     <Compile Include="ViewModel\WarehouseStockModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1443,6 +1462,11 @@
     <Content Include="Views\OtherCompanyDiscount\OtherCompanyDiscount.cshtml" />
     <Content Include="Views\OtherPurchaseReceive\OtherPurchaseReceive.cshtml" />
     <Content Include="Views\OtherPurchaseReceive\OtherPurchaseReceiveList.cshtml" />
+    <Content Include="Views\MenuSetUp\Index.cshtml" />
+    <Content Include="Views\SubMenuSetUp\Index.cshtml" />
+    <Content Include="Views\GiftVoucherDeposit\Index.cshtml" />
+    <Content Include="Views\DamageProduct\DamageProductApprove.cshtml" />
+    <Content Include="Views\DamageProduct\DamageProductReject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1489,6 +1513,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>PurchaseReceive.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\POReceive\StyleWisePurchaseReceiveHistory.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>StyleWisePurchaseReceiveHistory.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReturnReceiveChallanNumWise.cs</LastGenOutput>
@@ -1512,6 +1540,10 @@
     <EmbeddedResource Include="Reports\Sale\DesignerWiseSale.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DesignerWiseSale.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Sale\GiftVoucherDeposit.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GiftVoucherDeposit.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Sale\InvoiceWiseDetails.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -257,8 +257,10 @@
     <Compile Include="Controllers\GiftVoucherDepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialDetailsController.cs" />
     <Compile Include="Controllers\MenuSetUpController.cs" />
     <Compile Include="Controllers\OtherCompanyDiscountController.cs" />
+    <Compile Include="Controllers\OtherCostDetailsController.cs" />
     <Compile Include="Controllers\OtherPurchaseReceiveController.cs" />
     <Compile Include="Controllers\PoCuttingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Controllers\StoreDeliveryController.cs" />
     <Compile Include="Controllers\SubMenuSetUpController.cs" />
     <Compile Include="Controllers\UserMenuController.cs" />
+    <Compile Include="Controllers\UserSubActionPermissionController.cs" />
     <Compile Include="DAL\AuthenticationDAL.cs" />
     <Compile Include="DAL\BarCodeDAL.cs" />
     <Compile Include="DAL\CloudPosDataEntryDal.cs" />
@@ -288,8 +291,10 @@
     <Compile Include="DAL\GiftVoucherDepositDAL.cs" />
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\InvoiceInfoDAL.cs" />
+    <Compile Include="DAL\MaterialDetailsDal.cs" />
     <Compile Include="DAL\MenuAndSubMenuDal.cs" />
     <Compile Include="DAL\OtherCompanyOfferDal.cs" />
+    <Compile Include="DAL\OtherCostDetailsDal.cs" />
     <Compile Include="DAL\OtherPurchaseReceiveDal.cs" />
     <Compile Include="DAL\PoCuttingDal.cs" />
     <Compile Include="DAL\ProductDal.cs" />
@@ -306,6 +311,7 @@
     <Compile Include="DAL\StockReturnReceiveDal.cs" />
     <Compile Include="DAL\StockTransferDal.cs" />
     <Compile Include="DAL\StoreDeliveryDal.cs" />
+    <Compile Include="DAL\UserSubActionPermissionDal.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -638,8 +644,10 @@
     <Compile Include="ViewModel\HotSaleAndLowStockModel.cs" />
     <Compile Include="ViewModel\InvoiceInfoModel.cs" />
     <Compile Include="ViewModel\LogActionModel.cs" />
+    <Compile Include="ViewModel\MaterialDetailsModel.cs" />
     <Compile Include="ViewModel\MenuSetUpModel.cs" />
     <Compile Include="ViewModel\OtherCompanyOfferDisModel.cs" />
+    <Compile Include="ViewModel\OtherCostDetailsModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveItemModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveModel.cs" />
     <Compile Include="ViewModel\PoCuttingModel.cs" />
@@ -655,6 +663,7 @@
     <Compile Include="ViewModel\StockReceiveModel.cs" />
     <Compile Include="ViewModel\StoreDeliveryModel.cs" />
     <Compile Include="ViewModel\SubMenuSetUpModel.cs" />
+    <Compile Include="ViewModel\UserSubActionPermissionModel.cs" />
     <Compile Include="ViewModel\WarehouseStockModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1467,6 +1476,9 @@
     <Content Include="Views\GiftVoucherDeposit\Index.cshtml" />
     <Content Include="Views\DamageProduct\DamageProductApprove.cshtml" />
     <Content Include="Views\DamageProduct\DamageProductReject.cshtml" />
+    <Content Include="Views\MaterialDetails\Index.cshtml" />
+    <Content Include="Views\OtherCostDetails\Index.cshtml" />
+    <Content Include="Views\UserSubActionPermission\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,199 @@
+/* Formatted on 09-Sep-20 10:53:32 AM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_MATERIAL_DETAILS
+(
+   MATERIAL_ID,
+   MATERIAL_NAME,
+   UPDATE_BY,
+   UPDATE_DATE,
+   CREATE_BY,
+   CREATE_DATE
+)
+AS
+     SELECT MATERIAL_ID,
+            MATERIAL_NAME,
+            UPDATE_BY,
+            UPDATE_DATE,
+            CREATE_BY,
+            CREATE_DATE
+       FROM L_MATERIAL_DETAILS;
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+/* Formatted on 09-Sep-20 12:15:39 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_MATERIAL_SAVE (
+   P_MATERIAL_ID     IN     VARCHAR2,
+   P_MATERIAL_NAME          VARCHAR2,
+   P_UPDATE_BY              VARCHAR2,
+   P_UPDATE_DATE            VARCHAR2,
+   P_CREATE_BY              VARCHAR2,
+   P_CREATE_DATE            VARCHAR2,
+   P_MESSAGE            OUT VARCHAR2)
+AS
+   v_count         INT;
+   v_material_id   INT;
+   v_dup           INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM L_MATERIAL_DETAILS
+    WHERE MATERIAL_ID = P_MATERIAL_ID;
+
+   IF v_count > 0
+   THEN
+      UPDATE L_MATERIAL_DETAILS
+         SET MATERIAL_NAME = P_MATERIAL_NAME,
+             UPDATE_BY = P_UPDATE_BY,
+             UPDATE_DATE = SYSDATE
+       WHERE MATERIAL_ID = P_MATERIAL_ID;
+
+      COMMIT;
+      P_MESSAGE := 'UPDATED SUCCESSFULLY !!';
+      RETURN;
+   ELSE
+      SELECT COUNT (*)
+        INTO v_dup
+        FROM L_MATERIAL_DETAILS
+       WHERE (UPPER (MATERIAL_NAME) = UPPER (P_MATERIAL_NAME)
+              OR LOWER (MATERIAL_NAME) = LOWER (P_MATERIAL_NAME));
+
+      IF v_dup > 0
+      THEN
+         P_MESSAGE := 'MATERIAL NAME ALREADY EXISTS !!';
+         RETURN;
+      END IF;
+
+      SELECT NVL (MAX (MATERIAL_ID), 0) + 1
+        INTO v_material_id
+        FROM L_MATERIAL_DETAILS;
+
+      INSERT INTO L_MATERIAL_DETAILS (MATERIAL_ID,
+                                      MATERIAL_NAME,
+                                      UPDATE_BY,
+                                      UPDATE_DATE,
+                                      CREATE_BY,
+                                      CREATE_DATE)
+           VALUES (v_material_id,
+                   P_MATERIAL_NAME,
+                   P_UPDATE_BY,
+                   SYSDATE,
+                   P_CREATE_BY,
+                   SYSDATE);
+
+      COMMIT;
+      p_message := 'INSERTED SUCCESSFULLY !!';
+   END IF;
+END;
+/
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+/* Formatted on 09-Sep-20 12:45:06 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_OTHER_COST_DETAILS
+(
+   OTHER_COST_ID,
+   COST_PURPOSE,
+   UPDATE_BY,
+   UPDATE_DATE,
+   CREATE_BY,
+   CREATE_DATE
+)
+AS
+   SELECT OTHER_COST_ID,
+          COST_PURPOSE,
+          UPDATE_BY,
+          UPDATE_DATE,
+          CREATE_BY,
+          CREATE_DATE
+     FROM L_OTHER_COST_DETAILS;
+
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+/* Formatted on 09-Sep-20 2:05:01 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_OTHER_COST_SAVE (
+   P_OTHER_COST_ID   IN     VARCHAR2,
+   P_COST_PURPOSE           VARCHAR2,
+   P_UPDATE_BY              VARCHAR2,
+   P_UPDATE_DATE            VARCHAR2,
+   P_CREATE_BY              VARCHAR2,
+   P_CREATE_DATE            VARCHAR2,
+   P_MESSAGE            OUT VARCHAR2)
+AS
+   v_count           INT;
+   v_other_cost_id   INT;
+   v_dup             INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM L_OTHER_COST_DETAILS
+    WHERE OTHER_COST_ID = P_OTHER_COST_ID;
+
+   IF v_count > 0
+   THEN
+      UPDATE L_OTHER_COST_DETAILS
+         SET COST_PURPOSE = P_COST_PURPOSE,
+             UPDATE_BY = P_UPDATE_BY,
+             UPDATE_DATE = SYSDATE
+       WHERE OTHER_COST_ID = P_OTHER_COST_ID;
+
+      COMMIT;
+      P_MESSAGE := 'UPDATED SUCCESSFULLY !!';
+      RETURN;
+   ELSE
+      SELECT COUNT (*)
+        INTO v_dup
+        FROM L_OTHER_COST_DETAILS
+       WHERE (UPPER (COST_PURPOSE) = UPPER (P_COST_PURPOSE)
+              OR LOWER (COST_PURPOSE) = LOWER (P_COST_PURPOSE));
+
+      IF v_dup > 0
+      THEN
+         P_MESSAGE := 'COST PURPOSE  ALREADY EXISTS !!';
+         RETURN;
+      END IF;
+
+      SELECT NVL (MAX (OTHER_COST_ID), 0) + 1
+        INTO v_other_cost_id
+        FROM L_OTHER_COST_DETAILS;
+
+      INSERT INTO L_OTHER_COST_DETAILS (OTHER_COST_ID,
+                                        COST_PURPOSE,
+                                        UPDATE_BY,
+                                        UPDATE_DATE,
+                                        CREATE_BY,
+                                        CREATE_DATE)
+           VALUES (v_other_cost_id,
+                   P_COST_PURPOSE,
+                   P_UPDATE_BY,
+                   SYSDATE,
+                   P_CREATE_BY,
+                   SYSDATE);
+
+      COMMIT;
+      p_message := 'INSERTED SUCCESSFULLY !!';
+   END IF;
+END;
+/
+
+----------------------------------------------------
+----------------------------------------------------
+
+/* Formatted on 09-Sep-20 4:47:08 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_USR_ACTN_PRMSN
+(
+   AUTO_ID,
+   ROLE_NAME,
+   ACTION_NAME,
+   CREATE_BY,
+   CREATE_DATE,
+   ACTIVE_YN
+)
+AS
+   SELECT AUTO_ID,
+          ROLE_NAME,
+          ACTION_NAME,
+          CREATE_BY,
+          CREATE_DATE,
+          ACTIVE_YN
+     FROM USER_ACTION_PERMISION;

@@ -1,0 +1,178 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.UserSubActionPermissionModel
+@{
+    ViewBag.Title = "UserSubActionPermission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var objSubPermissionModels = ViewBag.SubActionPermissionList as List<UserSubActionPermissionModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>User Sub Action Permission</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Sub Action Permission
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("#", "#", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.RoleName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control input-circle", @placeholder = "Role Name", @id = "roleName", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(m => m.RoleName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ActioinName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(m => m.ActioinName, new { @class = "form-control input-circle", @placeholder = "Action Name", @id = "actionName", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(m => m.ActioinName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ActiveStatus, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="checkbox-list" style="margin-top: 8px;">
+
+                                    @Html.CheckBoxFor(m => m.ActiveStatus, new { @class = "checker" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(m => m.PermissionId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                <a class="btn btn-danger" href="@Url.Action("Index", "UserSubActionPermission")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>User Sub Action Permission Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="permissionTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Role Name</th>
+                                <th>Action Name</th>
+                                <th>Create By</th>
+                                <th>Create Date</th>
+                                <th>Active Status</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (objSubPermissionModels != null && objSubPermissionModels.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in objSubPermissionModels)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.RoleName</td>
+                                <td>@data.ActioinName</td>
+                                <td>@data.CreateBy</td>
+                                <td>@data.CreateDate</td>
+                                <td>@data.Active_YN</td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Edit", "Index", "UserSubActionPermission", new { permissionId = data.PermissionId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) ||
+                                    @*@Html.ActionLink(" Delete", "#", "UserSubActionPermission", new { permissionId = data.PermissionId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
+                                </td>
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+
+
+        var table = $("#permissionTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+

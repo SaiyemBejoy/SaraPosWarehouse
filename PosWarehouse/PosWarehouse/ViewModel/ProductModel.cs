@@ -45,9 +45,10 @@ namespace PosWarehouse.ViewModel
 
         [DisplayName("1 Purchase Unit = ? Sales Unit")]
         public string PurchaseUnitSaleUnit { get; set; }
-
+        // Pore material and kisu other cost add hoise oiter jonno 
         public int MaterialId { get; set; }
-
+        public int OtherCostId { get; set; }
+        //End
         [Required]
         [DisplayName("Category")]
         public int CategoryId { get; set; }

@@ -235,6 +235,36 @@ namespace PosWarehouse.DAL
             return dt;
         }
 
+        public async Task<DataTable> GetOtherCostListDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "OTHER_COST_ID, " +
+                      "COST_PURPOSE  " +
+                      "FROM L_OTHER_COST_DETAILS ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
         public async Task<DataTable> GetCountryListDropdown()
         {
             DataTable dt = new DataTable();

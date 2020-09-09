@@ -1,0 +1,155 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.MaterialDetailsModel
+@{
+    ViewBag.Title = "MeterialDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var materialDetailsModel = ViewBag.MaterialList as List<MaterialDetailsModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Manage Material Details</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Add Material
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("SaveAndUpdateMaterial", "MaterialDetails", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.MaterialName, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-6">
+                                <div class="input-icon">
+                                    <i class="fa fa-text-width"></i>
+                                    @Html.TextBoxFor(m => m.MaterialName, new { @class = "form-control input-circle", @placeholder = "Material Name", @id = "materialName", @style = "max-width: 580px;" })
+                                    @Html.ValidationMessageFor(m => m.MaterialName)
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                @Html.HiddenFor(m => m.MaterialId)
+                                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Save</button>
+                                @*<button class="btn btn-success" type="submit" id="clear"><i class="fa fa-save"></i> clear2</button>*@
+                                <a class="btn btn-danger" href="@Url.Action("Index", "MaterialDetails")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Material Lists
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="materialTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Material Name</th>
+                                <th>Create By</th>
+                                <th>Create Date</th>
+                                <th>Update By</th>
+                                <th>Update Date</th>
+                                <th class="text-center" style="width: 20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (materialDetailsModel != null && materialDetailsModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in materialDetailsModel)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.MaterialName</td>
+                                <td>@data.CreateBy</td>
+                                <td>@data.CreateDate</td>
+                                <td>@data.UpdateBy</td>
+                                <td>@data.UpdateDate</td>
+                                <td class="text-center">
+                                    @Html.ActionLink("Edit", "Index", "MaterialDetails", new { materialId = data.MaterialId }, new { @class = "btn btn-primary fa fa-edit btn-xs" })
+                                </td>
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+
+
+        var table = $("#materialTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+

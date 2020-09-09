@@ -188,7 +188,7 @@
                                                                         <div class="col-md-10">
                                                                             <div class="input-icon">
                                                                                 <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", placeholder = "Material Cost" })
+                                                                                @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", @readonly = "@readonly", placeholder = "Material Cost" , @style = "background-color:yellow" })
                                                                                 @Html.ValidationMessageFor(c => c.MaterialCost)
                                                                             </div>
                                                                         </div>
@@ -205,14 +205,34 @@
                                                                         <i class="ti-help-alt"></i>
                                                                     </div>
                                                                     <div class="col-sm-8">
-                                                                        <div class="input-icon">
-                                                                            <i><b>&#2547;</b></i>
-                                                                            @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "" })
-                                                                            @Html.ValidationMessageFor(c => c.CM)
+                                                                        <div class="col-md-12">
+                                                                            <div class="input-icon">
+                                                                                <i><b>&#2547;</b></i>
+                                                                                @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "CM", })
+                                                                                @Html.ValidationMessageFor(c => c.CM)
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                       <label>COGS</label><span style="color: red">*</span>
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="col-md-10">
+                                                                            <div class="input-icon">
+                                                                                <i><b>&#2547;</b></i>
+                                                                                <input type="number" class="form-control  input-circle" min="0" id="cogsValue" readonly="readonly" style="background-color:yellow" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <a class="btn btn-icon-only btn-circle green" data-toggle="modal" href="#otherCostDetailsModal">
+                                                                                <i class="fa fa-plus"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-4 text-left">
                                                                         @Html.LabelFor(c => c.PurchasePrice, new { @class = "control-label" })<span style="color: red">*</span>
@@ -302,15 +322,7 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.IsActive, new { @class = "col-form-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8 mt-2">
-                                                                        @Html.CheckBoxFor(c => c.IsActive, new { @class = "make-switch" })
-                                                                    </div>
-                                                                </div>
+                                                              
 
                                                             </div>
                                                         </div>
@@ -434,8 +446,15 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.IsActive, new { @class = "col-form-label" })
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8 mt-2">
+                                                                        @Html.CheckBoxFor(c => c.IsActive, new { @class = "make-switch" })
+                                                                    </div>
+                                                                </div>
                                                                 <br />
                                                             </div>
                                                         </div>
@@ -591,23 +610,23 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="MaterialCostTable">
                                 <thead>
-                                    <tr>
-                                        <th>
-                                            Material Name
-                                        </th>
-                                        <th>
-                                            Unit Prict
-                                        </th>
-                                        <th>
-                                            Used Material
-                                        </th>
-                                        <th>
-                                            Sub Total
-                                        </th>
-                                        <th>
-                                            Action
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>
+                                        Material Name
+                                    </th>
+                                    <th>
+                                        Unit Prict
+                                    </th>
+                                    <th>
+                                        Used Material
+                                    </th>
+                                    <th>
+                                        Sub Total
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody id="MaterialCostTableBody"></tbody>
                             </table>
@@ -624,6 +643,85 @@
                             <label class="col-md-5 control-label"><strong>Total Material Cost value:</strong></label>
                             <div class="col-md-7">
                                 <input type="text" class="form-control  input-circle" id="totalmaterialCostValue" style="width: 150px; background-color: yellow" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-modal-lg" id="otherCostDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"><strong>Purpose of Cost:</strong></label>
+                            <div class="col-md-7">
+                                @Html.DropDownListFor(m => m.OtherCostId, ViewBag.OtherCostList as SelectList, new { @class = "form-control input-circle" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"><strong>Cost Value:</strong></label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control  input-circle" min="0" id="otherCostValue" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-7">
+                                <button type="button" class="btn btn-success" id="otherCostAdd">Add New</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <br />
+                <div class="portlet light bordered">
+                    <div class="portlet-body scroller" style="height: 250px">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="otherCostTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            COST Value
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="otherCostTableBody"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Total  Cost:</strong></label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control  input-circle" id="totalOtherCostValue" style="width: 150px; background-color: yellow" readonly="readonly" />
                             </div>
                         </div>
                     </div>
@@ -740,7 +838,8 @@
             var materialCost = $("#MaterialCost").val();
             var CM = $("#CM").val();
             var purchasePrice = parseFloat(materialCost) + parseFloat(CM);
-            $("#PurchasePrice").val(purchasePrice);
+            //$("#PurchasePrice").val(purchasePrice);
+            $("#cogsValue").val(purchasePrice);
 
         });
         $("#usedMaterial").keyup(function () {
