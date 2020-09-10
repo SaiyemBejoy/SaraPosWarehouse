@@ -7,9 +7,13 @@
     var objSubPermissionModels = ViewBag.SubActionPermissionList as List<UserSubActionPermissionModel>;
 }
 
+
 <div class="page-head">
     <div class="page-title">
         <h1>User Sub Action Permission</h1>
+    </div>
+    <div class="page-toolbar">
+        <a href="@Url.Action("Index","UserMenu")" class="btn btn-circle btn-primary"> User SubMenu Permission</a>
     </div>
 </div>
 
@@ -26,7 +30,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                @using (Html.BeginForm("#", "#", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("SaveAndUpdateSubActionPermission", "UserSubActionPermission", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-body">
@@ -36,7 +40,7 @@
                             <div class="col-md-6">
                                 <div class="input-icon">
                                     <i class="fa fa-text-width"></i>
-                                    @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control input-circle", @placeholder = "Role Name", @id = "roleName", @style = "max-width: 580px;" })
+                                    @Html.DropDownListFor(m => m.RoleName, new SelectList(ViewBag.RoleList, "Value", "Text", Model.RoleName), new { @class = "form-control input-circle", @placeholder = "Role Name", @style = "max-width: 580px;" })
                                     @Html.ValidationMessageFor(m => m.RoleName)
                                 </div>
                             </div>
@@ -118,9 +122,18 @@
                                 <td>@data.ActioinName</td>
                                 <td>@data.CreateBy</td>
                                 <td>@data.CreateDate</td>
-                                <td>@data.Active_YN</td>
+                                @if (data.Active_YN == "Y")
+                                {
+                                    <td>
+                                        <i class="fa fa-check-circle" style="color: green;"> Active</i>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><i class="fa fa-times-circle" style="color: red;"></i> InActive</td>
+                                }
                                 <td class="text-center">
-                                    @Html.ActionLink("Edit", "Index", "UserSubActionPermission", new { permissionId = data.PermissionId }, new { @class = "btn btn-primary fa fa-edit btn-xs" }) ||
+                                    @Html.ActionLink("Edit", "Index", "UserSubActionPermission", new { permissionId = data.PermissionId }, new { @class = "btn btn-primary fa fa-edit btn-xs" })
                                     @*@Html.ActionLink(" Delete", "#", "UserSubActionPermission", new { permissionId = data.PermissionId }, new { @class = "btn btn-danger fa fa-trash-o btn-xs" })*@
                                 </td>
                             </tr>

@@ -134,7 +134,50 @@ namespace PosWarehouse.DAL
             }
         }
 
+        public async Task<string> SaveAndUpdateSubActionPermission(UserSubActionPermissionModel objSubPermissionModel)
+        {
+            string strMessage;
 
+            OracleCommand objOracleCommand = new OracleCommand("PRO_USR_PRMSN_SAVE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_AUTO_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objSubPermissionModel.PermissionId;
+            objOracleCommand.Parameters.Add("P_ROLE_NAME", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objSubPermissionModel.RoleName) ? objSubPermissionModel.RoleName.Trim() : null;
+            objOracleCommand.Parameters.Add("P_ACTION_NAME", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objSubPermissionModel.ActioinName) ? objSubPermissionModel.ActioinName.Trim() : null;
+            objOracleCommand.Parameters.Add("P_CREATE_BY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objSubPermissionModel.CreateBy) ? objSubPermissionModel.CreateBy.Trim() : null;
+            objOracleCommand.Parameters.Add("P_CREATE_DATE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objSubPermissionModel.CreateDate) ? objSubPermissionModel.CreateDate.Trim() : null;
+            objOracleCommand.Parameters.Add("P_ACTIVE_YN", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objSubPermissionModel.Active_YN) ? objSubPermissionModel.Active_YN : null;
+
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMessage = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+            return strMessage;
+        }
 
 
     }

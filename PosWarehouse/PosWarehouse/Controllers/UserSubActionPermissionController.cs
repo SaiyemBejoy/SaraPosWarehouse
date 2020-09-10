@@ -70,7 +70,21 @@ namespace PosWarehouse.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SaveAndUpdateSubActionPermission(UserSubActionPermissionModel objSubPermissionModel)
+        {
+            LoadSession();
+            if (ModelState.IsValid)
+            {
+                objSubPermissionModel.CreateBy = _strEmployeeId;
+                objSubPermissionModel.Active_YN = objSubPermissionModel.ActiveStatus ? "Y" : "N";
 
+                string strMessage = await _objSubActionPermissionDal.SaveAndUpdateSubActionPermission(objSubPermissionModel);
+                TempData["message"] = strMessage;
+            }
+            return RedirectToAction("Index");
+        }
 
     }
 }
