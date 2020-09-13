@@ -72,6 +72,10 @@ namespace PosWarehouse.ViewModel
         [DisplayName("CM")]
         public double? CM { get; set; }
 
+        [Required]
+        [DisplayName("COGS")]
+        public double? COGS { get; set; }
+
         [DisplayName("Karchupi")]
         public bool Karchupi { get; set; }
 
@@ -94,12 +98,19 @@ namespace PosWarehouse.ViewModel
 
         [DisplayName("Attribute")]
         public int AttributeId { get; set; }
+        [Required]
+        [DisplayName("Season")]
+        public int? SeasonId { get; set; }
 
         public string UpdateBy { get; set; }
 
         public string WareHouseId { get; set; }
 
         public string ShopId { get; set; }
+
+        
+        public string MaterialCostDetailse { get; set; }
+        public string OthersCostDetailse { get; set; }
     }
 
     public class ProductGrid
@@ -220,5 +231,40 @@ namespace PosWarehouse.ViewModel
 
         public int AttributeValueId { get; set; }
         public string AttributeValueName { get; set; }
+    }
+
+    public class ProductMaterialCostDetails
+    {
+        public int MaterialCostAutoId { get; set; }
+
+        public int ProductId { get; set; }
+
+        public int MaterialId{ get; set; }
+
+        public string MaterialName { get; set; }
+
+        public double UnitPrice { get; set; }
+
+        public double UsedMaterial { get; set; }
+
+        public double SubTotal { get; set; }
+
+        public string UpdatedBy { get; set; }
+    }
+
+    public class ProductOthersCostDetails
+    {
+        public int OthersCostAutoId { get; set; }
+
+        public int ProductId { get; set; }
+
+        public int OtherCostId { get; set; }
+        public string PurposeOfCost { get; set; }
+
+        public double CostValue { get; set; }
+
+        public string UpdatedBy { get; set; }
+
+
     }
 }

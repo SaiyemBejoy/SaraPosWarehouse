@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using PosWarehouse.DAL;
 using PosWarehouse.Utility;
 using PosWarehouse.ViewModel;
@@ -118,6 +119,7 @@ namespace PosWarehouse.Controllers
             ViewBag.MeasuringUnitList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetMeasuringUnitListDropdown(), "UNIT_ID", "UNIT_NAME");
             ViewBag.MaterialList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetMaterialListDropdown(), "MATERIAL_ID", "MATERIAL_NAME");
             ViewBag.OtherCostList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetOtherCostListDropdown(), "OTHER_COST_ID", "COST_PURPOSE");
+            ViewBag.SeasonList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSeasonListDropdown(), "SEASON_ID", "SEASON_NAME");
             return View(model);
         }
 
@@ -126,12 +128,28 @@ namespace PosWarehouse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveOrUpdate(ProductModel objProductModel)
         {
-            int productId = 0;
+            ///material cost details er data hidden field er maddhome string kore nia asa
+            /// list a convert kora hoise
+            List<ProductMaterialCostDetails> MaterialCostDetailsList;
+            List<ProductOthersCostDetails> OtherCostDetailsList;
 
+            if (!String.IsNullOrWhiteSpace(objProductModel.MaterialCostDetailse) && !String.IsNullOrWhiteSpace(objProductModel.OthersCostDetailse))
+            {
+                MaterialCostDetailsList = new JavaScriptSerializer().Deserialize<List<ProductMaterialCostDetails>>(objProductModel.MaterialCostDetailse);
+                OtherCostDetailsList = new JavaScriptSerializer().Deserialize<List<ProductOthersCostDetails>>(objProductModel.OthersCostDetailse);
+            }
+            else
+            {
+                MaterialCostDetailsList = new List<ProductMaterialCostDetails>();
+                OtherCostDetailsList = new List<ProductOthersCostDetails>();
+            }
+            ///End
+            int productId = 0;
             if (objProductModel.ProductId != 0)
             {
                 ModelState.Remove("ProductImage");
             }
+
             if (!ModelState.IsValid)
             {
                 if (objProductModel.ProductId != 0)
@@ -202,6 +220,26 @@ namespace PosWarehouse.Controllers
             {
                 var strMessage = await _objProductDal.SaveProductInfo(objProductModel);
                 productId = Convert.ToInt32(strMessage[1]);
+                if (MaterialCostDetailsList.Count > 0)
+                {
+                    foreach (var materialCost in MaterialCostDetailsList)
+                    {
+                        materialCost.ProductId = productId;
+                        materialCost.UpdatedBy = _strEmployeeId;
+                        var materialCostSave = await _objProductDal.SaveMaterialCostDetails(materialCost);
+                    }
+                    
+                }
+                if (OtherCostDetailsList.Count > 0 )
+                {
+                    foreach (var otherCost in OtherCostDetailsList)
+                    {
+                        otherCost.ProductId = productId;
+                        otherCost.UpdatedBy = _strEmployeeId;
+                        var otherCostSave = await _objProductDal.SaveOtherCostDetails(otherCost);
+                    }
+                }
+
                 TempData["message"] = strMessage[0];
             }
 
@@ -228,6 +266,12 @@ namespace PosWarehouse.Controllers
             var attribute = await _objProductDal.GetAttributeValue(attributeId, _strWareHouseId, _strShopId);
             attribute = attribute.OrderBy(c => c.AttributeValue).ToList();
             return Json(attribute, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> GetAllMaterialCostDetailsList()
+        {
+            LoadSession();
+            var materialList = await _objProductDal.GetMaterialCostList();
+            return Json(materialList, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> SaveProductAttribute(List<ProductAttribute> objProductAttributes)
@@ -441,6 +485,46 @@ namespace PosWarehouse.Controllers
 
             return Json(item, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public async Task<ActionResult> IndividualMaterialDetailsSave(List<ProductMaterialCostDetails> obProductMaterialCostDetails, string productIdSaveCheck)
+        {
+            var saveMassage = "";
+            LoadSession();
+            var saveCheck = await _objProductDal.SaveCheckMaterialCostAndOtherCost(productIdSaveCheck);
+            if (Convert.ToInt32(saveCheck[0]) == 0)
+            {
+                if (obProductMaterialCostDetails != null)
+                {
+                    foreach (var matList in obProductMaterialCostDetails)
+                    {
+                        matList.UpdatedBy = _strEmployeeId;
+                        saveMassage = await _objProductDal.SaveMaterialCostDetails(matList);
+                    }
+                }
+            }
+
+            return Json(saveMassage, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> IndividualOtherCostDetailsSave(List<ProductOthersCostDetails> objProductOthersCostDetails ,string productIdSaveCheck)
+        {
+            var saveMassage = "";
+            LoadSession();
+            var saveCheck = await _objProductDal.SaveCheckMaterialCostAndOtherCost(productIdSaveCheck);
+            if (Convert.ToInt32(saveCheck[1]) == 0 )
+            {
+                if (objProductOthersCostDetails != null)
+                {
+                    foreach (var otherlist in objProductOthersCostDetails)
+                    {
+                        otherlist.UpdatedBy = _strEmployeeId;
+                        saveMassage = await _objProductDal.SaveOtherCostDetails(otherlist);
+                    }
+                }
+            }
+           
+            return Json(saveMassage, JsonRequestBehavior.AllowGet);
         }
     }
 }

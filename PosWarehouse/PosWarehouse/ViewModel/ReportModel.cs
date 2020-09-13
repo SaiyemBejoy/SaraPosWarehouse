@@ -114,7 +114,7 @@ namespace PosWarehouse.ViewModel
 
         public string Barcode { get; set; }
 
-        public int ProductId { get; set; }
+        public List<int> ProductId { get; set; }
 
         public string StyleName { get; set; }
 

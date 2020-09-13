@@ -18,7 +18,15 @@ namespace PosWarehouse.Utility
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var sessionUser = (AuthModel)HttpContext.Current.Session["authentication"];
-            if (sessionUser.EmployeeRole != "")// Check the Role Against the database Value
+            if (sessionUser == null)
+            {
+                var urlHelper = new UrlHelper(filterContext.RequestContext);
+                HttpContext.Current.Session.Abandon();
+                var url = urlHelper.Action("Index", "Auth");
+                filterContext.Result = new RedirectResult(url);
+                return;
+            }
+            if (sessionUser.EmployeeRole != "" && sessionUser != null)// Check the Role Against the database Value
             {
                 string requiredPermission = String.Format("{0}/{1}",
                     filterContext.ActionDescriptor.ControllerDescriptor.ControllerName,
@@ -34,6 +42,7 @@ namespace PosWarehouse.Utility
                 }
 
             }
+            
             //ActionNames(controller);
         }
         public List<string> ActionNames(string controllerName)

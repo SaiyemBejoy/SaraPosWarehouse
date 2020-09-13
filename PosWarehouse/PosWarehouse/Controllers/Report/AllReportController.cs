@@ -684,6 +684,15 @@ namespace PosWarehouse.Controllers.Report
             {
                 stockSummaryReport.ReportType = "PDF";
 
+                if(stockSummaryReport.ProductId.Count > 0)
+                {
+                    for (int i = 0; i < stockSummaryReport.ProductId.Count; i++)
+                    {
+                        stockSummaryReport.StyleName += stockSummaryReport.ProductId[i] + ",";
+                    }
+                    stockSummaryReport.StyleName = stockSummaryReport.StyleName.Remove(stockSummaryReport.StyleName.Length - 1);
+                }
+
                 //if (stockSummaryReport.ShopId > 0)
                 //{
                 //    await ShopStockDataSaveForRpt(stockSummaryReport.ShopId);

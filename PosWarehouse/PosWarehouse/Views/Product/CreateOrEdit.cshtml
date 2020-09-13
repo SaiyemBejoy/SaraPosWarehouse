@@ -1,4 +1,6 @@
-﻿@model PosWarehouse.ViewModel.ProductModel
+﻿@using System.Activities.Statements
+@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.ProductModel
 @{
     ViewBag.Title = "CreateOrEdit";
 }
@@ -71,6 +73,9 @@
                                             {
                                                 @Html.AntiForgeryToken()
                                                 @Html.HiddenFor(c => c.ProductId)
+
+                                                @Html.HiddenFor(m => m.MaterialCostDetailse, new { @id = "ModelMaterialList" })
+                                                @Html.HiddenFor(m => m.OthersCostDetailse, new { @id = "ModelOtherCostList" })
                                                 <div class="row">
 
                                                     <div class="col-md-4">
@@ -114,6 +119,15 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.SeasonId, new { @class = "control-label" })<span style="color: red">*</span>
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.DropDownListFor(m => m.SeasonId, ViewBag.SeasonList as SelectList, new { @class = "form-control input-circle" })
+                                                                        @Html.ValidationMessageFor(c => c.SeasonId)
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
                                                                         @Html.LabelFor(c => c.CategoryId, new { @class = "control-label" })<span style="color: red">*</span>
                                                                     </div>
                                                                     <div class="col-sm-8">
@@ -140,16 +154,7 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.BrandId, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        @Html.DropDownListFor(c => c.BrandId, new SelectList(ViewBag.BrandList, "Value", "Text"), new { @class = "form-control input-circle" })
-
-                                                                        @Html.ValidationMessageFor(c => c.BrandId)
-                                                                    </div>
-                                                                </div>
+                                                                
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-4 text-left">
                                                                         @Html.LabelFor(c => c.DesignerId, new { @class = "control-label" })<span style="color: red">*</span>
@@ -175,159 +180,164 @@
                                                         </div>
 
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
-                                                            <br />
-                                                            <div class="portlet-body">
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.MaterialCost, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="col-md-10">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", @readonly = "@readonly", placeholder = "Material Cost" , @style = "background-color:yellow" })
-                                                                                @Html.ValidationMessageFor(c => c.MaterialCost)
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <a class="btn btn-icon-only btn-circle green" data-toggle="modal" href="#materialCostDetailsModal">
-                                                                                <i class="fa fa-plus"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
+                                                <div class="col-md-4">
+                                                   
+                                                    <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
+                                                        <br/>
+                                                        <div class="portlet-body">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.BrandId, new { @class = "control-label" })<span style="color: red">*</span>
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.CM, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="col-md-12">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "CM", })
-                                                                                @Html.ValidationMessageFor(c => c.CM)
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="col-sm-8">
+                                                                    @Html.DropDownListFor(c => c.BrandId, new SelectList(ViewBag.BrandList, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                                                                    @Html.ValidationMessageFor(c => c.BrandId)
                                                                 </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                       <label>COGS</label><span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="col-md-10">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                <input type="number" class="form-control  input-circle" min="0" id="cogsValue" readonly="readonly" style="background-color:yellow" />
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <a class="btn btn-icon-only btn-circle green" data-toggle="modal" href="#otherCostDetailsModal">
-                                                                                <i class="fa fa-plus"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.PurchasePrice, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="input-icon">
-                                                                            <i><b>&#2547;</b></i>
-                                                                            @Html.TextBoxFor(c => c.PurchasePrice, new { @class = "form-control input-circle", @readonly = "@readonly", type = "number", placeholder = " Purchase Price" })
-                                                                            @Html.ValidationMessageFor(c => c.PurchasePrice)
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.SalePrice, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="input-icon">
-                                                                            <i><b>&#2547;</b></i>
-                                                                            @Html.TextBoxFor(c => c.SalePrice, new { @class = "form-control input-circle", type = "number", placeholder = "Enter Selling Price" })
-                                                                            @Html.ValidationMessageFor(c => c.SalePrice)
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.Karchupi, new { @class = "col-form-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-md-8">
-                                                                        <div class="checkbox-list" style="margin-top: 6px;">
-
-                                                                            @Html.CheckBoxFor(c => c.Karchupi, new { @class = "checker" })
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.Wash, new { @class = "control-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="input-icon">
-
-                                                                            @Html.TextBoxFor(c => c.Wash, new { @class = "form-control input-circle", placeholder = " " })
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.Print, new { @class = "control-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="input-icon">
-
-                                                                            @Html.TextBoxFor(c => c.Print, new { @class = "form-control input-circle", placeholder = " " })
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.Embroidery, new { @class = "control-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="input-icon">
-
-                                                                            @Html.TextBoxFor(c => c.Embroidery, new { @class = "form-control input-circle", placeholder = " " })
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4 text-left">
-                                                                        @Html.LabelFor(c => c.IncludeVat, new { @class = "control-label" })
-                                                                        <i class="ti-help-alt"></i>
-                                                                    </div>
-                                                                    <div class="col-sm-8 mt-2">
-                                                                        @Html.CheckBoxFor(c => c.IncludeVat, new { @class = "make-switch" })
-                                                                    </div>
-                                                                </div>
-
-                                                              
-
                                                             </div>
-                                                        </div>
+                                                            <div class="form-group row">
 
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.MaterialCost, new {@class = "control-label"})<span style="color: red">*</span>
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="col-md-10">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.MaterialCost, new {@class = "form-control input-circle", type = "number", @readonly = "@readonly", placeholder = "Material Cost", @style = "background-color:yellow"})
+                                                                            @Html.ValidationMessageFor(c => c.MaterialCost)
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <a class="btn btn-icon-only btn-circle green" id="materialCostDetailsModalPlus" @*data-toggle="modal" href="#materialCostDetailsModal"*@>
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.CM, new {@class = "control-label"})<span style="color: red">*</span>
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="col-md-12">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.CM, new {@class = "form-control input-circle", type = "number", placeholder = "CM",})
+                                                                            @Html.ValidationMessageFor(c => c.CM)
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    <label>COGS</label><span style="color: red">*</span>
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="col-md-10">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.COGS, new {@class = "form-control input-circle", id = "cogsValue", min = "0", type = "number", @readonly= "readonly",  placeholder = "CM", @style = "background-color:yellow" })
+                                                                            @Html.ValidationMessageFor(c => c.COGS)
+                                                                            @*<input type="number" class="form-control  input-circle" min="0" id="cogsValue" readonly="readonly" style="background-color:yellow"/>*@
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <a class="btn btn-icon-only btn-circle green"  data-toggle="modal" href="#otherCostDetailsModal">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.PurchasePrice, "CPU", new {@class = "control-label"})<span style="color: red">*</span>
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-icon">
+                                                                        <i><b>&#2547;</b></i>
+                                                                        @Html.TextBoxFor(c => c.PurchasePrice, new {@class = "form-control input-circle", @readonly = "@readonly", type = "number", placeholder = "CPU", style = "background-color:yellow"})
+                                                                        @Html.ValidationMessageFor(c => c.PurchasePrice)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.SalePrice, new {@class = "control-label"})<span style="color: red">*</span>
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-icon">
+                                                                        <i><b>&#2547;</b></i>
+                                                                        @Html.TextBoxFor(c => c.SalePrice, new {@class = "form-control input-circle", type = "number", placeholder = "Enter Selling Price"})
+                                                                        @Html.ValidationMessageFor(c => c.SalePrice)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.Karchupi, new {@class = "col-form-label"})
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <div class="checkbox-list" style="margin-top: 6px;">
+
+                                                                        @Html.CheckBoxFor(c => c.Karchupi, new {@class = "checker"})
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.Wash, new {@class = "control-label"})
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-icon">
+
+                                                                        @Html.TextBoxFor(c => c.Wash, new {@class = "form-control input-circle", placeholder = " "})
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.Print, new {@class = "control-label"})
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-icon">
+
+                                                                        @Html.TextBoxFor(c => c.Print, new {@class = "form-control input-circle", placeholder = " "})
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-4 text-left">
+                                                                    @Html.LabelFor(c => c.Embroidery, new {@class = "control-label"})
+                                                                    <i class="ti-help-alt"></i>
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-icon">
+
+                                                                        @Html.TextBoxFor(c => c.Embroidery, new {@class = "form-control input-circle", placeholder = " "})
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                        </div>
                                                     </div>
+
+                                                </div>
 
                                                     <div class="col-md-4">
                                                         <div class="portlet tabbable" style="border: 1px solid #45b6af; padding: 6px;">
@@ -455,6 +465,16 @@
                                                                         @Html.CheckBoxFor(c => c.IsActive, new { @class = "make-switch" })
                                                                     </div>
                                                                 </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4 text-left">
+                                                                        @Html.LabelFor(c => c.IncludeVat, new {@class = "control-label"})
+                                                                        <i class="ti-help-alt"></i>
+                                                                    </div>
+                                                                    <div class="col-sm-8 mt-2">
+                                                                        @Html.CheckBoxFor(c => c.IncludeVat, new {@class = "make-switch"})
+                                                                    </div>
+                                                                </div>
+
                                                                 <br />
                                                             </div>
                                                         </div>
@@ -647,6 +667,9 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        @if(@Model.ProductId > 0){
+                        <button type="button" class="btn btn-success" id="materialSave">Save</button>
+                        }
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -726,6 +749,9 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        @if(@Model.ProductId > 0){
+                            <button type="button" class="btn btn-success" id="OtherCostSave">Save</button>
+                        }
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -746,14 +772,31 @@
 
 <script>
 
+    function scrollStopNumberField() {
+        $('input[type=number]').on('mousewheel', function(e) {
+            $(e.target).blur();
+        });
+    }
     function totalMaterialCostCalculation() {
         var total = 0;
         $("#MaterialCostTableBody tr").each(function () {
             total += parseFloat($(this).find('td:eq(4)').text());
 
         });
-        $("#totalmaterialCostValue").val(total);
-        $("#MaterialCost").val(total);
+            $("#totalmaterialCostValue").val(total);
+            $("#MaterialCost").val(total);
+    }
+    function totalOtherCostCalculation() {
+        var cogsValue = parseFloat($("#cogsValue").val());
+        var total = 0;
+        var totalCPU = 0;
+        $("#otherCostTableBody tr").each(function () {
+            total += parseFloat($(this).find('td:eq(2)').text());
+
+        });
+        totalCPU = parseFloat(cogsValue + total);
+        $("#totalOtherCostValue").val(total);
+        $("#PurchasePrice").val(totalCPU);
     }
     function validationMaterialForm() {
         var materialId = $("#MaterialId").val();
@@ -761,9 +804,70 @@
             toastr.error("Select Material Name!.");
             return false;
         } 
+        var unitPrice = $("#materialUnitPrice").val();
+        if (unitPrice == '') {
+            toastr.error("UnitPrice Is required!.");
+            return false;
+        } 
+        var usedMaterial = $("#usedMaterial").val();
+        if (usedMaterial == '') {
+            toastr.error("Used Material is Required!..");
+            return false;
+        } 
         return true;
 
     }
+    function validationOtherCostForm() {
+        var OtherCostId = $("#OtherCostId").val();
+        if (OtherCostId == '') {
+            toastr.error("Select Purpose of Cost!.");
+            return false;
+        }
+        var CM = $("#CM").val();
+        if (CM == '') {
+            toastr.error("CM Value Must be Required!.");
+            return false;
+        }
+        return true;
+
+    }
+
+    function automaticMaterialTableBodyGenerate() {
+
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            url: '/Product/GetAllMaterialCostDetailsList/',
+            success: function (data) {
+                $("#MaterialCostTableBody").html("");
+                var materialData = data.length;
+                for (var i = 0; i < materialData; i++) {
+                    $("#MaterialCostTableBody").append('<tr id="matRow'+ i +'">' +
+                        '<td style="display:none;">' +
+                        data[i].MaterialId +
+                        '</td>' +
+                        '<td>' +
+                        data[i].MaterialName +
+                        '</td>' +
+                        '<td style="width: 150px;" >' +
+                        '<input type="number" class="form-control input-circle matUnitPrice" id="matUnitPrice' + i +'" min ="0" >' +
+                        '</td>' +
+                        '<td style="width: 150px;" >' +
+                        '<input type="number" class="form-control input-circle matUsed" id="matUsed' + i +'" min ="0">' +
+                        '</td>' +
+                        '<td>' +
+                        '<input type="number" class="form-control input-circle  matSubtotal" id="matSubtotal' + i +'" readonly="readonly" style="width: 100px; background-color: yellow"  value="' + 0 +'">' +
+                        '</td>' +
+                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>'
+                    );
+                }
+                scrollStopNumberField();
+            },
+        });
+    }
+
     //For text Editor
     //tinymce.init({ selector: 'textarea', width: '100%' });
 
@@ -826,6 +930,23 @@
             error: function (ex) { alert('Failed to retrieve Merchandiser List.' + ex); }
         });
         //End
+        
+        //for (var i = 0; i < $("#MaterialCostTableBody").length; i++) {
+        //    $("#MaterialCostTableBody").click(function () {
+        //        var unitPrice = $("#matUnitPrice" + i).val();
+        //        var usedMaterial = $("#matUsed" + i).val();
+        //        var subTotal = parseFloat(unitPrice) * parseFloat(usedMaterial);
+        //        $("#matSubtotal" + i).val(subTotal);
+        //    });
+        //}
+        
+
+        
+        //$(document).on('change', '.matUsed', function (e) {
+        //    var unitprice = $(this);
+        //    debugger;
+        //});
+
         //Purchase Price Calculation
         $("#MaterialCost").keyup(function () {
             var materialCost = $("#MaterialCost").val();
@@ -852,53 +973,172 @@
 
         /////material cost modal
         $("#materialAdd").click(function () {
+            var materiallistarray = [];
+            
             var materialName = $("#MaterialId option:selected").text();
             var materialId = $("#MaterialId").val();
             var materialSubTotal = $("#materialSubTotal").val();
             var materialUnitPrice = $("#materialUnitPrice").val();
             var usedMaterial = $("#usedMaterial").val();
+            var materialCostPrevalue = parseFloat($("#MaterialCost").val());
+
+            var totalmaterialtableCostValue = $("#totalmaterialCostValue").val();
+            if (totalmaterialtableCostValue == "") {
+                totalmaterialtableCostValue = 0
+            }
+            totalmaterialtableCostValue = parseFloat(totalmaterialtableCostValue)   + parseFloat($("#materialSubTotal").val());
             var checker = true;
+            var matPreChecker = false;
             $.each($("#MaterialCostTableBody tr"), function () {
                 var value = $(this).find('td:eq(0)').html();
                 if (materialId == value) {
                     checker = false;
                 }
             });
-            if (checker && validationMaterialForm() ) {
-                $("#MaterialCostTableBody").append('<tr>' +
-                    '<td style="display:none;">' +
-                    materialId +
-                    '</td>' +
-                    '<td>' +
-                    materialName +
-                    '</td>' +
-                    '<td>' +
-                    materialUnitPrice +
-                    '</td>' +
-                    '<td>' +
-                    usedMaterial +
-                    '</td>' +
-                    '<td>' +
-                    materialSubTotal +
-                    '</td>' +
-                    '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
-                    '</tr>');
 
-                totalMaterialCostCalculation();
-                //$("#materialName").val("");
-                $("#materialSubTotal").val("");
-                $("#usedMaterial").val("");
-                $("#materialUnitPrice").val("");
+            if (materialCostPrevalue < totalmaterialtableCostValue) {
+                matPreChecker = true;
+            }
+            if (!matPreChecker) {
+                if (checker && validationMaterialForm()) {
+
+                    $("#MaterialCostTableBody").append('<tr>' +
+                        '<td style="display:none;">' +
+                        materialId +
+                        '</td>' +
+                        '<td>' +
+                        materialName +
+                        '</td>' +
+                        '<td>' +
+                        materialUnitPrice +
+                        '</td>' +
+                        '<td>' +
+                        usedMaterial +
+                        '</td>' +
+                        '<td>' +
+                        materialSubTotal +
+                        '</td>' +
+                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>');
+
+                    totalMaterialCostCalculation();
+                    //$("#materialName").val("");
+                    $("#materialSubTotal").val("");
+                    $("#usedMaterial").val("");
+                    $("#materialUnitPrice").val("");
+                } else {
+                    if (!checker) {
+                        toastr.error("This item Already Added!.")
+                    }
+                   
+                    $("#materialSubTotal").val("");
+                    $("#usedMaterial").val("");
+                    $("#materialUnitPrice").val("");
+                } 
             } else {
-                if (!checker) {
-                    toastr.error("This item Already Added!.")
-                }
+                toastr.error("Total Value Must Be Equal Pre Material Value!.")
                 $("#materialSubTotal").val("");
                 $("#usedMaterial").val("");
                 $("#materialUnitPrice").val("");
-            }     
+            }
+  
+           //hidden field a data add korar jonno...
+            $.each($("#MaterialCostTableBody tr"), function () {
 
-           
+                var materialId = parseInt($(this).find('td:eq(0)').text());
+                var materialName = $(this).find('td:eq(1)').text();
+                var unitPrice = parseFloat($(this).find('td:eq(2)').text());
+                var usedMaterial = parseFloat($(this).find('td:eq(3)').text());
+                var SubTotal = parseFloat($(this).find('td:eq(4)').text());
+                var materialDetails = {
+                    'MaterialId': materialId,
+                    'UnitPrice': unitPrice,
+                    'UsedMaterial': usedMaterial,
+                    'SubTotal': SubTotal,
+                }  
+                materiallistarray.push(materialDetails);
+            });
+            $('#ModelMaterialList').val(JSON.stringify(materiallistarray));
+            ////End
+        });
+        //////End
+        $("#materialCostDetailsModalPlus").click(function () {
+            $("#materialCostDetailsModal").modal('show');
+            automaticMaterialTableBodyGenerate();
+        });
+        
+
+        /////Other cost modal
+        $("#otherCostAdd").click(function () {
+
+            var otherCostDetailsistarray = [];
+
+            var OtherCostName = $("#OtherCostId option:selected").text();
+            var OtherCostId = $("#OtherCostId").val();
+            var otherCostValue = $("#otherCostValue").val();
+
+            var cogsValue = parseFloat($("#cogsValue").val());
+            var PurchasePrice = parseFloat($("#PurchasePrice").val());
+            var totalOtherCostValue = $("#totalOtherCostValue").val();
+            if (totalOtherCostValue == "") {
+                totalOtherCostValue = 0
+            }
+            totalOtherCostValue = parseFloat(totalOtherCostValue + cogsValue + parseFloat(otherCostValue));
+
+            var checker = true;
+            var CPUPreChecker = false;
+            $.each($("#otherCostTableBody tr"), function () {
+                var value = $(this).find('td:eq(0)').html();
+                if (OtherCostId == value) {
+                    checker = false;
+                }
+            });
+            if (PurchasePrice < totalOtherCostValue) {
+                CPUPreChecker = true;
+            }
+            if (!CPUPreChecker ) {
+                if (checker && validationOtherCostForm()) {
+                    $("#otherCostTableBody").append('<tr>' +
+                        '<td style="display:none;">' +
+                        OtherCostId +
+                        '</td>' +
+                        '<td>' +
+                        OtherCostName +
+                        '</td>' +
+                        '<td>' +
+                        otherCostValue +
+                        '</td>' +
+                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>');
+
+                    totalOtherCostCalculation();
+                    $("#otherCostValue").val("");
+                } else {
+                    if (!checker) {
+                        toastr.error("This item Already Added!.")
+                    }
+                    $("#otherCostValue").val("");
+                }
+            } else {
+                toastr.error("Total Value Must Be Equal CPU value!.")
+                 $("#otherCostValue").val("");
+            }
+            
+            //hidden field a data add korar jonno...
+            $.each($("#otherCostTableBody tr"), function () {
+
+                var otherCostId = parseInt($(this).find('td:eq(0)').text());
+                var CostValue = parseFloat($(this).find('td:eq(2)').text());
+                var othercostDetails = {
+                    'OtherCostId': otherCostId,
+                    'CostValue': CostValue
+                }  
+                otherCostDetailsistarray.push(othercostDetails);
+
+            });
+            $('#ModelOtherCostList').val(JSON.stringify(otherCostDetailsistarray));
+            ////End
+
         });
         //////End
 
@@ -1069,14 +1309,14 @@
                 dataType: 'json',
                 url: '/Product/DeleteProductAttribute/',
                 data: { productId, attributeId },
-                success: function (message) {
+                success: function(message) {
                     alert(message);
                     $("#AttributeBody").html("");
                     $("#AttributeSave").html("");
                     $("#AttributeId").val("");
                     getAttribute();
                 },
-                error: function (ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+                error: function(ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
             });
         });
 
@@ -1085,17 +1325,17 @@
         //    alert("hi");
         //});
 
-        $('#search').keyup(function () {
+        $('#search').keyup(function() {
             var text = $(this).val().toLowerCase();
             var item3 = "";
             var items = document.getElementsByClassName('contant');
 
             // Search
-            if (text !=="") {
+            if (text !== "") {
                 for (var i = 0; i < items.length; i++) {
                     var itemName = items[i].dataset.name.toLowerCase();
 
-                    if (itemName.indexOf(text) >= 0){
+                    if (itemName.indexOf(text) >= 0) {
                         item3 = document.getElementsByClassName('checkbox-inline')[i];
                         $(item3).css("color", "red");
                     } else {
@@ -1104,10 +1344,88 @@
                     }
 
 
-
                 }
             } else {
                 $(".checkbox-inline").removeAttr("style");
+            }
+
+        });
+
+        $("#materialSave").click(function() {
+            var materiallistarray = [];
+            materiallistarray.length = 0;
+            var productIDCheck = @Model.ProductId;
+
+            $.each($("#MaterialCostTableBody tr"),
+                function() {
+                    materiallistarray.push({
+                        ProductId: @Model.ProductId,
+                        MaterialId: $(this).find('td:eq(0)').text(),
+                        UnitPrice: $(this).find('td:eq(2)').text(),
+                        UsedMaterial: $(this).find('td:eq(3)').text(),
+                        SubTotal: $(this).find('td:eq(4)').text(),
+                    });
+                });
+            var dataList = JSON.stringify({ obProductMaterialCostDetails: materiallistarray, productIdSaveCheck: productIDCheck});
+
+            if (materiallistarray.length > 0) {
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '@Url.Action("IndividualMaterialDetailsSave", "Product")',
+                data: dataList,
+                success: function (data) {
+                    if (data !="") {
+                        toastr.success("Save Success.!");
+                        $("#MaterialCostTableBody").html("");
+                    } else {
+                        toastr.error("Already Exist!.");
+                    }
+                },
+                error: function(ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+            });
+            } else {
+                toastr.error("Value is required!.");
+            }
+
+        });
+
+
+        $("#OtherCostSave").click(function () {
+            var otherCostllistarray = [];
+            otherCostllistarray.length = 0;
+            var productIDCheck = @Model.ProductId;
+
+            $.each($("#otherCostTableBody tr"),
+                function() {
+                    otherCostllistarray.push({
+                        ProductId: @Model.ProductId,
+                        OtherCostId: $(this).find('td:eq(0)').text(),
+                        CostValue: $(this).find('td:eq(2)').text(),
+                    });
+                });
+            var dataList = JSON.stringify({ objProductOthersCostDetails: otherCostllistarray, productIdSaveCheck: productIDCheck });
+
+            if (otherCostllistarray.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("IndividualOtherCostDetailsSave", "Product")',
+                    data: dataList,
+                    success: function (data) {
+                        if (data !="") {
+                            toastr.success("Save Success.!");
+                            $("#otherCostTableBody").html("");   
+                        } else {
+                            toastr.error("Already Exist!.");
+                        }
+                    },
+                    error: function(ex) { /*alert('Failed to retrieve SubCategory List.' + ex);*/ }
+                });
+            } else {
+                toastr.error("Value is required!.");
             }
 
         });

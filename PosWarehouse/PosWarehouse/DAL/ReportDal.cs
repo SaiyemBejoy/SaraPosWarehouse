@@ -708,6 +708,8 @@ namespace PosWarehouse.DAL
                                 "DAMAGE_TRANSFER_CHALLAN_NUM," +
                                 "CREATED_BY," +
                                 "CREATED_DATE," +
+                                "APPROVED_BY," +
+                                "APPROVED_DATE," +
                                 "DAMAGE_TRANSFER_ID," +
                                 "ITEM_ID," +
                                 "PRODUCT_ID," +
@@ -2595,9 +2597,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId > 0 )
+                    if (objStockSummaryReport.ProductId.Count > 0 )
                     {
-                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductId + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2674,9 +2676,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId > 0)
+                    if (objStockSummaryReport.ProductId.Count > 0)
                     {
-                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductId + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2758,9 +2760,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId > 0 )
+                    if (objStockSummaryReport.ProductId.Count > 0 )
                     {
-                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductId + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2842,9 +2844,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId > 0)
+                    if (objStockSummaryReport.ProductId.Count > 0)
                     {
-                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductId + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2981,9 +2983,9 @@ namespace PosWarehouse.DAL
                     //{
                     //    sql = sql + " and SHOP_ID = '" + objStockSummaryReport.ShopId + "' ";
                     //}
-                    if (objStockSummaryReport.ProductId > 0)
+                    if (objStockSummaryReport.ProductId.Count > 0)
                     {
-                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductId + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
                     }
                     
                     OracleCommand objOracleCommand = new OracleCommand(sql);

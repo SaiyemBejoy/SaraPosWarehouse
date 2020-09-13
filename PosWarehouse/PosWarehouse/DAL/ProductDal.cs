@@ -148,17 +148,18 @@ namespace PosWarehouse.DAL
 
             objOracleCommand.Parameters.Add("P_CATEGORY_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.CategoryId != 0 ? objProductModel.CategoryId.ToString() : null;
             objOracleCommand.Parameters.Add("P_SUB_CATEGORY_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.SubCategoryId != 0 ? objProductModel.SubCategoryId.ToString() : null;
+            objOracleCommand.Parameters.Add("P_SEASON_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.SeasonId != 0 ? objProductModel.SeasonId.ToString() : null;
 
             objOracleCommand.Parameters.Add("P_ACTIVE_YN", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.IsActive ? "Y" : "N";
-
             objOracleCommand.Parameters.Add("P_PRODUCT_IMAGE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.ProductImageString) ? objProductModel.ProductImageString : null;
-
             objOracleCommand.Parameters.Add("P_VAT_YN", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.IncludeVat ? "Y" : "N";
 
             objOracleCommand.Parameters.Add("P_PURCHASE_PRICE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.PurchasePrice.ToString()) ? objProductModel.PurchasePrice.ToString() : null;
             objOracleCommand.Parameters.Add("P_SALE_PRICE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.SalePrice.ToString()) ? objProductModel.SalePrice.ToString() : null;
             objOracleCommand.Parameters.Add("P_MATERIAL_COST", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.MaterialCost.ToString()) ? objProductModel.MaterialCost.ToString() : null;
             objOracleCommand.Parameters.Add("P_CM", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.CM.ToString()) ? objProductModel.CM.ToString() : null;
+            objOracleCommand.Parameters.Add("P_COGS", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.COGS.ToString()) ? objProductModel.COGS.ToString() : null;
+
             objOracleCommand.Parameters.Add("P_KARCUPI", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductModel.Karchupi ? "Y" : "N";
             objOracleCommand.Parameters.Add("P_WASH", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.Wash) ? objProductModel.Wash : null;
             objOracleCommand.Parameters.Add("P_PRINT", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objProductModel.Print) ? objProductModel.Print : null;
@@ -206,6 +207,7 @@ namespace PosWarehouse.DAL
 
         public async Task<ProductModel> GetAProduct(int productId, string wareHouseId, string shopId)
         {
+            
             var sql = "SELECT " +
                       "PRODUCT_ID," +
                       "PRODUCT_NAME," +
@@ -213,6 +215,7 @@ namespace PosWarehouse.DAL
                       "PRODUCT_DESCRIPTION," +
                       "CATEGORY_ID," +
                       "SUB_CATEGORY_ID," +
+                      "SEASON_ID," +
                       "BRAND_ID," +
                       "DESIGNER_ID," +
                       "MERCHANDISER_ID," +
@@ -226,6 +229,7 @@ namespace PosWarehouse.DAL
                       "SALE_PRICE," +
                       "MATERIAL_COST," +
                         "CM," +
+                        "COGS," +
                         "KARCUPI," +
                         "WASH," +
                         "PRINT," +
@@ -259,6 +263,7 @@ namespace PosWarehouse.DAL
                                     Convert.ToInt32(objDataReader["CATEGORY_ID"].ToString());
                                 objProductModel.SubCategoryId =
                                     Convert.ToInt32(objDataReader["SUB_CATEGORY_ID"].ToString());
+                                objProductModel.SeasonId = !string.IsNullOrWhiteSpace(objDataReader["SEASON_ID"].ToString()) ? Convert.ToInt32(objDataReader["SEASON_ID"].ToString()) : 0;
                                 objProductModel.ProductName = objDataReader["PRODUCT_NAME"].ToString();
                                 objProductModel.ProductStyle = objDataReader["PRODUCT_STYLE"].ToString();
                                 objProductModel.ProductDescription = objDataReader["PRODUCT_DESCRIPTION"].ToString();
@@ -266,6 +271,7 @@ namespace PosWarehouse.DAL
                                 objProductModel.SalePrice = Convert.ToDouble(objDataReader["SALE_PRICE"].ToString());
                                 objProductModel.MaterialCost = Convert.ToDouble(objDataReader["MATERIAL_COST"].ToString());
                                 objProductModel.CM = Convert.ToDouble(objDataReader["CM"].ToString());
+                                objProductModel.COGS = !string.IsNullOrWhiteSpace(objDataReader["COGS"].ToString()) ?  Convert.ToDouble(objDataReader["COGS"].ToString()) : Convert.ToDouble(objDataReader["MATERIAL_COST"].ToString())+ Convert.ToDouble(objDataReader["CM"].ToString());
                                 objProductModel.Wash = objDataReader["WASH"].ToString();
                                 objProductModel.Print = objDataReader["PRINT"].ToString();
                                 objProductModel.Embroidery = objDataReader["EMBROIDERY"].ToString();
@@ -966,5 +972,169 @@ namespace PosWarehouse.DAL
         }
 
 
+        public async Task<string> SaveMaterialCostDetails(ProductMaterialCostDetails objProductMaterialCostDetails)
+        {
+            string strMsg;
+            OracleCommand objOracleCommand = new OracleCommand("PRO_PRODUCT_MATERIAL_COST_SAVE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_MATERIAL_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductMaterialCostDetails.MaterialId != 0 ? objProductMaterialCostDetails.MaterialId.ToString() : null;
+            objOracleCommand.Parameters.Add("P_PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductMaterialCostDetails.ProductId != 0 ? objProductMaterialCostDetails.ProductId.ToString() : null;
+            objOracleCommand.Parameters.Add("P_UNIT_PRICE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductMaterialCostDetails.UnitPrice != 0 ? objProductMaterialCostDetails.UnitPrice.ToString() : null;
+            objOracleCommand.Parameters.Add("P_USED_MATERIAL", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductMaterialCostDetails.UsedMaterial != 0 ? objProductMaterialCostDetails.UsedMaterial.ToString() : null;
+            objOracleCommand.Parameters.Add("P_SUB_TOTAL", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductMaterialCostDetails.SubTotal != 0 ? objProductMaterialCostDetails.SubTotal.ToString() : null;
+            objOracleCommand.Parameters.Add("P_UPDATE_BY", OracleDbType.Varchar2, ParameterDirection.InputOutput).Value = !string.IsNullOrWhiteSpace(objProductMaterialCostDetails.UpdatedBy) ? objProductMaterialCostDetails.UpdatedBy : null;
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMsg = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return strMsg;
+        }
+
+        public async Task<string> SaveOtherCostDetails(ProductOthersCostDetails objProductOthersCostDetails)
+        {
+            string strMsg;
+            OracleCommand objOracleCommand = new OracleCommand("PRO_PRODUCT_OTHER_COST_SAVE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            objOracleCommand.Parameters.Add("P_OTHER_COST_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductOthersCostDetails.OtherCostId != 0 ? objProductOthersCostDetails.OtherCostId.ToString() : null;
+            objOracleCommand.Parameters.Add("P_PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductOthersCostDetails.ProductId != 0 ? objProductOthersCostDetails.ProductId.ToString() : null;
+            objOracleCommand.Parameters.Add("P_COST_VALUE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objProductOthersCostDetails.CostValue != 0 ? objProductOthersCostDetails.CostValue.ToString() : null;
+            objOracleCommand.Parameters.Add("P_UPDATE_BY", OracleDbType.Varchar2, ParameterDirection.InputOutput).Value = !string.IsNullOrWhiteSpace(objProductOthersCostDetails.UpdatedBy) ? objProductOthersCostDetails.UpdatedBy : null;
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMsg = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return strMsg;
+        }
+
+
+        public async Task<List<string>> SaveCheckMaterialCostAndOtherCost(string productId)
+        {
+            string mateSaveCheck;
+            string OtherCostCheck;
+
+            OracleCommand objOracleCommand = new OracleCommand("PRO_Mat_AND_OTHER_CHECK")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = productId != "" ? productId.ToString() : null;
+           
+            objOracleCommand.Parameters.Add("P_MAT_SAVE_CHECK", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+            objOracleCommand.Parameters.Add("P_OTHER_COST_CHECK", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    mateSaveCheck = objOracleCommand.Parameters["P_MAT_SAVE_CHECK"].Value.ToString();
+                    OtherCostCheck = objOracleCommand.Parameters["P_OTHER_COST_CHECK"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return new List<string> { mateSaveCheck, OtherCostCheck };
+        }
+
+        public async Task<List<ProductMaterialCostDetails>> GetMaterialCostList()
+        {
+            var sql = "SELECT " +
+                      "MATERIAL_ID," +
+                      "MATERIAL_NAME  " +
+                      "FROM L_MATERIAL_DETAILS ";
+            using (OracleConnection objConnection = GetConnection())
+            {
+
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection))
+                {
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<ProductMaterialCostDetails> objProductMaterialCostDetails = new List<ProductMaterialCostDetails>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                ProductMaterialCostDetails model = new ProductMaterialCostDetails
+                                {
+                                    MaterialId = Convert.ToInt32(objDataReader["MATERIAL_ID"].ToString()),
+                                    MaterialName = objDataReader["MATERIAL_NAME"].ToString()
+                                    
+                                };
+                                objProductMaterialCostDetails.Add(model);
+                            }
+                            return objProductMaterialCostDetails;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
     }
 }

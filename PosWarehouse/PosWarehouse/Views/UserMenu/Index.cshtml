@@ -86,7 +86,7 @@
                         <table class="table table-bordered" id="subMenuTable">
                             <thead>
                             <tr>
-                                <th>Check Menu For Add</th>
+                                <th><input type='checkbox' class='checker' id='checkboxAll' />Check Menu For Add</th>
                                 <th>Sub Menu Name</th>
                                 <th>URL</th>
                                 <th>Icon</th>
@@ -295,6 +295,14 @@
             });
 
 
+        });
+
+        //Checkbox for selecting all
+        $("#checkboxAll").live("click", function () {
+            var isChecked = this.checked;
+            $("#subMenuTableBody").find("input#checkbox").each(function () {
+                this.checked = isChecked;
+            });
         });
 
         $(document).on('change', '.checkboxDelete', function (e) {
