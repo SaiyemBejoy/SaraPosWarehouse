@@ -5,7 +5,7 @@
 
 <div class="page-head">
     <div class="page-title">
-        <h1>Manage Product</h1>
+       
     </div>
     <div class="page-toolbar">
         <a href="@Url.Action("CreateOrEdit", "Product")" class="btn btn-circle btn-success"><i class="fa fa-plus-circle"></i> Add New</a>
@@ -37,6 +37,8 @@
                             <th> Purchase Amount </th>
                             <th> Sell Amount </th>
                             <th> Active Status </th>
+                            <th> MCD ADD </th>
+                            <th> OCD ADD </th>
                             <th> Image </th>
                             <th> Action </th>
                         </tr>
@@ -205,6 +207,28 @@
                             return "<p style='font-size: 16px;color: green;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> Active </p>";
                         } else {
                             return "<p style='font-size: 16px;color: red;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> Inactive </p>";
+                        }
+                    }
+                },
+                {
+                    "data": "MaterialCostDetails",
+                    "orderable": false,
+                    render: function (data, type, productGrid) {
+                        if (productGrid.MaterialCostDetails >0) {
+                            return "<p style='font-size: 16px;color: green;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> YES </p>";
+                        } else {
+                            return "<p style='font-size: 16px;color: red;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> NO </p>";
+                        }
+                    }
+                },
+                {
+                    "data": "OtherCostDetails",
+                    "orderable": false,
+                    render: function (data, type, productGrid) {
+                        if (productGrid.OtherCostDetails >0) {
+                            return "<p style='font-size: 16px;color: green;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> YES </p>";
+                        } else {
+                            return "<p style='font-size: 16px;color: red;font-style: italic;text-transform: capitalize;font-weight: bold;letter-spacing: 1px;text-shadow: 1px 1px 1px grey;'> NO </p>";
                         }
                     }
                 },

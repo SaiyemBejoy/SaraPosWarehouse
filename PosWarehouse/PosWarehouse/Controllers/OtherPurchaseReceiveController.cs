@@ -52,6 +52,8 @@ namespace PosWarehouse.Controllers
             OtherPurchaseReceiveModel model = new OtherPurchaseReceiveModel();
             ViewBag.VendorList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetVendorListDropdown(), "VENDOR_ID", "VENDOR_NAME");
             ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ChallanList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetHoldChallanNoDropdown(), "O_PURCHASE_RECEIVE_NUMBER", "O_PURCHASE_RECEIVE_NUMBER");
+            
             return View(model);
         }
         [RoleFilter]
@@ -70,10 +72,24 @@ namespace PosWarehouse.Controllers
             ViewBag.OtherPurchaseReceiveList = objOtherPurchaseReceiveModel;
             return View(model);
         }
-        public async Task<ActionResult> GetProductInfoForScanReceive(string barcode)
+        public async Task<ActionResult> GetProductInfoForScanReceive(string barcode, bool rescanHold)
         {
-            var list = await _objPurchaseReceiveDal.GetProductInfoForScanReceive(barcode);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            //var list = rescanHold ? await _objOtherPurchaseReceiveDal.GetProductInfoForHoldScanReceive(barcode) : 
+            //   await _objPurchaseReceiveDal.GetProductInfoForScanReceive(barcode);
+
+            
+            if (rescanHold)
+            {
+               var list = await _objOtherPurchaseReceiveDal.GetProductInfoForHoldScanReceive(barcode);
+               return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+               var  list = await _objPurchaseReceiveDal.GetProductInfoForScanReceive(barcode);
+               return Json(list, JsonRequestBehavior.AllowGet);
+            }
+
+            //return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<JsonResult> GetMaxChallanNumber()
@@ -91,6 +107,20 @@ namespace PosWarehouse.Controllers
             //{
             objOtherPurchaseReceiveModel.UpdateBy = _strEmployeeId;
             objOtherPurchaseReceiveModel.WareHouseId = _strWareHouseId;
+            objOtherPurchaseReceiveModel.Hold_YN = objOtherPurchaseReceiveModel.HoldStatus ? "Y" : "N";
+            if (objOtherPurchaseReceiveModel.ReScanStatus)
+            {
+                objOtherPurchaseReceiveModel.Scan_Type = "R";
+            }
+            else if (objOtherPurchaseReceiveModel.HoldStatus)
+            {
+                objOtherPurchaseReceiveModel.Scan_Type = "H";
+            }
+            else
+            {
+                objOtherPurchaseReceiveModel.Scan_Type = "D";
+            }
+            
 
             try
             {

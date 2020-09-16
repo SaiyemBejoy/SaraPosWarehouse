@@ -492,6 +492,12 @@
       <DependentUpon>ShopDeliveryGvt.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\SolPurchaseReceive\SolPurchaseReceive.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolPurchaseReceive.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\Stock\CurrentStockStyleWise.cs">
       <DependentUpon>CurrentStockStyleWise.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -644,11 +650,13 @@
     <Compile Include="ViewModel\HotSaleAndLowStockModel.cs" />
     <Compile Include="ViewModel\InvoiceInfoModel.cs" />
     <Compile Include="ViewModel\LogActionModel.cs" />
+    <Compile Include="ViewModel\LowStockModel.cs" />
     <Compile Include="ViewModel\MaterialDetailsModel.cs" />
     <Compile Include="ViewModel\MenuSetUpModel.cs" />
     <Compile Include="ViewModel\OtherCompanyOfferDisModel.cs" />
     <Compile Include="ViewModel\OtherCostDetailsModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveItemModel.cs" />
+    <Compile Include="ViewModel\OtherPurchaseReceiveItemScanModel.cs" />
     <Compile Include="ViewModel\OtherPurchaseReceiveModel.cs" />
     <Compile Include="ViewModel\PoCuttingModel.cs" />
     <Compile Include="ViewModel\ProductModel.cs" />
@@ -1479,6 +1487,7 @@
     <Content Include="Views\MaterialDetails\Index.cshtml" />
     <Content Include="Views\OtherCostDetails\Index.cshtml" />
     <Content Include="Views\UserSubActionPermission\Index.cshtml" />
+    <Content Include="Views\AllReport\SolPurchaseReceive.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1608,6 +1617,10 @@
     <EmbeddedResource Include="Reports\ShopDeliveryForGvt\ShopDeliveryGvt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ShopDeliveryGvt.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SolPurchaseReceive\SolPurchaseReceive.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SolPurchaseReceive.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Stock\CurrentStockStyleWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

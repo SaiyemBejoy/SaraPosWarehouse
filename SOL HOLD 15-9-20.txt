@@ -1,0 +1,138 @@
+/* Formatted on 15-Sep-20 5:16:03 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_OTHER_PURCH_RECEIVE_SAVE (
+   p_o_purchase_receive_id       IN     VARCHAR2,
+   p_o_purchase_receive_number          VARCHAR2,
+   p_vendor_id                          VARCHAR2,
+   p_delivery_shop_id                   VARCHAR2,
+   P_UPDATE_BY                          VARCHAR2,
+   P_WARE_HOUSE_ID                      VARCHAR2,
+   P_HOLD_YN                            VARCHAR2,
+   P_SCAN_TYPE                          VARCHAR2,
+   p_message                        OUT VARCHAR2,
+   P_RECEIVE_NUMBER                 OUT VARCHAR2)
+AS
+   v_count            INT;
+   v_receive_id       INT;
+   v_receive_number   VARCHAR2 (100 BYTE);
+   v_dup              INT;
+BEGIN
+   SELECT LPAD ( (NVL (MAX (O_PURCHASE_RECEIVE_NUMBER), 0) + 1), 9, 0)
+     INTO v_receive_number
+     FROM OTHER_PURCHASE_RECEIVE;
+
+   SELECT NVL (MAX (O_PURCHASE_RECEIVE_ID), 0) + 1
+     INTO v_receive_id
+     FROM OTHER_PURCHASE_RECEIVE;
+
+   INSERT INTO OTHER_PURCHASE_RECEIVE (O_PURCHASE_RECEIVE_ID,
+                                       O_PURCHASE_RECEIVE_NUMBER,
+                                       VENDOR_ID,
+                                       DELIVERY_SHOP_ID,
+                                       UPDATE_BY,
+                                       UPDATE_DATE,
+                                       CREATE_BY,
+                                       CREATE_DATE,
+                                       HOLD_YN,
+                                       SCAN_TYPE,
+                                       WARE_HOUSE_ID,
+                                       O_RECEIVE_YN)
+        VALUES (v_receive_id,
+                v_receive_number,
+                p_vendor_id,
+                p_delivery_shop_id,
+                P_UPDATE_BY,
+                SYSDATE,
+                P_UPDATE_BY,
+                SYSDATE,
+                P_HOLD_YN,
+                P_SCAN_TYPE,
+                P_WARE_HOUSE_ID,
+                'N');
+
+   COMMIT;
+   p_message := 'INSERTED SUCCESSFULLY !!';
+   P_RECEIVE_NUMBER := v_receive_number;
+END;
+/
+
+--------------------------------------------
+--------------------------------------------
+
+DROP TABLE POSWAREHOUSE.OTHER_PURCHASE_RECEIVE CASCADE CONSTRAINTS;
+
+CREATE TABLE POSWAREHOUSE.OTHER_PURCHASE_RECEIVE
+(
+  O_PURCHASE_RECEIVE_ID      NUMBER             NOT NULL,
+  O_PURCHASE_RECEIVE_NUMBER  VARCHAR2(100 BYTE),
+  VENDOR_ID                  NUMBER,
+  DELIVERY_SHOP_ID           NUMBER,
+  UPDATE_BY                  VARCHAR2(50 BYTE),
+  UPDATE_DATE                DATE,
+  CREATE_BY                  VARCHAR2(50 BYTE),
+  CREATE_DATE                DATE,
+  WARE_HOUSE_ID              NUMBER             NOT NULL,
+  O_RECEIVE_YN               CHAR(1 BYTE),
+  HOLD_YN                    CHAR(5 BYTE),
+  SCAN_TYPE                  CHAR(5 BYTE)
+)
+TABLESPACE POSWAREHOUSE_DB
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+----------------------------------------------
+----------------------------------------------
+
+DROP VIEW POSWAREHOUSE.VEW_O_PURCHASE_HOLD_ITEM;
+
+/* Formatted on 15-Sep-20 3:16:37 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_O_PURCHASE_HOLD_ITEM
+(
+   ITEM_ID,
+   PRODUCT_ID,
+   PRODUCT_STYLE,
+   ITEM_NAME,
+   BARCODE,
+   QUANTITY,
+   SALE_PRICE
+)
+AS
+     SELECT p.ITEM_ID,
+            p.PRODUCT_ID,
+            (SELECT PRODUCT_STYLE
+               FROM PRODUCT
+              WHERE PRODUCT_ID = p.PRODUCT_ID)
+               PRODUCT_STYLE,
+            (SELECT PRODUCT_NAME
+               FROM PRODUCT_ITEM
+              WHERE ITEM_ID = p.ITEM_ID)
+               ITEM_NAME,
+            p.BARCODE,
+            SUM (p.RECEIVE_QUANTITY) QUANTITY,
+            p.SALE_PRICE
+       FROM    O_PURCHASE_RECEIVE_ITEM P
+            JOIN
+               OTHER_PURCHASE_RECEIVE R
+            ON (p.O_PURCHASE_RECEIVE_NUMBER = R.O_PURCHASE_RECEIVE_NUMBER)
+      WHERE R.HOLD_YN = 'Y'
+   GROUP BY p.ITEM_ID,
+            p.PRODUCT_ID,
+            p.BARCODE,
+            p.SALE_PRICE;
+
+-------------------------------------------
+-------------------------------------------

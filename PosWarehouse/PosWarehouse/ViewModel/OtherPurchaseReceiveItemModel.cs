@@ -16,9 +16,13 @@ namespace PosWarehouse.ViewModel
         public int ProductId { get; set; }
 
         public string Barcode { get; set; }
+        public string ItemName { get; set; }
+        public string Style { get; set; }
 
         public int ReceiveQuantity { get; set; }
-     
+
+        public int StockQuantity { get; set; }
+
         public double SalePrice { get; set; }
 
         public string WareHouseId { get; set; }

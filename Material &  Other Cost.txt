@@ -197,3 +197,72 @@ AS
           CREATE_DATE,
           ACTIVE_YN
      FROM USER_ACTION_PERMISION;
+
+----------------------------------------------
+----------------------------------------------
+
+/* Formatted on 10-Sep-20 9:26:44 AM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_USR_PRMSN_SAVE (
+   P_AUTO_ID       IN     VARCHAR2,
+   P_ROLE_NAME            VARCHAR2,
+   P_ACTION_NAME          VARCHAR2,
+   P_CREATE_BY            VARCHAR2,
+   P_CREATE_DATE          VARCHAR2,
+   P_ACTIVE_YN            VARCHAR2,
+   P_MESSAGE          OUT VARCHAR2)
+AS
+   v_count     INT;
+   v_auto_id   INT;
+   v_dup       INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM USER_ACTION_PERMISION
+    WHERE AUTO_ID = P_AUTO_ID;
+
+   IF v_count > 0
+   THEN
+      UPDATE USER_ACTION_PERMISION
+         SET ROLE_NAME = P_ROLE_NAME,
+             ACTION_NAME = P_ACTION_NAME,
+             ACTIVE_YN = P_ACTIVE_YN
+       WHERE AUTO_ID = P_AUTO_ID;
+
+      COMMIT;
+      P_MESSAGE := 'UPDATED SUCCESSFULLY !!';
+      RETURN;
+   ELSE
+      SELECT COUNT (*)
+        INTO v_dup
+        FROM USER_ACTION_PERMISION
+       WHERE (UPPER (ACTION_NAME) = UPPER (P_ACTION_NAME)
+              OR LOWER (ACTION_NAME) = LOWER (P_ACTION_NAME));
+
+      IF v_dup > 0
+      THEN
+         P_MESSAGE := 'ACTION NAME ALREADY EXISTS !!';
+         RETURN;
+      END IF;
+
+      SELECT NVL (MAX (AUTO_ID), 0) + 1
+        INTO v_auto_id
+        FROM USER_ACTION_PERMISION;
+
+      INSERT INTO USER_ACTION_PERMISION (AUTO_ID,
+                                         ROLE_NAME,
+                                         ACTION_NAME,
+                                         CREATE_BY,
+                                         CREATE_DATE,
+                                         ACTIVE_YN)
+           VALUES (v_auto_id,
+                   P_ROLE_NAME,
+                   P_ACTION_NAME,
+                   P_CREATE_BY,
+                   SYSDATE,
+                   P_ACTIVE_YN);
+
+      COMMIT;
+      p_message := 'INSERTED SUCCESSFULLY !!';
+   END IF;
+END;
+/

@@ -65,21 +65,45 @@
                         <div class="col-md-12">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
-                                    <div class="caption font-green-sharp">
-                                        <i class="icon-speech font-green-sharp"></i>
-                                        <span class="caption-subject bold uppercase"> Product Receive Details</span>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="caption font-green-sharp">
+                                                <i class="icon-speech font-green-sharp"></i>
+                                                <span class="caption-subject bold uppercase"> Product Receive Details</span>
 
-                                    </div>
-                                <div class="tools">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="checkbox-list" style="margin-top: 8px;">
-                                                @Html.CheckBoxFor(c => c.SOLReceiveYN, new { @class = "checker", @id = "CheckboxOtherRecChallan", @name = "CheckboxOtherRecChallan" }) <strong>Other Receive Challan</strong>
                                             </div>
                                         </div>
-                                      
+                                        <div class="col-lg-2">
+                                            <div class="row">
+                                                <div class="row" id="divTotalHide">
+                                                    <div class="form-group">
+                                                        <label class="col-md-6 control-label">Total Item</label>
+                                                        <div class="col-md-6">
+                                                            <div class="input-icon">
+                                                                <input type="text" class="form-control  input-circle" id="totalSolItem" style="width: 100px; background-color: yellow" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="tools">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="checkbox-list" style="margin-top: 8px;">
+                                                                    @Html.CheckBoxFor(c => c.SOLReceiveYN, new { @class = "checker", @id = "CheckboxOtherRecChallan", @name = "CheckboxOtherRecChallan" }) <strong>Other Receive Challan</strong>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                                 <div class="portlet-body">
                                     <div class="row">
@@ -179,10 +203,10 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label class="col-md-4 control-label">Total Item</label>
-                                                <div class="col-md-8">
+                                                <label class="col-md-6 control-label">Scanned Item</label>
+                                                <div class="col-md-6">
                                                     <div class="input-icon">
-                                                        <input type="text" class="form-control  input-circle" id="totalReceiveItem2" style="width: 150px; background-color: yellow" readonly="readonly" />
+                                                        <input type="text" class="form-control  input-circle" id="totalReceiveItem2" style="width: 120px; background-color: yellow" readonly="readonly" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -303,10 +327,10 @@
                                                                 </div>
                                                             </div>*@
                                                         <div class="form-group">
-                                                            <label class="col-md-4 control-label">Total Item</label>
-                                                            <div class="col-md-8">
+                                                            <label class="col-md-6 control-label">Scanned Item</label>
+                                                            <div class="col-md-6">
                                                                 <div class="input-icon">
-                                                                    <input type="text" class="form-control  input-circle" id="totalReceiveItem" style="width: 150px; background-color: yellow" readonly="readonly" />
+                                                                    <input type="text" class="form-control  input-circle" id="totalReceiveItem" style="width: 120px; background-color: yellow" readonly="readonly" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -947,6 +971,7 @@
                             totalItemCount();
                             compute();
                         }
+                        //$("#totalSolItem").val(0);
                     }
                 });
             } else {
@@ -1648,17 +1673,20 @@
         });
 
         $("#otherPurchaseReceiveDiv").hide();
+        $("#divTotalHide").hide();
         $("#CheckboxOtherRecChallan").change(function () {
             if (this.checked) {
                 $(".selectProduct").hide();
                 $("#scanProductDiv").show();
                 $("#otherPurchaseReceiveDiv").show();
+                $("#divTotalHide").show();
                 $("#directPurchase").val("");
                 $('#gridTableBodyForPurchaseReceive').html("");
                 $('#directPurchase').attr('disabled', true);
             } else {
                 $("#scanProductDiv").show();
                 $("#otherPurchaseReceiveDiv").hide();
+                $("#divTotalHide").hide();
                 $('#directPurchase').attr('disabled', false);
                 $('#gridTableBodyForPurchaseReceive').html("");
             }

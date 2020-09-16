@@ -29,10 +29,22 @@
                         <div class="col-md-12">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
-                                    <div class="caption font-green-sharp">
+                                    <div class="caption font-green-sharp col-lg-7">
                                         <i class="icon-speech font-green-sharp"></i>
                                         <span class="caption-subject bold uppercase"> Product Receive Details</span>
 
+                                    </div>
+                                    <div class="col-lg-3 text-right">
+                                        <div id="rescanHide">
+                                            <label class="control-label" style="color:coral; font-size:18px; font-weight:bold;">RESCAN HOLD PRODUCTS</label>
+                                            <input type="checkbox" id="rescanHold" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 text-right">
+                                        <div id="holdHide">
+                                            <label class="control-label" style="color:red; font-size:18px; font-weight:bold;">HOLD PRODUCT</label>
+                                            <input type="checkbox" id="holdStatusChk" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -294,7 +306,26 @@
 
         return true;
     }
+    function scanValidation(data) {
+        var checker = false;
+        var barcodeQty = 0;
+        $.each($("#gridTableBodyForOtherPurchaseReceive tr"), function () {
+            var value = $(this).find('td:eq(2)').html();
+            if (value === data.barcode) {
+                barcodeQty += parseInt($(this).find('.quantity').val());
+                if (barcodeQty == data.quantity) {
+                    checker = true;
+                }
 
+            }
+        });
+        if (checker) {
+            alert("Hold Product Stock Out!.");
+            return false;
+        } else {
+            return true;
+        }
+    }
     function previewModal() {
 
         var allPreviewReceiveItem = [];
@@ -410,28 +441,31 @@
 
     function manageGridForScan(addItem) {
         var productIteList = JSON.parse(localStorage.getItem('gridObjectArrayForOtherScanProduct'));
-        if (addItem) {
-            if (productIteList == null) {
-                productIteList = [];
-                productIteList.push(addItem);
-            } else {
-                var checker = true;
-                var barcode = addItem.barcode;
-                for (var i = 0; i < productIteList.length; i++) {
-                    if (productIteList[i].barcode === barcode) {
-                        var receiveQty = parseInt(productIteList[i].receiveQuantity);
-                        productIteList[i].receiveQuantity = receiveQty + 1;
-                        checker = false;
-                        toastr.success("Add Same Item.");
+        if (scanValidation(addItem)) {
+            if (addItem) {
+                if (productIteList == null) {
+                    productIteList = [];
+                    productIteList.push(addItem);
+                } else {
+                    var checker = true;
+                    var barcode = addItem.barcode;
+                    for (var i = 0; i < productIteList.length; i++) {
+                        if (productIteList[i].barcode === barcode) {
+                            var receiveQty = parseInt(productIteList[i].receiveQuantity);
+                            productIteList[i].receiveQuantity = receiveQty + 1;
+                            checker = false;
+                            toastr.success("Add Same Item.");
+                        }
+                    }
+                    if (checker) {
+                        productIteList.push(addItem);
                     }
                 }
-                if (checker) {
-                    productIteList.push(addItem);
-                }
             }
-        }
 
-        localStorage.setItem('gridObjectArrayForOtherScanProduct', JSON.stringify(productIteList));
+            localStorage.setItem('gridObjectArrayForOtherScanProduct', JSON.stringify(productIteList));
+        }
+       
     };
 
     function loadLocalStrogeDirectScanData() {
@@ -478,10 +512,14 @@
 
     }
 
+
     function gridSave() {
         var vendorId = $("#vendorId").val();
         var deliveryShop = $("#deliveryShop").val();
+        var hodlStatus = $("#holdStatusChk").is(":checked");
+        var rescanHold = $("#rescanHold").is(":checked");
 
+        
             if (formValidation()) {
                 var allPurchaseReceiveItem = [];
                 var errorChecker = false;
@@ -511,6 +549,8 @@
                     var dataObject = {
                         'VendorId': vendorId,
                         'DeliveryShopId': deliveryShop,
+                        'HoldStatus': hodlStatus,
+                        'ReScanStatus': rescanHold,
                         'ReceiveItemsList': allPurchaseReceiveItem,
                      
                     }
@@ -558,6 +598,7 @@
         //Scan Product start
         $("#ScanBox").change(function () {
             var barcode = $("#ScanBox").val();
+            var rescanHold = $("#rescanHold").is(":checked");
             var purchaseOrderNumber = "";
             var checker = false;
             if (purchaseOrderNumber !== "") {
@@ -588,7 +629,7 @@
                     type: 'POST',
                     url: '/OtherPurchaseReceive/GetProductInfoForScanReceive/',
                     dataType: 'json',
-                    data: { barcode: barcode },
+                    data: { barcode: barcode, rescanHold: rescanHold },
                     success: function (data) {
                         if (data.ItemId !== 0 && data.ProductId !== 0 && data.ProductCode != null) {
                             var itemId = data.ItemId;
@@ -597,14 +638,15 @@
                             var itemName = data.ItemName;
                             var purchasePrice = data.PurchasePrice;
                             var salePrice = data.SalePrice;
-                            var vatPercent = data.VatPercent;
+                            var vatPercent = data.VatPercent
+                            var stockquantity = data.Quantity;
 
                             var gridObject = {
                                 'itemId': itemId,
                                 'productId': productId,
                                 'barcode': productCode,
                                 'itemName': itemName,
-                                'quantity': 0,
+                                'quantity': stockquantity,
                                 'receiveQuantity': 1,
                                 'vatPercent': vatPercent,
                                 'purchasePrice': purchasePrice,
@@ -653,6 +695,29 @@
             gridSave();
         });
 
+        $("#rescanHold").click(function () {
+            $("#gridTableBodyForOtherPurchaseReceive").html("");
+            localStorage.removeItem('gridObjectArrayForOtherScanProduct');
+            var rescanHold = $("#rescanHold").is(":checked");
+            if (rescanHold) {
+                $("#holdHide").hide();
+            }
+            else {
+                $("#holdHide").show();
+            }
+        });
+
+        $("#holdStatusChk").click(function () {
+            $("#gridTableBodyForOtherPurchaseReceive").html("");
+            localStorage.removeItem('gridObjectArrayForOtherScanProduct');
+            var rescanHold = $("#holdStatusChk").is(":checked");
+            if (rescanHold) {
+                $("#rescanHide").hide();
+            }
+            else {
+                $("#rescanHide").show();
+            }
+        });
         
     });
 

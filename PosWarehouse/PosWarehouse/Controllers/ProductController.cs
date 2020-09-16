@@ -498,8 +498,11 @@ namespace PosWarehouse.Controllers
                 {
                     foreach (var matList in obProductMaterialCostDetails)
                     {
-                        matList.UpdatedBy = _strEmployeeId;
-                        saveMassage = await _objProductDal.SaveMaterialCostDetails(matList);
+                        if (matList.UnitPrice >0 && matList.UsedMaterial >0 && matList.SubTotal >0)
+                        {
+                            matList.UpdatedBy = _strEmployeeId;
+                            saveMassage = await _objProductDal.SaveMaterialCostDetails(matList);
+                        }
                     }
                 }
             }
@@ -526,5 +529,19 @@ namespace PosWarehouse.Controllers
            
             return Json(saveMassage, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<JsonResult> GetStyleSearchHintsList(string query)
+        {
+            List<string> list = await _objProductDal.GetStyleSearchHints(query);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetAllInfoByProductStyle(string productStyle)
+        {
+            LoadSession();
+            var result = await _objProductDal.GetAllInfoByProductStyle(productStyle);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

@@ -114,9 +114,10 @@ namespace PosWarehouse.ViewModel
 
         public string Barcode { get; set; }
 
-        public List<int> ProductId { get; set; }
+        public List<int> ProductIdList { get; set; }
+        public string ProductIds { get; set; }
 
-        public string StyleName { get; set; }
+       // public string StyleName { get; set; }
 
         public string RadioFor { get; set; }
 
@@ -320,6 +321,35 @@ namespace PosWarehouse.ViewModel
         public string ReportType { get; set; }
     }
 
+    public class SolPurchaseReceiveReport
+    {
+        public int ItemId { get; set; }
+
+        public List<int> ProductId { get; set; }
+
+        [DisplayName("Style")]
+        public string ProductStyle { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string Barcode { get; set; }
+
+        public int HoldReceiveQuantity { get; set; }
+
+        public int RescanDelivery { get; set; }
+
+        public int Quantity { get; set; }
+
+        public double SalePrice { get; set; }
+
+        public string RadioFor { get; set; }
+
+        public string RadioForZero { get; set; }
+
+        public string ReportType { get; set; }
+
+        public string ProductIDs { get; set; }
+    }
 
 
 }

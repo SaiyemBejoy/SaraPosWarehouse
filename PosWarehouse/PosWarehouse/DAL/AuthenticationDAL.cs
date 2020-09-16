@@ -205,6 +205,48 @@ namespace PosWarehouse.DAL
             }
         }
 
+        public async Task<IEnumerable<LowStockModel>> GetAllLowStockStyle()
+        {
+            const string sql = "  SELECT SHOP_ID, SHOP_NAME, COUNT (PRODUCT_STYLE) STYLE_COUNT FROM VEW_RPT_SHOP_LOWSTOCK WHERE SHOP_ID<> 331 " +
+                               " GROUP BY SHOP_ID, SHOP_NAME ORDER BY SHOP_ID ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection))
+                {
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<LowStockModel> objLowStockModels = new List<LowStockModel>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                LowStockModel model = new LowStockModel();
+                              
+                                model.ShopId = Convert.ToInt32(objDataReader["SHOP_ID"].ToString());
+                                model.ShopName = objDataReader["SHOP_NAME"].ToString();
+                                model.ProductStyleCount =
+                                    Convert.ToInt32(objDataReader["STYLE_COUNT"].ToString());
+                                objLowStockModels.Add(model);
+                            }
+                            return objLowStockModels;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+                }
+            }
+        }
+
         public async Task<string> ChangePassword(ChangePasswordModel oChangePasswordModel)
         {
             string strMsg;

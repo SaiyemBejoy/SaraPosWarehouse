@@ -101,21 +101,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group" id="styleDropdownHide">
-                                    @Html.LabelFor(c => c.ProductId, "StyleName", new { @class = "col-md-3 control-label" })
+                                    @Html.LabelFor(c => c.ProductIdList, "StyleName", new { @class = "col-md-3 control-label" })
                                     <div class="col-md-6">
                                         <div class="input-icon">
-                                            @Html.DropDownListFor(c => c.ProductId, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2", @multiple = "true" })
+                                            @Html.DropDownListFor(c => c.ProductIdList, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2", @multiple = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3"></div>
                                 </div>
                                 <div class="form-group" id="styleHide">
-                                    @Html.LabelFor(c => c.StyleName, new { @class = "col-md-3 control-label" })
+                                    @Html.LabelFor(c => c.ProductIdList, "StyleName", new { @class = "col-md-3 control-label" })
                                     <div class="col-md-6">
                                         <div class="input-icon">
-                                            <i class="fa fa-text-width"></i>
-                                            @Html.TextBoxFor(c => c.StyleName, new { @class = "form-control input-circle" })
-
+                                           
+                                            @*@Html.TextBoxFor(c => c.ProductIdList, new { @class = "form-control input-circle" })*@
+                                            @Html.DropDownListFor(c => c.ProductIdList, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2", @multiple = "true" })
                                         </div>
                                     </div>
                                     <div class="col-md-3"></div>

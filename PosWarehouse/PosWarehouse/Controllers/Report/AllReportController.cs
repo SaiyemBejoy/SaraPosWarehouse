@@ -253,7 +253,7 @@ namespace PosWarehouse.Controllers.Report
                 }
             }
 
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_ID", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_ID", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
@@ -543,7 +543,7 @@ namespace PosWarehouse.Controllers.Report
             LoadSession();
             var shopDeliveryReport = new StoreDeliveryReport();
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_ID", "CATEGORY_NAME");   
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View(shopDeliveryReport);
         } 
         [HttpPost]
@@ -573,7 +573,7 @@ namespace PosWarehouse.Controllers.Report
                 await GenerateStyleWisePurchaseReceive(objDeliveryReport);
             }
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_ID", "CATEGORY_NAME");
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View();
         }
 
@@ -658,7 +658,7 @@ namespace PosWarehouse.Controllers.Report
             //await GetUpdateData();
             LoadSession();
             var stockSummary = new StockSummaryReport();
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_NAME", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
@@ -683,16 +683,17 @@ namespace PosWarehouse.Controllers.Report
             if (stockSummaryReport.ReportType == "1")
             {
                 stockSummaryReport.ReportType = "PDF";
-
-                if(stockSummaryReport.ProductId.Count > 0)
+                if (stockSummaryReport.ProductIdList != null)
                 {
-                    for (int i = 0; i < stockSummaryReport.ProductId.Count; i++)
+                    if (stockSummaryReport.ProductIdList.Count > 0)
                     {
-                        stockSummaryReport.StyleName += stockSummaryReport.ProductId[i] + ",";
+                        for (int i = 0; i < stockSummaryReport.ProductIdList.Count; i++)
+                        {
+                            stockSummaryReport.ProductIds += stockSummaryReport.ProductIdList[i] + ",";
+                        }
+                        stockSummaryReport.ProductIds = stockSummaryReport.ProductIds.Remove(stockSummaryReport.ProductIds.Length - 1);
                     }
-                    stockSummaryReport.StyleName = stockSummaryReport.StyleName.Remove(stockSummaryReport.StyleName.Length - 1);
                 }
-
                 //if (stockSummaryReport.ShopId > 0)
                 //{
                 //    await ShopStockDataSaveForRpt(stockSummaryReport.ShopId);
@@ -747,7 +748,7 @@ namespace PosWarehouse.Controllers.Report
                     await GenerateStyleWiseShopLowStock(stockSummaryReport);
                 }
             }
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_NAME", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
@@ -1148,7 +1149,7 @@ namespace PosWarehouse.Controllers.Report
         {
             LoadSession();
             var customerReport = new CustomerReport();
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View(customerReport);
         }
         [HttpPost]
@@ -1180,7 +1181,7 @@ namespace PosWarehouse.Controllers.Report
                 }
             }
             
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
              return View(customerReport);
         }
 
@@ -1218,7 +1219,7 @@ namespace PosWarehouse.Controllers.Report
         {
             LoadSession();
             var stockTransferDetails = new StockTransferDetails();
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View(stockTransferDetails);
         }
         [HttpPost]
@@ -1235,7 +1236,7 @@ namespace PosWarehouse.Controllers.Report
                 }
 
             }
-            ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View(stockTransferDetails);
         }
 
@@ -1435,5 +1436,70 @@ namespace PosWarehouse.Controllers.Report
         }
 
         #endregion
-    }
+
+        #region "SOL Purchase Receive Report"
+
+        [RoleFilter]
+        public async Task<ActionResult> SolPurchaseReceive()
+        {
+            //await GetUpdateData();
+            LoadSession();
+            var solPurchaseReceive = new SolPurchaseReceiveReport();
+            ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+
+            return View(solPurchaseReceive);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SolPurchaseReceive(SolPurchaseReceiveReport solPurchaseReceiveReport)
+        {
+            LoadSession();
+            if (solPurchaseReceiveReport.ReportType == "1")
+            {
+                solPurchaseReceiveReport.ReportType = "PDF";
+
+                if (solPurchaseReceiveReport.ProductId != null)
+                {
+                    if (solPurchaseReceiveReport.ProductId.Count > 0)
+                    {
+                        for (int i = 0; i < solPurchaseReceiveReport.ProductId.Count; i++)
+                        {
+                            solPurchaseReceiveReport.ProductIDs += solPurchaseReceiveReport.ProductId[i] + ",";
+                        }
+                        solPurchaseReceiveReport.ProductIDs = solPurchaseReceiveReport.ProductIDs.Remove(solPurchaseReceiveReport.ProductIDs.Length - 1);
+                    }
+                }
+                
+                if (solPurchaseReceiveReport.RadioFor == "CSR")
+                {
+                    await GenerateSolPurchaseReceiveReport(solPurchaseReceiveReport);
+                }
+
+            }
+
+            ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+            return View(solPurchaseReceiveReport);
+        }
+
+        private async Task<int> GenerateSolPurchaseReceiveReport(SolPurchaseReceiveReport objSolPurchaseReceiveReport)
+        {
+            DataSet objDataSet = null;
+            string strPath = Path.Combine(Server.MapPath("~/Reports/SolPurchaseReceive/SolPurchaseReceive.rpt"));
+            _objReportDocument.Load(strPath);
+
+            objDataSet = (await _objReportDal.SolPurchaseReceive(objSolPurchaseReceiveReport));
+
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(objSolPurchaseReceiveReport.ReportType, "SOL Purchase Receive Report");
+            return 0;
+        }
+
+        #endregion
+
+
+        }
 }

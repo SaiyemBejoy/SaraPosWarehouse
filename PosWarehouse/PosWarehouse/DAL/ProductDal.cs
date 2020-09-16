@@ -45,6 +45,8 @@ namespace PosWarehouse.DAL
                         "PurchasePrice," +
                         "SellPrice," +
                         "UpdateBy," +
+                        "MCDCOUNT, "+
+                        "OCDCOUNT, " +
                         "WareHouseId," +
                         "ShopId " +
                         "FROM VEW_PRODUCT_GRID WHERE 1=1 ";
@@ -108,6 +110,8 @@ namespace PosWarehouse.DAL
 
                                 //ProductQuantity = objDataReader.GetValue(5).ToString(),
                                 objProductGrid.UpdateBy = objDataReader["UpdateBy"].ToString();
+                                objProductGrid.MaterialCostDetails =Convert.ToInt32(objDataReader["MCDCOUNT"].ToString());
+                                objProductGrid.OtherCostDetails =Convert.ToInt32(objDataReader["OCDCOUNT"].ToString());
                                 objProductGrid.WareHouseId = objDataReader["WareHouseId"].ToString();
                                 objProductGrid.ShopId = objDataReader["ShopId"].ToString();
 
@@ -1132,6 +1136,154 @@ namespace PosWarehouse.DAL
                         }
                     }
 
+
+                }
+            }
+        }
+
+        public async Task<List<string>> GetStyleSearchHints(string query)
+        {
+            query = "%" + query + "%";
+
+            var sql = "SELECT PRODUCT_STYLE FROM PRODUCT WHERE LOWER(PRODUCT_STYLE) LIKE :PRODUCT_STYLE ";
+            sql += "AND ROWNUM <= 20 ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":PRODUCT_STYLE", OracleDbType.Varchar2, ParameterDirection.Input).Value = query.ToLower();
+
+                    await objConnection.OpenAsync();
+
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<string> grid = new List<string>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                string name = objDataReader["PRODUCT_STYLE"].ToString();
+                                grid.Add(name);
+                            }
+                            return grid;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task<ProductModel> GetAllInfoByProductStyle (string productStyle)
+        {
+            var sql = "SELECT " +
+                      "PRODUCT_ID," +
+                      "PRODUCT_NAME," +
+                      "PRODUCT_STYLE," +
+                      "PRODUCT_DESCRIPTION," +
+                      "CATEGORY_ID," +
+                      "SUB_CATEGORY_ID," +
+                      "SEASON_ID," +
+                      "BRAND_ID," +
+                      "DESIGNER_ID," +
+                      "MERCHANDISER_ID," +
+                      "PurcMeasurUnit_ID," +
+                      "SaleMeasurUnit_ID," +
+                      "PurcUnitAndSaleUnit," +
+                      "ACTIVE_YN," +
+                      "PRODUCT_IMAGE," +
+                      "VAT_YN," +
+                      "PURCHASE_PRICE," +
+                      "SALE_PRICE," +
+                      "MATERIAL_COST," +
+                        "CM," +
+                        "COGS," +
+                        "KARCUPI," +
+                        "WASH," +
+                        "PRINT," +
+                        "EMBROIDERY," +
+                      "UPDATE_BY," +
+                      "WARE_HOUSE_ID," +
+                      "SHOP_ID " +
+                      "FROM VEW_PRODUCT where PRODUCT_STYLE = :PRODUCT_STYLE ";
+
+            //OracleCommand objCommand = new OracleCommand(sql);
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":PRODUCT_STYLE", OracleDbType.Varchar2, ParameterDirection.Input).Value = productStyle;
+
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        ProductModel objProductModel = new ProductModel();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                objProductModel.ProductId =
+                                    Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString());
+                                objProductModel.CategoryId =
+                                    Convert.ToInt32(objDataReader["CATEGORY_ID"].ToString());
+                                objProductModel.SubCategoryId =
+                                    Convert.ToInt32(objDataReader["SUB_CATEGORY_ID"].ToString());
+                                objProductModel.SeasonId = !string.IsNullOrWhiteSpace(objDataReader["SEASON_ID"].ToString()) ? Convert.ToInt32(objDataReader["SEASON_ID"].ToString()) : 0;
+                                objProductModel.ProductName = objDataReader["PRODUCT_NAME"].ToString();
+                                objProductModel.ProductStyle = objDataReader["PRODUCT_STYLE"].ToString();
+                                objProductModel.ProductDescription = objDataReader["PRODUCT_DESCRIPTION"].ToString();
+                                objProductModel.PurchasePrice = Convert.ToDouble(objDataReader["PURCHASE_PRICE"].ToString());
+                                objProductModel.SalePrice = Convert.ToDouble(objDataReader["SALE_PRICE"].ToString());
+                                objProductModel.MaterialCost = Convert.ToDouble(objDataReader["MATERIAL_COST"].ToString());
+                                objProductModel.CM = Convert.ToDouble(objDataReader["CM"].ToString());
+                                objProductModel.COGS = !string.IsNullOrWhiteSpace(objDataReader["COGS"].ToString()) ? Convert.ToDouble(objDataReader["COGS"].ToString()) : Convert.ToDouble(objDataReader["MATERIAL_COST"].ToString()) + Convert.ToDouble(objDataReader["CM"].ToString());
+                                objProductModel.Wash = objDataReader["WASH"].ToString();
+                                objProductModel.Print = objDataReader["PRINT"].ToString();
+                                objProductModel.Embroidery = objDataReader["EMBROIDERY"].ToString();
+                                objProductModel.ProductImageString = objDataReader["PRODUCT_IMAGE"].ToString();
+                                objProductModel.DesignerId = objDataReader["DESIGNER_ID"].ToString();
+                                objProductModel.MerchandiserId = objDataReader["MERCHANDISER_ID"].ToString();
+                                objProductModel.BrandId =
+                                    Convert.ToInt32(objDataReader["BRAND_ID"].ToString());
+                                objProductModel.PurchaseMeasuringUnitId =
+                                    Convert.ToInt32(objDataReader["PurcMeasurUnit_ID"].ToString());
+                                objProductModel.SalesMeasuringUnitId =
+                                    Convert.ToInt32(objDataReader["SaleMeasurUnit_ID"].ToString());
+                                objProductModel.PurchaseUnitSaleUnit = objDataReader["PurcUnitAndSaleUnit"].ToString();
+                                //objProductModel.IsActive = objProductModel.IsActive == "Y") ? true : false;
+                                // objProductModel.IncludeVat = objProductModel.IncludeVat == "Y" ? true : false;
+
+                                objProductModel.IsActive = objDataReader["ACTIVE_YN"].ToString() == "Y";
+                                objProductModel.Karchupi = objDataReader["KARCUPI"].ToString() == "Y";
+                                objProductModel.IncludeVat = objDataReader["VAT_YN"].ToString() == "Y";
+                                objProductModel.UpdateBy = objDataReader["UPDATE_BY"].ToString();
+                                objProductModel.WareHouseId = objDataReader["WARE_HOUSE_ID"].ToString();
+                                objProductModel.ShopId = objDataReader["SHOP_ID"].ToString();
+                            }
+
+                            return objProductModel;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
 
                 }
             }

@@ -58,7 +58,7 @@ namespace PosWarehouse.ViewModel
         public int SubCategoryId { get; set; }
 
         [DisplayName("Active Status")]
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; set; } = true;
 
         [Required]
         [DisplayName("Purchase Price")]
@@ -140,6 +140,8 @@ namespace PosWarehouse.ViewModel
 
         public string SearchBy { get; set; }
         public string UpdateBy { get; set; }
+        public int MaterialCostDetails { get; set; }
+        public int OtherCostDetails { get; set; }
         public string OrderByName { get; set; }
         public string OrderByDirection { get; set; }
 

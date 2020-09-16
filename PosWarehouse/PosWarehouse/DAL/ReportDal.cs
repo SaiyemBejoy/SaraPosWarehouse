@@ -461,6 +461,7 @@ namespace PosWarehouse.DAL
                 throw new Exception(ex.Message);
             }
         }
+
         public DataSet PoNumberWiseDetails(PurchaseOrderReport purchaseOrderReport)
         {
             try
@@ -1228,9 +1229,13 @@ namespace PosWarehouse.DAL
                           "PRODUCT_SUB_CATEGORY  " +
                           " From VEW_RPT_CURRENT_STOCK_SUMMARY WHERE 1=1  ";
 
-                    if (objStockSummaryReport.StyleName != null)
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and ((lower(ITEM_NAME) like lower('" + objStockSummaryReport.StyleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + objStockSummaryReport.StyleName.Trim() + " %')) ";
+                    //}
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and ((lower(ITEM_NAME) like lower('" + objStockSummaryReport.StyleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + objStockSummaryReport.StyleName.Trim() + " %')) ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     if (objStockSummaryReport.ShopId > 0)
                     {
@@ -1310,9 +1315,13 @@ namespace PosWarehouse.DAL
                           "PRODUCT_SUB_CATEGORY  " +
                           " From VEW_RPT_CURRENT_STOCK_SUMMARY WHERE CURRENT_STOCK> 0  ";
 
-                    if (objStockSummaryReport.StyleName != null)
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and ((lower(ITEM_NAME) like lower('" + objStockSummaryReport.StyleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + objStockSummaryReport.StyleName.Trim() + " %')) ";
+                    //}
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and ((lower(ITEM_NAME) like lower('" + objStockSummaryReport.StyleName.Trim() + " %'))  or upper(ITEM_NAME)like upper('" + objStockSummaryReport.StyleName.Trim() + " %')) ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     if (objStockSummaryReport.ShopId > 0)
                     {
@@ -1528,6 +1537,7 @@ namespace PosWarehouse.DAL
                             "SHOP_NAME," +
                             "WARE_HOUSE_NAME," +
                             "WARE_HOUSE_ADDRESS," +
+                            "PRODUCT_ID, "+
                             "PRODUCT_STYLE," +
                             "PRODUCT_CATEGORY," +
                             "PRODUCT_SUB_CATEGORY," +
@@ -1551,9 +1561,13 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.StyleName != null)
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ";
+                    //}
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     if (objStockSummaryReport.Barcode != null)
                     {
@@ -1611,6 +1625,7 @@ namespace PosWarehouse.DAL
                             "SHOP_NAME," +
                             "WARE_HOUSE_NAME," +
                             "WARE_HOUSE_ADDRESS," +
+                            "PRODUCT_ID, " +
                             "PRODUCT_STYLE," +
                             "PRODUCT_CATEGORY," +
                             "PRODUCT_SUB_CATEGORY," +
@@ -1634,10 +1649,11 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.StyleName != null)
-                    {
-                        sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ";
-                    }
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ";
+                    //}
+
                     if (objStockSummaryReport.Barcode != null)
                     {
                         sql = sql + " and BARCODE = '" + objStockSummaryReport.Barcode + "' ";
@@ -2597,9 +2613,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId.Count > 0 )
+                    if (objStockSummaryReport.ProductIdList != null )
                     {
-                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2676,9 +2692,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId.Count > 0)
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2760,9 +2776,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId.Count > 0 )
+                    if (objStockSummaryReport.ProductIdList != null )
                     {
-                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2844,9 +2860,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.ProductId.Count > 0)
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     //if (objStockSummaryReport.StyleName != null)
                     //{
@@ -2983,9 +2999,9 @@ namespace PosWarehouse.DAL
                     //{
                     //    sql = sql + " and SHOP_ID = '" + objStockSummaryReport.ShopId + "' ";
                     //}
-                    if (objStockSummaryReport.ProductId.Count > 0)
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.StyleName + ") ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ";
                     }
                     
                     OracleCommand objOracleCommand = new OracleCommand(sql);
@@ -3064,10 +3080,14 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.StyleName != null)
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ORDER BY ITEM_ID ASC  ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ORDER BY ITEM_ID ASC ";
                     }
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ORDER BY ITEM_ID ASC  ";
+                    //}
                     OracleCommand objOracleCommand = new OracleCommand(sql);
                     using (OracleConnection strConn = GetConnection())
                     {
@@ -3144,9 +3164,13 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " and PRODUCT_SUB_CATEGORY = '" + objStockSummaryReport.SubCategoryId + "' ";
                     }
-                    if (objStockSummaryReport.StyleName != null)
+                    //if (objStockSummaryReport.StyleName != null)
+                    //{
+                    //    sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ORDER BY ITEM_ID ASC  ";
+                    //}
+                    if (objStockSummaryReport.ProductIdList != null)
                     {
-                        sql = sql + " and PRODUCT_STYLE = '" + objStockSummaryReport.StyleName + "' ORDER BY ITEM_ID ASC  ";
+                        sql = sql + " and PRODUCT_ID IN (" + objStockSummaryReport.ProductIds + ") ORDER BY ITEM_ID ASC  ";
                     }
                     OracleCommand objOracleCommand = new OracleCommand(sql);
                     using (OracleConnection strConn = GetConnection())
@@ -4859,5 +4883,74 @@ namespace PosWarehouse.DAL
         }
 
         #endregion
+
+
+        #region "SOL Purchase Receive"
+
+        public async Task<DataSet> SolPurchaseReceive(SolPurchaseReceiveReport objSolPurchaseReceiveReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                var sql = "";
+                DataTable dt = new DataTable();
+                try
+                {
+                    sql = "SELECT " +
+                             "ITEM_ID,  " +
+                             "PRODUCT_ID, " +
+                             "PRODUCT_STYLE, " +
+                             "ITEM_NAME, " +
+                             "BARCODE, " +
+                             "HOLD_RECEIVE_QUANTITY, " +
+                             "RESCAN_DELIVERY, " +
+                             "QUANTITY, " +
+                             "SALE_PRICE " +
+                             " From VEW_O_PURCHASE_HOLD_ITEM WHERE 1=1 ";
+
+                    if (objSolPurchaseReceiveReport.ProductId != null)
+                    {
+                        sql = sql + " and PRODUCT_ID IN (" + objSolPurchaseReceiveReport.ProductIDs + ") ";
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_O_PURCHASE_HOLD_ITEM"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
     }
 }

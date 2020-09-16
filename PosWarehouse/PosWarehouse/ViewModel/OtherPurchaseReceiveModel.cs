@@ -23,6 +23,12 @@ namespace PosWarehouse.ViewModel
         public string WareHouseId { get; set; }
 
         public string ReceiveYN { get; set; }
+        
+        public bool HoldStatus { get; set; }
+        public string Hold_YN { get; set; }
+
+        public bool ReScanStatus { get; set; }
+        public string Scan_Type { get; set; }
 
         public List<OtherPurchaseReceiveItemModel> ReceiveItemsList { get; set; }
        

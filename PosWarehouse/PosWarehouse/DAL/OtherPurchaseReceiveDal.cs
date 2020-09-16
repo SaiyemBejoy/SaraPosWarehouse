@@ -76,6 +76,8 @@ namespace PosWarehouse.DAL
             objOracleCommand.Parameters.Add("p_delivery_shop_id", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objOtherPurchaseReceiveModel.DeliveryShopId) ? objOtherPurchaseReceiveModel.DeliveryShopId : null;
             objOracleCommand.Parameters.Add("P_UPDATE_BY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objOtherPurchaseReceiveModel.UpdateBy) ? objOtherPurchaseReceiveModel.UpdateBy : null;
             objOracleCommand.Parameters.Add("P_WARE_HOUSE_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objOtherPurchaseReceiveModel.WareHouseId) ? objOtherPurchaseReceiveModel.WareHouseId : null;
+            objOracleCommand.Parameters.Add("P_HOLD_YN", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objOtherPurchaseReceiveModel.Hold_YN) ? objOtherPurchaseReceiveModel.Hold_YN : null;
+            objOracleCommand.Parameters.Add("P_SCAN_TYPE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objOtherPurchaseReceiveModel.Scan_Type) ? objOtherPurchaseReceiveModel.Scan_Type : null;
             objOracleCommand.Parameters.Add("p_message", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
             objOracleCommand.Parameters.Add("P_RECEIVE_NUMBER", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
 
@@ -207,7 +209,8 @@ namespace PosWarehouse.DAL
                 "CREATE_BY," +
                 "CREATE_DATE," +
                 "WARE_HOUSE_ID," +
-                "O_RECEIVE_YN " +
+                "O_RECEIVE_YN, " +
+                "HOLD_YN " +
                 "FROM OTHER_PURCHASE_RECEIVE s ORDER BY O_PURCHASE_RECEIVE_NUMBER DESC";
 
             using (OracleConnection objConnection = GetConnection())
@@ -235,7 +238,8 @@ namespace PosWarehouse.DAL
                                     UpdateDate = objDataReader["UPDATE_DATE"].ToString(),
                                     CreatedBy = objDataReader["CREATE_BY"].ToString(),
                                     CreatedDate = objDataReader["CREATE_DATE"].ToString(),
-                                    ReceiveYN = objDataReader["O_RECEIVE_YN"].ToString()
+                                    ReceiveYN = objDataReader["O_RECEIVE_YN"].ToString(),
+                                    Hold_YN = objDataReader["HOLD_YN"].ToString().Trim()
                                 };
                                 objOtherPurchaseReceiveModels.Add(model);
                             }
@@ -257,5 +261,61 @@ namespace PosWarehouse.DAL
                 }
             }
         }
+
+
+        public async Task<OtherPurchaseReceiveItemScanModel> GetProductInfoForHoldScanReceive(string barcode)
+        {
+            var sql = "SELECT " +
+                      "ITEM_ID," +
+                        "PRODUCT_ID," +
+                        "PRODUCT_STYLE," +
+                        "ITEM_NAME," +
+                        "BARCODE," +
+                        "QUANTITY," +
+                        "SALE_PRICE " +
+                      "FROM VEW_O_PURCHASE_HOLD_ITEM where BARCODE = :BARCODE AND QUANTITY > 0 ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection)
+                { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":BARCODE", OracleDbType.Varchar2, ParameterDirection.Input).Value = barcode;
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader =
+                        (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        OtherPurchaseReceiveItemScanModel objOtherPurchaseReceiveItemScanModel = new OtherPurchaseReceiveItemScanModel();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                objOtherPurchaseReceiveItemScanModel.ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString());
+                                objOtherPurchaseReceiveItemScanModel.ItemId = Convert.ToInt32(objDataReader["ITEM_ID"].ToString());
+                                objOtherPurchaseReceiveItemScanModel.ItemName = objDataReader["ITEM_NAME"].ToString();
+                                objOtherPurchaseReceiveItemScanModel.Style = objDataReader["PRODUCT_STYLE"].ToString();
+                                objOtherPurchaseReceiveItemScanModel.ProductCode = objDataReader["BARCODE"].ToString();
+                                objOtherPurchaseReceiveItemScanModel.Quantity = Convert.ToInt32(objDataReader["QUANTITY"].ToString());
+                                objOtherPurchaseReceiveItemScanModel.SalePrice = Convert.ToDouble(objDataReader["SALE_PRICE"].ToString());
+                            }
+                            return objOtherPurchaseReceiveItemScanModel;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+                }
+            }
+        }
+
+
     }
 }

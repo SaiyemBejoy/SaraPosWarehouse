@@ -72,6 +72,7 @@ namespace PosWarehouse.Controllers
             {
                 employee.RequisitionMainModels = await _authentication.GetAllRequisition();
                 employee.StockTransferModels = await _authentication.GetAllStockTransfer();
+                employee.LowStockModels = await _authentication.GetAllLowStockStyle();
                 return PartialView("_TopMenuPartial", employee);
             }
             return null;

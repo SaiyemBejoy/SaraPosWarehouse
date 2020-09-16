@@ -53,6 +53,7 @@ namespace PosWarehouse.ViewModel
 
         public IEnumerable<RequisitionMainModel> RequisitionMainModels { get; set; }
         public IEnumerable<StockTransferModel> StockTransferModels { get; set; }
+        public IEnumerable<LowStockModel> LowStockModels { get; set; }
 
         public bool Message { get; set; }
 

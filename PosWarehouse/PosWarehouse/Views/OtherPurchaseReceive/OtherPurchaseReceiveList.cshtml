@@ -36,6 +36,7 @@
                             <th> Delivery To</th>
                             <th> Created Date</th>
                             <th> Receive Status</th>
+                            <th> Hold Status</th>
                             <th> Action </th>
                         </tr>
                     </thead>
@@ -58,6 +59,15 @@
                             else
                             {
                                 <td style="color: red; font-weight:bold;font-size: 20px;">NO</td>
+                            }
+
+                            @if (data.Hold_YN == "Y")
+                            {
+                                <td style="color: green; font-weight:bold;font-size: 20px; ">YES</td>
+                            }
+                            else
+                            {
+                                <td style="color: darkred; font-weight:bold;font-size: 20px;">NO</td>
                             }
 
                             <td style="width: 17%">

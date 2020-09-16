@@ -606,7 +606,7 @@ namespace PosWarehouse.DAL
             var sql = "SELECT " +
                       "O_PURCHASE_RECEIVE_NUMBER, " +
                       "O_PURCHASE_RECEIVE_NUMBER " +
-                      "FROM OTHER_PURCHASE_RECEIVE WHERE O_RECEIVE_YN = 'N' ";
+                      "FROM OTHER_PURCHASE_RECEIVE WHERE O_RECEIVE_YN = 'N' AND HOLD_YN = 'N' AND SCAN_TYPE <> 'H' ";
 
             OracleCommand objCommand = new OracleCommand(sql);
             OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
@@ -1223,6 +1223,35 @@ namespace PosWarehouse.DAL
                       " ATTRIBUTE_VALUE_NAME " +
                       " FROM L_ATTRIBUTE_VALUE " +
                       " WHERE ATTRIBUTE_ID = 5 ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetHoldChallanNoDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "O_PURCHASE_RECEIVE_NUMBER " +
+                      "FROM OTHER_PURCHASE_RECEIVE WHERE HOLD_YN = 'Y' ";
 
             OracleCommand objCommand = new OracleCommand(sql);
             OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
