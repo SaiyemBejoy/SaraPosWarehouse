@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "UserPermisionAlert";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<head>
+    
+    <link href="~/plugins/css/themes/error.css" rel="stylesheet" />
+    <!-- END PAGE LEVEL STYLES -->
+</head>
+
+<body class="page-404-3">
+    <div class="page-inner">
+    
+        <img src="~/plugins/img/bg/earth.jpg" class="img-responsive" alt="" />
+    </div>
+    <div class="container error-404">
+        <h1>404</h1>
+        <h2>Oops! You're lost.</h2>
+        <p>
+            We can not find the page you're looking for.
+            Return home or try the search bar below.
+        </p>
+        <p>
+            <a style="color: red" href="@Url.Action("About","Home")">
+                Click here to Return home
+            </a>
+        </p>
+    </div>
+
+</body>

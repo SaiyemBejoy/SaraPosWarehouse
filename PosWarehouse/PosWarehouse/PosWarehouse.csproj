@@ -1177,10 +1177,12 @@
     <Content Include="plugins\css\select2.png" />
     <Content Include="plugins\css\select2x2.png" />
     <Content Include="plugins\css\themes\default.css" />
+    <Content Include="plugins\css\themes\error.css" />
     <Content Include="plugins\css\themes\light.css" />
     <Content Include="plugins\font-awesome\css\font-awesome.css" />
     <Content Include="plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="plugins\img\bg\earth.jpg" />
     <Content Include="plugins\jquery-migrate.min.js" />
     <Content Include="plugins\jquery-multi-select\components-dropdowns.js" />
     <Content Include="plugins\jquery-multi-select\css\img\switch.png" />
@@ -1488,6 +1490,7 @@
     <Content Include="Views\OtherCostDetails\Index.cshtml" />
     <Content Include="Views\UserSubActionPermission\Index.cshtml" />
     <Content Include="Views\AllReport\SolPurchaseReceive.cshtml" />
+    <Content Include="Views\Auth\UserPermisionAlert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -22,7 +22,7 @@ namespace PosWarehouse.Utility
             {
                 var urlHelper = new UrlHelper(filterContext.RequestContext);
                 HttpContext.Current.Session.Abandon();
-                var url = urlHelper.Action("Index", "Auth");
+                var url = urlHelper.Action("UserPermisionAlert", "Auth");
                 filterContext.Result = new RedirectResult(url);
                 return;
             }
@@ -37,7 +37,7 @@ namespace PosWarehouse.Utility
                 {
                     var urlHelper = new UrlHelper(filterContext.RequestContext);
                     HttpContext.Current.Session.Abandon();
-                    var url = urlHelper.Action("Index", "Auth");
+                    var url = urlHelper.Action("UserPermisionAlert", "Auth");
                     filterContext.Result = new RedirectResult(url);
                 }
 

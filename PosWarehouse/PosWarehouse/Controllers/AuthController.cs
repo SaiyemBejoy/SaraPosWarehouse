@@ -95,6 +95,17 @@ namespace PosWarehouse.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        [LogAction]
+        public ActionResult UserPermisionAlert()
+        {
+            var employee = Session["authentication"] as AuthModel;
+            if (employee != null)
+            {
+                Session.Abandon();
+            }
+            //return RedirectToAction("Index");
+            return View();
+        }
+
     }
 }

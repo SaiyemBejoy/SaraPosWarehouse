@@ -66,10 +66,10 @@
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
                                     <div class="row">
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-6">
                                             <div class="caption font-green-sharp">
                                                 <i class="icon-speech font-green-sharp"></i>
-                                                <span class="caption-subject bold uppercase"> Product Receive Details</span>
+                                                <span class="caption-subject bold uppercase" style="font-weight:bold; font-size:16px;"> Product Receive Details</span>
 
                                             </div>
                                         </div>
@@ -81,6 +81,20 @@
                                                         <div class="col-md-6">
                                                             <div class="input-icon">
                                                                 <input type="text" class="form-control  input-circle" id="totalSolItem" style="width: 100px; background-color: yellow" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="row">
+                                                <div class="row" id="divSelectQntChkHide">
+                                                    <div class="form-group">
+                                                        <label class="col-md-6 control-label">Select QTY </label>
+                                                        <div class="col-md-6" style="margin-top: 8px;">
+                                                            <div class="checkbox-list">
+                                                                <input type="checkbox" class="checker" id="selectAllQtyForRec" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -158,7 +172,7 @@
 
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <div class="col-md-7">
                                                     <a class="btn btn-success selectProduct" data-toggle="modal" href="#directPurchaseProductModal" id="selectProduct">
@@ -193,7 +207,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-2">
                                             <div class="form-group" id="autoDeliveryDiv">
                                                 <div class="col-md-8">
                                                     <input type="checkbox" class="checkbox" checked="checked" id="autoDelivery" />
@@ -263,6 +277,9 @@
                                                                 </th>
                                                                 <th>
                                                                     Action
+                                                                </th>
+                                                                <th>
+                                                                   EXCESS SCAN
                                                                 </th>
                                                             </tr>
                                                         </thead>
@@ -869,6 +886,9 @@
         
         $("#OtherPurchaseReceiveNumber").change(function () {
 
+            $("#selectAllQtyForRec").prop("checked", false);
+            $("#selectAllQtyForRec").parent("span").removeClass("checked");
+
             var OtherPurchaseReceiveNumber = $("#OtherPurchaseReceiveNumber").val();
 
             if (OtherPurchaseReceiveNumber > 0) {
@@ -911,7 +931,7 @@
 
                             
                             var tableQuantity = data.length;
-                            //$("#gridTableBodyForPurchaseReceive").html("");
+                           //$("#gridTableBodyForPurchaseReceive").html("");
                             for (var i = 0; i < tableQuantity; i++) {
                                 $("#gridTableBodyForPurchaseReceive").append('<tr>' +
                                     '<td style="display:none;">' +
@@ -965,13 +985,19 @@
                                     0 +
                                     '</td>' +
                                     '<td></td>' +
+                                    '<td style="width: 11%">' +
+                                    '<input type="text" class="form-control input-circle extraScanQty" readonly="readonly" id="extraScanQty" value="' +
+                                    0 +
+                                    '" placeholder="Qty">' +
+                                    '</td>' +
                                     '</tr>'
                                 );
                             }
+                            totalChallanItemCount();
                             totalItemCount();
                             compute();
                         }
-                        //$("#totalSolItem").val(0);
+                       
                     }
                 });
             } else {
@@ -984,6 +1010,29 @@
                 $('#netTotal').val('');
 
             }
+        });
+
+        function totalChallanItemCount() {
+            var total = 0;
+            $("#gridTableBodyForPurchaseReceive tr").each(function () {
+                total += parseInt($(this).find('td:eq(6)').text());
+            });
+            $("#totalSolItem").val(total);
+            return true;
+        }
+
+        $("#selectAllQtyForRec").change(function () {
+            if (this.checked) {
+                $.each($("#gridTableBodyForPurchaseReceive tr"), function () {
+                    var remainQuantity = $(this).find('td:eq(6)').text();
+                    $(this).find('.quantity').val(remainQuantity);
+                });
+            } else {
+                $.each($("#gridTableBodyForPurchaseReceive tr"), function () {
+                    $(this).find('.quantity').val(0);
+                });
+            }
+            totalItemCount();
         });
 
         $("#directPurchase").change(function () {
@@ -1579,8 +1628,8 @@
                     var value = $(this).find('td:eq(2)').text();
                     var orderQty = $(this).find('td:eq(6)').text();
                     var receiveQuantity = $(this).find('#receiveQuantity').val();
+                    var excessScanQty = $(this).find('#extraScanQty').val();
                     var quantity = $(this).find('.quantity');
-                   
                     if (otherPurchaseReceiveYN) {
                         if (value === barcode) {
                             if (parseInt(receiveQuantity) !== parseInt(orderQty)) {
@@ -1591,10 +1640,15 @@
                             $("#ScanBox").val("");
                             rowDataCalculation(quantity);
                             totalItemCount();
-                            compute();
+                                compute();
 
+                            } else {
+                                $(this).css("background-color", "#cd5c5c");
+                                alert("This Item Already Received.");
+                                $(this).find('.extraScanQty').val(parseInt(excessScanQty) + 1);
+                                $("#ScanBox").val("");
+                                totalItemCount();
                             }
-
                         }
                     } else {
                         if (value === barcode) {
@@ -1674,12 +1728,14 @@
 
         $("#otherPurchaseReceiveDiv").hide();
         $("#divTotalHide").hide();
+        $("#divSelectQntChkHide").hide();
         $("#CheckboxOtherRecChallan").change(function () {
             if (this.checked) {
                 $(".selectProduct").hide();
                 $("#scanProductDiv").show();
                 $("#otherPurchaseReceiveDiv").show();
                 $("#divTotalHide").show();
+                $("#divSelectQntChkHide").show();
                 $("#directPurchase").val("");
                 $('#gridTableBodyForPurchaseReceive').html("");
                 $('#directPurchase').attr('disabled', true);
@@ -1687,6 +1743,7 @@
                 $("#scanProductDiv").show();
                 $("#otherPurchaseReceiveDiv").hide();
                 $("#divTotalHide").hide();
+                $("#divSelectQntChkHide").hide();
                 $('#directPurchase').attr('disabled', false);
                 $('#gridTableBodyForPurchaseReceive').html("");
             }
