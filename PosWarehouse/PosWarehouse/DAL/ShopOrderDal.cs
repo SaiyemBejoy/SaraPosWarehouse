@@ -88,7 +88,8 @@ namespace PosWarehouse.DAL
                         "REQUISITION_ID," +
                         "BARCODE," +
                         "ITEM_NAME," +
-                        "PRICE " +
+                        "PRICE," +
+                        "QUANTITY "+
                       "FROM VEW_REQUISITION_MAIN_ITEM where REQUISITION_ID =:REQUISITION_ID ";
             using (OracleConnection objConnection = GetConnection())
             {
@@ -111,8 +112,8 @@ namespace PosWarehouse.DAL
                                     RequisitionId = Convert.ToInt32(objDataReader["REQUISITION_ID"].ToString()),
                                     ItemName = objDataReader["ITEM_NAME"].ToString(),
                                     Barcode = objDataReader["BARCODE"].ToString(),
-                                    Price = objDataReader["PRICE"].ToString()
-                                   
+                                    Price = objDataReader["PRICE"].ToString(),
+                                    RqsnQuantity = objDataReader["QUANTITY"].ToString(),
 
                                 };
                                 objRequisitionMainItemModel.Add(model);

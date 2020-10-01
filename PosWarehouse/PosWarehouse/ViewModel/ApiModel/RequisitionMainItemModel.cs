@@ -13,6 +13,7 @@ namespace PosWarehouse.ViewModel.ApiModel
         public string Barcode { get; set; }
         public string ItemName { get; set; }
         public string Price { get; set; }
+        public string RqsnQuantity { get; set; }
     }
     public class RequisitionDeliveryModel
     {

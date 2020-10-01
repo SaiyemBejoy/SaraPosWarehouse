@@ -560,6 +560,10 @@ namespace PosWarehouse.Controllers.Report
             {
                await GenerateDateWiseStoreDeliveryChallan(objDeliveryReport);
             }
+            else if (objDeliveryReport.RadioFor == "DSDD")
+            {
+                await GenerateDateWiseStoreDeliveryDetails(objDeliveryReport);
+            }
             else if (objDeliveryReport.RadioFor == "SWD")
             {
                 await GenerateStyleWiseStoreDelivery(objDeliveryReport);
@@ -600,6 +604,19 @@ namespace PosWarehouse.Controllers.Report
             _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
 
             ShowReport(objDeliveryReport.ReportType, "Date Wise Challan Details");
+            return 0;
+        }
+
+        private async Task<int> GenerateDateWiseStoreDeliveryDetails(StoreDeliveryReport objDeliveryReport)
+        {
+            string strPath = Path.Combine(Server.MapPath("~/Reports/StoreDelivery/StoreDeliveryDatewiseDetails.rpt"));
+            _objReportDocument.Load(strPath);
+            DataSet objDataSet = await _objReportDal.DatewiseStoreDeliveryDetails(objDeliveryReport);
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(objDeliveryReport.ReportType, "Date Wise Store Delivery Details");
             return 0;
         }
 
@@ -663,6 +680,7 @@ namespace PosWarehouse.Controllers.Report
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
             ViewBag.ProductColor = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetColorForDropdown(), "ATTRIBUTE_VALUE_NAME", "ATTRIBUTE_VALUE_NAME");
+            ViewBag.SeasonList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSeasonListDropdown(), "SEASON_ID", "SEASON_NAME");
             //var shopData = await _objDataExchangeDal.GetAllShopActiveShopInfo();
             //foreach (var shop in shopData)
             //{
@@ -683,15 +701,25 @@ namespace PosWarehouse.Controllers.Report
             if (stockSummaryReport.ReportType == "1")
             {
                 stockSummaryReport.ReportType = "PDF";
-                if (stockSummaryReport.ProductIdList != null)
+                if (stockSummaryReport.ProductIdList != null && stockSummaryReport.RadioFor !="SSM")
                 {
                     if (stockSummaryReport.ProductIdList.Count > 0)
                     {
                         for (int i = 0; i < stockSummaryReport.ProductIdList.Count; i++)
                         {
-                            stockSummaryReport.ProductIds += stockSummaryReport.ProductIdList[i] + ",";
+                                stockSummaryReport.ProductIds += stockSummaryReport.ProductIdList[i] + ",";              
                         }
                         stockSummaryReport.ProductIds = stockSummaryReport.ProductIds.Remove(stockSummaryReport.ProductIds.Length - 1);
+                        if(stockSummaryReport.ProductIds == "0")
+                        {
+                            stockSummaryReport.ProductIdList = null;
+                            stockSummaryReport.ProductIds = null;
+                        }
+                    }
+                    else
+                    {
+                        stockSummaryReport.ProductIdList = null;
+                        stockSummaryReport.ProductIds = null;
                     }
                 }
                 //if (stockSummaryReport.ShopId > 0)
@@ -747,12 +775,18 @@ namespace PosWarehouse.Controllers.Report
                 {
                     await GenerateStyleWiseShopLowStock(stockSummaryReport);
                 }
+                else if (stockSummaryReport.RadioFor == "SSM")
+                {
+                    await GetUpdateDataForMonitoring(stockSummaryReport); 
+                    await GenerateStockSaleMonitor(stockSummaryReport);
+                }
             }
             ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             ViewBag.CategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCategoryListDropdown(), "CATEGORY_NAME", "CATEGORY_NAME");
             ViewBag.SubCategoryList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSubCategoryListDropdown(), "SUB_CATEGORY_NAME", "SUB_CATEGORY_NAME");
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
             ViewBag.ProductColor = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetColorForDropdown(), "ATTRIBUTE_VALUE_NAME", "ATTRIBUTE_VALUE_NAME");
+            ViewBag.SeasonList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetSeasonListDropdown(), "SEASON_ID", "SEASON_NAME");
             return View(stockSummaryReport);
         }
         private async Task<int> GenerateStockDetailsSummary(StockSummaryReport objStockSummaryReport)
@@ -923,6 +957,19 @@ namespace PosWarehouse.Controllers.Report
             return 0;
         }
 
+        private async Task<int> GenerateStockSaleMonitor(StockSummaryReport objStockSummaryReport)
+        {
+            string strPath = Path.Combine(Server.MapPath("~/Reports/Stock/StockSaleMonitor.rpt"));
+            _objReportDocument.Load(strPath);
+            DataSet objDataSet = (await _objReportDal.StockSaleMonitor(objStockSummaryReport));
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(objStockSummaryReport.ReportType, "Stock Sale Monitor");
+            return 0;
+        }
+
         private async Task<int> GenerateStyleWiseWarehouseStockSymmary(StockSummaryReport objStockSummaryReport)
         {
             DataSet objDataSet = null;
@@ -1008,6 +1055,28 @@ namespace PosWarehouse.Controllers.Report
             }
             return Json(result, JsonRequestBehavior.AllowGet);
             //return RedirectToAction("StockSummary");
+        }
+
+        public async Task<string> GetUpdateDataForMonitoring(StockSummaryReport stockSummaryReport)
+        {
+            LoadSession();
+            List<ShopModel> shopModellist = new List<ShopModel>();
+            var result = "";
+            shopModellist = await _objDataExchangeDal.GetAllShopActiveShopInfo();
+            ShopModel model = new ShopModel
+            {
+                ShopId = Convert.ToInt32(_strWareHouseId)
+            };
+            shopModellist.Add(model);
+            foreach (var shop in shopModellist)
+            {
+                if (shop.ShopId > 0)
+                {
+                    result = await _objReportDal.StockSaleDataSaveForMonitoring(stockSummaryReport, shop.ShopId);
+                }
+            }
+            return "0";
+
         }
 
 

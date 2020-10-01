@@ -1,0 +1,193 @@
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_sub_menu_save (
+   p_menu_id          IN     VARCHAR2,
+   p_sub_menu_id             VARCHAR2,
+   p_sub_menu_name           VARCHAR2,
+   p_sub_menu_url            VARCHAR2,
+   p_sub_menu_icon           VARCHAR2,
+   p_sub_menu_order          VARCHAR2,
+   p_update_by               VARCHAR2,
+   p_ware_house_id           VARCHAR2,
+   p_shop_id                 VARCHAR2,
+   p_message             OUT VARCHAR2)
+AS
+   v_count         INT;
+   v_menu_sub_id   INT;
+   v_dup           INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM MENU_SUB
+    WHERE MENU_SUB_ID = p_sub_menu_id AND HEAD_OFFICE_ID = p_ware_house_id;
+
+   IF v_count > 0
+   THEN
+      UPDATE MENU_SUB
+         SET menu_sub_name = p_sub_menu_name,
+             menu_main_id = p_menu_id,
+             menu_sub_url = p_sub_menu_url,
+             menu_sub_icon = p_sub_menu_icon,
+             menu_order = p_sub_menu_order,
+             update_by = p_update_by,
+             update_date = SYSDATE
+       WHERE MENU_SUB_ID = p_sub_menu_id AND HEAD_OFFICE_ID = p_ware_house_id;
+
+      COMMIT;
+      p_message := 'UPDATED SUCCESSFULLY !!';
+   ELSE
+      SELECT COUNT (*)
+        INTO v_dup
+        FROM MENU_SUB
+       WHERE (UPPER (menu_sub_name) = UPPER (p_sub_menu_name)
+              OR LOWER (menu_sub_name) = LOWER (p_sub_menu_name))
+             AND menu_main_id = p_menu_id
+             AND HEAD_OFFICE_ID = p_ware_house_id;
+
+      IF v_dup > 0
+      THEN
+         P_MESSAGE := 'SUB MENU NAME ALREADY EXISTS !!';
+         RETURN;
+      END IF;
+
+      SELECT NVL (MAX (menu_sub_id), 0) + 1 INTO v_menu_sub_id FROM MENU_SUB;
+
+      INSERT INTO MENU_SUB (menu_main_id,
+                            MENU_SUB_ID,
+                            MENU_SUB_NAME,
+                            MENU_SUB_URL,
+                            MENU_SUB_ICON,
+                            MENU_ORDER,
+                            UPDATE_BY,
+                            UPDATE_DATE,
+                            created_by,
+                            created_date,
+                            HEAD_OFFICE_ID,
+                            BRANCH_OFFICE_ID)
+           VALUES (p_menu_id,
+                   v_menu_sub_id,
+                   p_sub_menu_name,
+                   p_sub_menu_url,
+                   p_sub_menu_icon,
+                   p_sub_menu_order,
+                   p_update_by,
+                   SYSDATE,
+                   p_update_by,
+                   SYSDATE,
+                   p_ware_house_id,
+                   p_shop_id);
+
+      COMMIT;
+      p_message := 'INSERTED SUCCESSFULLY !!';
+   END IF;
+END;
+/
+
+------------------------------------------
+
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_SUB_MENU_DELETE (
+   p_sub_menu_id     IN     VARCHAR2,
+   p_menu_id                VARCHAR2,
+   p_ware_house_id          VARCHAR2,
+   p_shop_id                VARCHAR2,
+   p_message            OUT VARCHAR2)
+AS
+   v_count       INT;
+   v_count_pro   INT;
+   v_count_c     INT;
+   v_count_sc    INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM MENU_SUB
+    WHERE     menu_main_id = p_menu_id
+          AND menu_sub_id = p_sub_menu_id
+          AND HEAD_OFFICE_ID = p_ware_house_id;
+
+   IF (v_count < 1)
+   THEN
+      P_MESSAGE := 'ITEAM DOES NOT FOUND';
+      RETURN;
+   ELSE
+      DELETE MENU_SUB
+       WHERE     menu_main_id = p_menu_id
+             AND menu_sub_id = p_sub_menu_id
+             AND HEAD_OFFICE_ID = p_ware_house_id;
+
+      COMMIT;
+      P_MESSAGE := 'DELETED SUCCESSFULLY';
+   END IF;
+END;
+/
+
+
+--------------------------------
+----------------------------------
+Gift Voucher Deposit Save
+_________________________
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_GIFTVOUCHER_DEPOSIT_SAVE (
+   P_GIFT_VOUCHER_CODE    IN     VARCHAR2,
+   P_GIFT_VOUCHER_VALUE          VARCHAR2,
+   P_CUSTOMER_NAME               VARCHAR2,
+   P_CUSTOMER_PHONE              VARCHAR2,
+   P_DEPOSIT_SHOP_ID             VARCHAR2,
+   P_UPDATED_BY                  VARCHAR2,
+   P_MESSAGE                 OUT VARCHAR2)
+AS
+   v_count                   INT;
+   V_GIFT_VOUCHER_DEPOSIT    INT;
+   v_dup                     INT;
+   v_GIFT_VOUCHER_ITEM_NUM   INT;
+BEGIN
+   SELECT COUNT (*)
+     INTO v_count
+     FROM GIFT_VOUCHER_DELIVERY
+    WHERE     GIFT_VOUCHER_CODE = P_GIFT_VOUCHER_CODE
+          AND DEPOSIT_YN IS NULL
+          AND DEPOSIT_SHOP_ID IS NULL;
+
+
+   IF v_count > 0
+   THEN
+      SELECT NVL (MAX (GIFT_VOUCHER_DEPOSIT_ID), 0) + 1
+        INTO V_GIFT_VOUCHER_DEPOSIT
+        FROM GIFT_VOUCHER_DEPOSIT;
+
+
+      INSERT INTO GIFT_VOUCHER_DEPOSIT (GIFT_VOUCHER_DEPOSIT_ID,
+                                        GIFT_VOUCHER_ID,
+                                        GIFT_VOUCHER_CODE,
+                                        GIFT_VOUCHER_VALUE,
+                                        GIFT_CUSTOMER_NAME,
+                                        GIFT_CUSTOMER_PHONE,
+                                        GIFT_VOU_DEPOSIT_SHOPID,
+                                        CREATE_BY,
+                                        CREATE_DATE)
+           VALUES (
+                     V_GIFT_VOUCHER_DEPOSIT,
+                     (SELECT GIFT_VOUCHER_ID
+                        FROM GIFT_VOUCHER_DELIVERY
+                       WHERE GIFT_VOUCHER_CODE = P_GIFT_VOUCHER_CODE
+                             AND ROWNUM = 1),
+                     P_GIFT_VOUCHER_CODE,
+                     P_GIFT_VOUCHER_VALUE,
+                     P_CUSTOMER_NAME,
+                     P_CUSTOMER_PHONE,
+                     P_DEPOSIT_SHOP_ID,
+                     P_UPDATED_BY,
+                     SYSDATE);
+
+      UPDATE GIFT_VOUCHER_DELIVERY
+         SET DEPOSIT_YN = 'Y',
+             DEPOSIT_SHOP_ID = P_DEPOSIT_SHOP_ID,
+             UPDATE_BY = P_UPDATED_BY,
+             UPDATE_DATE = SYSDATE
+       WHERE     GIFT_VOUCHER_CODE = P_GIFT_VOUCHER_CODE
+             AND DEPOSIT_YN IS NULL
+             AND DEPOSIT_SHOP_ID IS NULL;
+
+      COMMIT;
+      p_message := 'SUCCESS';
+   ELSE
+      p_message := 'THIS CODE ALREADY EXIEST!!';
+   END IF;
+END;
+/

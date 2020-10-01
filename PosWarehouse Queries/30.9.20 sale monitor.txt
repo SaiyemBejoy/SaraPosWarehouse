@@ -1,0 +1,75 @@
+/* Formatted on 30-Sep-20 3:52:16 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_RPT_SALE_MONITOR
+(
+   PRODUCT_ID,
+   STYLE_NAME,
+   ITEM_ID,
+   ITEM_NAME,
+   BARCODE,
+   DC_PURCHASE_RECEIVE_QTY,
+   DC_SHOP_DELIVERY_QTY,
+   DC_DAMAGE_QTY,
+   DC_OTHER_SHOP_REC_QTY,
+   SHOP_RECEIVE_FROM_DC_QTY,
+   SHOP_SALE_QTY,
+   SHOP_TRANSFAR_QTY,
+   SHOP_TO_SHOP_RECEIVE_QTY,
+   SHOP_DAMAGE_QTY,
+   CURRENT_STOCK,
+   SEASON_ID,
+   SEASON_NAME,
+   SHOP_AND_DC_ID,
+   SHOP_AND_DC_NAME,
+   RPT_TITLE,
+   WARE_HOUSE_ID,
+   WARE_HOUSE_NAME,
+   WAREHOUSE_ADDRESS
+)
+AS
+   SELECT PRODUCT_ID,
+          (SELECT PRODUCT_STYLE
+             FROM PRODUCT
+            WHERE PRODUCT_ID = S.PRODUCT_ID)
+             STYLE_NAME,
+          ITEM_ID,
+          (SELECT PRODUCT_NAME
+             FROM PRODUCT_ITEM
+            WHERE PRODUCT_ID = S.PRODUCT_ID AND ITEM_ID = S.ITEM_ID)
+             ITEM_NAME,
+          BARCODE,
+          (SELECT ATTRIBUTE_VALUE_NAME
+             FROM PRODUCT_ITEM_ATTRIBUTE
+            WHERE     PRODUCT_ID = S.PRODUCT_ID
+                  AND PRODUCT_ITEM_ID = S.ITEM_ID
+                  AND ATTRIBUTE_ID = 5)
+             ITEM_COLOR,
+          DC_PURCHASE_RECEIVE_QTY,
+          DC_SHOP_DELIVERY_QTY,
+          DC_DAMAGE_QTY,
+          DC_OTHER_SHOP_REC_QTY,
+          SHOP_RECEIVE_FROM_DC_QTY,
+          SHOP_SALE_QTY,
+          SHOP_TRANSFAR_QTY,
+          SHOP_TO_SHOP_RECEIVE_QTY,
+          SHOP_DAMAGE_QTY,
+          CURRENT_STOCK,
+          (SELECT SEASON_ID
+             FROM PRODUCT
+            WHERE PRODUCT_ID = S.PRODUCT_ID)
+             SEASON_ID,
+          (SELECT SEASON_NAME
+             FROM L_SEASON
+            WHERE SEASON_ID = (SELECT SEASON_ID
+                                 FROM PRODUCT
+                                WHERE PRODUCT_ID = S.PRODUCT_ID))
+             SEASON_NAME,
+          SHOP_AND_DC_ID,
+          CASE
+             WHEN S.SHOP_AND_DC_ID = 331 THEN 'WAREHOUSE'
+             ELSE (SELECT SHOP_NAME
+                     FROM SHOP
+                    WHERE SHOP_ID = S.SHOP_AND_DC_ID)
+          END
+             SHOP_AND_DC_NAME,
+          '' RPT_TITLE
+     FROM RPT_SALE_MONITOR S

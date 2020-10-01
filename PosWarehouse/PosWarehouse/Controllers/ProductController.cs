@@ -199,6 +199,27 @@ namespace PosWarehouse.Controllers
 
                     var strMessage = await _objProductDal.SaveProductInfo(objProductModel);
                     productId = Convert.ToInt32(strMessage[1]);
+
+                    if (MaterialCostDetailsList.Count > 0)
+                    {
+                        foreach (var materialCost in MaterialCostDetailsList)
+                        {
+                            materialCost.ProductId = productId;
+                            materialCost.UpdatedBy = _strEmployeeId;
+                            var materialCostSave = await _objProductDal.SaveMaterialCostDetails(materialCost);
+                        }
+
+                    }
+                    if (OtherCostDetailsList.Count > 0)
+                    {
+                        foreach (var otherCost in OtherCostDetailsList)
+                        {
+                            otherCost.ProductId = productId;
+                            otherCost.UpdatedBy = _strEmployeeId;
+                            var otherCostSave = await _objProductDal.SaveOtherCostDetails(otherCost);
+                        }
+                    }
+
                     TempData["message"] = strMessage[0];
                 }
                 else
@@ -271,6 +292,13 @@ namespace PosWarehouse.Controllers
         {
             LoadSession();
             var materialList = await _objProductDal.GetMaterialCostList();
+            return Json(materialList, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> GetAllMaterialCostDetailsListByProductId(int productId)
+        {
+            LoadSession();
+            var materialList = await _objProductDal.GetMaterialCostListByProductId(productId);
             return Json(materialList, JsonRequestBehavior.AllowGet);
         }
 
@@ -540,6 +568,10 @@ namespace PosWarehouse.Controllers
         {
             LoadSession();
             var result = await _objProductDal.GetAllInfoByProductStyle(productStyle);
+            if (result.ProductId==0 )
+            {
+                result = null;
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

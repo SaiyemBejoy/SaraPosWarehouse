@@ -1,0 +1,89 @@
+/* Formatted on 06-Sep-20 1:28:50 PM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE PROCEDURE POSWAREHOUSE.PRO_EMPLOYEE_DIS_UPDATE (
+   P_EMPLOYEE_ID     IN     VARCHAR2,
+   P_SHOP_ID                VARCHAR2,
+   P_EMPLOYEE_ROLE          VARCHAR2,
+   P_ACTIVE_YN              VARCHAR2,
+   p_message            OUT VARCHAR2)
+AS
+   v_count   INT;
+BEGIN
+   IF P_EMPLOYEE_ID IS NOT NULL
+   THEN
+      UPDATE EMPLOYEE_DISTRIBUTION
+         SET SHOP_ID = P_SHOP_ID,
+             EMPLOYEE_ROLE = P_EMPLOYEE_ROLE,
+             ACTIVE_YN = P_ACTIVE_YN
+       WHERE EMPLOYEE_ID = P_EMPLOYEE_ID;
+
+      COMMIT;
+      P_MESSAGE := 'SUCCESS';
+      RETURN;
+   ELSE
+      P_MESSAGE := 'FAILED';
+   END IF;
+END;
+/
+
+----------------------------------------------------
+----------------------------------------------------
+
+/* Formatted on 06-Sep-20 11:57:00 AM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_RPT_DC_STOCK_DETAILS
+(
+   RPT_TITLE,
+   WARE_HOUSE_ID,
+   WARE_HOUSE_NAME,
+   WARE_HOUSE_ADDRESS,
+   RECEIVE_QUANTITY,
+   RECEIVE_FROM_SHOP,
+   SHOP_DELIVERY,
+   DAMAGED_QUANTITY,
+   QUANTITY,
+   PRODUCT_ID,
+   ITEM_ID,
+   PRODUCT_STYLE,
+   ITEM_COLOR,
+   BARCODE,
+   ITEM_NAME,
+   PURCHASE_PRICE,
+   SALE_PRICE,
+   PRODUCT_CATEGORY,
+   PRODUCT_SUB_CATEGORY
+)
+AS
+     SELECT '' rpt_title,
+            WARE_HOUSE_ID,
+            (SELECT ware_house_name
+               FROM ware_house
+              WHERE ware_house_id = SP.WARE_HOUSE_ID)
+               ware_house_name,
+            (SELECT ware_house_address
+               FROM ware_house
+              WHERE ware_house_id = SP.WARE_HOUSE_ID)
+               ware_house_address,
+            RECEIVE_QUANTITY,
+            RECEIVE_FROM_SHOP,
+            SHOP_DELIVERY,
+            DAMAGED_QUANTITY,
+            QUANTITY,
+            PRODUCT_ID,
+            ITEM_ID,
+            (SELECT PRODUCT_STYLE
+               FROM PRODUCT
+              WHERE PRODUCT_ID = SP.PRODUCT_ID)
+               PRODUCT_STYLE,
+            (SELECT ATTRIBUTE_VALUE_NAME
+               FROM PRODUCT_ITEM_ATTRIBUTE
+              WHERE     PRODUCT_ID = SP.PRODUCT_ID
+                    AND PRODUCT_ITEM_ID = SP.ITEM_ID
+                    AND ATTRIBUTE_ID = 5)
+               ITEM_COLOR,
+            BARCODE,
+            ITEM_NAME,
+            NVL ( (PURCHASE_PRICE * QUANTITY), 0) PURCHASE_PRICE,
+            NVL ( (SALE_PRICE * QUANTITY), 0) SALE_PRICE,
+            PRODUCT_CATEGORY,
+            PRODUCT_SUB_CATEGORY
+       FROM VEW_STOCK_PRODUCT SP
+   ORDER BY PRODUCT_ID ASC;

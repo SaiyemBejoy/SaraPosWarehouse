@@ -1,0 +1,139 @@
+/* Formatted on 29-Sep-20 11:05:05 AM (QP5 v5.149.1003.31008) */
+CREATE OR REPLACE FORCE VIEW POSWAREHOUSE.VEW_RPT_STORE_DELIVERY_DETAILS
+(
+   RPT_TITLE,
+   STORE_DELIVERY_ITEM_ID,
+   STORE_DELIVERY_NUMBER,
+   ITEM_ID,
+   ITEM_NAME,
+   PRODUCT_ID,
+   PRODUCT_STYLE,
+   CATEGORY_ID,
+   CATEGORY_NAME,
+   SUB_CATEGORY_ID,
+   SUB_CATEGORY_NAME,
+   BARCODE,
+   DELIVERY_QUANTITY,
+   PURCHASE_PRICE,
+   ACTUAL_PRICE,
+   TOTAL_VALUE,
+   VAT_AMOUNT,
+   SALE_PRICE,
+   VAT,
+   DELIVERY_SHOP_ID,
+   SHOP_NAME,
+   REGISTER_ID,
+   REGISTER_PERSON_NAME,
+   DELIVERY_DATE,
+   REQUISTION_NO,
+   SEASON_ID,
+   SEASON_NAME,
+   WARE_HOUSE_ID,
+   WAREHOUSE_NAME,
+   WAREHOUSE_ADDRESS_DELIRPT,
+   WAREHOUSE_ADDRESS,
+   ORG_NAME,
+   ORG_BIN_NO,
+   SHOP_ADDRESS
+)
+AS
+     SELECT '' RPT_TITLE,
+            s.STORE_DELIVERY_ITEM_ID,
+            s.STORE_DELIVERY_NUMBER,
+            s.ITEM_ID,
+            s.ITEM_NAME,
+            s.PRODUCT_ID,
+            (SELECT PRODUCT_STYLE
+               FROM PRODUCT
+              WHERE PRODUCT_ID = S.PRODUCT_ID)
+               PRODUCT_STYLE,
+            (SELECT CATEGORY_ID
+               FROM PRODUCT
+              WHERE PRODUCT_ID = S.PRODUCT_ID)
+               CATEGORY_ID,
+            (SELECT CATEGORY_NAME
+               FROM L_CATEGORY
+              WHERE CATEGORY_ID = (SELECT CATEGORY_ID
+                                     FROM PRODUCT
+                                    WHERE PRODUCT_ID = S.PRODUCT_ID))
+               CATEGORY_NAME,
+            (SELECT SUB_CATEGORY_ID
+               FROM PRODUCT
+              WHERE PRODUCT_ID = S.PRODUCT_ID)
+               SUB_CATEGORY_ID,
+            (SELECT SUB_CATEGORY_NAME
+               FROM L_SUB_CATEGORY
+              WHERE SUB_CATEGORY_ID = (SELECT SUB_CATEGORY_ID
+                                         FROM PRODUCT
+                                        WHERE PRODUCT_ID = S.PRODUCT_ID))
+               SUB_CATEGORY_NAME,
+            s.BARCODE,
+            s.DELIVERY_QUANTITY,
+            (SELECT PURCHASE_PRICE
+               FROM PRODUCT_ITEM
+              WHERE ITEM_ID = s.ITEM_ID)
+               PURCHASE_PRICE,
+            CAST (
+               (100 / (100 + NVL (s.VAT, 0))) * NVL (s.SALE_PRICE, 0) AS DECIMAL (30, 2))
+               actual_price,
+            CAST (
+               (100 / (100 + NVL (s.VAT, 0))) * NVL (s.SALE_PRICE, 0) AS DECIMAL (30, 2))
+            * (s.DELIVERY_QUANTITY)
+               TOTAL_VALUE,
+            CAST (
+               ( (100 / (100 + NVL (s.VAT, 0))) * NVL (s.SALE_PRICE, 0))
+               * (NVL (s.VAT, 0) / 100) AS DECIMAL (30, 2))
+               VAT_AMOUNT,
+            s.SALE_PRICE,
+            s.VAT,
+            m.DELIVERY_SHOP_ID,
+            (SELECT SHOP_NAME
+               FROM shop
+              WHERE SHOP_ID = m.DELIVERY_SHOP_ID)
+               SHOP_NAME,
+            m.REGISTER_ID,
+            (SELECT REGISTER_PERSON_NAME
+               FROM L_REGISTER_INFO
+              WHERE REGISTER_ID = m.REGISTER_ID)
+               REGISTER_PERSON_NAME,
+            m.DELIVERY_DATE,
+            m.REQUISTION_NO,
+            m.SEASON_ID,
+            (SELECT SEASON_NAME
+               FROM L_SEASON
+              WHERE SEASON_ID = m.SEASON_ID)
+               SEASON_NAME,
+            m.Ware_House_Id,
+            (SELECT ware_house_name
+               FROM ware_house
+              WHERE ware_house_id = m.WARE_HOUSE_ID)
+               warehouse_name,
+            (SELECT ware_house_address
+               FROM ware_house
+              WHERE ware_house_id = m.WARE_HOUSE_ID)
+               warehouse_address_for_DELRPT,
+            'Transmitting Unit/Branch/Warehouse Name and Address : '
+            || (SELECT ware_house_address
+                  FROM ware_house
+                 WHERE ware_house_id = m.WARE_HOUSE_ID)
+               warehouse_address,
+            'Registered Organization Name : ' || 'SaRa Lifestyle Ltd.' Org_Name,
+               'Registered Organization BIN : '
+            || 'SaRa Lifestyle Ltd.'
+            || '001168308-0401'
+               Org_Bin_No,
+               'Recipient Unit/Branch/Warehouse Name and Address : '
+            || 'SaRa Lifestyle Ltd.'
+            || (SELECT SHOP_ADDRESS
+                  FROM SHOP
+                 WHERE SHOP_ID = m.DELIVERY_SHOP_ID)
+               SHOP_ADDRESS
+       FROM    STORE_DELIVERY_ITEM s
+            LEFT JOIN
+               STORE_DELIVERY m
+            ON s.STORE_DELIVERY_NUMBER = m.STORE_DELIVERY_NUMBER
+   ORDER BY STORE_DELIVERY_NUMBER, ITEM_ID;
+
+====================================================================
+====================================================================
+

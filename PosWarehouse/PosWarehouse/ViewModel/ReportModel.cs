@@ -109,6 +109,9 @@ namespace PosWarehouse.ViewModel
         [DisplayName("SubCategory")]
         public string SubCategoryId { get; set; }
 
+        [DisplayName("Season")]
+        public int SeasonId { get; set; }
+
         [DisplayName("Color")]
         public string Color { get; set; }
 

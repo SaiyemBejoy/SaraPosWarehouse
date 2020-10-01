@@ -1,5 +1,4 @@
-﻿@using System.Activities.Statements
-@using PosWarehouse.ViewModel
+﻿@using PosWarehouse.ViewModel
 @model PosWarehouse.ViewModel.ProductModel
 @{
     ViewBag.Title = "CreateOrEdit";
@@ -196,24 +195,21 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-
                                                                     <div class="col-sm-4 text-left">
                                                                         @Html.LabelFor(c => c.MaterialCost, new { @class = "control-label" })<span style="color: red">*</span>
-                                                                        <i class="ti-help-alt"></i>
+
                                                                     </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="col-md-10">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", @readonly = "@readonly", placeholder = "Material Cost", @style = "background-color:yellow" })
-                                                                                @Html.ValidationMessageFor(c => c.MaterialCost)
-                                                                            </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.MaterialCost, new { @class = "form-control input-circle", type = "number", @readonly = "@readonly", placeholder = "Material Cost", @style = "background-color:yellow" })
+                                                                            @Html.ValidationMessageFor(c => c.MaterialCost)
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <a class="btn btn-icon-only btn-circle green" id="materialCostDetailsModalPlus" @*data-toggle="modal" href="#materialCostDetailsModal"*@>
-                                                                                <i class="fa fa-plus"></i>
-                                                                            </a>
-                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <a class="btn btn-icon-only btn-circle green" id="materialCostDetailsModalPlus">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -222,13 +218,12 @@
                                                                         <i class="ti-help-alt"></i>
                                                                     </div>
                                                                     <div class="col-sm-8">
-                                                                        <div class="col-md-12">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "CM", })
-                                                                                @Html.ValidationMessageFor(c => c.CM)
-                                                                            </div>
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.CM, new { @class = "form-control input-circle", type = "number", placeholder = "CM", })
+                                                                            @Html.ValidationMessageFor(c => c.CM)
                                                                         </div>
+
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -236,20 +231,18 @@
                                                                         <label>COGS</label><span style="color: red">*</span>
                                                                         <i class="ti-help-alt"></i>
                                                                     </div>
-                                                                    <div class="col-sm-8">
-                                                                        <div class="col-md-10">
-                                                                            <div class="input-icon">
-                                                                                <i><b>&#2547;</b></i>
-                                                                                @Html.TextBoxFor(c => c.COGS, new { @class = "form-control input-circle", id = "cogsValue", min = "0", type = "number", @readonly = "readonly", placeholder = "CM", @style = "background-color:yellow" })
-                                                                                @Html.ValidationMessageFor(c => c.COGS)
-                                                                                @*<input type="number" class="form-control  input-circle" min="0" id="cogsValue" readonly="readonly" style="background-color:yellow"/>*@
-                                                                            </div>
+                                                                    <div class="col-sm-6">
+                                                                        <div class="input-icon">
+                                                                            <i><b>&#2547;</b></i>
+                                                                            @Html.TextBoxFor(c => c.COGS, new {@class = "form-control input-circle", id = "cogsValue", min = "0", type = "number", @readonly = "readonly", placeholder = "CM", @style = "background-color:yellow"})
+                                                                            @Html.ValidationMessageFor(c => c.COGS)
+                                                                            @*<input type="number" class="form-control  input-circle" min="0" id="cogsValue" readonly="readonly" style="background-color:yellow"/>*@
                                                                         </div>
-                                                                        <div class="col-md-2">
-                                                                            <a class="btn btn-icon-only btn-circle green" data-toggle="modal" href="#otherCostDetailsModal">
-                                                                                <i class="fa fa-plus"></i>
-                                                                            </a>
-                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <a class="btn btn-icon-only btn-circle green" data-toggle="modal" href="#otherCostDetailsModal">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
@@ -330,10 +323,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-
-
-
                                                             </div>
                                                         </div>
 
@@ -586,44 +575,44 @@
                 <h4 class="modal-title">Material Details</h4>
             </div>
             <div class="modal-body">
-                @*<div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label class="col-md-5 control-label"><strong>Material Name:</strong></label>
-                                <div class="col-md-7">
-                                    @Html.DropDownListFor(m => m.MaterialId, ViewBag.MaterialList as SelectList, new { @class = "form-control input-circle" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-5 control-label"><strong>Unit Price:</strong></label>
-                                <div class="col-md-7">
-                                    <input type="number" class="form-control  input-circle" min="0" id="materialUnitPrice" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-5 control-label"><strong>Used Material:</strong></label>
-                                <div class="col-md-7">
-                                    <input type="number" class="form-control  input-circle" min="0" id="usedMaterial" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-5 control-label"><strong>SubTotal:</strong></label>
-                                <div class="col-md-7">
-                                    <input type="number" class="form-control  input-circle" min="0" readonly="readonly" id="materialSubTotal" style="background-color: darkgoldenrod" />
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-5 control-label"></label>
-                                <div class="col-md-7">
-                                    <button type="button" class="btn btn-success" id="materialAdd">Add New</button>
-                                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Material Name:</strong></label>
+                            <div class="col-md-7">
+                                @Html.DropDownListFor(m => m.MaterialId, ViewBag.MaterialList as SelectList, new { @class = "form-control input-circle" })
                             </div>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Unit Price:</strong></label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control  input-circle" min="0" id="materialUnitPrice" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Used Material:</strong></label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control  input-circle" min="0" id="usedMaterial" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>SubTotal:</strong></label>
+                            <div class="col-md-7">
+                                <input type="number" class="form-control  input-circle" min="0" readonly="readonly" id="materialSubTotal" style="background-color: darkgoldenrod" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"></label>
+                            <div class="col-md-7">
+                                <button type="button" class="btn btn-success" id="materialAdd">Add New</button>
+                            </div>
+                        </div>
                     </div>
-                    <br />*@
+                    <div class="col-md-2"></div>
+                </div>
+                <br />
                 <div class="portlet light bordered">
                     <div class="portlet-body scroller" style="height: 450px">
                         <div class="table-responsive">
@@ -781,8 +770,11 @@
             //total += parseFloat($(this).find('td:eq(4)').text());
             total += parseFloat($(this).find('.matSubtotal').val());
         });
-            $("#totalmaterialCostValue").val(total);
+        $("#totalmaterialCostValue").val(total);
+        if (@Model.ProductId == 0) {
             $("#MaterialCost").val(total);
+        }
+         
     }
     function totalOtherCostCalculation() {
         var cogsValue = parseFloat($("#cogsValue").val());
@@ -939,6 +931,33 @@
 
     }
 
+    function getAllMaterialDetailsByProductStyle(productId) {
+        if (productId !== 0) { ////style dia search dile material details info gulo nia asar jonno
+            var dataListAttr = JSON.stringify({ 'productId': productId });
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: '/Product/GetAllMaterialCostDetailsListByProductId/',
+                data: dataListAttr,
+                success: function (data) {
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var gridObject = {
+                                'MaterialId': data[i].MaterialId,
+                                'MaterialName': data[i].MaterialName,
+                                'UnitPrice': data[i].UnitPrice,
+                                'UsedMaterial': data[i].UsedMaterial,
+                                'SubTotal': data[i].SubTotal
+                            }
+                            localStorageDataAdd(gridObject);
+                        }
+                    }
+                },
+            });
+        }
+    }
+
     function localStorageDataAdd(addItem) {
         var materialDetailsList = JSON.parse(localStorage.getItem('materialCostDetails'));
         if (addItem) {
@@ -965,6 +984,8 @@
         localStorage.setItem('materialCostDetails', JSON.stringify(materialDetailsList));
         $('#ModelMaterialList').val(JSON.stringify(materialDetailsList));//hidden Field A List add korar jonno
     };
+
+
     //For text Editor
     //tinymce.init({ selector: 'textarea', width: '100%' });
 
@@ -1070,6 +1091,14 @@
             var usedMaterial = $("#usedMaterial").val();
             var materialCostPrevalue = parseFloat($("#MaterialCost").val());
 
+            var materialDetails = {
+                'MaterialId': materialId,
+                'MaterialName': materialName,
+                'UnitPrice': materialUnitPrice,
+                'UsedMaterial': usedMaterial,
+                'SubTotal': materialSubTotal,
+            }
+
             var totalmaterialtableCostValue = $("#totalmaterialCostValue").val();
             if (totalmaterialtableCostValue == "") {
                 totalmaterialtableCostValue = 0
@@ -1096,18 +1125,20 @@
                         '<td>' +
                         materialName +
                         '</td>' +
-                        '<td>' +
-                        materialUnitPrice +
+                        '<td style="width: 150px;" >' +
+                        '<input type="number" class="form-control input-circle matUnitPrice" id="matUnitPrice" min ="0" value = "' + materialUnitPrice+'" >' +
+                        '</td>' +
+                        '<td style="width: 150px;" >' +
+                        '<input type="number" class="form-control input-circle matUsed" id="matUsed" min ="0" value = "' + usedMaterial +'" >' +
                         '</td>' +
                         '<td>' +
-                        usedMaterial +
-                        '</td>' +
-                        '<td>' +
+                        '<input type="number" class="form-control input-circle  matSubtotal" id="matSubtotal" readonly="readonly" style="width: 100px; background-color: yellow"  value="' +
                         materialSubTotal +
+                        '">' +
                         '</td>' +
-                        '<td><a href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
-                        '</tr>');
-
+                        '</tr>'
+                    );
+                    localStorageDataAdd(materialDetails);
                     totalMaterialCostCalculation();
                     //$("#materialName").val("");
                     $("#materialSubTotal").val("");
@@ -1130,28 +1161,70 @@
             }
 
            //hidden field a data add korar jonno...
-            $.each($("#MaterialCostTableBody tr"), function () {
+            //$.each($("#MaterialCostTableBody tr"), function () {
 
-                var materialId = parseInt($(this).find('td:eq(0)').text());
-                var materialName = $(this).find('td:eq(1)').text();
-                var unitPrice = parseFloat($(this).find('td:eq(2)').text());
-                var usedMaterial = parseFloat($(this).find('td:eq(3)').text());
-                var SubTotal = parseFloat($(this).find('td:eq(4)').text());
-                var materialDetails = {
-                    'MaterialId': materialId,
-                    'UnitPrice': unitPrice,
-                    'UsedMaterial': usedMaterial,
-                    'SubTotal': SubTotal,
-                }
-                materiallistarray.push(materialDetails);
-            });
-            $('#ModelMaterialList').val(JSON.stringify(materiallistarray));
+            //    var materialId = parseInt($(this).find('td:eq(0)').text());
+            //    var materialName = $(this).find('td:eq(1)').text();
+            //    var unitPrice = parseFloat($(this).find('td:eq(2)').text());
+            //    var usedMaterial = parseFloat($(this).find('td:eq(3)').text());
+            //    var SubTotal = parseFloat($(this).find('td:eq(4)').text());
+            //    var materialDetails = {
+            //        'MaterialId': materialId,
+            //        'UnitPrice': unitPrice,
+            //        'UsedMaterial': usedMaterial,
+            //        'SubTotal': SubTotal,
+            //    }
+            //    materiallistarray.push(materialDetails);
+            //});
+            //$('#ModelMaterialList').val(JSON.stringify(materiallistarray));
             ////End
         });
         //////End
         $("#materialCostDetailsModalPlus").click(function () {
+            var productId = @Model.ProductId;
             $("#materialCostDetailsModal").modal('show');
-            automaticMaterialTableBodyGenerate();
+            if (productId !== 0) { ////Edit Korar time a modal a click korar time a oi product er material  save data abr modal e display korar jonno
+                var dataListAttr = JSON.stringify({ 'productId': productId });
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '/Product/GetAllMaterialCostDetailsListByProductId/',
+                    data: dataListAttr,
+                    success: function (data) {
+                        if (data.length > 0 ) {
+                        $("#MaterialCostTableBody").html("");
+                        var materialData = data.length;
+                        for (var i = 0; i < materialData; i++) {
+                            $("#MaterialCostTableBody").append('<tr>' +
+                                '<td style="display:none;">' +
+                                data[i].MaterialId +
+                                '</td>' +
+                                '<td>' +
+                                data[i].MaterialName +
+                                '</td>' +
+                                '<td style="width: 150px;" >' +
+                                '<input type="number" class="form-control input-circle matUnitPrice" id="matUnitPrice" readonly="readonly" style="width: 100px; background-color: yellow" min ="0" value="' + data[i].UnitPrice+'" >' +
+                                '</td>' +
+                                '<td style="width: 150px;" >' +
+                                '<input type="number" class="form-control input-circle matUsed" id="matUsed" readonly="readonly" style="width: 100px; background-color: yellow" min ="0" value="' + data[i].UsedMaterial+'">' +
+                                '</td>' +
+                                '<td>' +
+                                '<input type="number" class="form-control input-circle  matSubtotal" id="matSubtotal" readonly="readonly" style="width: 100px; background-color: yellow"  value="' + data[i].SubTotal +'">' +
+                                '</td>' +
+                                '</tr>'
+                            );
+                        }
+                        totalMaterialCostCalculation();
+                       } else {
+                            automaticMaterialTableBodyGenerate();
+                        }
+                    },
+                });
+            } else {
+                automaticMaterialTableBodyGenerate();
+            }
+
         });
 
 
@@ -1470,6 +1543,7 @@
                         toastr.success("Save Success.!");
                         $("#MaterialCostTableBody").html("");
                         $("#materialCostDetailsModal").modal('hide');
+                        localStorage.removeItem('materialCostDetails');
                     } else {
                         toastr.error("Already Exist!.");
                     }
@@ -1505,8 +1579,8 @@
                     dataType: 'json',
                     url: '@Url.Action("IndividualOtherCostDetailsSave", "Product")',
                     data: dataList,
-                    success: function (data) {
-                        if (data !="") {
+                    success: function(data) {
+                        if (data != "") {
                             toastr.success("Save Success.!");
                             $("#otherCostTableBody").html("");
                         } else {
@@ -1522,77 +1596,70 @@
         });
 
 
-        $('.typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-        },
-            {
-                async: true,
-                source: function (query, processSync, processAsync) {
-                    return $.ajax({
-                        url: "/Product/GetStyleSearchHintsList",
-                        type: 'GET',
-                        data: { query: query },
-                        dataType: 'json',
-                        success: function (json) {
-                            // in this example, json is simply an array of strings
-                            return processAsync(json);
+        $('#ProductStyle').autocomplete({
+            source: '@Url.Action("GetStyleSearchHintsList", "Product")'
+        });
+
+        $("#ProductStyle").change(function () {
+            var productId = @Model.ProductId
+            if (productId == 0) {
+                var productStyle = $("#ProductStyle").val().trim();
+                $.ajax({
+                    type: 'GET',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    url: '@Url.Action("GetAllInfoByProductStyle", "Product")',
+                    data: { productStyle: productStyle},
+                    success: function (data) {
+                        if (data != null) {
+                        $("#ProductName").val(data.ProductName);
+                        $("#ProductDescription").val(data.ProductDescription);
+                        $("#SeasonId option[value=" + data.SeasonId + "]").attr('selected', 'selected');
+                        $("#CategoryId option[value=" + data.CategoryId + "]").attr('selected', 'selected');
+
+                        getAllMaterialDetailsByProductStyle(data.ProductId);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Product/GetSubCategory/',
+                            dataType: 'json',
+                            data: { categoryId: data.CategoryId },
+                            success: function (subCategoryId) {
+                                $("#SubCategoryId").prop("disabled", false);
+                                $.each(subCategoryId, function (i, subCategoryId) {
+                                    if (subCategoryId.Value == data.SubCategoryId) {
+                                        $("#SubCategoryId").append('<option selected value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
+                                    }
+
+                                });
+                            },
+                        });
+                        $("#DesignerId option[value=" + data.DesignerId + "]").attr('selected', 'selected');
+                        $("#MerchandiserId option[value=" + data.MerchandiserId + "]").attr('selected', 'selected');
+                        $("#BrandId option[value=" + data.BrandId + "]").attr('selected', 'selected');
+                        $("#SalePrice").val(data.SalePrice);
+                        if (data.Karchupi) {
+                            $("#Karchupi").prop("checked", true);
+                            $("#Karchupi").parent("span").addClass("checked");
+                        } else {
+                            $("#Karchupi").prop("checked", false);
+                            $("#Karchupi").parent("span").removeClass("checked");
                         }
-                    });
-                }
-            });
 
-        $(".typeahead").change(function () {
-            var productStyle = $("#ProductStyle").val().trim();
-            $.ajax({
-                type: 'GET',
-                contentType: 'application/json',
-                dataType: 'json',
-                url: '@Url.Action("GetAllInfoByProductStyle", "Product")',
-                data: { productStyle: productStyle},
-                success: function (data) {
-                    $("#ProductName").val(data.ProductName);
-                    $("#ProductDescription").val(data.ProductDescription);
-                    $("#SeasonId option[value=" + data.SeasonId + "]").attr('selected', 'selected'); 
-                    $("#CategoryId option[value=" + data.CategoryId + "]").attr('selected', 'selected'); 
+                        $("#Wash").val(data.Wash);
+                        $("#Print").val(data.Print);
+                        $("#Embroidery").val(data.Embroidery);
+                        $("#PurchaseUnitSaleUnit").val(data.PurchaseUnitSaleUnit);
+                        $("#PurchaseMeasuringUnitId option[value=" + data.PurchaseMeasuringUnitId + "]").attr('selected', 'selected');
+                        $("#SalesMeasuringUnitId option[value=" + data.SalesMeasuringUnitId + "]").attr('selected', 'selected');
+                        }
+                    },
+                    error: function(ex) { }
+                });
+            } else {
+                    alert("Sorry! You can not Search/change style. ");
+            }
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Product/GetSubCategory/',
-                        dataType: 'json',
-                        data: { categoryId: data.CategoryId },
-                        success: function (subCategoryId) {
-                            $("#SubCategoryId").prop("disabled", false);
-                            $.each(subCategoryId, function (i, subCategoryId) {
-                                if (subCategoryId.Value == data.SubCategoryId) {
-                                    $("#SubCategoryId").append('<option selected value="' + subCategoryId.Value + '">' + subCategoryId.Text + '</option>');
-                                }
-                                
-                            });
-                        },
-                    });
-                    $("#DesignerId option[value=" + data.DesignerId + "]").attr('selected', 'selected'); 
-                    $("#MerchandiserId option[value=" + data.MerchandiserId + "]").attr('selected', 'selected'); 
-                    $("#BrandId option[value=" + data.BrandId + "]").attr('selected', 'selected'); 
-                    $("#SalePrice").val(data.SalePrice);
-                    if (data.Karchupi) {
-                        $("#Karchupi").prop("checked", true);
-                        $("#Karchupi").parent("span").addClass("checked");
-                    } else {
-                        $("#Karchupi").prop("checked", false);
-                        $("#Karchupi").parent("span").removeClass("checked");
-                    }
-                   
-                    $("#Wash").val(data.Wash);
-                    $("#Print").val(data.Print);
-                    $("#Embroidery").val(data.Embroidery);
-                    $("#PurchaseUnitSaleUnit").val(data.PurchaseUnitSaleUnit);
-                    $("#PurchaseMeasuringUnitId option[value=" + data.PurchaseMeasuringUnitId + "]").attr('selected', 'selected'); 
-                    $("#SalesMeasuringUnitId option[value=" + data.SalesMeasuringUnitId + "]").attr('selected', 'selected'); 
-                },
-                error: function(ex) { }
-            });
         });
     });
 </script>

@@ -812,8 +812,8 @@ namespace PosWarehouse.Controllers
             foreach (var data in objGiftVoucherGeneratePrintItemModel)
             {
                 giftVoucherCode.Add(data.GiftVoucherCode);
-                data.GiftVoucherCodeImageString = "data:image/png;base64," + Convert.ToBase64String(UtilityClass.RenderBarcode(data.GiftVoucherCode));
-                data.GiftVoucherCodeImageArray = UtilityClass.RenderBarcode(data.GiftVoucherCode);
+                data.GiftVoucherCodeImageString = "data:image/png;base64," + Convert.ToBase64String(UtilityClass.RenderBarcodeFor7Digit(data.GiftVoucherCode));
+                data.GiftVoucherCodeImageArray = UtilityClass.RenderBarcodeFor7Digit(data.GiftVoucherCode);
             }
 
             if (objGiftVoucherGeneratePrintItemModel.Any())

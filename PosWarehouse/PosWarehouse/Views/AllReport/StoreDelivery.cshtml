@@ -140,6 +140,9 @@
                                                 @Html.RadioButtonFor(model => model.RadioFor, "DSD") <b>Date Wise Shop Delivery</b>
                                             </label>
                                             <label>
+                                                @Html.RadioButtonFor(model => model.RadioFor, "DSDD") <b>Date Wise Shop Delivery Details</b>
+                                            </label>
+                                            <label>
                                                 @Html.RadioButtonFor(model => model.RadioFor, "SWD") <b>Style Wise Shop Delivery</b>
                                             </label>
                                             <label>
@@ -208,8 +211,29 @@
                 $("#DeliveryNumber").val("");
                 $("#FromDateDiv").show();
                 $("#ToDateDiv").show();
+                $("#DesignerNameHide").hide();
+                $("#MerchandiserNameHide").hide(); 
                 $(function() {
                     $( ".datepicker" ).datepicker({
+                        format: 'dd/mm/yyyy',//check change
+                        changeMonth: true,
+                        changeYear: true
+                    }).datepicker("setDate", new Date());
+                });
+
+            }else if (value === 'DSDD') {
+                $("#deliveryHide").show();
+                $("#categoryHide").show();
+                $("#subCategoryHide").show();
+                $("#DeliveryNumber").removeAttr('required');
+                $("#ProductStyle").removeAttr('required');
+                $("#DeliveryNumber").val("");
+                $("#FromDateDiv").show();
+                $("#ToDateDiv").show();
+                $("#DesignerNameHide").hide();
+                $("#MerchandiserNameHide").hide(); 
+                $(function () {
+                    $(".datepicker").datepicker({
                         format: 'dd/mm/yyyy',//check change
                         changeMonth: true,
                         changeYear: true

@@ -113,9 +113,9 @@
                                     @Html.LabelFor(c => c.ProductIdList, "StyleName", new { @class = "col-md-3 control-label" })
                                     <div class="col-md-6">
                                         <div class="input-icon">
-                                           
-                                            @*@Html.TextBoxFor(c => c.ProductIdList, new { @class = "form-control input-circle" })*@
-                                            @Html.DropDownListFor(c => c.ProductIdList, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2", @multiple = "true" })
+
+                                            @Html.TextBoxFor(c => c.ProductIdList, new { @class = "form-control input-circle" })
+                                            @*@Html.DropDownListFor(c => c.ProductIdList, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2", @multiple = "true" })*@
                                         </div>
                                     </div>
                                     <div class="col-md-3"></div>
@@ -132,16 +132,34 @@
                                     <div class="col-md-3"></div>
                                 </div>
                                 @*<div class="form-group" id="colorHide">
-                                    @Html.LabelFor(c => c.Color, new { @class = "col-md-3 control-label" })
+            @Html.LabelFor(c => c.Color, new { @class = "col-md-3 control-label" })
+            <div class="col-md-6">
+                <div class="input-icon">
+                    <i class="fa fa-text-width"></i>
+                    @Html.DropDownListFor(c => c.Color, new SelectList(ViewBag.ProductColor, "Value", "Text"), new { @class = "form-control input-circle" })
+
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>*@
+                                <div class="form-group" id="nonMultiStyleDropdownHide">
+                                    @Html.LabelFor(c => c.ProductIds, "StyleName", new { @class = "col-md-3 control-label" })
                                     <div class="col-md-6">
                                         <div class="input-icon">
-                                            <i class="fa fa-text-width"></i>
-                                            @Html.DropDownListFor(c => c.Color, new SelectList(ViewBag.ProductColor, "Value", "Text"), new { @class = "form-control input-circle" })
-
+                                            @Html.DropDownListFor(c => c.ProductIds, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2" })
                                         </div>
                                     </div>
                                     <div class="col-md-3"></div>
-                                </div>*@
+                                </div>
+                                <div class="form-group" id="seasonDropdownHide">
+                                    @Html.LabelFor(c => c.SeasonId, "SeasonName", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            @Html.DropDownListFor(c => c.SeasonId, new SelectList(ViewBag.SeasonList, "Value", "Text"), new { @class = "form-control input-circle select2" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
 
                             </div>
                             <div class="col-md-6">    
@@ -188,6 +206,9 @@
                                                     <label>
                                                         @Html.RadioButtonFor(model => model.RadioFor, "SWLS") <b>Style Wise Shop Low Stock</b>
                                                     </label>
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "SSM") <b>Stock/Sale Monitor</b>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -225,8 +246,10 @@
         $('#categoryHide').hide();
         $('#subCategoryHide').hide();
         $('#barcodeHide').hide();
-        $('#styleHide').hide();
+        $('#styleHide').hide();//was hidden
         $('#styleDropdownHide').hide();
+        $('#nonMultiStyleDropdownHide').hide();
+        $('#seasonDropdownHide').hide();
         
 
         $(':radio[name=RadioFor]').change(function() {
@@ -236,52 +259,62 @@
                 $('#categoryHide').show();
                 $('#subCategoryHide').hide();
                 $('#barcodeHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'SCR') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $('#subCategoryHide').show();
                 $('#categoryHide').hide();
                 $('#barcodeHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'BR') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $('#barcodeHide').show();
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
                // $('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'SWR') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected');
                 $("#SubCategoryId").val(0);
                 $('#barcodeHide').hide();
-                $('#styleHide').show();
-                $('#styleDropdownHide').hide();
+                $('#styleHide').hide();//was shown
+                $('#styleDropdownHide').show();//changed it
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'SR') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
                 $('#barcodeHide').hide();
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'CSSS') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
@@ -289,10 +322,12 @@
                 $('#categoryHide').show();
                 $('#subCategoryHide').show();
                 $('#barcodeHide').show();
-                $('#styleHide').show();
-                $('#styleDropdownHide').hide();
+                $('#styleHide').hide();//was shown
+                $('#styleDropdownHide').show();//changed it
                 $('#ShopIdHide').show();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'SCWS') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
@@ -300,45 +335,53 @@
                 $('#categoryHide').show();
                 $('#subCategoryHide').show();
                 $('#barcodeHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').hide();
                 $('#barcodeHide').hide();
                // $('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'WHS') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
                 $('#subCategoryHide').show();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').hide();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'WHD') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
                 $('#subCategoryHide').show();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').hide();
                 $('#barcodeHide').hide();
                // $('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             } else if (value === 'SWH') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
                 $("#SubCategoryId").val(0);
                 $("#SubCategoryId").show();
                 $('#categoryHide').show();
                 $('#subCategoryHide').show();
-                $('#styleHide').show();
-                $('#styleDropdownHide').hide();
+                $('#styleHide').hide();//was shown
+                $('#styleDropdownHide').show();//changed it
                 $('#ShopIdHide').hide();
                 $('#barcodeHide').hide();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             }
             else if (value === 'SLS') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
@@ -346,11 +389,13 @@
                 $("#SubCategoryId").hide();
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').hide();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
             }
             else if (value === 'SWLS') {
                 $("#CategoryId option[value=0]").attr('selected', 'selected'); 
@@ -358,11 +403,27 @@
                 $("#SubCategoryId").hide();
                 $('#categoryHide').hide();
                 $('#subCategoryHide').hide();
-                $('#styleHide').hide();
+                $('#styleHide').hide();//was hidden
                 $('#styleDropdownHide').show();
                 $('#ShopIdHide').show();
                 $('#barcodeHide').hide();
                 //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').hide();
+                $('#seasonDropdownHide').hide();
+            }
+            else if (value === 'SSM') {
+                $("#CategoryId option[value=0]").attr('selected', 'selected');
+                $("#SubCategoryId").val(0);
+                $("#SubCategoryId").hide();
+                $('#categoryHide').hide();
+                $('#subCategoryHide').hide();
+                $('#styleHide').hide();//was hidden
+                $('#styleDropdownHide').hide();
+                $('#ShopIdHide').hide();
+                $('#barcodeHide').hide();
+                //$('#colorHide').hide();
+                $('#nonMultiStyleDropdownHide').show();
+                $('#seasonDropdownHide').show();
             }
         });
 

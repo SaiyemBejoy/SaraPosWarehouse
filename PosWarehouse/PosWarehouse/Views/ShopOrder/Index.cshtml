@@ -96,17 +96,20 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover" id="gridTableForDataShop">
                                 <thead>
-                                <tr>
-                                    <th>
-                                        BarCode
-                                    </th>
-                                    <th>
-                                        Item Name
-                                    </th>
-                                    <th>
-                                        Price
-                                    </th>
-                                </tr>
+                                    <tr>
+                                        <th>
+                                            BarCode
+                                        </th>
+                                        <th>
+                                            Item Name
+                                        </th>
+                                        <th>
+                                            Price
+                                        </th>
+                                        <th>
+                                            Quantity
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody id="ModalItemListTableBodyShop"></tbody>
                             </table>
@@ -140,7 +143,7 @@
                 var tableQuantity = data.length;
                 $("#ModalItemListTableBodyShop").html("");
                 for (var i = 0; i < tableQuantity; i++) {
-                    $("#ModalItemListTableBodyShop").append('<tr>' +
+                    $("#ModalItemListTableBodyShop").append('<tr>' + 
                         '<td>' +
                         data[i].Barcode +
                         '</td>' +
@@ -149,6 +152,9 @@
                         '</td>' +
                         '<td>' +
                         data[i].Price +
+                        '</td>' +
+                        '<td>' +
+                        data[i].RqsnQuantity +
                         '</td>' +
                         '</tr>'
                     );

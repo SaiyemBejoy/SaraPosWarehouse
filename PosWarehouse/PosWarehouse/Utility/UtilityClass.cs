@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using PosWarehouse.DAL;
 using PosWarehouse.ViewModel;
+using Zen.Barcode;
 using ZXing;
 
 namespace PosWarehouse.Utility
@@ -225,8 +226,9 @@ namespace PosWarehouse.Utility
         {
             var writer = new ZXing.BarcodeWriter() { Format = BarcodeFormat.CODE_128 };
             writer.Options.Height = 40;
-            writer.Options.Width = 180;
-            writer.Options.PureBarcode = true;
+                //writer.Options.Width = 180;
+                writer.Options.Width = 180;
+                writer.Options.PureBarcode = true;
             Image img = writer.Write(code);
             img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
             var byteArrayImage = ms.ToArray();
@@ -235,5 +237,17 @@ namespace PosWarehouse.Utility
         }
     }
 
-}
+    public static byte[] RenderBarcodeFor7Digit(string code)
+    {
+        using (var ms = new MemoryStream())
+        {
+            var barcodeImage = BarcodeDrawFactory.Code128WithChecksum.Draw(code, 30, 55);
+            barcodeImage.Save(ms, ImageFormat.Png);
+            var byteArrayImage = ms.ToArray();
+            return byteArrayImage;
+        }
+
+    }
+
+    }
 }

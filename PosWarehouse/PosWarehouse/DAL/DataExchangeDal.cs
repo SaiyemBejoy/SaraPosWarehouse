@@ -138,7 +138,7 @@ namespace PosWarehouse.DAL
             objOracleCommand.Parameters.Add("P_BARCODE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.Barcode) ? objRequisitionMainItemModel.Barcode : null;
             objOracleCommand.Parameters.Add("P_ITEM_NAME", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.ItemName) ? objRequisitionMainItemModel.ItemName : null;
             objOracleCommand.Parameters.Add("P_PRICE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.Price) ? objRequisitionMainItemModel.Price : null;
-
+            objOracleCommand.Parameters.Add("P_QUANTITY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.RqsnQuantity) ? objRequisitionMainItemModel.RqsnQuantity : null;
             objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
 
             using (OracleConnection strConn = GetConnection())

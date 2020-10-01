@@ -1288,5 +1288,54 @@ namespace PosWarehouse.DAL
                 }
             }
         }
+
+        public async Task<List<ProductMaterialCostDetails>> GetMaterialCostListByProductId(int productId)
+        {
+            var sql = "SELECT * FROM VEW_PRODUCT_MATERIAL_DETAILS WHERE PRODUCT_ID =:PRODUCT_ID  ";
+                    
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = productId;
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<ProductMaterialCostDetails> objProductMaterialCostDetails = new List<ProductMaterialCostDetails>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                ProductMaterialCostDetails model = new ProductMaterialCostDetails
+                                {
+                                    ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString()),
+                                    MaterialId = Convert.ToInt32(objDataReader["MATERIAL_ID"].ToString()),
+                                    MaterialName = objDataReader["MATERIAL_NAME"].ToString(),
+                                    UnitPrice = Convert.ToInt32(objDataReader["UNIT_PROCE"].ToString()),
+                                    UsedMaterial = Convert.ToDouble(objDataReader["USED_MATERIAL"].ToString()),
+                                    SubTotal = Convert.ToDouble(objDataReader["SUB_TOTAL"].ToString()),
+                                    UpdatedBy = objDataReader["CREATED_BY"].ToString()
+                                    
+                                };
+                                objProductMaterialCostDetails.Add(model);
+                            }
+                            return objProductMaterialCostDetails;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
     }
 }

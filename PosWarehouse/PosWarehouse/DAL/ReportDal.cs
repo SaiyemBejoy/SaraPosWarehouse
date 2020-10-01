@@ -2064,6 +2064,111 @@ namespace PosWarehouse.DAL
                 throw new Exception(ex.Message);
             }
         }
+        public async Task<DataSet> DatewiseStoreDeliveryDetails(StoreDeliveryReport storeDeliveryReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                DataTable dt = new DataTable();
+                try
+                {
+                    var sql = "SELECT " +
+                              " ' DateWise Delivery Details Report  between ' || to_date( '" + storeDeliveryReport.FromDate + "', 'dd/mm/yyyy') || ' to '|| to_date( '" + storeDeliveryReport.ToDate + "', 'dd/mm/yyyy')  RPT_TITLE, " +
+                               "STORE_DELIVERY_ITEM_ID," +
+                                "STORE_DELIVERY_NUMBER," +
+                                "ITEM_ID," +
+                                "ITEM_NAME," +
+                                "PRODUCT_ID," +
+                                "PRODUCT_STYLE," +
+                                "CATEGORY_ID," +
+                                "CATEGORY_NAME," +
+                                "SUB_CATEGORY_ID," +
+                                "SUB_CATEGORY_NAME," +
+                                "BARCODE," +
+                                "DELIVERY_QUANTITY," +
+                                "PURCHASE_PRICE," +
+                                "ACTUAL_PRICE," +
+                                "TOTAL_VALUE," +
+                                "VAT_AMOUNT," +
+                                "SALE_PRICE," +
+                                "VAT," +
+                                "DELIVERY_SHOP_ID," +
+                                "SHOP_NAME," +
+                                "REGISTER_ID," +
+                                "REGISTER_PERSON_NAME," +
+                                "DELIVERY_DATE," +
+                                "REQUISTION_NO," +
+                                "SEASON_ID," +
+                                "SEASON_NAME," +
+                                "WARE_HOUSE_ID," +
+                                "WAREHOUSE_NAME," +
+                                "WAREHOUSE_ADDRESS_DELIRPT," +
+                                "WAREHOUSE_ADDRESS, " +
+                                "Org_Name," +
+                                "Org_Bin_No," +
+                                "SHOP_ADDRESS " +
+                                " From VEW_RPT_STORE_DELIVERY_DETAILS where DELIVERY_DATE BETWEEN  to_date('" + storeDeliveryReport.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + storeDeliveryReport.ToDate.Trim() + "' , 'dd/mm/yyyy')  ";
+
+                    if (!string.IsNullOrEmpty(storeDeliveryReport.DeliveryNumber))
+                    {
+                        sql = sql + "and STORE_DELIVERY_NUMBER = '" + storeDeliveryReport.DeliveryNumber + "' ";
+                    }
+                    if (storeDeliveryReport.ShopId > 0)
+                    {
+                        sql = sql + "and DELIVERY_SHOP_ID = '" + storeDeliveryReport.ShopId + "' ";
+                    }
+                    if (!string.IsNullOrEmpty(storeDeliveryReport.ProductStyle))
+                    {
+                        sql = sql + "and LOWER(PRODUCT_STYLE) = '" + storeDeliveryReport.ProductStyle.ToLower().Trim() + "' ";
+                    }
+                    if (storeDeliveryReport.CategoryId > 0)
+                    {
+                        sql = sql + "and CATEGORY_ID = '" + storeDeliveryReport.CategoryId + "' ";
+                    }
+
+                    if (storeDeliveryReport.SubCategoryId > 0)
+                    {
+                        sql = sql + "and SUB_CATEGORY_ID = '" + storeDeliveryReport.SubCategoryId + "' ";
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            //objDataAdapter.Fill(ds, "VEW_RPT_PURCHASE_ORDER_DETAILS");
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_STORE_DELIVERY_DETAILS"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public async Task<DataSet> StylewiseStoreDeliveryChallanDetails(StoreDeliveryReport storeDeliveryReport)
         {
@@ -3015,6 +3120,86 @@ namespace PosWarehouse.DAL
                             dt.Clear();
                             ds = new System.Data.DataSet();
                             await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_SHOP_LOWSTOCK"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<DataSet> StockSaleMonitor(StockSummaryReport objStockSummaryReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                var sql = "";
+                DataTable dt = new DataTable();
+                try
+                {
+                    sql = "SELECT " +
+                            " ' Daily Stock/Sale Monitor Report  ' RPT_TITLE, " +
+                            "PRODUCT_ID," +
+                            "STYLE_NAME," +
+                            "ITEM_ID," +
+                            "ITEM_NAME," +
+                            "BARCODE," +
+                            "ITEM_COLOR," +
+                            "DC_PURCHASE_RECEIVE_QTY," +
+                            "DC_SHOP_DELIVERY_QTY," +
+                            "DC_DAMAGE_QTY," +
+                            "DC_OTHER_SHOP_REC_QTY," +
+                            "SHOP_RECEIVE_FROM_DC_QTY," +
+                            "SHOP_SALE_QTY," +
+                            "SHOP_TRANSFAR_QTY  " +
+                            "SHOP_TO_SHOP_RECEIVE_QTY," +
+                            "SHOP_DAMAGE_QTY," +
+                            "CURRENT_STOCK," +
+                            "SEASON_ID," +
+                            "SEASON_NAME," +
+                            "SHOP_AND_DC_ID," +
+                            "SHOP_AND_DC_NAME " +
+                            " From VEW_RPT_SALE_MONITOR  WHERE 1=1 ";
+
+                    if (objStockSummaryReport.SeasonId > 0)
+                    {
+                        sql = sql + " and SEASON_ID = '" + objStockSummaryReport.SeasonId + "' ";
+                    }
+                    if (!string.IsNullOrWhiteSpace(objStockSummaryReport.ProductIds))
+                    {
+                        sql = sql + " and PRODUCT_ID = '" + objStockSummaryReport.ProductIds + "' ";
+                    }
+
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_SALE_MONITOR"));
                             objDataAdapter.Dispose();
                             objOracleCommand.Dispose();
                         }
@@ -4129,7 +4314,12 @@ namespace PosWarehouse.DAL
                                 "SUB_CATEGORY_NAME," +
                                 "SUM(SALE_QUANTITY)SALE_QUANTITY" +
 
-                                " From VEW_RPT_CPU_CALCULATION where  SHOP_ID = '" + saleDetailsSummary.ShopId + "' AND INVOICE_DATE BETWEEN  to_date('" + saleDetailsSummary.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + saleDetailsSummary.ToDate.Trim() + "' , 'dd/mm/yyyy')  ";
+                                " From VEW_RPT_CPU_CALCULATION where INVOICE_DATE BETWEEN  to_date('" + saleDetailsSummary.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + saleDetailsSummary.ToDate.Trim() + "' , 'dd/mm/yyyy')  ";
+
+                    if(saleDetailsSummary.ShopId > 0)
+                    {
+                        sql = sql + "and SHOP_ID = '" + saleDetailsSummary.ShopId + "'";
+                    }
 
                     if (saleDetailsSummary.CategoryId != null)
                     {
@@ -4333,6 +4523,46 @@ namespace PosWarehouse.DAL
                     strConn.Close();
 
                     strMessage = objOracleCommand.Parameters["P_message"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+            return strMessage;
+        }
+
+        public async Task<string> StockSaleDataSaveForMonitoring(StockSummaryReport stockSummaryReport, int shopId)
+        {
+            string strMessage;
+
+            OracleCommand objOracleCommand = new OracleCommand("PRO_RPT_STOCK_MONITOR")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            objOracleCommand.Parameters.Add("P_PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(stockSummaryReport.ProductIds) ? stockSummaryReport.ProductIds : "";
+            objOracleCommand.Parameters.Add("P_SEASON_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = stockSummaryReport.SeasonId > 0 ? stockSummaryReport.SeasonId : 0;
+            objOracleCommand.Parameters.Add("P_SHOP_AND_DC_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = shopId > 0 ? shopId : 0;
+            objOracleCommand.Parameters.Add("p_message", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMessage = objOracleCommand.Parameters["p_message"].Value.ToString();
                 }
                 catch (Exception ex)
                 {
