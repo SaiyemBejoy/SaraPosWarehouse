@@ -1,0 +1,4 @@
+FILE="F:\SSD Drive I Personal\Projects\SaRa Project\SaraPosWarehouse\DbBackup\poswarehouse.DMP"
+LOG="F:\SSD Drive I Personal\Projects\SaRa Project\SaraPosWarehouse\DbBackup\exp_poswarehouse.log"
+FULL=Y
+FEEDBACK=1000

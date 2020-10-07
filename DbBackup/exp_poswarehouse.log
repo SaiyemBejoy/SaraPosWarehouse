@@ -1,0 +1,1917 @@
+
+Connected to: Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+Export done in WE8MSWIN1252 character set and AL16UTF16 NCHAR character set
+
+About to export the entire database ...
+. exporting tablespace definitions
+. exporting profiles
+. exporting user definitions
+. exporting roles
+. exporting resource costs
+. exporting rollback segment definitions
+. exporting database links
+. exporting sequence numbers
+. exporting directory aliases
+. exporting context namespaces
+. exporting foreign function library names
+. exporting PUBLIC type synonyms
+. exporting private type synonyms
+. exporting object type definitions
+. exporting system procedural objects and actions
+. exporting pre-schema procedural objects and actions
+. exporting cluster definitions
+. about to export SYSTEM's tables via Conventional Path ...
+. . exporting table                    DEF$_AQCALL
+EXP-00008: ORACLE error 6550 encountered
+ORA-06550: line 1, column 19:
+PLS-00201: identifier 'SYS.DBMS_DEFER_IMPORT_INTERNAL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+ORA-06512: at "SYS.DBMS_SQL", line 1575
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 97
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table                   DEF$_AQERROR
+EXP-00008: ORACLE error 6510 encountered
+ORA-06510: PL/SQL: unhandled user-defined exception
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 50
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table                  DEF$_CALLDEST
+EXP-00008: ORACLE error 6550 encountered
+ORA-06550: line 1, column 19:
+PLS-00201: identifier 'SYS.DBMS_DEFER_IMPORT_INTERNAL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+ORA-06512: at "SYS.DBMS_SQL", line 1575
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 97
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table               DEF$_DEFAULTDEST
+EXP-00008: ORACLE error 6510 encountered
+ORA-06510: PL/SQL: unhandled user-defined exception
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 50
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table               DEF$_DESTINATION
+EXP-00008: ORACLE error 6550 encountered
+ORA-06550: line 1, column 19:
+PLS-00201: identifier 'SYS.DBMS_DEFER_IMPORT_INTERNAL' must be declared
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+ORA-06512: at "SYS.DBMS_SQL", line 1575
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 97
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table                     DEF$_ERROR
+EXP-00008: ORACLE error 6510 encountered
+ORA-06510: PL/SQL: unhandled user-defined exception
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 50
+ORA-06512: at "SYS.DBMS_EXPORT_EXTENSION", line 126
+ORA-06512: at line 1
+. . exporting table                       DEF$_LOB
+                                                            0 rows exported
+. . exporting table                    DEF$_ORIGIN
+                                                            0 rows exported
+. . exporting table                DEF$_PROPAGATOR
+                                                            0 rows exported
+. . exporting table       DEF$_PUSHED_TRANSACTIONS
+                                                            0 rows exported
+. . exporting table               MVIEW$_ADV_INDEX
+                                                            0 rows exported
+. . exporting table                 MVIEW$_ADV_OWB
+. . exporting table           MVIEW$_ADV_PARTITION
+                                                            0 rows exported
+. . exporting table                            OL$
+. . exporting table                       OL$HINTS
+. . exporting table                       OL$NODES
+. . exporting table        REPCAT$_AUDIT_ATTRIBUTE
+                                                            2 rows exported
+. . exporting table           REPCAT$_AUDIT_COLUMN
+                                                            0 rows exported
+. . exporting table           REPCAT$_COLUMN_GROUP
+                                                            0 rows exported
+. . exporting table               REPCAT$_CONFLICT
+                                                            0 rows exported
+. . exporting table                    REPCAT$_DDL
+                                                            0 rows exported
+. . exporting table             REPCAT$_EXCEPTIONS
+                                                            0 rows exported
+. . exporting table              REPCAT$_EXTENSION
+                                                            0 rows exported
+. . exporting table                REPCAT$_FLAVORS
+                                                            0 rows exported
+. . exporting table         REPCAT$_FLAVOR_OBJECTS
+                                                            0 rows exported
+. . exporting table              REPCAT$_GENERATED
+                                                            0 rows exported
+. . exporting table         REPCAT$_GROUPED_COLUMN
+                                                            0 rows exported
+. . exporting table      REPCAT$_INSTANTIATION_DDL
+                                                            0 rows exported
+. . exporting table            REPCAT$_KEY_COLUMNS
+                                                            0 rows exported
+. . exporting table           REPCAT$_OBJECT_PARMS
+                                                            0 rows exported
+. . exporting table           REPCAT$_OBJECT_TYPES
+                                                           28 rows exported
+. . exporting table       REPCAT$_PARAMETER_COLUMN
+                                                            0 rows exported
+. . exporting table               REPCAT$_PRIORITY
+                                                            0 rows exported
+. . exporting table         REPCAT$_PRIORITY_GROUP
+                                                            0 rows exported
+. . exporting table      REPCAT$_REFRESH_TEMPLATES
+                                                            0 rows exported
+. . exporting table                 REPCAT$_REPCAT
+                                                            0 rows exported
+. . exporting table              REPCAT$_REPCATLOG
+                                                            0 rows exported
+. . exporting table              REPCAT$_REPCOLUMN
+                                                            0 rows exported
+. . exporting table         REPCAT$_REPGROUP_PRIVS
+                                                            0 rows exported
+. . exporting table              REPCAT$_REPOBJECT
+                                                            0 rows exported
+. . exporting table                REPCAT$_REPPROP
+                                                            0 rows exported
+. . exporting table              REPCAT$_REPSCHEMA
+                                                            0 rows exported
+. . exporting table             REPCAT$_RESOLUTION
+                                                            0 rows exported
+. . exporting table      REPCAT$_RESOLUTION_METHOD
+                                                           19 rows exported
+. . exporting table  REPCAT$_RESOLUTION_STATISTICS
+                                                            0 rows exported
+. . exporting table    REPCAT$_RESOL_STATS_CONTROL
+                                                            0 rows exported
+. . exporting table          REPCAT$_RUNTIME_PARMS
+                                                            0 rows exported
+. . exporting table              REPCAT$_SITES_NEW
+                                                            0 rows exported
+. . exporting table           REPCAT$_SITE_OBJECTS
+                                                            0 rows exported
+. . exporting table              REPCAT$_SNAPGROUP
+                                                            0 rows exported
+. . exporting table       REPCAT$_TEMPLATE_OBJECTS
+                                                            0 rows exported
+. . exporting table         REPCAT$_TEMPLATE_PARMS
+                                                            0 rows exported
+. . exporting table     REPCAT$_TEMPLATE_REFGROUPS
+                                                            0 rows exported
+. . exporting table         REPCAT$_TEMPLATE_SITES
+                                                            0 rows exported
+. . exporting table        REPCAT$_TEMPLATE_STATUS
+                                                            3 rows exported
+. . exporting table       REPCAT$_TEMPLATE_TARGETS
+                                                            0 rows exported
+. . exporting table         REPCAT$_TEMPLATE_TYPES
+                                                            2 rows exported
+. . exporting table    REPCAT$_USER_AUTHORIZATIONS
+                                                            0 rows exported
+. . exporting table       REPCAT$_USER_PARM_VALUES
+                                                            0 rows exported
+. . exporting table        SQLPLUS_PRODUCT_PROFILE
+                                                            0 rows exported
+. about to export OUTLN's tables via Conventional Path ...
+. . exporting table                            OL$
+                                                            0 rows exported
+. . exporting table                       OL$HINTS
+                                                            0 rows exported
+. . exporting table                       OL$NODES
+                                                            0 rows exported
+. about to export ORDDATA's tables via Conventional Path ...
+. . exporting table       ORDDCM_ANON_ACTION_TYPES
+                                                            4 rows exported
+. . exporting table              ORDDCM_ANON_ATTRS
+                                                           37 rows exported
+. . exporting table          ORDDCM_ANON_ATTRS_TMP
+. . exporting table          ORDDCM_ANON_ATTRS_WRK
+                                                            0 rows exported
+. . exporting table              ORDDCM_ANON_RULES
+                                                            3 rows exported
+. . exporting table          ORDDCM_ANON_RULES_TMP
+. . exporting table          ORDDCM_ANON_RULES_WRK
+                                                            0 rows exported
+. . exporting table         ORDDCM_ANON_RULE_TYPES
+                                                            3 rows exported
+. . exporting table               ORDDCM_CT_ACTION
+                                                            7 rows exported
+. . exporting table           ORDDCM_CT_ACTION_TMP
+. . exporting table           ORDDCM_CT_ACTION_WRK
+                                                            0 rows exported
+. . exporting table               ORDDCM_CT_DAREFS
+                                                           74 rows exported
+. . exporting table           ORDDCM_CT_DAREFS_TMP
+. . exporting table           ORDDCM_CT_DAREFS_WRK
+                                                            0 rows exported
+. . exporting table         ORDDCM_CT_LOCATORPATHS
+                                                           95 rows exported
+. . exporting table     ORDDCM_CT_LOCATORPATHS_TMP
+. . exporting table     ORDDCM_CT_LOCATORPATHS_WRK
+                                                            0 rows exported
+. . exporting table            ORDDCM_CT_MACRO_DEP
+                                                            1 rows exported
+. . exporting table        ORDDCM_CT_MACRO_DEP_WRK
+                                                            0 rows exported
+. . exporting table            ORDDCM_CT_MACRO_PAR
+                                                            2 rows exported
+. . exporting table        ORDDCM_CT_MACRO_PAR_WRK
+                                                            0 rows exported
+. . exporting table                 ORDDCM_CT_PRED
+                                                           61 rows exported
+. . exporting table            ORDDCM_CT_PRED_OPRD
+                                                           51 rows exported
+. . exporting table        ORDDCM_CT_PRED_OPRD_TMP
+. . exporting table        ORDDCM_CT_PRED_OPRD_WRK
+                                                            0 rows exported
+. . exporting table             ORDDCM_CT_PRED_PAR
+                                                            3 rows exported
+. . exporting table         ORDDCM_CT_PRED_PAR_TMP
+. . exporting table         ORDDCM_CT_PRED_PAR_WRK
+                                                            0 rows exported
+. . exporting table             ORDDCM_CT_PRED_SET
+                                                            9 rows exported
+. . exporting table         ORDDCM_CT_PRED_SET_TMP
+. . exporting table         ORDDCM_CT_PRED_SET_WRK
+                                                            0 rows exported
+. . exporting table             ORDDCM_CT_PRED_TMP
+. . exporting table             ORDDCM_CT_PRED_WRK
+                                                            0 rows exported
+. . exporting table              ORDDCM_DATA_MODEL
+                                                            1 rows exported
+. . exporting table          ORDDCM_DATA_MODEL_WRK
+                                                            0 rows exported
+. . exporting table              ORDDCM_DICT_ATTRS
+..
+                                                         2418 rows exported
+. . exporting table          ORDDCM_DICT_ATTRS_TMP
+. . exporting table          ORDDCM_DICT_ATTRS_WRK
+                                                            0 rows exported
+. . exporting table                    ORDDCM_DOCS
+                                                            9 rows exported
+. . exporting table                ORDDCM_DOCS_TMP
+. . exporting table                ORDDCM_DOCS_WRK
+                                                            0 rows exported
+. . exporting table                ORDDCM_DOC_REFS
+                                                            7 rows exported
+. . exporting table            ORDDCM_DOC_REFS_TMP
+. . exporting table            ORDDCM_DOC_REFS_WRK
+                                                            0 rows exported
+. . exporting table               ORDDCM_DOC_TYPES
+                                                            8 rows exported
+. . exporting table            ORDDCM_INSTALL_DOCS
+                                                            9 rows exported
+. . exporting table           ORDDCM_INTERNAL_TAGS
+                                                           42 rows exported
+. . exporting table        ORDDCM_MAPPED_PATHS_TMP
+. . exporting table            ORDDCM_MAPPING_DOCS
+                                                            1 rows exported
+. . exporting table        ORDDCM_MAPPING_DOCS_TMP
+. . exporting table        ORDDCM_MAPPING_DOCS_WRK
+                                                            0 rows exported
+. . exporting table            ORDDCM_PREFS_LOOKUP
+                                                           13 rows exported
+. . exporting table    ORDDCM_PREFS_DEF_VALUES_TAB
+                                                            7 rows exported
+. . exporting table  ORDDCM_PREFS_VALID_VALUES_TAB
+                                                           33 rows exported
+. . exporting table               ORDDCM_PRV_ATTRS
+                                                            3 rows exported
+. . exporting table           ORDDCM_PRV_ATTRS_TMP
+. . exporting table           ORDDCM_PRV_ATTRS_WRK
+                                                            0 rows exported
+. . exporting table          ORDDCM_RT_PREF_PARAMS
+                                                           13 rows exported
+. . exporting table      ORDDCM_RT_PREF_PARAMS_TMP
+. . exporting table      ORDDCM_RT_PREF_PARAMS_WRK
+                                                            0 rows exported
+. . exporting table               ORDDCM_STD_ATTRS
+..
+                                                         2415 rows exported
+. . exporting table           ORDDCM_STD_ATTRS_TMP
+. . exporting table           ORDDCM_STD_ATTRS_WRK
+                                                            0 rows exported
+. . exporting table         ORDDCM_STORED_TAGS_TMP
+. . exporting table                ORDDCM_UID_DEFS
+                                                          245 rows exported
+. . exporting table            ORDDCM_UID_DEFS_TMP
+. . exporting table            ORDDCM_UID_DEFS_WRK
+                                                            0 rows exported
+. . exporting table               ORDDCM_VR_DT_MAP
+                                                           32 rows exported
+. about to export OLAPSYS's tables via Conventional Path ...
+. . exporting table             CWM$CLASSIFICATION
+                                                           42 rows exported
+. . exporting table        CWM$CLASSIFICATIONENTRY
+                                                           66 rows exported
+. . exporting table         CWM$CLASSIFICATIONTYPE
+                                                           15 rows exported
+. . exporting table                       CWM$CUBE
+                                                            2 rows exported
+. . exporting table           CWM$CUBEDIMENSIONUSE
+                                                            9 rows exported
+. . exporting table                  CWM$DIMENSION
+                                                            5 rows exported
+. . exporting table         CWM$DIMENSIONATTRIBUTE
+                                                           23 rows exported
+. . exporting table                     CWM$DOMAIN
+                                                           21 rows exported
+. . exporting table             CWM$FACTLEVELGROUP
+                                                            2 rows exported
+. . exporting table               CWM$FACTLEVELUSE
+                                                            9 rows exported
+. . exporting table               CWM$FACTTABLEMAP
+                                                            2 rows exported
+. . exporting table                    CWM$FACTUSE
+                                                            4 rows exported
+. . exporting table                   CWM$FUNCTION
+                                                           14 rows exported
+. . exporting table                CWM$FUNCTIONUSE
+                                                            4 rows exported
+. . exporting table                  CWM$HIERARCHY
+                                                            7 rows exported
+. . exporting table                    CWM$ITEMMAP
+                                                           59 rows exported
+. . exporting table                    CWM$ITEMUSE
+                                                          118 rows exported
+. . exporting table                      CWM$LEVEL
+                                                           27 rows exported
+. . exporting table             CWM$LEVELATTRIBUTE
+                                                           67 rows exported
+. . exporting table                    CWM$MEASURE
+                                                            4 rows exported
+. . exporting table        CWM$MEASUREDIMENSIONUSE
+                                                            4 rows exported
+. . exporting table                      CWM$MODEL
+                                                            3 rows exported
+. . exporting table                 CWM$OBJECTTYPE
+                                                           15 rows exported
+. . exporting table                  CWM$PARAMETER
+                                                            5 rows exported
+. . exporting table                    CWM$PROJECT
+                                                            3 rows exported
+. . exporting table        CWM2$AWCUBECREATEACCESS
+. . exporting table            CWM2$AWCUBELOADPARM
+                                                            1 rows exported
+. . exporting table            CWM2$AWCUBELOADTYPE
+                                                            2 rows exported
+. . exporting table         CWM2$AWDIMCREATEACCESS
+. . exporting table             CWM2$AWDIMLOADPARM
+                                                            4 rows exported
+. . exporting table             CWM2$AWDIMLOADTYPE
+                                                            2 rows exported
+. . exporting table                      CWM2$CUBE
+                                                            0 rows exported
+. . exporting table                 CWM2$DIMENSION
+                                                            0 rows exported
+. . exporting table        CWM2$DIMENSIONATTRIBUTE
+                                                            0 rows exported
+. . exporting table                 CWM2$HIERARCHY
+                                                            0 rows exported
+. . exporting table                     CWM2$LEVEL
+                                                            0 rows exported
+. . exporting table            CWM2$LEVELATTRIBUTE
+                                                            0 rows exported
+. . exporting table                   CWM2$MEASURE
+                                                            0 rows exported
+. . exporting table         CWM2$MRALL_DESCRIPTORS
+                                                           41 rows exported
+. . exporting table    CWM2$OLAPEXPORTCOMMANDTABLE
+. . exporting table     CWM2$OLAPEXPORTOBJECTTABLE
+. . exporting table          CWM2$OLAPMANAGERTABLE
+. . exporting table         CWM2$OLAPVALIDATETABLE
+. . exporting table   CWM2$_AW_NEXT_TEMP_CUST_MEAS
+. . exporting table    CWM2$_AW_TEMP_CUST_MEAS_MAP
+. . exporting table              CWM2$_TEMP_VALUES
+. . exporting table             OLAP_SESSION_CUBES
+. . exporting table              OLAP_SESSION_DIMS
+. . exporting table           OLAP_SESSION_OBJECTS
+. about to export MDDATA's tables via Conventional Path ...
+. about to export SPATIAL_WFS_ADMIN_USR's tables via Conventional Path ...
+. about to export SPATIAL_CSW_ADMIN_USR's tables via Conventional Path ...
+. about to export SYSMAN's tables via Conventional Path ...
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_G
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_H
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_I
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_L
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_S
+                                                            2 rows exported
+. . exporting table       AQ$_MGMT_LOADER_QTABLE_T
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_G
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_H
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_I
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_L
+                                                            0 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_S
+                                                            2 rows exported
+. . exporting table       AQ$_MGMT_NOTIFY_QTABLE_T
+                                                            0 rows exported
+. . exporting table              EMDW_TRACE_CONFIG
+                                                            9 rows exported
+. . exporting table     EM_PAGE_CONDITION_METADATA
+                                                            7 rows exported
+. . exporting table          EM_PAGE_CUST_METADATA
+                                                            4 rows exported
+. . exporting table           EUME2E_ASSOCS_LOOKUP
+                                                            9 rows exported
+. . exporting table            MGMT_ADMIN_LICENSES
+                                                           19 rows exported
+. . exporting table            MGMT_AGENT_SEC_INFO
+                                                            1 rows exported
+. . exporting table          MGMT_ALL_TARGET_PROPS
+                                                            5 rows exported
+. . exporting table    MGMT_ARU_FAMILY_PRODUCT_MAP
+.
+                                                         1660 rows exported
+. . exporting table             MGMT_ARU_LANGUAGES
+                                                           40 rows exported
+. . exporting table        MGMT_ARU_OUI_COMPONENTS
+                                                          393 rows exported
+. . exporting table             MGMT_ARU_PLATFORMS
+                                                           76 rows exported
+. . exporting table              MGMT_ARU_PRODUCTS
+                                                          744 rows exported
+. . exporting table   MGMT_ARU_PRODUCT_RELEASE_MAP
+.....
+                                                         5956 rows exported
+. . exporting table              MGMT_ARU_RELEASES
+                                                          863 rows exported
+. . exporting table         MGMT_AUDIT_DESTINATION
+                                                            1 rows exported
+. . exporting table              MGMT_AUDIT_MASTER
+                                                            1 rows exported
+. . exporting table              MGMT_AVAILABILITY
+                                                            1 rows exported
+. . exporting table       MGMT_AVAILABILITY_MARKER
+                                                            1 rows exported
+. . exporting table        MGMT_AVAILABLE_SEARCHES
+                                                           15 rows exported
+. . exporting table       MGMT_BAM_OSESSION_ALERTS
+                                                            0 rows exported
+. . exporting table      MGMT_BAM_OSESSION_METRICS
+                                                            0 rows exported
+. . exporting table       MGMT_BAM_OSESSION_STATUS
+                                                            0 rows exported
+. . exporting table    MGMT_BLACKOUT_PROXY_TARGETS
+                                                            1 rows exported
+. . exporting table           MGMT_BLACKOUT_REASON
+                                                           60 rows exported
+. . exporting table         MGMT_BLACKOUT_SCHEDULE
+                                                            0 rows exported
+. . exporting table          MGMT_BLACKOUT_WINDOWS
+                                                            0 rows exported
+. . exporting table              MGMT_BSLN_METRICS
+                                                            6 rows exported
+. . exporting table              MGMT_BSLN_RAWDATA
+                                                            0 rows exported
+. . exporting table                 MGMT_CALLBACKS
+                                                           87 rows exported
+. . exporting table                MGMT_CATEGORIES
+                                                           12 rows exported
+. . exporting table          MGMT_CATEGORY_CLASSES
+                                                            2 rows exported
+. . exporting table              MGMT_CATEGORY_MAP
+                                                          637 rows exported
+. . exporting table               MGMT_COLLECTIONS
+                                                           21 rows exported
+. . exporting table    MGMT_COLLECTION_CREDENTIALS
+                                                            0 rows exported
+. . exporting table   MGMT_COLLECTION_METRIC_TASKS
+                                                           27 rows exported
+. . exporting table          MGMT_COLLECTION_TASKS
+                                                           27 rows exported
+. . exporting table   MGMT_COLLECTION_TASK_CONTEXT
+                                                            0 rows exported
+. . exporting table MGMT_COLLECTION_TEMPLATE_CREDS
+                                                            0 rows exported
+. . exporting table        MGMT_COLLECTION_WORKERS
+                                                            0 rows exported
+. . exporting table                MGMT_COLL_ITEMS
+                                                            5 rows exported
+. . exporting table         MGMT_COLL_ITEM_METRICS
+                                                           12 rows exported
+. . exporting table      MGMT_COLL_ITEM_PROPERTIES
+                                                            0 rows exported
+. . exporting table         MGMT_CORRECTIVE_ACTION
+                                                            2 rows exported
+. . exporting table             MGMT_CREATED_USERS
+                                                            4 rows exported
+. . exporting table           MGMT_CREDENTIAL_SETS
+                                                           33 rows exported
+. . exporting table    MGMT_CREDENTIAL_SET_COLUMNS
+                                                           82 rows exported
+. . exporting table   MGMT_CREDENTIAL_SET_COL_VALS
+                                                            8 rows exported
+. . exporting table          MGMT_CREDENTIAL_TYPES
+                                                           17 rows exported
+. . exporting table   MGMT_CREDENTIAL_TYPE_COLUMNS
+                                                           41 rows exported
+. . exporting table  MGMT_CREDENTIAL_TYPE_COL_VALS
+                                                            3 rows exported
+. . exporting table       MGMT_CREDENTIAL_TYPE_REF
+                                                            7 rows exported
+. . exporting table        MGMT_CS_CONFIG_STANDARD
+                                                            3 rows exported
+. . exporting table              MGMT_CS_HIERARCHY
+                                                          117 rows exported
+. . exporting table                MGMT_CS_KEYWORD
+                                                            3 rows exported
+. . exporting table                   MGMT_CS_RULE
+                                                           94 rows exported
+. . exporting table             MGMT_CS_RULEFOLDER
+                                                           23 rows exported
+. . exporting table      MGMT_CURRENT_AVAILABILITY
+                                                            1 rows exported
+. . exporting table           MGMT_CURRENT_METRICS
+                                                           48 rows exported
+. . exporting table         MGMT_CURRENT_VIOLATION
+                                                            1 rows exported
+. . exporting table        MGMT_DB_INIT_PARAMS_ECM
+                                                            0 rows exported
+. . exporting table      MGMT_DELTA_COMP_SUMMARIES
+                                                            0 rows exported
+. . exporting table      MGMT_DELTA_SUMMARY_ERRORS
+                                                            0 rows exported
+. . exporting table       MGMT_DEPLOYMENT_SECTIONS
+                                                            1 rows exported
+. . exporting table      MGMT_DIROBJ_USERS_HOTLIST
+                                                            0 rows exported
+. . exporting table                MGMT_DM_ALITEMS
+                                                           48 rows exported
+. . exporting table              MGMT_DM_RULEENTRY
+                                                           45 rows exported
+. . exporting table          MGMT_DM_RULETEMPLATES
+                                                           19 rows exported
+. . exporting table               MGMT_ECM_ARU_MAP
+                                                           29 rows exported
+. . exporting table        MGMT_ECM_CSA_OUT_OF_BOX
+                                                            1 rows exported
+. . exporting table    MGMT_ECM_MD_ALL_TBL_COLUMNS
+                                                          702 rows exported
+. . exporting table          MGMT_ECM_MD_HIST_TBLS
+                                                           39 rows exported
+. . exporting table             MGMT_ECM_RESOURCES
+                                                           14 rows exported
+. . exporting table   MGMT_ECM_SNAPSHOT_MD_COLUMNS
+                                                          837 rows exported
+. . exporting table    MGMT_ECM_SNAPSHOT_MD_TABLES
+                                                          122 rows exported
+. . exporting table     MGMT_ECM_SNAPSHOT_METADATA
+                                                           53 rows exported
+. . exporting table            MGMT_EMD_PING_CHECK
+                                                            0 rows exported
+. . exporting table    MGMT_ENTERPRISE_CREDENTIALS
+                                                            0 rows exported
+. . exporting table              MGMT_ERROR_MASTER
+                                                           12 rows exported
+. . exporting table        MGMT_FAILOVER_CALLBACKS
+                                                            4 rows exported
+. . exporting table            MGMT_FAILOVER_TABLE
+                                                            0 rows exported
+. . exporting table        MGMT_FBP_PATCHING_GUIDS
+                                                            3 rows exported
+. . exporting table          MGMT_FLAT_ROLE_GRANTS
+                                                            0 rows exported
+. . exporting table       MGMT_GROUP_DEFAULT_CHART
+                                                            9 rows exported
+. . exporting table          MGMT_HOST_CREDENTIALS
+                                                            0 rows exported
+. . exporting table    MGMT_HTTP_SESSION_CALLBACKS
+                                                            1 rows exported
+. . exporting table    MGMT_IP_ELEM_DEFAULT_PARAMS
+                                                          130 rows exported
+. . exporting table     MGMT_IP_ELEM_PARAM_CLASSES
+                                                          116 rows exported
+. . exporting table      MGMT_IP_ELEM_TARGET_TYPES
+                                                           86 rows exported
+. . exporting table             MGMT_IP_REPORT_DEF
+                                                          124 rows exported
+. . exporting table    MGMT_IP_REPORT_DEF_ELEMENTS
+                                                          349 rows exported
+. . exporting table   MGMT_IP_REPORT_DEF_JIT_TYPES
+                                                          135 rows exported
+. . exporting table        MGMT_IP_REPORT_ELEM_DEF
+                                                           77 rows exported
+. . exporting table     MGMT_IP_REPORT_ELEM_PARAMS
+..
+                                                         2167 rows exported
+. . exporting table         MGMT_IP_SQL_STATEMENTS
+                                                           31 rows exported
+. . exporting table                       MGMT_JOB
+                                                            5 rows exported
+. . exporting table             MGMT_JOB_CALLBACKS
+                                                            6 rows exported
+. . exporting table               MGMT_JOB_COMMAND
+                                                          146 rows exported
+. . exporting table   MGMT_JOB_COMMAND_BLOCK_PROCS
+                                                            3 rows exported
+. . exporting table           MGMT_JOB_CREDENTIALS
+                                                            0 rows exported
+. . exporting table           MGMT_JOB_CRED_PARAMS
+                                                          101 rows exported
+. . exporting table   MGMT_JOB_DISPLAY_ERROR_CODES
+                                                            8 rows exported
+. . exporting table                 MGMT_JOB_EVENT
+                                                            1 rows exported
+. . exporting table              MGMT_JOB_EXECPLAN
+.
+                                                         1849 rows exported
+. . exporting table             MGMT_JOB_EXECUTION
+                                                           12 rows exported
+. . exporting table          MGMT_JOB_EXEC_SUMMARY
+                                                            6 rows exported
+. . exporting table               MGMT_JOB_HISTORY
+                                                           12 rows exported
+. . exporting table          MGMT_JOB_LARGE_PARAMS
+                                                            2 rows exported
+. . exporting table             MGMT_JOB_LOCK_INFO
+                                                            6 rows exported
+. . exporting table          MGMT_JOB_LOCK_TARGETS
+                                                            6 rows exported
+. . exporting table                MGMT_JOB_OUTPUT
+                                                            0 rows exported
+. . exporting table             MGMT_JOB_PARAMETER
+                                                            4 rows exported
+. . exporting table          MGMT_JOB_PARAM_SOURCE
+                                                          652 rows exported
+. . exporting table           MGMT_JOB_PROP_PARAMS
+                                                           25 rows exported
+. . exporting table        MGMT_JOB_PURGE_CRITERIA
+                                                            3 rows exported
+. . exporting table        MGMT_JOB_PURGE_POLICIES
+                                                            4 rows exported
+. . exporting table          MGMT_JOB_PURGE_VALUES
+                                                            3 rows exported
+. . exporting table              MGMT_JOB_SCHEDULE
+                                                            3 rows exported
+. . exporting table              MGMT_JOB_SEC_INFO
+                                                           12 rows exported
+. . exporting table   MGMT_JOB_SINGLE_TARGET_TYPES
+                                                          121 rows exported
+. . exporting table            MGMT_JOB_SQL_PARAMS
+                                                           10 rows exported
+. . exporting table         MGMT_JOB_STATE_CHANGES
+                                                            6 rows exported
+. . exporting table           MGMT_JOB_STEP_PARAMS
+.....
+                                                         5277 rows exported
+. . exporting table          MGMT_JOB_SUBST_PARAMS
+                                                           24 rows exported
+. . exporting table     MGMT_JOB_TYPE_DISPLAY_INFO
+                                                           87 rows exported
+. . exporting table             MGMT_JOB_TYPE_INFO
+                                                          187 rows exported
+. . exporting table     MGMT_JOB_TYPE_MAX_VERSIONS
+                                                          180 rows exported
+. . exporting table MGMT_JOB_TYPE_PARAM_DSPLY_INFO
+                                                          300 rows exported
+. . exporting table   MGMT_JOB_TYPE_PARAM_URI_INFO
+                                                            7 rows exported
+. . exporting table         MGMT_JOB_TYPE_URI_INFO
+                                                           99 rows exported
+. . exporting table           MGMT_JOB_USER_PARAMS
+                                                           15 rows exported
+. . exporting table          MGMT_JOB_VALUE_PARAMS
+                                                          180 rows exported
+. . exporting table               PARAM_VALUES_TAB
+                                                          308 rows exported
+. . exporting table            MGMT_LAST_VIOLATION
+                                                           26 rows exported
+. . exporting table   MGMT_LICENSABLE_TARGET_TYPES
+                                                           49 rows exported
+. . exporting table          MGMT_LICENSED_TARGETS
+                                                            0 rows exported
+. . exporting table      MGMT_LICENSE_CONFIRMATION
+                                                            0 rows exported
+. . exporting table       MGMT_LICENSE_DEFINITIONS
+                                                           59 rows exported
+. . exporting table        MGMT_LOADER_DESIGNATORS
+                                                           40 rows exported
+. . exporting table             MGMT_LOADER_QTABLE
+                                                            0 rows exported
+. . exporting table          MGMT_LOGIN_ASSISTANTS
+                                                            2 rows exported
+. . exporting table   MGMT_MASTER_CHANGED_CALLBACK
+                                                            1 rows exported
+. . exporting table                  MGMT_MESSAGES
+.......................
+                                                        23311 rows exported
+. . exporting table             MGMT_METADATA_SETS
+                                                           75 rows exported
+. . exporting table                   MGMT_METRICS
+............
+                                                        12635 rows exported
+. . exporting table              MGMT_METRICS_1DAY
+.
+                                                         1333 rows exported
+. . exporting table             MGMT_METRICS_1HOUR
+.......
+                                                         7098 rows exported
+. . exporting table    MGMT_METRICS_COMPOSITE_KEYS
+                                                           22 rows exported
+. . exporting table               MGMT_METRICS_EXT
+                                                           20 rows exported
+. . exporting table               MGMT_METRICS_RAW
+.....
+                                                         5162 rows exported
+. . exporting table     MGMT_METRIC_DEPENDENCY_DEF
+                                                           16 rows exported
+. . exporting table           MGMT_METRIC_VERSIONS
+                                                          273 rows exported
+. . exporting table       MGMT_MP_HOMEPAGE_REPORTS
+                                                           30 rows exported
+. . exporting table        MGMT_NESTED_JOB_TARGETS
+                                                          126 rows exported
+. . exporting table            MGMT_NOTIFY_DEVICES
+                                                            0 rows exported
+. . exporting table    MGMT_NOTIFY_FORMAT_HANDLERS
+                                                            6 rows exported
+. . exporting table       MGMT_NOTIFY_INPUT_QTABLE
+                                                            0 rows exported
+. . exporting table   MGMT_NOTIFY_JOB_RULE_CONFIGS
+                                                            1 rows exported
+. . exporting table          MGMT_NOTIFY_NOTIFYEES
+                                                            0 rows exported
+. . exporting table           MGMT_NOTIFY_PROFILES
+                                                            3 rows exported
+. . exporting table             MGMT_NOTIFY_QTABLE
+                                                            0 rows exported
+. . exporting table             MGMT_NOTIFY_QUEUES
+                                                           27 rows exported
+. . exporting table              MGMT_NOTIFY_RULES
+                                                            7 rows exported
+. . exporting table       MGMT_NOTIFY_RULE_CONFIGS
+                                                           41 rows exported
+. . exporting table            MGMT_OMS_PARAMETERS
+                                                           75 rows exported
+. . exporting table         MGMT_OPERATIONS_MASTER
+                                                           25 rows exported
+. . exporting table               MGMT_OUI_ARU_MAP
+                                                           27 rows exported
+. . exporting table          MGMT_PAF_APPLICATIONS
+                                                           13 rows exported
+. . exporting table MGMT_PAF_COMP_JOBTYPE_MAPPINGS
+                                                            2 rows exported
+. . exporting table              MGMT_PAF_JOBTYPES
+                                                            4 rows exported
+. . exporting table        MGMT_PAF_JOBTYPE_PARAMS
+                                                           17 rows exported
+. . exporting table          MGMT_PAF_MSG_QTABLE_1
+                                                            0 rows exported
+. . exporting table          MGMT_PAF_MSG_QTABLE_2
+                                                            0 rows exported
+. . exporting table          MGMT_PAF_PARAM_GROUPS
+                                                            6 rows exported
+. . exporting table            MGMT_PAF_PROCEDURES
+                                                            7 rows exported
+. . exporting table          MGMT_PAF_TEXTUAL_DATA
+                                                            7 rows exported
+. . exporting table                MGMT_PARAMETERS
+                                                           84 rows exported
+. . exporting table       MGMT_PDP_COLUMN_METADATA
+                                                            3 rows exported
+. . exporting table              MGMT_PDP_METADATA
+                                                            2 rows exported
+. . exporting table        MGMT_PDP_PARAM_METADATA
+                                                            9 rows exported
+. . exporting table      MGMT_PDP_SETTING_METADATA
+                                                            3 rows exported
+. . exporting table         MGMT_PERFORMANCE_NAMES
+                                                          106 rows exported
+. . exporting table                  MGMT_POLICIES
+...
+                                                         3270 rows exported
+. . exporting table              MGMT_POLICY_ASSOC
+                                                          358 rows exported
+. . exporting table          MGMT_POLICY_ASSOC_CFG
+                                                          364 rows exported
+. . exporting table   MGMT_POLICY_ASSOC_CFG_PARAMS
+                                                           46 rows exported
+. . exporting table MGMT_POLICY_ASSOC_EVAL_DETAILS
+                                                           26 rows exported
+. . exporting table    MGMT_POLICY_ASSOC_EVAL_SUMM
+                                                           17 rows exported
+. . exporting table          MGMT_POLICY_BIND_VARS
+                                                          169 rows exported
+. . exporting table         MGMT_POLICY_PARAMETERS
+                                                           27 rows exported
+. . exporting table      MGMT_POLICY_TYPE_VERSIONS
+                                                          585 rows exported
+. . exporting table      MGMT_POLICY_VIOL_CTXT_DEF
+                                                          642 rows exported
+. . exporting table                     MGMT_PRIVS
+                                                           24 rows exported
+. . exporting table               MGMT_PRIV_GRANTS
+                                                          133 rows exported
+. . exporting table             MGMT_PRIV_INCLUDES
+                                                           13 rows exported
+. . exporting table              MGMT_PURGE_POLICY
+                                                           16 rows exported
+. . exporting table        MGMT_PURGE_POLICY_GROUP
+                                                            7 rows exported
+. . exporting table MGMT_PURGE_POLICY_TARGET_STATE
+                                                           16 rows exported
+. . exporting table           MGMT_REBUILD_INDEXES
+                                                            1 rows exported
+. . exporting table    MGMT_REPOS_TIME_COEFFICIENT
+                                                            0 rows exported
+. . exporting table                     MGMT_ROLES
+                                                            1 rows exported
+. . exporting table               MGMT_ROLE_GRANTS
+                                                            1 rows exported
+. . exporting table           MGMT_ROWSET_HANDLERS
+                                                           14 rows exported
+. . exporting table        MGMT_RT_BOOTSTRAP_TIMES
+                                                            1 rows exported
+. . exporting table                  MGMT_SEC_INFO
+                                                            1 rows exported
+. . exporting table       MGMT_SNAPSHOT_METRIC_MAP
+                                                          221 rows exported
+. . exporting table MGMT_STORAGE_REPORT_UI_TARGETS
+. . exporting table      MGMT_STORAGE_TMP_NFS_DATA
+. . exporting table     MGMT_STRING_METRIC_HISTORY
+                                                            5 rows exported
+. . exporting table    MGMT_SWLIB_DATA_DIRECTORIES
+                                                            1 rows exported
+. . exporting table         MGMT_SWLIB_DIRECTORIES
+                                                           88 rows exported
+. . exporting table            MGMT_SWLIB_ENTITIES
+                                                          180 rows exported
+. . exporting table         MGMT_SWLIB_ENTITY_DATA
+                                                          150 rows exported
+. . exporting table    MGMT_SWLIB_ENTITY_DOCUMENTS
+                                                          364 rows exported
+. . exporting table   MGMT_SWLIB_ENTITY_PARAMETERS
+                                                          180 rows exported
+. . exporting table   MGMT_SWLIB_ENTITY_REFERENCES
+                                                            2 rows exported
+. . exporting table    MGMT_SWLIB_ENTITY_REVISIONS
+                                                          182 rows exported
+. . exporting table     MGMT_SWLIB_MATURITY_STATUS
+                                                            3 rows exported
+. . exporting table MGMT_SWLIB_REVISION_PARAMETERS
+                                                          728 rows exported
+. . exporting table          MGMT_SYSTEM_ERROR_LOG
+                                                            1 rows exported
+. . exporting table    MGMT_SYSTEM_PERFORMANCE_LOG
+                                                          828 rows exported
+. . exporting table                   MGMT_TARGETS
+                                                            1 rows exported
+. . exporting table      MGMT_TARGET_ADD_CALLBACKS
+                                                           13 rows exported
+. . exporting table         MGMT_TARGET_ASSOC_DEFS
+                                                           15 rows exported
+. . exporting table        MGMT_TARGET_CREDENTIALS
+                                                            0 rows exported
+. . exporting table  MGMT_TARGET_DELETE_EXCEPTIONS
+                                                           35 rows exported
+. . exporting table          MGMT_TARGET_PROP_DEFS
+                                                          288 rows exported
+. . exporting table       MGMT_TARGET_ROLLUP_TIMES
+                                                           26 rows exported
+. . exporting table          MGMT_TARGET_TEMP_LIST
+. . exporting table              MGMT_TARGET_TYPES
+                                                           28 rows exported
+. . exporting table MGMT_TARGET_TYPE_COMPONENT_MAP
+                                                            5 rows exported
+. . exporting table      MGMT_TARGET_TYPE_VERSIONS
+                                                           37 rows exported
+. . exporting table               MGMT_TASK_QTABLE
+                                                           27 rows exported
+. . exporting table        MGMT_TASK_WORKER_COUNTS
+                                                            2 rows exported
+. . exporting table           MGMT_TYPE_PROPERTIES
+                                                           75 rows exported
+. . exporting table            MGMT_USER_CALLBACKS
+                                                           27 rows exported
+. . exporting table                  MGMT_USER_CAS
+                                                            2 rows exported
+. . exporting table              MGMT_USER_CONTEXT
+                                                            4 rows exported
+. . exporting table              MGMT_USER_FOLDERS
+                                                           24 rows exported
+. . exporting table                 MGMT_USER_JOBS
+                                                            0 rows exported
+. . exporting table          MGMT_USER_REPORT_DEFS
+                                                            0 rows exported
+. . exporting table     MGMT_USER_SUBTAB_COL_PREFS
+                                                           41 rows exported
+. . exporting table              MGMT_USER_TARGETS
+                                                            0 rows exported
+. . exporting table            MGMT_USER_TEMPLATES
+                                                            0 rows exported
+. . exporting table                  MGMT_VERSIONS
+                                                            5 rows exported
+. . exporting table     MGMT_VIEW_USER_CREDENTIALS
+                                                            1 rows exported
+. . exporting table                MGMT_VIOLATIONS
+                                                          272 rows exported
+. . exporting table     MGMT_V_CLUSTER_MEMBER_LIST
+. . exporting table  MGMT_V_CLUSTER_RAC_POL_DETAIL
+. . exporting table   MGMT_V_RAC_ASSOC_MEMBER_LIST
+. . exporting table         MGMT_V_RAC_MEMBER_LIST
+. about to export MGMT_VIEW's tables via Conventional Path ...
+. about to export FLOWS_FILES's tables via Conventional Path ...
+. about to export APEX_PUBLIC_USER's tables via Conventional Path ...
+. about to export APEX_030200's tables via Conventional Path ...
+. . exporting table          WWV_COLUMN_EXCEPTIONS
+                                                            3 rows exported
+. . exporting table                      WWV_FLOWS
+                                                           10 rows exported
+. . exporting table  WWV_FLOW_ACTIVITY_LOG_NUMBER$
+                                                            1 rows exported
+. . exporting table       WWV_FLOW_ALT_CONFIG_PICK
+                                                           37 rows exported
+. . exporting table    WWV_FLOW_APPLICATION_GROUPS
+                                                            1 rows exported
+. . exporting table                WWV_FLOW_BANNER
+                                                           10 rows exported
+. . exporting table      WWV_FLOW_BUTTON_TEMPLATES
+                                                           12 rows exported
+. . exporting table                  WWV_FLOW_CALS
+                                                           11 rows exported
+. . exporting table         WWV_FLOW_CAL_TEMPLATES
+                                                            9 rows exported
+. . exporting table              WWV_FLOW_CHARSETS
+                                                           32 rows exported
+. . exporting table WWV_FLOW_CLICKTHRU_LOG_NUMBER$
+                                                            1 rows exported
+. . exporting table             WWV_FLOW_COMPANIES
+                                                            3 rows exported
+. . exporting table       WWV_FLOW_COMPANY_SCHEMAS
+                                                            1 rows exported
+. . exporting table         WWV_FLOW_COMPANY_TYPES
+                                                           32 rows exported
+. . exporting table          WWV_FLOW_COMPUTATIONS
+                                                           14 rows exported
+. . exporting table             WWV_FLOW_COUNTRIES
+                                                          240 rows exported
+. . exporting table    WWV_FLOW_CUSTOM_AUTH_SETUPS
+                                                           11 rows exported
+. . exporting table               WWV_FLOW_DB_AUTH
+                                                            1 rows exported
+. . exporting table       WWV_FLOW_DEVELOPER_ROLES
+                                                            9 rows exported
+. . exporting table           WWV_FLOW_DICTIONARY$
+......................................................................
+                                                        70601 rows exported
+. . exporting table               WWV_FLOW_DUAL100
+                                                          100 rows exported
+. . exporting table       WWV_FLOW_FIELD_TEMPLATES
+                                                           36 rows exported
+. . exporting table          WWV_FLOW_FLASH_CHARTS
+                                                            5 rows exported
+. . exporting table    WWV_FLOW_FLASH_CHART_SERIES
+                                                            5 rows exported
+. . exporting table              WWV_FLOW_FND_USER
+                                                            1 rows exported
+. . exporting table       WWV_FLOW_HNT_COLUMN_INFO
+                                                           58 rows exported
+. . exporting table        WWV_FLOW_HNT_TABLE_INFO
+                                                            8 rows exported
+. . exporting table              WWV_FLOW_ICON_BAR
+                                                           12 rows exported
+. . exporting table               WWV_FLOW_INSTALL
+                                                            2 rows exported
+. . exporting table                 WWV_FLOW_ITEMS
+                                                           89 rows exported
+. . exporting table       WWV_FLOW_JOB_BIND_VALUES
+                                                            0 rows exported
+. . exporting table             WWV_FLOW_LANGUAGES
+                                                          132 rows exported
+. . exporting table          WWV_FLOW_LANGUAGE_MAP
+                                                           90 rows exported
+. . exporting table                 WWV_FLOW_LISTS
+                                                          601 rows exported
+. . exporting table      WWV_FLOW_LISTS_OF_VALUES$
+                                                          959 rows exported
+. . exporting table            WWV_FLOW_LIST_ITEMS
+...
+                                                         3048 rows exported
+. . exporting table   WWV_FLOW_LIST_OF_VALUES_DATA
+....
+                                                         4184 rows exported
+. . exporting table        WWV_FLOW_LIST_TEMPLATES
+                                                          105 rows exported
+. . exporting table              WWV_FLOW_LOV_TEMP
+. . exporting table            WWV_FLOW_LOV_VALUES
+                                                            6 rows exported
+. . exporting table                 WWV_FLOW_MENUS
+                                                            7 rows exported
+. . exporting table          WWV_FLOW_MENU_OPTIONS
+.
+                                                         1452 rows exported
+. . exporting table        WWV_FLOW_MENU_TEMPLATES
+                                                            8 rows exported
+. . exporting table             WWV_FLOW_MESSAGES$
+...
+                                                         3706 rows exported
+. . exporting table     WWV_FLOW_PAGE_GENERIC_ATTR
+                                                           44 rows exported
+. . exporting table           WWV_FLOW_PAGE_GROUPS
+                                                          105 rows exported
+. . exporting table            WWV_FLOW_PAGE_PLUGS
+.......
+                                                         7417 rows exported
+. . exporting table   WWV_FLOW_PAGE_PLUG_TEMPLATES
+                                                          166 rows exported
+. . exporting table      WWV_FLOW_PASSWORD_HISTORY
+                                                            1 rows exported
+. . exporting table               WWV_FLOW_PATCHES
+                                                            9 rows exported
+. . exporting table        WWV_FLOW_PICK_END_USERS
+                                                            4 rows exported
+. . exporting table       WWV_FLOW_PICK_PAGE_VIEWS
+                                                            5 rows exported
+. . exporting table        WWV_FLOW_PLATFORM_PREFS
+                                                           21 rows exported
+. . exporting table    WWV_FLOW_POPUP_LOV_TEMPLATE
+                                                           10 rows exported
+. . exporting table            WWV_FLOW_PROCESSING
+                                                           45 rows exported
+. . exporting table          WWV_FLOW_QUERY_COLUMN
+                                                           18 rows exported
+. . exporting table       WWV_FLOW_QUERY_CONDITION
+                                                            6 rows exported
+. . exporting table      WWV_FLOW_QUERY_DEFINITION
+                                                            6 rows exported
+. . exporting table          WWV_FLOW_QUERY_OBJECT
+                                                            6 rows exported
+. . exporting table         WWV_FLOW_RANDOM_IMAGES
+                                                           42 rows exported
+. . exporting table  WWV_FLOW_REGION_REPORT_COLUMN
+.......
+                                                         7918 rows exported
+. . exporting table   WWV_FLOW_REGION_UPD_RPT_COLS
+                                                          439 rows exported
+. . exporting table    WWV_FLOW_RESTRICTED_SCHEMAS
+                                                           46 rows exported
+. . exporting table         WWV_FLOW_ROW_TEMPLATES
+                                                           54 rows exported
+. . exporting table      WWV_FLOW_SECURITY_SCHEMES
+                                                           19 rows exported
+. . exporting table             WWV_FLOW_SHORTCUTS
+                                                           39 rows exported
+. . exporting table          WWV_FLOW_STANDARD_CSS
+                                                           27 rows exported
+. . exporting table        WWV_FLOW_STANDARD_ICONS
+                                                          319 rows exported
+. . exporting table           WWV_FLOW_STANDARD_JS
+                                                            2 rows exported
+. . exporting table                 WWV_FLOW_STEPS
+.
+                                                         1755 rows exported
+. . exporting table         WWV_FLOW_STEP_BRANCHES
+...
+                                                         3255 rows exported
+. . exporting table          WWV_FLOW_STEP_BUTTONS
+...
+                                                         3513 rows exported
+. . exporting table     WWV_FLOW_STEP_COMPUTATIONS
+                                                          984 rows exported
+. . exporting table            WWV_FLOW_STEP_ITEMS
+.........
+                                                         9673 rows exported
+. . exporting table        WWV_FLOW_STEP_ITEM_HELP
+......
+                                                         6335 rows exported
+. . exporting table       WWV_FLOW_STEP_PROCESSING
+..
+                                                         2239 rows exported
+. . exporting table      WWV_FLOW_STEP_VALIDATIONS
+.
+                                                         1990 rows exported
+. . exporting table    WWV_FLOW_SW_CREATE_KEYWORDS
+                                                           10 rows exported
+. . exporting table      WWV_FLOW_SW_MAIN_KEYWORDS
+                                                          199 rows exported
+. . exporting table       WWV_FLOW_SW_SET_KEYWORDS
+                                                            4 rows exported
+. . exporting table        WWV_FLOW_SW_SQLPLUS_CMD
+                                                            8 rows exported
+. . exporting table                  WWV_FLOW_TABS
+                                                            3 rows exported
+. . exporting table             WWV_FLOW_TEMPLATES
+                                                           64 rows exported
+. . exporting table            WWV_FLOW_TEMP_TABLE
+. . exporting table            WWV_FLOW_TEMP_TREES
+. . exporting table                WWV_FLOW_THEMES
+                                                           10 rows exported
+. . exporting table         WWV_FLOW_TOPLEVEL_TABS
+                                                            5 rows exported
+. . exporting table    WWV_FLOW_TRANSLATABLE_COLS$
+                                                          232 rows exported
+. . exporting table                 WWV_FLOW_TREES
+                                                            3 rows exported
+. . exporting table      WWV_FLOW_UPGRADE_PROGRESS
+                                                           89 rows exported
+. . exporting table  WWV_FLOW_UPG_TAB_NAME_CHANGES
+                                                           42 rows exported
+. . exporting table      WWV_FLOW_UPG_TAB_OBSOLETE
+                                                           17 rows exported
+. . exporting table  WWV_FLOW_USER_ACCESS_LOG_NUM$
+                                                            1 rows exported
+. . exporting table            WWV_FLOW_WORKSHEETS
+                                                           30 rows exported
+. . exporting table     WWV_FLOW_WORKSHEET_COLUMNS
+                                                          721 rows exported
+. . exporting table        WWV_FLOW_WORKSHEET_RPTS
+                                                           30 rows exported
+. . exporting table    WWV_FLOW_WORKSPACE_REQ_SIZE
+                                                           14 rows exported
+. . exporting table               WWV_MIG_EXPORTER
+                                                            5 rows exported
+. . exporting table                  WWV_MIG_FORMS
+                                                            0 rows exported
+. . exporting table              WWV_MIG_FRM_MENUS
+                                                            0 rows exported
+. . exporting table WWV_MIG_FRM_OLB_XMLTAGTABLEMAP
+                                                           45 rows exported
+. . exporting table     WWV_MIG_FRM_XMLTAGTABLEMAP
+                                                           36 rows exported
+. . exporting table    WWV_MIG_MENU_XMLTAGTABLEMAP
+                                                            7 rows exported
+. . exporting table                    WWV_MIG_OLB
+                                                            0 rows exported
+. . exporting table             WWV_MIG_PLSQL_LIBS
+                                                            0 rows exported
+. . exporting table         WWV_MIG_RESERVED_WORDS
+                                                           87 rows exported
+. . exporting table                   WWV_MIG_RPTS
+                                                            0 rows exported
+. . exporting table     WWV_MIG_RPT_XMLTAGTABLEMAP
+                                                           15 rows exported
+. about to export OWBSYS's tables via Conventional Path ...
+. about to export OWBSYS_AUDIT's tables via Conventional Path ...
+. about to export SCOTT's tables via Conventional Path ...
+. . exporting table                           DEPT
+                                                            4 rows exported
+. . exporting table                            EMP
+                                                           14 rows exported
+. . exporting table                       SALGRADE
+                                                            5 rows exported
+. about to export HR's tables via Conventional Path ...
+. . exporting table                      COUNTRIES
+                                                           25 rows exported
+. . exporting table                    DEPARTMENTS
+                                                           27 rows exported
+. . exporting table                      EMPLOYEES
+                                                          107 rows exported
+. . exporting table                           JOBS
+                                                           19 rows exported
+. . exporting table                    JOB_HISTORY
+                                                           10 rows exported
+. . exporting table                      LOCATIONS
+                                                           23 rows exported
+. . exporting table                        REGIONS
+                                                            4 rows exported
+. about to export OE's tables via Conventional Path ...
+. . exporting table                 CATEGORIES_TAB
+                                                           22 rows exported
+. . exporting table     PRODUCT_REF_LIST_NESTEDTAB
+                                                          288 rows exported
+. . exporting table SUBCATEGORY_REF_LIST_NESTEDTAB
+                                                           21 rows exported
+. . exporting table                      CUSTOMERS
+                                                          319 rows exported
+. . exporting table                    INVENTORIES
+.
+                                                         1112 rows exported
+. . exporting table                         ORDERS
+                                                          105 rows exported
+. . exporting table                    ORDER_ITEMS
+                                                          665 rows exported
+. . exporting table           PRODUCT_DESCRIPTIONS
+........
+                                                         8640 rows exported
+. . exporting table            PRODUCT_INFORMATION
+                                                          288 rows exported
+. . exporting table                     PROMOTIONS
+                                                            2 rows exported
+EXP-00079: Data in table "PURCHASEORDER" is protected. Conventional path may only be exporting partial table.
+. . exporting table                  PURCHASEORDER
+                                                          132 rows exported
+. . exporting table                     WAREHOUSES
+                                                            9 rows exported
+. about to export IX's tables via Conventional Path ...
+. . exporting table        AQ$_ORDERS_QUEUETABLE_G
+                                                            0 rows exported
+. . exporting table        AQ$_ORDERS_QUEUETABLE_H
+                                                            0 rows exported
+. . exporting table        AQ$_ORDERS_QUEUETABLE_I
+                                                            0 rows exported
+. . exporting table        AQ$_ORDERS_QUEUETABLE_L
+                                                            0 rows exported
+. . exporting table        AQ$_ORDERS_QUEUETABLE_S
+                                                            4 rows exported
+. . exporting table        AQ$_ORDERS_QUEUETABLE_T
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_C
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_G
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_H
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_I
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_L
+                                                            0 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_S
+                                                            1 rows exported
+. . exporting table      AQ$_STREAMS_QUEUE_TABLE_T
+                                                            0 rows exported
+. . exporting table              ORDERS_QUEUETABLE
+                                                            0 rows exported
+. . exporting table            STREAMS_QUEUE_TABLE
+                                                            0 rows exported
+. about to export SH's tables via Conventional Path ...
+. . exporting table             CAL_MONTH_SALES_MV
+                                                           48 rows exported
+. . exporting table                       CHANNELS
+                                                            5 rows exported
+. . exporting table                          COSTS
+. . exporting partition                     COSTS_1995
+                                                            0 rows exported
+. . exporting partition                     COSTS_1996
+                                                            0 rows exported
+. . exporting partition                  COSTS_H1_1997
+                                                            0 rows exported
+. . exporting partition                  COSTS_H2_1997
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q1_1998
+....
+                                                         4411 rows exported
+. . exporting partition                  COSTS_Q2_1998
+..
+                                                         2397 rows exported
+. . exporting partition                  COSTS_Q3_1998
+....
+                                                         4129 rows exported
+. . exporting partition                  COSTS_Q4_1998
+....
+                                                         4577 rows exported
+. . exporting partition                  COSTS_Q1_1999
+.....
+                                                         5884 rows exported
+. . exporting partition                  COSTS_Q2_1999
+....
+                                                         4179 rows exported
+. . exporting partition                  COSTS_Q3_1999
+....
+                                                         4336 rows exported
+. . exporting partition                  COSTS_Q4_1999
+.....
+                                                         5060 rows exported
+. . exporting partition                  COSTS_Q1_2000
+...
+                                                         3772 rows exported
+. . exporting partition                  COSTS_Q2_2000
+...
+                                                         3715 rows exported
+. . exporting partition                  COSTS_Q3_2000
+....
+                                                         4798 rows exported
+. . exporting partition                  COSTS_Q4_2000
+.....
+                                                         5088 rows exported
+. . exporting partition                  COSTS_Q1_2001
+.......
+                                                         7328 rows exported
+. . exporting partition                  COSTS_Q2_2001
+.....
+                                                         5882 rows exported
+. . exporting partition                  COSTS_Q3_2001
+.......
+                                                         7545 rows exported
+. . exporting partition                  COSTS_Q4_2001
+.........
+                                                         9011 rows exported
+. . exporting partition                  COSTS_Q1_2002
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q2_2002
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q3_2002
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q4_2002
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q1_2003
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q2_2003
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q3_2003
+                                                            0 rows exported
+. . exporting partition                  COSTS_Q4_2003
+                                                            0 rows exported
+. . exporting table                      COUNTRIES
+                                                           23 rows exported
+. . exporting table                      CUSTOMERS
+.......................................................
+                                                        55500 rows exported
+. . exporting table           FWEEK_PSCAT_SALES_MV
+...........
+                                                        11266 rows exported
+. . exporting table                       PRODUCTS
+                                                           72 rows exported
+. . exporting table                     PROMOTIONS
+                                                          503 rows exported
+. . exporting table                          SALES
+. . exporting partition                     SALES_1995
+                                                            0 rows exported
+. . exporting partition                     SALES_1996
+                                                            0 rows exported
+. . exporting partition                  SALES_H1_1997
+                                                            0 rows exported
+. . exporting partition                  SALES_H2_1997
+                                                            0 rows exported
+. . exporting partition                  SALES_Q1_1998
+...........................................
+                                                        43687 rows exported
+. . exporting partition                  SALES_Q2_1998
+...................................
+                                                        35758 rows exported
+. . exporting partition                  SALES_Q3_1998
+..................................................
+                                                        50515 rows exported
+. . exporting partition                  SALES_Q4_1998
+................................................
+                                                        48874 rows exported
+. . exporting partition                  SALES_Q1_1999
+................................................................
+                                                        64186 rows exported
+. . exporting partition                  SALES_Q2_1999
+......................................................
+                                                        54233 rows exported
+. . exporting partition                  SALES_Q3_1999
+...................................................................
+                                                        67138 rows exported
+. . exporting partition                  SALES_Q4_1999
+..............................................................
+                                                        62388 rows exported
+. . exporting partition                  SALES_Q1_2000
+..............................................................
+                                                        62197 rows exported
+. . exporting partition                  SALES_Q2_2000
+.......................................................
+                                                        55515 rows exported
+. . exporting partition                  SALES_Q3_2000
+..........................................................
+                                                        58950 rows exported
+. . exporting partition                  SALES_Q4_2000
+.......................................................
+                                                        55984 rows exported
+. . exporting partition                  SALES_Q1_2001
+............................................................
+                                                        60608 rows exported
+. . exporting partition                  SALES_Q2_2001
+...............................................................
+                                                        63292 rows exported
+. . exporting partition                  SALES_Q3_2001
+.................................................................
+                                                        65769 rows exported
+. . exporting partition                  SALES_Q4_2001
+.....................................................................
+                                                        69749 rows exported
+. . exporting partition                  SALES_Q1_2002
+                                                            0 rows exported
+. . exporting partition                  SALES_Q2_2002
+                                                            0 rows exported
+. . exporting partition                  SALES_Q3_2002
+                                                            0 rows exported
+. . exporting partition                  SALES_Q4_2002
+                                                            0 rows exported
+. . exporting partition                  SALES_Q1_2003
+                                                            0 rows exported
+. . exporting partition                  SALES_Q2_2003
+                                                            0 rows exported
+. . exporting partition                  SALES_Q3_2003
+                                                            0 rows exported
+. . exporting partition                  SALES_Q4_2003
+                                                            0 rows exported
+. . exporting table         SALES_TRANSACTIONS_EXT
+. . exporting table     SUPPLEMENTARY_DEMOGRAPHICS
+....
+                                                         4500 rows exported
+. . exporting table                          TIMES
+.
+                                                         1826 rows exported
+. about to export PM's tables via Conventional Path ...
+. . exporting table                   ONLINE_MEDIA
+                                                            9 rows exported
+. . exporting table                    PRINT_MEDIA
+                                                            4 rows exported
+. . exporting table             TEXTDOCS_NESTEDTAB
+                                                           12 rows exported
+. about to export BI's tables via Conventional Path ...
+. about to export POS's tables via Conventional Path ...
+. about to export POSWAREHOUSE's tables via Conventional Path ...
+. . exporting table                    ADMIN_LOGIN
+                                                            4 rows exported
+. . exporting table                    AspNetUsers
+                                                            1 rows exported
+. . exporting table     CIRCULAR_PRICE_CHANGE_MAIN
+                                                           18 rows exported
+. . exporting table     CIRCULAR_PRICE_CHANGE_SHOP
+                                                           17 rows exported
+. . exporting table      CIRCULAR_PRICE_CHANGE_SUB
+                                                           34 rows exported
+. . exporting table         CIR_DIS_PROMOTION_MAIN
+                                                            1 rows exported
+. . exporting table         CIR_DIS_PROMOTION_SHOP
+                                                            2 rows exported
+. . exporting table          CIR_DIS_PROMOTION_SUB
+                                                            2 rows exported
+. . exporting table                       CUSTOMER
+                                                           14 rows exported
+. . exporting table                  CUSTOMER_SALE
+                                                           14 rows exported
+. . exporting table           DAMAGE_TRANSFER_ITEM
+                                                            6 rows exported
+. . exporting table           DAMAGE_TRANSFER_MAIN
+                                                            3 rows exported
+. . exporting table                DISCOUNT_POLICY
+                                                            0 rows exported
+. . exporting table       DISCOUNT_POLICY_CATEGORY
+                                                            0 rows exported
+. . exporting table   DISCOUNT_POLICY_SUB_CATEGORY
+                                                            0 rows exported
+. . exporting table          EMPLOYEE_DISTRIBUTION
+                                                            4 rows exported
+. . exporting table        GIFT_VOUCHER_CODE_PRINT
+                                                           10 rows exported
+. . exporting table          GIFT_VOUCHER_DELIVERY
+                                                           15 rows exported
+. . exporting table           GIFT_VOUCHER_DEPOSIT
+                                                            6 rows exported
+. . exporting table          GIFT_VOUCHER_GENERATE
+                                                            3 rows exported
+. . exporting table              GIFT_VOUCHER_ITEM
+                                                           35 rows exported
+. . exporting table                  LOGIN_HISTORY
+.
+                                                         1599 rows exported
+. . exporting table                    L_ATTRIBUTE
+                                                            3 rows exported
+. . exporting table              L_ATTRIBUTE_VALUE
+                                                           15 rows exported
+. . exporting table                        L_BRAND
+                                                            1 rows exported
+. . exporting table                    L_CARD_TYPE
+                                                            3 rows exported
+. . exporting table                     L_CATEGORY
+                                                            5 rows exported
+. . exporting table                      L_COUNTRY
+                                                            3 rows exported
+. . exporting table                L_CUSTOMER_TYPE
+                                                            3 rows exported
+. . exporting table             L_MATERIAL_DETAILS
+                                                            5 rows exported
+. . exporting table           L_OTHER_COST_DETAILS
+                                                            4 rows exported
+. . exporting table                 L_PAYMENT_TYPE
+                                                            3 rows exported
+. . exporting table                L_REGISTER_INFO
+                                                            1 rows exported
+. . exporting table                       L_SEASON
+                                                            5 rows exported
+. . exporting table                 L_SUB_CATEGORY
+                                                            6 rows exported
+. . exporting table                         L_UNIT
+                                                            2 rows exported
+. . exporting table                          L_VAT
+                                                            1 rows exported
+. . exporting table                       L_VENDOR
+                                                            1 rows exported
+. . exporting table                      MENU_MAIN
+                                                           12 rows exported
+. . exporting table            MENU_MAIN_PERMISION
+                                                           12 rows exported
+. . exporting table                       MENU_SUB
+                                                           57 rows exported
+. . exporting table             MENU_SUB_PERMISION
+                                                           57 rows exported
+. . exporting table          MERCHANDISER_DESIGNER
+                                                           26 rows exported
+. . exporting table            OTHER_COMPANY_OFFER
+                                                            6 rows exported
+. . exporting table         OTHER_PURCHASE_RECEIVE
+                                                            6 rows exported
+. . exporting table        O_PURCHASE_RECEIVE_ITEM
+                                                           13 rows exported
+. . exporting table                     PO_CUTTING
+                                                            0 rows exported
+. . exporting table                PO_CUTTING_ITEM
+                                                            0 rows exported
+. . exporting table           PRINTED_BARCODE_ITEM
+                                                            2 rows exported
+. . exporting table                        PRODUCT
+                                                           11 rows exported
+. . exporting table             PRODUCT_ATTRIBUTES
+                                                           31 rows exported
+. . exporting table                   PRODUCT_ITEM
+                                                           36 rows exported
+. . exporting table         PRODUCT_ITEM_ATTRIBUTE
+                                                          100 rows exported
+. . exporting table  PRODUCT_MATERIAL_COST_DETAILS
+                                                            9 rows exported
+. . exporting table     PRODUCT_OTHER_COST_DETAILS
+                                                            2 rows exported
+. . exporting table                 PURCHASE_ORDER
+                                                            6 rows exported
+. . exporting table          PURCHASE_ORDER_FABRIC
+                                                           14 rows exported
+. . exporting table            PURCHASE_ORDER_ITEM
+                                                           64 rows exported
+. . exporting table               PURCHASE_RECEIVE
+                                                           29 rows exported
+. . exporting table          PURCHASE_RECEIVE_ITEM
+                                                          193 rows exported
+. . exporting table               REQUISITION_MAIN
+                                                            1 rows exported
+. . exporting table          REQUISITION_MAIN_ITEM
+                                                            6 rows exported
+. . exporting table        RPT_DC_PERIODICAL_STOCK
+                                                            5 rows exported
+. . exporting table           RPT_PERIODICAL_STOCK
+                                                            6 rows exported
+. . exporting table          RPT_SALES_MAN_SUMMARY
+                                                            8 rows exported
+. . exporting table                RPT_SALE_MASTER
+                                                            9 rows exported
+. . exporting table               RPT_SALE_MONITOR
+                                                           19 rows exported
+. . exporting table               RPT_SALE_SUMMARY
+                                                            6 rows exported
+. . exporting table                RPT_SALE_SUM_CS
+                                                            2 rows exported
+. . exporting table          RPT_SHOP_STOCK_MASTER
+                                                           17 rows exported
+. . exporting table          RPT_STOCK_STY_SUMMARY
+                                                            1 rows exported
+. . exporting table           RPT_STYLE_LUNCH_DATE
+                                                            5 rows exported
+. . exporting table                      SALE_INFO
+                                                           12 rows exported
+. . exporting table                      SALE_ITEM
+                                                           25 rows exported
+. . exporting table              SALE_PAYMENT_INFO
+                                                           12 rows exported
+. . exporting table                       SARA_BAG
+                                                            1 rows exported
+. . exporting table                   SARA_BAG_CAL
+                                                            0 rows exported
+. . exporting table                           SHOP
+                                                            7 rows exported
+. . exporting table                    SHOP_LAUNCH
+                                                            1 rows exported
+. . exporting table          SHOP_REQUISITION_MAIN
+                                                            1 rows exported
+. . exporting table     SHOP_REQUISITION_MAIN_ITEM
+                                                            2 rows exported
+. . exporting table         SHOP_REQ_DELIVERY_ITEM
+                                                            0 rows exported
+. . exporting table         SHOP_REQ_DELIVERY_MAIN
+                                                            0 rows exported
+. . exporting table           SHOP_TO_SHOP_EX_ITEM
+                                                            2 rows exported
+. . exporting table           SHOP_TO_SHOP_EX_MAIN
+                                                            2 rows exported
+. . exporting table            STOCK_TRANSFER_ITEM
+                                                           12 rows exported
+. . exporting table            STOCK_TRANSFER_MAIN
+                                                            6 rows exported
+. . exporting table          STOCK_TR_RECEIVE_ITEM
+                                                            2 rows exported
+. . exporting table          STOCK_TR_RECEIVE_MAIN
+                                                            1 rows exported
+. . exporting table                 STORE_DELIVERY
+                                                            6 rows exported
+. . exporting table            STORE_DELIVERY_ITEM
+                                                           25 rows exported
+. . exporting table            USER_ACTION_HISTORY
+......
+                                                         6550 rows exported
+. . exporting table          USER_ACTION_PERMISION
+                                                           10 rows exported
+. . exporting table                 VOID_SALE_INFO
+                                                            1 rows exported
+. . exporting table                 VOID_SALE_ITEM
+                                                            2 rows exported
+. . exporting table         VOID_SALE_PAYMENT_INFO
+                                                            1 rows exported
+. . exporting table                     WARE_HOUSE
+                                                            1 rows exported
+. . exporting table             __MigrationHistory
+                                                            1 rows exported
+. about to export SARAECOMMERCE's tables via Conventional Path ...
+. . exporting table                    ADMIN_LOGIN
+                                                            2 rows exported
+. . exporting table                    AspNetUsers
+                                                            7 rows exported
+. . exporting table               CUSTOMER_CONTACT
+                                                            1 rows exported
+. . exporting table                 CUSTOMER_ORDER
+                                                            4 rows exported
+. . exporting table           EMPLOYEE_INFORMATION
+                                                           27 rows exported
+. . exporting table                HOMEPAGE_BANNER
+                                                            3 rows exported
+. . exporting table                HOMEPAGE_SLIDER
+                                                            4 rows exported
+. . exporting table                  LOGIN_HISTORY
+                                                          398 rows exported
+. . exporting table                     L_CATEGORY
+                                                            3 rows exported
+. . exporting table                        L_COLOR
+                                                           97 rows exported
+. . exporting table                       L_FABRIC
+                                                           30 rows exported
+. . exporting table             L_MEASUREMENT_UNIT
+                                                            1 rows exported
+. . exporting table                        L_RATIO
+                                                            2 rows exported
+. . exporting table                         L_SIZE
+                                                           20 rows exported
+. . exporting table                 L_SUB_CATEGORY
+                                                           21 rows exported
+. . exporting table             L_SUB_SUB_CATEGORY
+                                                           25 rows exported
+. . exporting table                      MENU_MAIN
+                                                           12 rows exported
+. . exporting table                       MENU_SUB
+                                                           44 rows exported
+. . exporting table                  ORDER_HISTORY
+                                                           10 rows exported
+. . exporting table                        PRODUCT
+                                                           34 rows exported
+. . exporting table                  PRODUCT_COLOR
+                                                           38 rows exported
+. . exporting table                PRODUCT_DETAILS
+                                                           34 rows exported
+. . exporting table                  PRODUCT_IMAGE
+                                                           38 rows exported
+. . exporting table              PRODUCT_INVENTORY
+                                                          204 rows exported
+. . exporting table                  PRODUCT_PRICE
+                                                           34 rows exported
+. . exporting table          PRODUCT_PRICE_HISTORY
+                                                           55 rows exported
+. . exporting table                   PRODUCT_SIZE
+                                                          170 rows exported
+. . exporting table           PROMOTIONAL_PRODUCTS
+                                                            5 rows exported
+. . exporting table               TRENDING_PRODUCT
+                                                            6 rows exported
+. about to export POSSHOP's tables via Conventional Path ...
+. . exporting table                    ADMIN_LOGIN
+                                                            3 rows exported
+. . exporting table         CIR_DIS_PROMOTION_INFO
+                                                            0 rows exported
+. . exporting table                        CS_TEMP
+                                                            0 rows exported
+. . exporting table                  CUSTOMER_INFO
+...
+                                                         3990 rows exported
+. . exporting table                  CUSTOMER_SALE
+                                                           16 rows exported
+. . exporting table                    DAMAGE_MAIN
+                                                            2 rows exported
+. . exporting table               DAMAGE_MAIN_ITEM
+                                                            2 rows exported
+. . exporting table              DELIVERED_PRODUCT
+........
+                                                         8108 rows exported
+. . exporting table          EMPLOYEE_DISTRIBUTION
+                                                           18 rows exported
+. . exporting table               EXCHANGE_HISTORY
+                                                            2 rows exported
+. . exporting table          GIFT_VOUCHER_DELIVERY
+                                                           17 rows exported
+. . exporting table              GIFT_VOUCHER_SALE
+                                                            0 rows exported
+. . exporting table                  LOGIN_HISTORY
+                                                          670 rows exported
+. . exporting table                  L_MARKETPLACE
+                                                            4 rows exported
+. . exporting table                      MENU_MAIN
+                                                           13 rows exported
+. . exporting table            MENU_MAIN_PERMISION
+                                                           13 rows exported
+. . exporting table                       MENU_SUB
+                                                           24 rows exported
+. . exporting table             MENU_SUB_PERMISION
+                                                           24 rows exported
+. . exporting table            OTHER_COMPANY_OFFER
+                                                            0 rows exported
+. . exporting table                   PAYMENT_TYPE
+                                                           25 rows exported
+. . exporting table           PRICE_CHANGE_HISTORY
+                                                            0 rows exported
+. . exporting table               REQUISITION_MAIN
+                                                            1 rows exported
+. . exporting table          REQUISITION_MAIN_ITEM
+                                                            6 rows exported
+. . exporting table                 RETURN_HISTORY
+                                                            0 rows exported
+. . exporting table                   RPT_FOR_SHOP
+                                                            1 rows exported
+. . exporting table               RPT_SALE_SUMMARY
+                                                            8 rows exported
+. . exporting table                      SALE_INFO
+                                                           12 rows exported
+. . exporting table              SALE_INFO_HISTORY
+                                                           54 rows exported
+. . exporting table                      SALE_ITEM
+                                                           25 rows exported
+. . exporting table              SALE_ITEM_HISTORY
+                                                           80 rows exported
+. . exporting table              SALE_PAYMENT_INFO
+                                                           12 rows exported
+. . exporting table      SALE_PAYMENT_INFO_HISTORY
+                                                           55 rows exported
+. . exporting table            SEARCH_INVOICE_INFO
+                                                            7 rows exported
+. . exporting table                           SHOP
+                                                            1 rows exported
+. . exporting table         SHOP_REQ_DELIVERY_ITEM
+                                                            0 rows exported
+. . exporting table         SHOP_REQ_DELIVERY_MAIN
+                                                            0 rows exported
+. . exporting table     SHOP_SHOP_REQUISITION_MAIN
+                                                            1 rows exported
+. . exporting table     SHOP_SHOP_REQUIS_MAIN_ITEM
+                                                            2 rows exported
+. . exporting table      SHOP_TO_SHOP_RECEIVE_ITEM
+                                                            0 rows exported
+. . exporting table      SHOP_TO_SHOP_RECEIVE_MAIN
+                                                            0 rows exported
+. . exporting table            STOCK_TRANSFER_ITEM
+                                                           12 rows exported
+. . exporting table            STOCK_TRANSFER_MAIN
+                                                            6 rows exported
+. . exporting table               STORE_HOUSE_MAIN
+                                                            2 rows exported
+. . exporting table          STORE_HOUSE_MAIN_ITEM
+                                                            4 rows exported
+. . exporting table            STORE_HOUSE_PRODUCT
+                                                            3 rows exported
+. . exporting table       STORE_HOUSE_PRODUCT_ITEM
+                                                            8 rows exported
+. . exporting table                  STORE_RECEIVE
+                                                            4 rows exported
+. . exporting table             STORE_RECEIVE_ITEM
+                                                           12 rows exported
+. . exporting table           TRANSIT_PRODUCT_ITEM
+                                                            0 rows exported
+. . exporting table           TRANSIT_PRODUCT_MAIN
+                                                            0 rows exported
+. . exporting table    TRANSIT_PRODUCT_RETURN_ITEM
+                                                            0 rows exported
+. . exporting table    TRANSIT_PRODUCT_RETURN_MAIN
+                                                            0 rows exported
+. . exporting table          USER_ACTION_PERMISION
+                                                            1 rows exported
+. . exporting table                 VOID_SALE_INFO
+                                                            1 rows exported
+. . exporting table                 VOID_SALE_ITEM
+                                                            2 rows exported
+. . exporting table         VOID_SALE_PAYMENT_INFO
+                                                            1 rows exported
+. about to export POSWAREHOUSETEST's tables via Conventional Path ...
+. . exporting table                    ADMIN_LOGIN
+                                                            3 rows exported
+. . exporting table                    AspNetUsers
+                                                            1 rows exported
+. . exporting table     CIRCULAR_PRICE_CHANGE_MAIN
+                                                            0 rows exported
+. . exporting table     CIRCULAR_PRICE_CHANGE_SHOP
+                                                            0 rows exported
+. . exporting table      CIRCULAR_PRICE_CHANGE_SUB
+                                                            0 rows exported
+. . exporting table         CIR_DIS_PROMOTION_MAIN
+                                                            0 rows exported
+. . exporting table         CIR_DIS_PROMOTION_SHOP
+                                                            0 rows exported
+. . exporting table          CIR_DIS_PROMOTION_SUB
+                                                            0 rows exported
+. . exporting table                       CUSTOMER
+                                                            0 rows exported
+. . exporting table                  CUSTOMER_SALE
+                                                            1 rows exported
+. . exporting table                DISCOUNT_POLICY
+                                                            0 rows exported
+. . exporting table       DISCOUNT_POLICY_CATEGORY
+                                                            0 rows exported
+. . exporting table   DISCOUNT_POLICY_SUB_CATEGORY
+                                                            0 rows exported
+. . exporting table          EMPLOYEE_DISTRIBUTION
+                                                            3 rows exported
+. . exporting table          GIFT_VOUCHER_DELIVERY
+                                                            0 rows exported
+. . exporting table          GIFT_VOUCHER_GENERATE
+                                                            0 rows exported
+. . exporting table                  LOGIN_HISTORY
+                                                           12 rows exported
+. . exporting table                    L_ATTRIBUTE
+                                                            3 rows exported
+. . exporting table              L_ATTRIBUTE_VALUE
+                                                            9 rows exported
+. . exporting table                        L_BRAND
+                                                            1 rows exported
+. . exporting table                    L_CARD_TYPE
+                                                            3 rows exported
+. . exporting table                     L_CATEGORY
+                                                            3 rows exported
+. . exporting table                      L_COUNTRY
+                                                            3 rows exported
+. . exporting table                L_CUSTOMER_TYPE
+                                                            3 rows exported
+. . exporting table                 L_PAYMENT_TYPE
+                                                            3 rows exported
+. . exporting table                L_REGISTER_INFO
+                                                            1 rows exported
+. . exporting table                       L_SEASON
+                                                            3 rows exported
+. . exporting table                 L_SUB_CATEGORY
+                                                            6 rows exported
+. . exporting table                         L_UNIT
+                                                            2 rows exported
+. . exporting table                          L_VAT
+                                                            1 rows exported
+. . exporting table                       L_VENDOR
+                                                            1 rows exported
+. . exporting table                      MENU_MAIN
+                                                            9 rows exported
+. . exporting table                       MENU_SUB
+                                                           39 rows exported
+. . exporting table          MERCHANDISER_DESIGNER
+                                                            4 rows exported
+. . exporting table           PRINTED_BARCODE_ITEM
+                                                            4 rows exported
+. . exporting table                        PRODUCT
+                                                            2 rows exported
+. . exporting table             PRODUCT_ATTRIBUTES
+                                                           12 rows exported
+. . exporting table                   PRODUCT_ITEM
+                                                           12 rows exported
+. . exporting table         PRODUCT_ITEM_ATTRIBUTE
+                                                           36 rows exported
+. . exporting table                 PURCHASE_ORDER
+                                                            1 rows exported
+. . exporting table            PURCHASE_ORDER_ITEM
+                                                            8 rows exported
+. . exporting table               PURCHASE_RECEIVE
+                                                            1 rows exported
+. . exporting table          PURCHASE_RECEIVE_ITEM
+                                                            8 rows exported
+. . exporting table               REQUISITION_MAIN
+                                                            1 rows exported
+. . exporting table          REQUISITION_MAIN_ITEM
+                                                            4 rows exported
+. . exporting table                      SALE_INFO
+                                                            1 rows exported
+. . exporting table                      SALE_ITEM
+                                                            2 rows exported
+. . exporting table              SALE_PAYMENT_INFO
+                                                            1 rows exported
+. . exporting table                           SHOP
+                                                            6 rows exported
+. . exporting table                 STORE_DELIVERY
+                                                            2 rows exported
+. . exporting table            STORE_DELIVERY_ITEM
+                                                            8 rows exported
+. . exporting table                     WARE_HOUSE
+                                                            1 rows exported
+. . exporting table             __MigrationHistory
+                                                            1 rows exported
+. about to export WAREHOUSETEST's tables via Conventional Path ...
+. about to export SERVERDB's tables via Conventional Path ...
+. about to export SERVERDB1's tables via Conventional Path ...
+. exporting synonyms
+. exporting views
+. exporting referential integrity constraints
+. exporting stored procedures
+. exporting operators
+. exporting indextypes
+. exporting bitmap, functional and extensible indexes
+. exporting posttables actions
+. exporting triggers
+. exporting materialized views
+. exporting snapshot logs
+. exporting job queues
+. exporting refresh groups and children
+. exporting dimensions
+. exporting post-schema procedural objects and actions
+. exporting user history table
+. exporting default and system auditing options
+. exporting statistics
+Export terminated successfully with warnings.
