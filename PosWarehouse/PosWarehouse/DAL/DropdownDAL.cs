@@ -448,9 +448,17 @@ namespace PosWarehouse.DAL
         public async Task<DataTable> GetGiftVouchervalueListDropdown()
         {
             DataTable dt = new DataTable();
-            var sql = "SELECT GIFT_VOUCHER_ID, GIFT_VOUCHER_VALUE" +
-                      " FROM GIFT_VOUCHER_GENERATE WHERE GIFT_VOUCHER_VALUE " +
-                      "NOT IN(SELECT GIFT_VOUCHER_VALUE FROM GIFT_VOUCHER_DELIVERY)";
+            //var sql = "SELECT GIFT_VOUCHER_ID, GIFT_VOUCHER_VALUE" +
+            //          " FROM GIFT_VOUCHER_GENERATE WHERE GIFT_VOUCHER_VALUE " +
+            //          "NOT IN(SELECT GIFT_VOUCHER_VALUE FROM GIFT_VOUCHER_DELIVERY)";
+
+            var sql = "SELECT GIFT_VOUCHER_ID, GIFT_VOUCHER_VALUE  " +
+                " FROM GIFT_VOUCHER_GENERATE g WHERE (SELECT COUNT(*)   " +
+                " FROM GIFT_VOUCHER_ITEM  " +
+                " WHERE GIFT_VOUCHER_ID = G.GIFT_VOUCHER_ID) <>  " +
+                " (SELECT COUNT(*) " +
+                " FROM GIFT_VOUCHER_DELIVERY   " +
+                " WHERE GIFT_VOUCHER_ID = G.GIFT_VOUCHER_ID)";
 
             OracleCommand objCommand = new OracleCommand(sql);
             OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
@@ -1252,6 +1260,33 @@ namespace PosWarehouse.DAL
             var sql = "SELECT " +
                       "O_PURCHASE_RECEIVE_NUMBER " +
                       "FROM OTHER_PURCHASE_RECEIVE WHERE HOLD_YN = 'Y' ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn; 
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+        
+        public async Task<DataTable> GetLogedInEmployeeDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT EMPLOYEE_ID AS VALUE ,EMPLOYEE_ID ||'--'|| EMPLOYEE_NAME || ' (' || EMPLOYEE_ROLE || ')' AS TEXT  FROM ADMIN_LOGIN";
 
             OracleCommand objCommand = new OracleCommand(sql);
             OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);

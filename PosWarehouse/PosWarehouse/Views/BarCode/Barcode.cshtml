@@ -27,28 +27,74 @@
                         <div class="col-md-12">
                             <div class="portlet light bordered">
                                 <div class="portlet-title">
-                                    <div class="caption font-green-sharp">
+                                    <div class="caption font-green-sharp col-lg-10">
                                         <i class="icon-speech font-green-sharp"></i>
                                         <span class="caption-subject bold uppercase"> Barcode Print</span>
+                                    </div>
+                                    <div class="col-lg-2 text-right">
+                                        <div>
+                                            <label class="control-label" style="color:red; font-size:18px; font-weight:bold;">Other Vendor Barcode</label>
+                                            <input type="checkbox" id="vendorBarcodeChk" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
                                     <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <label class="col-md-3 control-label">Style<span style="color: red">*</span></label>
-                                                <div class="col-md-8">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-barcode"></i>
-                                                        </span>
-                                                        @Html.DropDownListFor(c => c.ProductStyle, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control select2", @id = "productstyle", @style = "max-width: 580px;" })
+                                        <div id="styleBarcodeDiv">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Style<span style="color: red">*</span></label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-barcode"></i>
+                                                            </span>
+                                                            @Html.DropDownListFor(c => c.ProductStyle, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control select2", @id = "productstyle", @style = "max-width: 580px;" })
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-2 text-left">
+                                                <button class="btn btn-success" type="button" id="add"><i class="fa fa-search"></i> Search</button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-2 text-left">
-                                            <button class="btn btn-success" type="button" id="add"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                    <div class="row">
+                                        <div id="excellFileDiv">
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Vendor<span style="color: red">*</span></label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-icon">
+                                                            <i class="fa fa-text-width"></i>
+                                                            @Html.DropDownListFor(c => c.VendorId, new SelectList(ViewBag.VendorList, "Value", "Text",Model.VendorId), new { @class = "form-control input-circle", @id = "vendorId", @style = "max-width: 600px;" })
+                                                            @Html.ValidationMessageFor(c => c.VendorId)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group" style="margin-left:70px">
+                                                    <label class="col-md-3 control-label">Vendor Excel File:</label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-file-excel-o" style="color:green;font-size:20px;"></i>
+                                                            </span>
+                                                            <table border="2">
+                                                                <tr style="height:30px;">
+                                                                    <td>
+                                                                        <input type="file" name="excellFile" id="excellFile" style="margin-left:5px;" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-left">
+                                                <button class="btn btn-primary" type="button" id="upload"><i class="fa fa-upload"></i> Upload</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -142,6 +188,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
 
 <script>
 
@@ -161,7 +209,23 @@
         return false;
     }
 
-    jQuery(document).ready(function() {
+    jQuery(document).ready(function () {
+        $("#excellFileDiv").hide();
+
+        $("#vendorBarcodeChk").click(function () {
+            var excellUploadDiv = $("#vendorBarcodeChk").is(":checked");
+            if (excellUploadDiv) {
+                $("#excellFileDiv").show();
+                $("#styleBarcodeDiv").hide();
+                $("#gridTableBodyForBarCode").html("");
+            }
+            else {
+                $("#excellFileDiv").hide();
+                $("#styleBarcodeDiv").show();
+                $("#gridTableBodyForBarCode").html("");
+            }
+        });
+
         //for select2 dropdownlist
 
         $('.select2').select2({
@@ -175,6 +239,80 @@
             fromDataGetAndSaveLocalStroge();
 
         });
+
+        $("#upload").on("click", function (e) {
+            
+            var vendorId = $("#vendorId option:selected").val();
+
+            if (vendorId != "") {
+                //Reference the FileUpload element.
+                var fileUpload = document.getElementById("excellFile");
+
+                //Validate whether File is valid Excel file.
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+                if (regex.test(fileUpload.value.toLowerCase())) {
+                    if (typeof (FileReader) != "undefined") {
+
+                        var reader = new FileReader();
+
+                        //For Browsers other than IE.
+                        if (reader.readAsBinaryString) {
+                            reader.onload = function (e) {
+                                ProcessExcel(e.target.result);
+                            };
+                            reader.readAsBinaryString(fileUpload.files[0]);
+                        }
+                    } else {
+                        alert("This browser does not support HTML5.");
+                    }
+                } else {
+                    alert("Please upload a valid Excel file.");
+                }
+            } else {
+                alert("Select Vendor!.");
+            }
+           
+        });
+
+        function ProcessExcel(data) {
+
+            var vendorName = $("#vendorId option:selected").text();
+
+            //Read the Excel File data.
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+
+            //Fetch the name of First Sheet.
+            var firstSheet = workbook.SheetNames[0];
+
+            //Read all rows from First Sheet into an JSON array.
+            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+
+            $("#gridTableBodyForBarCode").html("");
+
+            //Add the data rows from Excel file.
+            for (var i = 0; i < excelRows.length; i++) {
+                    $("#gridTableBodyForBarCode").append('<tr>' +
+                        '<td>' +
+                        excelRows[i].Material +
+                        '</td>' +
+                        '<td>' +
+                        excelRows[i].ArticleDescription +
+                        '</td>' +
+                        '<td>' +
+                        excelRows[i].MRP +
+                        '</td>' +
+                        '<td>' +
+                        vendorName +
+                        '</td>' +
+                        '<td style="width: 10%">' +
+                        '<input type="number" class="valrequired form-control input-circle" id="quantity" value="' + excelRows[i].Quantity +'" placeholder="Quantity">' +
+                        '</td>' +
+                        '<td><a data-itemId="0" href="#" class="deleteItem btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Remove</a></td>' +
+                        '</tr>');
+            }
+        };
 
         function fromDataGetAndSaveLocalStroge() {
             var productstyle = $("#productstyle option:selected").text();
@@ -277,6 +415,10 @@
         });
 
         function gridPrint() {
+
+            var vendorId = $("#vendorId option:selected").val();
+            var vendorName = $("#vendorId option:selected").text();
+
             var allTableValue = [];
             allTableValue.length = 0;
 
@@ -287,14 +429,15 @@
                         ItemName: $(this).find('td:eq(1)').text(),
                         SalePrice: $(this).find('td:eq(2)').text(),
                         BrandName: $(this).find('td:eq(3)').text(),
-                        quantity: $(this).find('#quantity').val()
+                        quantity: $(this).find('#quantity').val(),
+                        VendorId: vendorId,
                     });
                 });
 
             var dataList = JSON.stringify({ objBarCodeModel: allTableValue });
 
             if (allTableValue != "") {
-                
+
                 if (tableQuantityValidation()) {
                     $.ajax({
                         type: 'POST',
@@ -307,7 +450,14 @@
                         },
                         success: function (data) {
                             if (data.length > 0) {
-                                window.open('/Report/PrintBarcode/', '_blank');
+                                
+                                if (vendorId == "") {
+                                    window.open('/Report/PrintBarcode/', '_blank');
+                                }
+                                else {
+                                    window.open('/Report/VendorPrintBarcode/', '_blank');
+                                }
+
                             } else {
                                 toastr.error("This Data Cann't Saved !!");
                                 $('#preLoader').hide();
@@ -320,7 +470,7 @@
                     toastr.error("Quantity Cann't Be Empty!");
                     $('#preLoader').hide();
                 }
-               
+
 
             } else {
                 toastr.error("No Data found !! Select data..");

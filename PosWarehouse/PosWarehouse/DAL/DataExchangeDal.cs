@@ -134,7 +134,7 @@ namespace PosWarehouse.DAL
 
             objOracleCommand.Parameters.Add("P_REQUI_MAIN_ITEM_AUTO_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objRequisitionMainItemModel.RequisitionMainItemAutoId;
             objOracleCommand.Parameters.Add("P_REQUISITION_MAIN_ITEM_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objRequisitionMainItemModel.RequisitionMainItemId;
-            objOracleCommand.Parameters.Add("P_REQUISITION_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objRequisitionMainItemModel.RequisitionId;
+            objOracleCommand.Parameters.Add("P_REQUISITION_AUTO_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objRequisitionMainItemModel.RequisitionAutoId;
             objOracleCommand.Parameters.Add("P_BARCODE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.Barcode) ? objRequisitionMainItemModel.Barcode : null;
             objOracleCommand.Parameters.Add("P_ITEM_NAME", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.ItemName) ? objRequisitionMainItemModel.ItemName : null;
             objOracleCommand.Parameters.Add("P_PRICE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objRequisitionMainItemModel.Price) ? objRequisitionMainItemModel.Price : null;

@@ -1569,6 +1569,56 @@ namespace PosWarehouse.Controllers.Report
 
         #endregion
 
+        #region "GiftVoucher History"
 
+        [RoleFilter]
+        public async Task<ActionResult> GiftVoucharHistory()
+        {
+            //await GetUpdateData();
+            LoadSession();
+            var giftVoucherHitoryModel = new GiftVoucherHistoryReport();
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+
+            return View(giftVoucherHitoryModel);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> GiftVoucharHistory(GiftVoucherHistoryReport giftVoucherHitoryModel)
+        {
+            LoadSession();
+            if (giftVoucherHitoryModel.ReportType == "1")
+            {
+                giftVoucherHitoryModel.ReportType = "PDF";
+                
+                if (giftVoucherHitoryModel.RadioFor == "GVD")
+                {
+                    await GenerateGiftVoucherHistoryReport(giftVoucherHitoryModel);
+                }
+
+            }
+
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
+            return View(giftVoucherHitoryModel);
+        }
+
+        private async Task<int> GenerateGiftVoucherHistoryReport(GiftVoucherHistoryReport giftVoucherHitoryModel)
+        {
+            DataSet objDataSet = null;
+            string strPath = Path.Combine(Server.MapPath("~/Reports/GiftVoucher/GiftVoucherDetails.rpt"));
+            _objReportDocument.Load(strPath);
+
+            objDataSet = (await _objReportDal.GiftVoucherHistory(giftVoucherHitoryModel));
+
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            ShowReport(giftVoucherHitoryModel.ReportType, "Gift Voucher History Report");
+            return 0;
+        }
+
+        #endregion
+
+    }
 }

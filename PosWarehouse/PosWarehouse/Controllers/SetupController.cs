@@ -861,6 +861,7 @@ namespace PosWarehouse.Controllers
             //ViewBag.CardTypeList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetCardTypeListDropdown(), "CARD_TYPE_ID", "CARD_TYPE_NAME");
             //ViewBag.ShopList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             ViewBag.GiftValueList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetGiftVouchervalueListDropdown(), "GIFT_VOUCHER_ID", "GIFT_VOUCHER_VALUE");
+            ViewBag.ShopList = UtilityClass.GetSelectListForShop(await _objDropdownDal.GetActiveShopListDropdown(), "SHOP_ID", "SHOP_NAME");
             return View(model);
         }
 

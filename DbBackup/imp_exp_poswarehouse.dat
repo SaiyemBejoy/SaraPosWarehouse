@@ -1,0 +1,5 @@
+FILE="F:\SSD Drive I Personal\Projects\SaRa Project\SaraPosWarehouse\DbBackup\exp_poswarehouse.dat"
+LOG="F:\SSD Drive I Personal\Projects\SaRa Project\SaraPosWarehouse\DbBackup\imp_exp_poswarehouse.log"
+FULL=Y
+IGNORE=Y
+FEEDBACK=1000

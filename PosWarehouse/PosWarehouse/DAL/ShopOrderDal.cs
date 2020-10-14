@@ -85,18 +85,18 @@ namespace PosWarehouse.DAL
         {
             var sql = "SELECT " +
                       "REQUISITION_MAIN_ITEM_ID," +
-                        "REQUISITION_ID," +
+                        "REQUISITION_AUTO_ID," +
                         "BARCODE," +
                         "ITEM_NAME," +
                         "PRICE," +
                         "QUANTITY "+
-                      "FROM VEW_REQUISITION_MAIN_ITEM where REQUISITION_ID =:REQUISITION_ID ";
+                      "FROM VEW_REQUISITION_MAIN_ITEM where REQUISITION_AUTO_ID =:REQUISITION_AUTO_ID ";
             using (OracleConnection objConnection = GetConnection())
             {
 
                 using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
                 {
-                    objCommand.Parameters.Add(":REQUISITION_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = requisitionId;
+                    objCommand.Parameters.Add(":REQUISITION_AUTO_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = requisitionId;
 
                     await objConnection.OpenAsync();
                     using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
@@ -109,7 +109,7 @@ namespace PosWarehouse.DAL
                                 RequisitionMainItemModel model = new RequisitionMainItemModel
                                 {
                                     RequisitionMainItemId = Convert.ToInt32(objDataReader["REQUISITION_MAIN_ITEM_ID"].ToString()),
-                                    RequisitionId = Convert.ToInt32(objDataReader["REQUISITION_ID"].ToString()),
+                                    RequisitionAutoId = Convert.ToInt32(objDataReader["REQUISITION_AUTO_ID"].ToString()),
                                     ItemName = objDataReader["ITEM_NAME"].ToString(),
                                     Barcode = objDataReader["BARCODE"].ToString(),
                                     Price = objDataReader["PRICE"].ToString(),

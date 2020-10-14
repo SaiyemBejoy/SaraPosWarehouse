@@ -9,7 +9,7 @@ namespace PosWarehouse.ViewModel.ApiModel
     {
         public int RequisitionMainItemAutoId { get; set; }
         public int RequisitionMainItemId { get; set; }
-        public int RequisitionId { get; set; }
+        public int RequisitionAutoId { get; set; }
         public string Barcode { get; set; }
         public string ItemName { get; set; }
         public string Price { get; set; }

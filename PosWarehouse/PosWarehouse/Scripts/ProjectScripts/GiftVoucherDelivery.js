@@ -1,5 +1,14 @@
 ﻿jQuery(document).ready(function () {
 
+    //Checkbox for selecting all
+    $("#checkboxAll").live("click", function () {
+        var isChecked = this.checked;
+        $("#giftVoucherBarcodeDeliveryBody").find("input#checkbox").each(function () {
+            this.checked = isChecked;
+        });
+    });
+
+
     $('#GiftVoucherValue').on('change', function () {
         var giftVoucherId = $("#GiftVoucherValue").val();
         giftVoucherGenerateItemList(giftVoucherId);
@@ -36,6 +45,9 @@ function giftVoucherGenerateItemList(giftVoucherId) {
                     '<td>' +
                     data[i].GiftVoucherValue +
                     '</td>' +
+                    '<td>' +
+                    "<input type ='checkbox' class ='checker'  id='checkbox'/>"+
+                    '</td>' +
                     '</tr>'
                 );
 
@@ -46,20 +58,33 @@ function giftVoucherGenerateItemList(giftVoucherId) {
 
 
 function giftVoucherDeliverySave() {
+    var shopId = $("#ShopId").val();
+
+    if (shopId != "") {
         var allGiftVoucherDeliveryItem = [];
         allGiftVoucherDeliveryItem.length = 0;
-        $.each($("#giftVoucherBarcodeDeliveryBody tr"),
+        //$.each($("#giftVoucherBarcodeDeliveryBody tr"),
+        //    function () {
+        //        allGiftVoucherDeliveryItem.push({
+        //            GiftVoucherId: $(this).find('td:eq(1)').text(),
+        //            GiftVoucherCode: $(this).find('td:eq(2)').text(),
+        //            GiftVoucherValue: $(this).find('td:eq(3)').text(),
+        //            GiftVoucheritemId: $(this).find('td:eq(4)').text()
+        //        });
+        //    });
+        $.each($("input[id='checkbox']:checked"),
             function () {
                 allGiftVoucherDeliveryItem.push({
-                    GiftVoucherId: $(this).find('td:eq(1)').text(),
-                    GiftVoucherCode: $(this).find('td:eq(2)').text(),
-                    GiftVoucherValue: $(this).find('td:eq(3)').text(),
-                    GiftVoucheritemId: $(this).find('td:eq(4)').text()
+                    ShopId: shopId,
+                    GiftVoucherId: $(this).parents('tr').find('td:eq(1)').text(),
+                    GiftVoucherCode: $(this).parents('tr').find('td:eq(2)').text(),
+                    GiftVoucherValue: $(this).parents('tr').find('td:eq(3)').text(),
+                    GiftVoucheritemId: $(this).parents('tr').find('td:eq(4)').text()
                 });
             });
-       
-    var dataList = JSON.stringify({ objGiftVoucherDeliveryModel: allGiftVoucherDeliveryItem });
-    if (allGiftVoucherDeliveryItem.length) {
+
+        var dataList = JSON.stringify({ objGiftVoucherDeliveryModel: allGiftVoucherDeliveryItem });
+        if (allGiftVoucherDeliveryItem.length) {
             $.ajax({
                 type: 'POST',
                 contentType: 'application/json',
@@ -79,10 +104,11 @@ function giftVoucherDeliverySave() {
                     }
                 }
             });
-            
-    } else {
-            toastr.error("Table Data Cann't Be Empty!");
-    }
-    
 
+        } else {
+            toastr.error("Must Select GiftVoucher!");
+        }
+    } else {
+        toastr.error("Must Select Shop Name!");
+    }
 }

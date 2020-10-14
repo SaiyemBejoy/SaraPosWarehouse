@@ -1311,7 +1311,7 @@ namespace PosWarehouse.DAL
                                     ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString()),
                                     MaterialId = Convert.ToInt32(objDataReader["MATERIAL_ID"].ToString()),
                                     MaterialName = objDataReader["MATERIAL_NAME"].ToString(),
-                                    UnitPrice = Convert.ToInt32(objDataReader["UNIT_PROCE"].ToString()),
+                                    UnitPrice = Convert.ToDouble(objDataReader["UNIT_PROCE"].ToString()),
                                     UsedMaterial = Convert.ToDouble(objDataReader["USED_MATERIAL"].ToString()),
                                     SubTotal = Convert.ToDouble(objDataReader["SUB_TOTAL"].ToString()),
                                     UpdatedBy = objDataReader["CREATED_BY"].ToString()

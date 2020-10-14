@@ -135,6 +135,25 @@ namespace PosWarehouse.Controllers
             return 0;
         }
 
+        //Barcode print for other vendors
+        public async Task<int> VendorPrintBarcode()
+        {
+            //var itemCode = Session["ItemCode"] as List<int>;
+            //var itemCode = new List<int>();
+            string strPath = Path.Combine(Server.MapPath("~/Reports/VendorsBarcode/VendorsBarcode.rpt"));
+            _objReportDocument.Load(strPath);
+
+            DataSet objDataSet = (await _objReportDal.BarcodePrint());
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            Guid guid = new Guid();
+
+            ShowReport("PDF", guid.ToString());
+            return 0;
+        }
+
         public async Task<ActionResult> GiftVoucherGenerateCodePrint(string giftVoucherId)
         {
             string strPath = Path.Combine(Server.MapPath("~/Reports/GiftVoucherCodePrint.rpt"));

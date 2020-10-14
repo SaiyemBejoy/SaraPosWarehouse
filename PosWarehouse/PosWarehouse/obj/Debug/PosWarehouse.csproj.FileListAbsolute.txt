@@ -57,6 +57,7 @@ E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\CrystalDecisions.Shared.
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EntityFramework.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EntityFramework.SqlServer.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EPPlus.dll
+E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\ExcelDataReader.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Core.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -108,6 +109,8 @@ E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\CrystalDecisions.ReportA
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\stdole.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EPPlus.xml
+E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\ExcelDataReader.pdb
+E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\ExcelDataReader.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.Owin.xml
@@ -144,7 +147,6 @@ E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EntityFramework.SqlServe
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Core.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Owin.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.Migrations.initialCreate.resources
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.GenerateResource.cache
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CoreCompileInputs.cache

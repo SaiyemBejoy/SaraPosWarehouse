@@ -3201,7 +3201,13 @@ namespace PosWarehouse.DAL
 
         public async Task<List<GiftVoucherGenerateItemModel>> GetGiftVoucherGenerateItemList(string giftVoucherId)
         {
-            var sql = "SELECT * FROM GIFT_VOUCHER_ITEM where GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID ";
+            //var sql = "SELECT * FROM GIFT_VOUCHER_ITEM where GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID ";
+
+            var sql = "SELECT * FROM GIFT_VOUCHER_ITEM" +
+                " WHERE GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID" +
+                " AND GIFT_VOUCHER_CODE NOT IN" +
+                " (SELECT GIFT_VOUCHER_CODE FROM GIFT_VOUCHER_DELIVERY" +
+                " WHERE GIFT_VOUCHER_ID = :GIFT_VOUCHER_ID)";
 
             using (OracleConnection objConnection = GetConnection())
             {
@@ -3357,7 +3363,7 @@ namespace PosWarehouse.DAL
             var sql = "SELECT " +
                       "GIFT_VOUCHER_DELIVERY_ID,GIFT_VOUCHER_ID,GIFT_VOUCHER_ITEM_NUM,DELIVERY_DATE, " +
                     "GIFT_VOUCHER_CODE,GIFT_VOUCHER_VALUE,GIFT_VOUCHER_REMAINING_VALUE,CREATE_BY,CREATE_DATE, " +
-                    "UPDATE_BY,UPDATE_DATE,WARE_HOUSE_ID  " +
+                    "UPDATE_BY,UPDATE_DATE, DELIVERY_SHOP_NAME,WARE_HOUSE_ID  " +
                     "FROM VEW_GIFT_VOUCHER_DELIVERY where WARE_HOUSE_ID = :WARE_HOUSE_ID ORDER BY GIFT_VOUCHER_ID ";
 
 
@@ -3386,6 +3392,7 @@ namespace PosWarehouse.DAL
                                     GiftVoucherRemainingValue = objDataReader["GIFT_VOUCHER_REMAINING_VALUE"].ToString(),
                                     DeliveryDate = objDataReader["DELIVERY_DATE"].ToString(),
                                     CreatedBy = objDataReader["CREATE_BY"].ToString(),
+                                    ShopName = objDataReader["DELIVERY_SHOP_NAME"].ToString(),
                                     WareHouseId = objDataReader["WARE_HOUSE_ID"].ToString(),
 
                                 };

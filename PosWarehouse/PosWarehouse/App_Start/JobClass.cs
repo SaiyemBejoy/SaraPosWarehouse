@@ -160,44 +160,109 @@ namespace PosWarehouse
 
         private async Task GetAllWarehouseRequisitionAsync()
         {
-            //string[] shopUrl = UtilityClass.ShopUrl;
             var shopUrl = await _objDataExchangeDal.GetAllShopUrl();
-            using (var client = new HttpClient())
+            foreach (var url in shopUrl)
             {
-                foreach (var url in shopUrl)
+                if (url != "")
                 {
-                    if (url != "")
+                    try
                     {
-
-                        client.BaseAddress = new Uri(url);
-                        var responseTask = client.GetAsync("WarehouseRequisition");
-                        responseTask.Wait();
-
-                        var result = responseTask.Result;
-                        if (result.IsSuccessStatusCode)
+                        using (var client = new HttpClient())
                         {
-                            var readTask = result.Content.ReadAsAsync<IList<RequisitionMainModel>>();
-                            readTask.Wait();
+                            client.BaseAddress = new Uri(url);
 
-                            IEnumerable<RequisitionMainModel> requisition = readTask.Result;
-                            foreach (var value in requisition)
+                            using (var response = await client.GetAsync("WarehouseRequisition"))
                             {
-                                var message = await _objDataExchangeDal.SaveRequisitionMain(value);
-                                if (message != null)
+                                if (response.IsSuccessStatusCode)
                                 {
-                                    foreach (var itemValue in value.RequisitionMainItemList)
+                                    using (var content = response.Content)
                                     {
-                                        await _objDataExchangeDal.SaveRequisitionMainItem(itemValue);
+                                        var result = await content.ReadAsAsync<List<RequisitionMainModel>>();
+                                        if (result != null)
+                                        {
+                                            foreach (var value in result)
+                                            {
+                                                var model = new
+                                                {
+                                                    RequisitionNo = value.RequisitionNo
+                                                };
+
+                                                HttpResponseMessage response2 =
+                                                    await client.PostAsJsonAsync("WarehouseRequisition", model);
+                                                response2.EnsureSuccessStatusCode();
+                                                if (response2.IsSuccessStatusCode)
+                                                {
+                                                    var message = await _objDataExchangeDal.SaveRequisitionMain(value);
+                                                    if (message != null && message != "NOTSAVE")
+                                                    {
+                                                        foreach (var itemValue in value.RequisitionMainItemList)
+                                                        {
+                                                            itemValue.RequisitionAutoId = Convert.ToInt32(message);
+                                                            var itemSaveMessage =
+                                                                await _objDataExchangeDal.SaveRequisitionMainItem(
+                                                                    itemValue);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                                                             
                                     }
                                 }
-
                             }
                         }
                     }
-                }
+                    catch (Exception e)
+                    {
+                        continue;
+                    }
 
+                }
             }
+
+
         }
+
+        //private async Task GetAllWarehouseRequisitionAsyncOld()
+        //{
+        //    //string[] shopUrl = UtilityClass.ShopUrl;
+        //    var shopUrl = await _objDataExchangeDal.GetAllShopUrl();
+        //    using (var client = new HttpClient())
+        //    {
+        //        foreach (var url in shopUrl)
+        //        {
+        //            if (url != "")
+        //            {
+
+        //                client.BaseAddress = new Uri(url);
+        //                var responseTask = client.GetAsync("WarehouseRequisition");
+        //                responseTask.Wait();
+
+        //                var result = responseTask.Result;
+        //                if (result.IsSuccessStatusCode)
+        //                {
+        //                    var readTask = result.Content.ReadAsAsync<IList<RequisitionMainModel>>();
+        //                    readTask.Wait();
+
+        //                    IEnumerable<RequisitionMainModel> requisition = readTask.Result;
+        //                    foreach (var value in requisition)
+        //                    {
+        //                        var message = await _objDataExchangeDal.SaveRequisitionMain(value);
+        //                        if (message != null)
+        //                        {
+        //                            foreach (var itemValue in value.RequisitionMainItemList)
+        //                            {
+        //                                await _objDataExchangeDal.SaveRequisitionMainItem(itemValue);
+        //                            }
+        //                        }
+
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //}
 
         private async Task GetAllShopToShopExReceiveDataAsync()
         {

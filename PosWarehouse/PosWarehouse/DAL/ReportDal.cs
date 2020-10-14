@@ -5182,5 +5182,85 @@ namespace PosWarehouse.DAL
 
         #endregion
 
+        #region "Gift Voucher History"
+
+        public async Task<DataSet> GiftVoucherHistory(GiftVoucherHistoryReport objGiftVoucherHitoryModel)
+        {
+            try
+            {
+                DataSet ds = null;
+                var sql = "";
+                DataTable dt = new DataTable();
+                try
+                {
+                    sql = "SELECT " +
+                               "GIFT_VOUCHER_ID," +
+                               "GIFT_VOUCHER_ITEM_NUM," +
+                               "GIFT_VOUCHER_CODE," +
+                               "GIFT_VOUCHER_VALUE,"+
+                               "GIFT_VOUCHER_REMAINING_VALUE," +
+                               "DELIVERY_BY," +
+                               "DELIVERY_DATE," +
+                               "UPDATE_BY," +
+                               "UPDATE_DATE,"+
+                               "DELIVERY_SHOP_ID," +
+                               "DELIVERY_SHOP_NAME," +
+                               "GIFT_VOU_DEPOSIT_SHOPID," +
+                               "GIFT_VOU_DEPOSIT_SHOP_NAME," +
+                               "DEPOSIT_DATE,"+
+                               "DEPOSIT_BY," +
+                               "GIFT_CUSTOMER_NAME," +
+                               "GIFT_CUSTOMER_PHONE," +
+                               "WARE_HOUSE_ID," +
+                               "WARE_HOUSE_NAME,"+
+                               "WARE_HOUSE_ADDRESS,"+
+                               " 'Gift Voucher History Report' RPT_TITLE "+
+                             " From VEW_RPT_GIFT_VOU_HISTORY WHERE 1=1 ";
+
+                    if (objGiftVoucherHitoryModel.ShopId > 0)
+                    {
+                        sql = sql + " AND DELIVERY_SHOP_ID =" + objGiftVoucherHitoryModel.ShopId ;
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_GIFT_VOU_HISTORY"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+
     }
 }

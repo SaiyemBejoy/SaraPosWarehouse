@@ -354,5 +354,32 @@ namespace PosWarehouse.ViewModel
         public string ProductIDs { get; set; }
     }
 
+    public class GiftVoucherHistoryReport
+    {
+        public int ShopId { get; set; }
+
+        public string GiftVoucherCode { get; set; }
+
+        public double GiftVoucherValue { get; set; }
+
+        public double RemainingValue { get; set; }
+
+        public string DeliveryDate { get; set; }
+
+        public string DepositFrom { get; set; }
+
+        public string DepositDate { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public string CustomerContactNo { get; set; }
+
+        public string RadioFor { get; set; }
+
+        public string RadioForZero { get; set; }
+
+        public string ReportType { get; set; }
+    }
+
 
 }

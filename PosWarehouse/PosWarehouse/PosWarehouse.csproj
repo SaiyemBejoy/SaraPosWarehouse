@@ -55,6 +55,9 @@
     <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
@@ -111,6 +114,7 @@
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -276,6 +280,7 @@
     <Compile Include="Controllers\ShopOrderController.cs" />
     <Compile Include="Controllers\StoreDeliveryController.cs" />
     <Compile Include="Controllers\SubMenuSetUpController.cs" />
+    <Compile Include="Controllers\UserActivityController.cs" />
     <Compile Include="Controllers\UserMenuController.cs" />
     <Compile Include="Controllers\UserSubActionPermissionController.cs" />
     <Compile Include="DAL\AuthenticationDAL.cs" />
@@ -311,6 +316,7 @@
     <Compile Include="DAL\StockReturnReceiveDal.cs" />
     <Compile Include="DAL\StockTransferDal.cs" />
     <Compile Include="DAL\StoreDeliveryDal.cs" />
+    <Compile Include="DAL\UserActivityDal.cs" />
     <Compile Include="DAL\UserSubActionPermissionDal.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -352,6 +358,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DamageProductDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\GiftVoucher\GiftVoucherDetails.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftVoucherDetails.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\POReceive\OtherPurchaseReceiveReport.cs">
@@ -689,6 +701,7 @@
     <Compile Include="ViewModel\StockReceiveModel.cs" />
     <Compile Include="ViewModel\StoreDeliveryModel.cs" />
     <Compile Include="ViewModel\SubMenuSetUpModel.cs" />
+    <Compile Include="ViewModel\UserActivityModel.cs" />
     <Compile Include="ViewModel\UserSubActionPermissionModel.cs" />
     <Compile Include="ViewModel\WarehouseStockModel.cs" />
   </ItemGroup>
@@ -1509,6 +1522,8 @@
     <Content Include="Views\UserSubActionPermission\Index.cshtml" />
     <Content Include="Views\AllReport\SolPurchaseReceive.cshtml" />
     <Content Include="Views\Auth\UserPermisionAlert.cshtml" />
+    <Content Include="Views\UserActivity\Index.cshtml" />
+    <Content Include="Views\AllReport\GiftVoucharHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1546,6 +1561,10 @@
     <EmbeddedResource Include="Reports\Damage\DamageProductDetails.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DamageProductDetails.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GiftVoucher\GiftVoucherDetails.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GiftVoucherDetails.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\POReceive\OtherPurchaseReceiveReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

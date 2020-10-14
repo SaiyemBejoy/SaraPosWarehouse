@@ -51,8 +51,9 @@ namespace PosWarehouse.Controllers
             BarCodeModel model = new BarCodeModel();
 
             ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+            ViewBag.VendorList = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetVendorListDropdown(), "VENDOR_ID", "VENDOR_NAME");
 
-            return View();
+            return View(model);
         }
 
         public async Task<ActionResult> SendDataAndGetData(string productstyle)
@@ -87,9 +88,18 @@ namespace PosWarehouse.Controllers
             List<string> itemCode = new List<string>();
             foreach (var data in objBarCodeModel)
             {
-                itemCode.Add(data.ItemCode);
-                data.BarCodeImageString = "data:image/png;base64," + Convert.ToBase64String(UtilityClass.RenderBarcode(data.ItemCode));
-                data.BarCodeImageArray = UtilityClass.RenderBarcode(data.ItemCode);
+                if(data.VendorId > 0)
+                {
+                    itemCode.Add(data.ItemCode);
+                    data.BarCodeImageString = "data:image/png;base64," + Convert.ToBase64String(UtilityClass.RenderBarcodeFor7Digit(data.ItemCode));
+                    data.BarCodeImageArray = UtilityClass.RenderBarcodeFor7Digit(data.ItemCode);
+                }
+                else
+                {
+                    itemCode.Add(data.ItemCode);
+                    data.BarCodeImageString = "data:image/png;base64," + Convert.ToBase64String(UtilityClass.RenderBarcode(data.ItemCode));
+                    data.BarCodeImageArray = UtilityClass.RenderBarcode(data.ItemCode);
+                }
             }
 
             if (objBarCodeModel.Any())

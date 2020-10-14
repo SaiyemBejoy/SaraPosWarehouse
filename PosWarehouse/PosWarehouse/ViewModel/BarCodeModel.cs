@@ -31,6 +31,10 @@ namespace PosWarehouse.ViewModel
 
         public string ShopId { get; set; }
 
+        public int VendorId { get; set; }
+
+        public string VendorName { get; set; }
+
     }
 
     public class BarCodeTableModel
@@ -46,6 +50,7 @@ namespace PosWarehouse.ViewModel
         public string BarCodeImageString { get; set; }
         public byte[] BarCodeImageArray { get; set; }
 
+        public int VendorId { get; set; }
         public string BrandName { get; set; }
 
         public string Quantity { get; set; }

@@ -428,6 +428,7 @@ namespace PosWarehouse.ViewModel
     }
     public class GiftVoucherDeliveryModel
     {
+        [DisplayName("Shop Name")]
         public int ShopId { get; set; }
 
         public string ShopName { get; set; }
