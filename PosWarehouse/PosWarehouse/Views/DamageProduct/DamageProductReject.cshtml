@@ -41,9 +41,35 @@
                         <tr>
                             <td>@counter</td>
                             <td>@data.DamageChallanNo</td>
-                            <td>@data.RejectedBy</td>
-                            <td>@data.RejectedDate</td>
-                            <td>@data.RejectMessage</td>
+
+                            @if (data.DRejectedBy != "")
+                            {
+                                <td>@data.DRejectedBy</td>
+                            }
+                            else
+                            {
+                                <td>@data.RejectedBy</td>
+                            }
+
+                            @if (data.DRejectedDate != "")
+                            {
+                                <td>@data.DRejectedDate</td>
+                            }
+                            else
+                            {
+                                <td>@data.RejectedDate</td>
+                            }
+
+                            @if (data.DRejectMessage != "")
+                            {
+                                <td>@data.DRejectMessage</td>
+                            }
+                            else
+                            {
+                                <td>@data.RejectMessage</td>
+                            }
+
+
                             <td style="width: 20%">
                                 <a class="btn btn-primary damageProductItem" data-toggle="modal" href="#DamageProductApproveModal" data-id="@data.DamageChallanNo" id="DamageProductApprove">
                                     <i class="fa fa-eye"></i>

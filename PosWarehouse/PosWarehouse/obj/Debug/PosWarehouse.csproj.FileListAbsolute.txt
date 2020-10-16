@@ -147,6 +147,7 @@ E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\EntityFramework.SqlServe
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Core.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.Owin.xml
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.Migrations.initialCreate.resources
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.GenerateResource.cache
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CoreCompileInputs.cache

@@ -5221,6 +5221,9 @@ namespace PosWarehouse.DAL
                     {
                         sql = sql + " AND DELIVERY_SHOP_ID =" + objGiftVoucherHitoryModel.ShopId ;
                     }
+
+                    sql = sql + " ORDER BY GIFT_VOUCHER_CODE";
+
                     OracleCommand objOracleCommand = new OracleCommand(sql);
                     using (OracleConnection strConn = GetConnection())
                     {

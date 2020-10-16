@@ -70,6 +70,15 @@ namespace PosWarehouse.Controllers
         }
 
         [RoleFilter]
+        public async Task<ActionResult> DamageFinalApprove()
+        {
+            LoadSession();
+            var damageList = await _objDamageProductDal.GetAllDamagelistForFinalApproval();
+            ViewBag.damageList = damageList;
+            return View();
+        }
+
+        [RoleFilter]
         public async Task<ActionResult> DamageProductReject()
         {
             LoadSession();
@@ -105,11 +114,43 @@ namespace PosWarehouse.Controllers
             };
             return Json(messageAndReload, JsonRequestBehavior.AllowGet);
         }
+
+
+        public async Task<ActionResult> DamageChallanNoForFinalApproval(string challanNo)
+        {
+            LoadSession();
+            var returnMessage = "";
+            returnMessage = await _objDamageProductDal.UpdateFinalDamageProductByChallanNo(challanNo, _strEmployeeId);
+            var messageAndReload = new
+            {
+                m = returnMessage,
+                isRedirect = true,
+                redirectUrl = Url.Action("DamageFinalApprove")
+            };
+            return Json(messageAndReload, JsonRequestBehavior.AllowGet);
+        }
+
+
         public async Task<ActionResult> DamageChallanNoForReject(string challanNo, string rejectMessage)
         {
             LoadSession();
             var returnMessage = "";
             returnMessage = await _objDamageProductDal.RejectDamageProductByChallanNo(challanNo, rejectMessage, _strEmployeeId);
+            var messageAndReload = new
+            {
+                m = returnMessage,
+                isRedirect = true,
+                redirectUrl = Url.Action("DamageProductApprove")
+            };
+            return Json(messageAndReload, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public async Task<ActionResult> DamageChallanNoForFinalReject(string challanNo, string rejectMessage)
+        {
+            LoadSession();
+            var returnMessage = "";
+            returnMessage = await _objDamageProductDal.RejectFinalDamageProductByChallanNo(challanNo, rejectMessage, _strEmployeeId);
             var messageAndReload = new
             {
                 m = returnMessage,

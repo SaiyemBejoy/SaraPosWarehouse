@@ -19,6 +19,12 @@ namespace PosWarehouse.ViewModel
         public string RejectedBy { get; set; }
         public string ApprovedDate { get; set; }
         public string ApprovedBy { get; set; }
+        public string DApproverStatus { get; set; }
+        public string DRejectMessage { get; set; }
+        public string DRejectedDate { get; set; }
+        public string DRejectedBy { get; set; }
+        public string DApprovedDate { get; set; }
+        public string DApprovedBy { get; set; }
         //End
 
         public IEnumerable<DamageProductItemModel> DamageProductItemList { get; set; }

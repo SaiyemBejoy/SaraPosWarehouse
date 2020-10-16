@@ -634,7 +634,7 @@
                             if (!isNaN(data.ItemId) && data.ItemId) {
                                 if (data.CurrentStock > 0) {
 
-                                $("#storeDeliveryGridTableBody").append('<tr>' +
+                                    $("#storeDeliveryGridTableBody").prepend('<tr>' +
                                     '<td style="display:none;">' +
                                     data.ProductId +
                                     '</td>' +

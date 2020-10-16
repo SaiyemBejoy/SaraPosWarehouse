@@ -1632,18 +1632,23 @@
                     var quantity = $(this).find('.quantity');
                     if (otherPurchaseReceiveYN) {
                         if (value === barcode) {
-                            if (parseInt(receiveQuantity) !== parseInt(orderQty)) {
-                            checker = true;
-                            //$(this).css("background-color", "#ffff00");
-                            toastr.success("Add Same Item.");
-                            $(this).find('#receiveQuantity').val(parseInt(receiveQuantity) + 1);
-                            $("#ScanBox").val("");
-                            rowDataCalculation(quantity);
-                            totalItemCount();
+                                if (parseInt(receiveQuantity) !== parseInt(orderQty)) {
+                                checker = true;
+                                toastr.success("Add Same Item.");
+                                $(this).find('#receiveQuantity').val(parseInt(receiveQuantity) + 1);
+                                $("#ScanBox").val("");
+                                rowDataCalculation(quantity);
+                                totalItemCount();
                                 compute();
-
-                            } else {
-                                $(this).css("background-color", "#cd5c5c");
+                                var receiveQtyAfterScan = $(this).find('#receiveQuantity').val();
+                                if (parseInt(receiveQtyAfterScan) == parseInt(orderQty)) {
+                                    $(this).css("background-color", "#7CFC00");//green
+                                } else {
+                                    $(this).css("background-color", "#ffff00");//yellow
+                                }
+                            }
+                            else {
+                                $(this).css("background-color", "#cd5c5c");//red
                                 alert("This Item Already Received.");
                                 $(this).find('.extraScanQty').val(parseInt(excessScanQty) + 1);
                                 $("#ScanBox").val("");
@@ -1661,7 +1666,16 @@
                             rowDataCalculation(quantity);
                             totalItemCount();
                             compute();
-
+                            var receiveQtyAfterScan = $(this).find('#receiveQuantity').val();
+                            if (parseInt(receiveQtyAfterScan) == parseInt(orderQty)) {
+                                $(this).css("background-color", "#7CFC00");//green
+                            }
+                            else if (parseInt(receiveQtyAfterScan) > parseInt(orderQty)) {
+                                $(this).css("background-color", "#cd5c5c");//red
+                            }
+                            else {
+                                $(this).css("background-color", "#ffff00");//yellow
+                            }
                             //}
 
                         }

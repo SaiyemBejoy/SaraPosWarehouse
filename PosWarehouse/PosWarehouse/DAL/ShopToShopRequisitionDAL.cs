@@ -304,6 +304,46 @@ namespace PosWarehouse.DAL
             return strMessage;
         }
 
+        public async Task<string> DeleteShopRequisitionMainModel(ShopToShopRequisitionMainModel objShopToShopRequisitionMainModel)
+        {
+            string strMessage;
+
+            OracleCommand objOracleCommand = new OracleCommand("PRO_SHOP_REQUI_MAIN_DELETE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_REQUISITION_NUM", OracleDbType.Varchar2, ParameterDirection.Input).Value = objShopToShopRequisitionMainModel.RequisitionNumber;
+            objOracleCommand.Parameters.Add("P_REQUISITION_SHOPID_FROM", OracleDbType.Varchar2, ParameterDirection.Input).Value = objShopToShopRequisitionMainModel.RequisitionShopIdFrom;
+           
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMessage = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+            return strMessage;
+        }
 
         public async Task<List<ShopToShopRequisitionMainModel>> GetShopRequisitionMainData(int fromShopId)
         {

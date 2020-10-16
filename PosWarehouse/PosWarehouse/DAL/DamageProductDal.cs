@@ -206,10 +206,13 @@ namespace PosWarehouse.DAL
                         "DAMAGE_TRANSFER_CHALLAN_NUM,"+
                         "CREATED_BY, "+
                         "CREATED_DATE,  " +
+                        "D_APPROVED_BY, " +
+                        "D_APPROVED_DATE,  " +
+                        "D_APPROVED_YN, " +
                         "APPROVED_BY, " +
                         "APPROVED_DATE,  " +
                         "APPROVED_YN  " +
-                      "FROM DAMAGE_TRANSFER_MAIN WHERE  REQUISITION_NUM IS NULL AND TRANSFERED_BY IS NULL AND TRANSFER_DATE IS NULL AND REJECT_YN IS NULL ORDER BY DAMAGE_TRANSFER_CHALLAN_NUM  DESC ";
+                      "FROM DAMAGE_TRANSFER_MAIN WHERE  REQUISITION_NUM IS NULL AND TRANSFERED_BY IS NULL AND TRANSFER_DATE IS NULL AND REJECT_YN IS NULL AND D_REJECT_YN IS NULL ORDER BY DAMAGE_TRANSFER_CHALLAN_NUM  DESC ";
 
             using (OracleConnection objConnection = GetConnection())
             {
@@ -233,6 +236,9 @@ namespace PosWarehouse.DAL
                                     ApprovedBy = objDataReader["APPROVED_BY"].ToString(),
                                     ApprovedDate = objDataReader["APPROVED_DATE"].ToString(),
                                     ApproverStatus = objDataReader["APPROVED_YN"].ToString(),
+                                    DApprovedBy = objDataReader["D_APPROVED_BY"].ToString(),
+                                    DApprovedDate = objDataReader["D_APPROVED_DATE"].ToString(),
+                                    DApproverStatus = objDataReader["D_APPROVED_YN"].ToString(),
                                 };
                                 objDamageProductModel.Add(model);
                             }
@@ -305,15 +311,70 @@ namespace PosWarehouse.DAL
             }
         }
 
+
+        public async Task<List<DamageProductModel>> GetAllDamagelistForFinalApproval()
+        {
+            var sql = "SELECT " +
+                      "DAMAGE_TRANSFER_ID," +
+                        "DAMAGE_TRANSFER_CHALLAN_NUM," +
+                        "CREATED_BY, " +
+                        "CREATED_DATE  " +
+                      "FROM DAMAGE_TRANSFER_MAIN WHERE  REQUISITION_NUM IS NULL AND TRANSFERED_BY IS NULL AND TRANSFER_DATE IS NULL AND APPROVED_YN = 'Y' AND D_APPROVED_YN IS NULL AND REJECT_YN IS NULL AND D_REJECT_YN IS NULL ORDER BY DAMAGE_TRANSFER_CHALLAN_NUM  DESC ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection))
+                {
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<DamageProductModel> objDamageProductModel = new List<DamageProductModel>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                DamageProductModel model = new DamageProductModel
+                                {
+                                    DamageId = Convert.ToInt32(objDataReader["DAMAGE_TRANSFER_ID"].ToString()),
+                                    DamageChallanNo = objDataReader["DAMAGE_TRANSFER_CHALLAN_NUM"].ToString(),
+                                    CreatedBy = objDataReader["CREATED_BY"].ToString(),
+                                    CreatedDate = objDataReader["CREATED_DATE"].ToString(),
+                                };
+                                objDamageProductModel.Add(model);
+                            }
+                            return objDamageProductModel;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+
         public async Task<List<DamageProductModel>> GetAllRejectedList()
         {
             var sql = "SELECT " +
                       "DAMAGE_TRANSFER_ID," +
                         "DAMAGE_TRANSFER_CHALLAN_NUM," +
+                        "D_REJECTED_BY, " +
+                        "D_REJECTED_DATE,  " +
+                        "D_REJECTED_MESSAGE, " +
                         "REJECTED_BY, " +
                         "REJECTED_DATE,  " +
                         "REJECTED_MESSAGE  " +
-                      "FROM DAMAGE_TRANSFER_MAIN WHERE  REQUISITION_NUM IS NULL AND TRANSFERED_BY IS NULL AND TRANSFER_DATE IS NULL AND APPROVED_YN IS NULL AND REJECT_YN = 'Y' ORDER BY DAMAGE_TRANSFER_CHALLAN_NUM  DESC ";
+                      "FROM DAMAGE_TRANSFER_MAIN WHERE  REQUISITION_NUM IS NULL AND TRANSFERED_BY IS NULL AND TRANSFER_DATE IS NULL AND REJECT_YN = 'Y' OR D_REJECT_YN = 'Y' ORDER BY DAMAGE_TRANSFER_CHALLAN_NUM  DESC ";
 
             using (OracleConnection objConnection = GetConnection())
             {
@@ -335,6 +396,9 @@ namespace PosWarehouse.DAL
                                     RejectedDate = objDataReader["REJECTED_DATE"].ToString(),
                                     RejectedBy = objDataReader["REJECTED_BY"].ToString(),
                                     RejectMessage = objDataReader["REJECTED_MESSAGE"].ToString(),
+                                    DRejectedDate = objDataReader["D_REJECTED_DATE"].ToString(),
+                                    DRejectedBy = objDataReader["D_REJECTED_BY"].ToString(),
+                                    DRejectMessage = objDataReader["D_REJECTED_MESSAGE"].ToString(),
                                 };
                                 objDamageProductModel.Add(model);
                             }
@@ -461,10 +525,96 @@ namespace PosWarehouse.DAL
             }
 
         }
-        
+
+        public async Task<string> UpdateFinalDamageProductByChallanNo(string challanNo, string strEmployeeId)
+        {
+            OracleCommand objOracleCommand = new OracleCommand("PRO_DMG_FINAL_APPROVED")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_CHALLAN_NO ", OracleDbType.Varchar2, ParameterDirection.Input).Value = challanNo;
+            objOracleCommand.Parameters.Add("P_APPROVED_BY ", OracleDbType.Varchar2, ParameterDirection.Input).Value = strEmployeeId;
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    string message = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+
+                    return message;
+                }
+                catch (Exception ex)
+                {
+                    _trans.Rollback();
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+
+        }
+
         public async Task<string> RejectDamageProductByChallanNo(string challanNo, string rejectMessage, string strEmployeeId)
         {
             OracleCommand objOracleCommand = new OracleCommand("PRO_DMG_PRODUCT_REJECT")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_CHALLAN_NO ", OracleDbType.Varchar2, ParameterDirection.Input).Value = challanNo;
+            objOracleCommand.Parameters.Add("P_REJECTED_MESSAGE ", OracleDbType.Varchar2, ParameterDirection.Input).Value = rejectMessage;
+            objOracleCommand.Parameters.Add("P_REJECTED_BY ", OracleDbType.Varchar2, ParameterDirection.Input).Value = strEmployeeId;
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    string message = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+
+                    return message;
+                }
+                catch (Exception ex)
+                {
+                    _trans.Rollback();
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+
+        }
+
+
+        public async Task<string> RejectFinalDamageProductByChallanNo(string challanNo, string rejectMessage, string strEmployeeId)
+        {
+            OracleCommand objOracleCommand = new OracleCommand("PRO_DMG_FNL_PROD_RJCT")
             {
                 CommandType = CommandType.StoredProcedure
             };

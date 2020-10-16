@@ -65,6 +65,8 @@ namespace PosWarehouse.Controllers.Api
             return BadRequest();
         }
 
+      
+
         public async Task<IHttpActionResult> GetShopRequisitionList(int fromShopId)
         {
             List<ShopToShopRequisitionMainModel> model = new List<ShopToShopRequisitionMainModel>();
