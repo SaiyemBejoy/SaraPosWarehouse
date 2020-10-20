@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -18,13 +19,17 @@ namespace PosWarehouse.ViewModel
         public double DiscountAmount { get; set; }
         public double SubTotal { get; set; }
         public double NetAmount { get; set; }
+        public double BagPrice { get; set; }
         public int? CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerContactNO { get; set; }
         public string CreatedBy { get; set; }
+        [DisplayName("Shop Name")]
         public int ShopId { get; set; }
         public string ShopName { get; set; }
         public int WareHouseId { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
 
         public IEnumerable<SaleItemForInvoiceModel> SaleItemList { get; set; }
     }

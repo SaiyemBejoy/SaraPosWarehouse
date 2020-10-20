@@ -42,7 +42,7 @@
                                                 <div class="portlet-body">
                                                     <div class="form-group">
 
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Rec.Challan Wise Delivery</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Rec.Challan Wise Delivery</b></label>
                                                         <div class="col-md-6">
                                                             <div class="checkbox-list" style="margin-top: 8px;">
                                                                 @Html.CheckBoxFor(c => c.ReceiveChallanDeliveryStatus, new { @class = "checker", @id = "CheckboxRecChallan", @name = "CheckboxRecChallan" })
@@ -52,7 +52,7 @@
                                                     </div>
                                                     <div class="form-group">
 
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Requisition Wise Delivery</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Requisition Wise Delivery</b></label>
                                                         <div class="col-md-6">
                                                             <div class="checkbox-list" style="margin-top: 8px;">
                                                                 @Html.CheckBoxFor(c => c.RequisitionDelivery, new { @class = "checker", @name = "RequisitionDelivery" })
@@ -61,7 +61,7 @@
                                                         <div class="col-md-3"></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">From Date</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>From Date</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 <i class="fa fa-calendar"></i>
@@ -71,7 +71,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Rec. Challan</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Rec. Challan</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @if (Model.PurchaseReceiveId != 0)
@@ -89,7 +89,7 @@
                                                     </div>
                                                     
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Shop Requisition Num:</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Shop Requisition Num:</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @Html.DropDownListFor(c => c.ShopRequisitionNumber, new SelectList(ViewBag.ShopRequisitionList, "Value", "Text", Model.ShopRequisitionNumber), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
@@ -98,7 +98,7 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Shop <span style="color: red">*</span></label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Shop</b> <span style="color: red">*</span></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @Html.DropDownListFor(c => c.DeliveryShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
@@ -107,7 +107,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Season/Occasion </label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Season/Occasion</b> </label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @Html.DropDownListFor(c => c.SeasonId, new SelectList(ViewBag.SeasonList, "Value", "Text", Model.SeasonId), new { @class = "form-control input-circle", @style = "max-width: 600px;" })
@@ -116,7 +116,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Register Name <span style="color: red">*</span></label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Register Name</b> <span style="color: red">*</span></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @Html.DropDownListFor(c => c.RegisterId, new SelectList(ViewBag.RegisterInfoList, "Value", "Text", Model.RegisterId), new { @class = "form-control input-circle", @id = "registerId", @style = "max-width: 600px;" })
@@ -125,7 +125,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Delivery Date</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Delivery Date</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 <i class="fa fa-calendar"></i>
@@ -135,7 +135,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Requistion No <span style="color: red">*</span></label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Requistion No</b> <span style="color: red">*</span></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 <i class="fa fa-text-width"></i>
@@ -146,7 +146,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Barcode</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Barcode</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
                                                                 @Html.TextBoxFor(c => c.Barcode, new { @class = "form-control input-circle", @id = "barcode", @placeholder = "Barcode Scan" })
@@ -155,7 +155,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-md-5 control-label" style="text-align: left !important">Product</label>
+                                                        <label class="col-md-5 control-label" style="text-align: left !important"><b>Product</b></label>
                                                         <div class="col-md-7">
                                                             <div class="input-icon">
 
@@ -165,18 +165,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-5">
                                                             <div class="form-group">
-                                                                <label class="col-md-6 control-label" style="text-align: left !important">Sale Price</label>
+                                                                <label class="col-md-6 control-label" style="text-align: left !important"><b>Sale Price</b></label>
                                                                 <div class="col-md-6">
                                                                     @Html.TextBoxFor(c => c.SalePrice, new { @class = "form-control input-circle", @id = "salePrice", @placeholder = "Sale Price", @readonly = "readonly" })
                                                                     @Html.ValidationMessageFor(c => c.SalePrice)
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-7">
                                                             <div class="form-group">
-                                                                <label class="col-md-6 control-label" style="text-align: left !important">Current Stock</label>
+                                                                <label class="col-md-6 control-label" style="text-align: left !important"><b>Current Stock</b></label>
                                                                 <div class="col-md-6">
                                                                     @Html.TextBoxFor(c => c.CurrentStock, new { @class = "form-control input-circle", @id = "currentStock", @readonly = "readonly" })
                                                                     @Html.ValidationMessageFor(c => c.CurrentStock)
@@ -205,7 +205,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-md-5 control-label">Total Item</label>
                                                                 <div class="col-md-7">
-                                                                    <input type="text" class="form-control  input-circle" id="totalDeliveryItem" style="width: 150px;background-color: yellow" readonly="readonly"/>
+                                                                    <input type="text" class="form-control  input-circle" id="totalDeliveryItem" style="width: 150px;background-color: yellow; font-weight: bold; font-size: 20px;" readonly="readonly"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -706,7 +706,7 @@
                     } else {
                         if (!isNaN(data.ItemId) && data.ItemId) {
                             if (data.CurrentStock > 0) {
-                            $("#storeDeliveryGridTableBody").append('<tr>' +
+                                $("#storeDeliveryGridTableBody").prepend('<tr>' +
                                 '<td style="display:none;">' +
                                 data.ProductId +
                                 '</td>' +

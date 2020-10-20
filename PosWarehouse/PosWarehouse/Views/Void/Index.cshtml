@@ -1,0 +1,356 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.InvoiceInfoModel
+@{
+    ViewBag.Title = "Void";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>Void</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i> Void
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Search From here</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "form-control input-circle", @placeholder = "Shop Name", @style = "max-width: 580px;" })
+                                                        @Html.ValidationMessageFor(c => c.ShopId)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                @Html.LabelFor(c => c.InvoiceNumber, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-7">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.TextBoxFor(c => c.InvoiceNumber, new { @class = "form-control input-circle", @placeholder = "Invoice Number", @id = "invoiceNumber", @style = "max-width: 580px;" })
+                                                        @Html.ValidationMessageFor(c => c.InvoiceNumber)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success input-circle" type="button" id="search" autocomplete="off">Search</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Grid View</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForVoidSearch"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- END GENERAL PORTLET-->
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="portlet-body">
+                <div class="form-horizontal">
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered">
+                                <div class="portlet-title">
+                                    <div class="caption font-green-sharp">
+                                        <i class="icon-speech font-green-sharp"></i>
+                                        <span class="caption-subject bold uppercase"> Get Void Data From Here</span>
+
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="form-group col-md-4">
+                                                @Html.LabelFor(c => c.FromDate, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        @Html.TextBoxFor(c => c.FromDate, new { @class = "form-control input-circle datepicker", @placeholder = "From Date", @autocomplete = "off", @readonly = "readonly" })
+                                                        @Html.ValidationMessageFor(c => c.FromDate)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                @Html.LabelFor(c => c.ToDate, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+
+                                                        @Html.TextBoxFor(c => c.ToDate, new { @class = "form-control input-circle datepicker", @placeholder = "From Date", @autocomplete = "off", @readonly = "readonly" })
+                                                        @Html.ValidationMessageFor(c => c.ToDate)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                @Html.LabelFor(c => c.ShopId, new { @class = "col-md-3 control-label" })
+                                                <div class="col-md-6">
+                                                    <div class="input-icon">
+                                                        <i class="fa fa-text-width"></i>
+                                                        @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text", Model.ShopId), new { @class = "shopId2 form-control input-circle", @placeholder = "Shop Name", @style = "max-width: 580px;" })
+                                                        @Html.ValidationMessageFor(c => c.ShopId)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success input-circle" type="button" id="submit" autocomplete="off">Submit</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                        <div class="portlet light bordered">
+                                            <div class="portlet-title">
+                                                <div class="caption font-green-sharp">
+                                                    <i class="icon-speech font-green-sharp"></i>
+                                                    <span class="caption-subject bold uppercase"> Grid View 2</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover" id="gridTable2">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    #
+                                                                </th>
+                                                                <th>
+                                                                    Invoice Number
+                                                                </th>
+                                                                <th>
+                                                                    Date
+                                                                </th>
+                                                                <th>
+                                                                    Total Item
+                                                                </th>
+                                                                <th>
+                                                                    Total Amount
+                                                                </th>
+                                                                <th>
+                                                                    Vat
+                                                                </th>
+                                                                <th>
+                                                                    Discount %
+                                                                </th>
+                                                                <th>
+                                                                    Discount Amount
+                                                                </th>
+                                                                <th>
+                                                                    Sub Total
+                                                                </th>
+                                                                <th>
+                                                                    Net Amount
+                                                                </th>
+                                                                <th>
+                                                                    Bag Price
+                                                                </th>
+                                                                <th>
+                                                                    Created By
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="gridTableBodyForVoidInfo"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- END SAMPLE TABLE PORTLET-->
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- END GENERAL PORTLET-->
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function () {
+
+        $(function () {
+            $(".datepicker").datepicker({
+                format: 'dd-MMM-yy',//check change
+                changeMonth: true,
+                changeYear: true
+            }).datepicker("setDate", new Date());
+        });
+
+        $("#submit").click(function () {
+            var shopId = $(".shopId2").val();
+            var froDate = $("#FromDate").val();
+            var toDate = $("#ToDate").val();
+
+            if (shopId > 0) {
+
+                var dataObject = {
+                    'ShopId': shopId,
+                    'FromDate': froDate,
+                    'ToDate': toDate
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Void/GetVoidInfoByShopId/',
+                    data: dataObject,
+                    dataType: 'json',
+                    success: function (result) {
+                        var voidTableQuantity = result.length;
+                        $("#gridTableBodyForVoidInfo").html("");
+                        if (result.length !== 0) {
+                            for (var i = 0; i < voidTableQuantity; i++) {
+                                $("#gridTableBodyForVoidInfo").append('<tr>' +
+                                    '<td>' +
+                                    parseInt(i + 1) +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].InvoiceNumber +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].InvoiceDate +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].TotalItem +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].TotalAmount +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].Vat +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].DiscountPercent +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].DiscountAmount +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].SubTotal +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].NetAmount +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].BagPrice +
+                                    '</td>' +
+                                    '<td>' +
+                                    result[i].CreatedBy +
+                                    '</td>' +
+                                    '</tr>'
+                                );
+                            }
+                        } else {
+                            toastr.error("No Data Found !.");
+                        }
+                    }
+
+                });
+            } else {
+                toastr.error("Must Select Shop Name!");
+            }
+
+        });
+     });
+
+</script>
+
+

@@ -389,5 +389,74 @@ namespace PosWarehouse.DAL
             }
             return strMessage;
         }
+
+        #region UserList
+        public async Task<List<EmployeeDistributionModel>> GetUserList()
+        {
+
+
+            var sql = "SELECT " +
+                      "EMPLOYEE_ID," +
+                      "EMPLOYEE_NAME," +
+                      "EMPLOYEE_EMAIL," +
+                      "EMPLOYEE_ROLE," +
+                      "ACTIVE_YN," +
+                      "CREATED_BY," +
+                      "CREATED_DATE," +
+                      "UPDATE_BY," +
+                      "UPDATE_DATE " +
+                      "FROM ADMIN_LOGIN ORDER BY UPDATE_DATE DESC";
+
+
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<EmployeeDistributionModel> objUserListModels = new List<EmployeeDistributionModel>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                EmployeeDistributionModel model = new EmployeeDistributionModel
+                                {
+                                    EmployeeId = objDataReader["EMPLOYEE_ID"].ToString(),
+                                    EmployeeName = objDataReader["EMPLOYEE_NAME"].ToString(),
+                                    Email = objDataReader["EMPLOYEE_EMAIL"].ToString(),
+                                    EmployeeRole = objDataReader["EMPLOYEE_ROLE"].ToString(),
+                                    ActiveYn = objDataReader["ACTIVE_YN"].ToString(),
+                                    UpdateBy = objDataReader["UPDATE_BY"].ToString(),
+                                    UpdateDate = objDataReader["UPDATE_DATE"].ToString(),
+                                    CreateBy = objDataReader["CREATED_BY"].ToString(),
+                                    CreateDate = objDataReader["CREATED_DATE"].ToString()
+                                };
+                                objUserListModels.Add(model);
+                            }
+                            return objUserListModels;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
+        #endregion
+
+
+
     }
 }

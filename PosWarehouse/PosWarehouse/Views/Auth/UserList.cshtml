@@ -1,0 +1,124 @@
+﻿@using PosWarehouse.ViewModel
+@model PosWarehouse.ViewModel.EmployeeDistributionModel
+@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userListModel = ViewBag.UserList as List<EmployeeDistributionModel>;
+}
+
+<div class="page-head">
+    <div class="page-title">
+        <h1>User List</h1>
+    </div>
+</div>
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>User List With Details
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="userListTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Active Status</th>
+                                <th>Create By</th>
+                                <th>Create Date</th>
+                                <th>Update By</th>
+                                <th>Update Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (userListModel != null && userListModel.Count != 0)
+                            {
+                                int counter = 1;
+                                foreach (var data in userListModel)
+                                {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@data.EmployeeId</td>
+                                <td>@data.EmployeeName</td>
+                                <td>@data.Email</td>
+                                <td>@data.EmployeeRole</td>
+                                @if (data.ActiveYn == "Y")
+                                {
+                                    <td>
+                                        <i class="fa fa-check-circle" style="color: green;"> Active</i>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><i class="fa fa-times-circle" style="color: red;"></i> InActive</td>
+                                }
+                                <td>@data.CreateBy</td>
+                                <td>@data.CreateDate</td>
+                                <td>@data.UpdateBy</td>
+                                <td>@data.UpdateDate</td>
+                            </tr>
+                                    counter = counter + 1;
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+
+@*@section scripts
+    {*@
+<script>
+    jQuery(document).ready(function () {
+
+
+        var table = $("#userListTable").dataTable();
+
+            @{
+                if (!string.IsNullOrWhiteSpace(@ViewBag.Message))
+                {
+                    <text>
+                        var message = '@ViewBag.message';
+
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-top-center",
+                            "onclick": null,
+                            "showDuration": "1000",
+                            "hideDuration": "1000",
+                            "timeOut": "1000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success(message);
+                    </text>
+                }
+            }
+        });
+
+</script>
+@*}*@
+

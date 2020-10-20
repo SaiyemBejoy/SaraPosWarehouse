@@ -241,5 +241,87 @@ namespace PosWarehouse.DAL
                 }
             }
         }
+
+        public async Task<List<InvoiceInfoModel>> GetVoidInfoByShopId(InvoiceInfoModel objInvoiceInfoModel)
+        {
+            var sql = "SELECT " +
+                      "SALE_INFO_ID," +
+                      "INVOICE_NUMBER," +
+                      "INVOICE_DATE," +
+                      "SALESMAN_ID," +
+                      "TOTAL_ITEM," +
+                      "TOTAL_AMOUNT," +
+                      "VAT," +
+                      "DISCOUNT_P," +
+                      "DISCOUNT_A," +
+                      "PAYMENT_TYPE," +
+                      "CASH_AMOUNT," +
+                      "CARD_AMOUNT," +
+                      "SUB_TOTAL," +
+                      "CUSTOMER_ID," +
+                      "CREATED_BY," +
+                      "SHOP_ID," +
+                      "WAREHOUSE_ID," +
+                      "NET_AMOUNT," +
+                      "HOLD_INVOICE_YN," +
+                      "EXCHANGE_YN," +
+                      "EXCHANGE_SHOP_ID," +
+                      "SALE_INFO_AUTO_ID," +
+                      "BAG_PRICE " +
+                      "FROM VOID_SALE_INFO  WHERE SHOP_ID = :SHOP_ID AND TO_CHAR(INVOICE_DATE, 'DD/MM/YYYY') BETWEEN: FROM_DATE AND :TO_DATE ORDER BY INVOICE_DATE DESC";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection)
+                { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":SHOP_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = objInvoiceInfoModel.ShopId;
+                    objCommand.Parameters.Add(":FROM_DATE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objInvoiceInfoModel.FromDate;
+                    objCommand.Parameters.Add(":TO_DATE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objInvoiceInfoModel.ToDate;
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader =
+                        (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<InvoiceInfoModel> voidInvoiceList = new List<InvoiceInfoModel>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                InvoiceInfoModel objInvoiceInfoModels = new InvoiceInfoModel()
+                                {
+                                    SaleInfoId = Convert.ToInt32(objDataReader["SALE_INFO_ID"].ToString()),
+                                    InvoiceNumber = objDataReader["INVOICE_NUMBER"].ToString(),
+                                    InvoiceDate = objDataReader["INVOICE_DATE"].ToString(),
+                                    TotalItem = Convert.ToInt32(objDataReader["TOTAL_ITEM"].ToString()),
+                                    TotalAmount = Convert.ToDouble(objDataReader["TOTAL_AMOUNT"].ToString()),
+                                    DiscountPercent = Convert.ToInt32(objDataReader["DISCOUNT_P"].ToString()),
+                                    DiscountAmount = Convert.ToDouble(objDataReader["DISCOUNT_A"].ToString()),
+                                    SubTotal = Convert.ToDouble(objDataReader["SUB_TOTAL"].ToString()),
+                                    NetAmount = Convert.ToDouble(objDataReader["NET_AMOUNT"].ToString()),
+                                    ShopId = Convert.ToInt32(objDataReader["SHOP_ID"].ToString()),
+                                    BagPrice = Convert.ToDouble(objDataReader["BAG_PRICE"].ToString()),
+                                    CreatedBy = objDataReader["CREATED_BY"].ToString()
+                                };
+                                voidInvoiceList.Add(objInvoiceInfoModels);
+                            }
+                            return voidInvoiceList;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+                }
+            }
+        }
+
+
     }
 }

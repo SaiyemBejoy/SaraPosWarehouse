@@ -22,7 +22,10 @@ namespace PosWarehouse.ViewModel
         public string Password { get; set; }
         public int ShopId { get; set; }
         public string ShopName { get; set; }
+        public string CreateBy { get; set; }
+        public string CreateDate { get; set; }
         public string UpdateBy { get; set; }
+        public string UpdateDate { get; set; }
 
     }
     public class EmployeeListModel

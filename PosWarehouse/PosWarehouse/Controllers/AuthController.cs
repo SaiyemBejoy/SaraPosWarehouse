@@ -107,5 +107,20 @@ namespace PosWarehouse.Controllers
             return View();
         }
 
+
+        #region UserList
+        [RoleFilter]
+        public async Task<ActionResult> UserList()
+        {
+            ModelState.Clear();
+
+            EmployeeDistributionModel model = new EmployeeDistributionModel();
+
+            ViewBag.UserList = await _authentication.GetUserList();
+
+            return View(model);
+        }
+        #endregion
+
     }
 }
