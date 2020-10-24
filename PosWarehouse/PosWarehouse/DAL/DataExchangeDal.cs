@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using Oracle.ManagedDataAccess.Client;
+using PosWarehouse.Utility;
 using PosWarehouse.ViewModel;
 using PosWarehouse.ViewModel.ApiModel;
 
@@ -871,6 +873,31 @@ namespace PosWarehouse.DAL
                 }
             }
             return strMessage;
+        }
+
+        #endregion
+
+        #region Erp Api Execute
+
+        public async Task<string> ErpPurchaseMaterialReportApi(PurchaseReportModelApi reportModelApi)
+        {
+            string message = "";
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ApiConfiguration.ERPApi);
+
+                //HTTP POST
+                var postTask = client.PostAsJsonAsync("MaterialPurchaseReport", reportModelApi);
+                postTask.Wait();
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    message = result.ReasonPhrase;
+                }
+                
+            }
+            return message;
         }
 
         #endregion

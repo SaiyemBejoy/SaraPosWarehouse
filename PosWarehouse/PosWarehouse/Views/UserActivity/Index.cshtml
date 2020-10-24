@@ -180,6 +180,9 @@
                 url: '/UserActivity/GetEmployeeInfoByEmployeeId/',
                 data: dataObject,
                 dataType: 'json',
+                beforeSend: function () {
+                    $('#preLoader').show();
+                },
                 success: function (result) {
                     var userActivityTableQuantity = result.length;
                     $("#gridTableBodyForEmployeeInfo").html("");
@@ -216,6 +219,8 @@
                     } else {
                         toastr.error("No Data Found !.");
                     }
+                    var table = $("#gridTable").dataTable();
+                    $('#preLoader').hide();
                 }
 
             });

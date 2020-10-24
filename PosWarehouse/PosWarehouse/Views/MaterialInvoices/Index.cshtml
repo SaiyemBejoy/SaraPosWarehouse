@@ -123,7 +123,8 @@
 
         $.ajax({
             type: 'GET',
-            url: 'http://192.168.2.232/api/MaterialInvoices/',
+            //url: 'http://192.168.2.226/api/MaterialInvoices/',
+            url: '@PosWarehouse.Utility.ApiConfiguration.ERPApi' + 'MaterialInvoices',
             dataType: 'json',
             beforeSend: function () {
                 $('#preLoader').show();

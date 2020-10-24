@@ -1311,5 +1311,101 @@ namespace PosWarehouse.DAL
         }
         //End
 
+        #region MaterialPurchaseReport
+
+        public async Task<DataTable> GetMaterialTypeListDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "MATERIAL_TYPE_ID, " +
+                      "MATERIAL_TYPE_NAME " +
+                      "FROM VEW_MATERIAL_TYPE_ERP ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetMaterialSubTypeListDropdown()
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "MATERIAL_SUB_TYPE_ID, " +
+                      "MATERIAL_SUB_TYPE_NAME " +
+                      "FROM VEW_MATERIAL_SUB_TYPE_ERP ";
+
+            OracleCommand objCommand = new OracleCommand(sql);
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
+        public async Task<DataTable> GetMaterialSubTypeListDropdown(int materialTypeId)
+        {
+            DataTable dt = new DataTable();
+            var sql = "SELECT " +
+                      "MATERIAL_TYPE_ID, " +
+                      "MATERIAL_SUB_TYPE_ID, " +
+                      "MATERIAL_SUB_TYPE_NAME " +
+                      "FROM VEW_MATERIAL_SUB_TYPE_ERP WHERE MATERIAL_TYPE_ID = :MATERIAL_TYPE_ID  order by MATERIAL_SUB_TYPE_NAME ";
+
+            OracleCommand objCommand = new OracleCommand(sql) { CommandType = CommandType.Text };
+            objCommand.Parameters.Add("MATERIAL_TYPE_ID", materialTypeId);
+
+            OracleDataAdapter objDataAdapter = new OracleDataAdapter(objCommand);
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    objDataAdapter.Fill(dt);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                }
+            }
+            return dt;
+        }
+
+        #endregion
     }
 }

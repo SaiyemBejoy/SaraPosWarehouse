@@ -264,6 +264,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialDetailsController.cs" />
     <Compile Include="Controllers\MaterialInvoicesController.cs" />
+    <Compile Include="Controllers\MaterialPurchaseReportController.cs" />
     <Compile Include="Controllers\MaterialSuppliersController.cs" />
     <Compile Include="Controllers\MenuSetUpController.cs" />
     <Compile Include="Controllers\OtherCompanyDiscountController.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="DAL\HomeDal.cs" />
     <Compile Include="DAL\InvoiceInfoDAL.cs" />
     <Compile Include="DAL\MaterialDetailsDal.cs" />
+    <Compile Include="DAL\MaterialPurchaseReportDal.cs" />
     <Compile Include="DAL\MenuAndSubMenuDal.cs" />
     <Compile Include="DAL\OtherCompanyOfferDal.cs" />
     <Compile Include="DAL\OtherCostDetailsDal.cs" />
@@ -364,10 +366,22 @@
       <DependentUpon>DamageProductDetails.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\GiftVoucher\GiftVoucherDetails.cs">
+    <Compile Include="Reports\GiftVoucher\GiftVoucherDetails1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GiftVoucherDetails1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\GiftVoucher\GiftVoucherDetails2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GiftVoucherDetails.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\MaterialPurchase\MaterialPurchase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPurchase.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\POReceive\OtherPurchaseReceiveReport.cs">
@@ -508,10 +522,10 @@
       <DependentUpon>ShopDeliveryGvt.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\SolPurchaseReceive\SolPurchaseReceive.cs">
+    <Compile Include="Reports\SolPurchaseReceive\SpuPurchaseReceive.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SolPurchaseReceive.rpt</DependentUpon>
+      <DependentUpon>SpuPurchaseReceive.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Stock\CurrentStockStyleWise.cs">
@@ -647,6 +661,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\ApiConfiguration.cs" />
     <Compile Include="Utility\LogActionAttribute.cs" />
     <Compile Include="Utility\RoleFilter.cs" />
     <Compile Include="Utility\UtilityClass.cs" />
@@ -655,6 +670,7 @@
     <Compile Include="ViewModel\ApiModel\DamageTransferItem.cs" />
     <Compile Include="ViewModel\ApiModel\DamageTransferMain.cs" />
     <Compile Include="ViewModel\ApiModel\ItemInfoShopReceiveModel.cs" />
+    <Compile Include="ViewModel\ApiModel\PurchaseReportModelApi.cs" />
     <Compile Include="ViewModel\ApiModel\OtherCompanyOfferModel.cs" />
     <Compile Include="ViewModel\ApiModel\RequisitionMainItemModel.cs" />
     <Compile Include="ViewModel\ApiModel\RequisitionMainModel.cs" />
@@ -1533,6 +1549,7 @@
     <Content Include="Views\Auth\UserList.cshtml" />
     <Content Include="Views\MaterialInvoices\Index.cshtml" />
     <Content Include="Views\MaterialSuppliers\Index.cshtml" />
+    <Content Include="Views\MaterialPurchaseReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1573,7 +1590,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\GiftVoucher\GiftVoucherDetails.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>GiftVoucherDetails.cs</LastGenOutput>
+      <LastGenOutput>GiftVoucherDetails2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GiftVoucher\GiftVoucherDetails1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GiftVoucherDetails1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MaterialPurchase\MaterialPurchase.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MaterialPurchase.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\POReceive\OtherPurchaseReceiveReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1667,9 +1692,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ShopDeliveryGvt.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\SolPurchaseReceive\SolPurchaseReceive.rpt">
+    <EmbeddedResource Include="Reports\SolPurchaseReceive\SpuPurchaseReceive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>SolPurchaseReceive.cs</LastGenOutput>
+      <LastGenOutput>SpuPurchaseReceive.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Stock\CurrentStockStyleWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

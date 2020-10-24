@@ -1506,7 +1506,7 @@ namespace PosWarehouse.Controllers.Report
 
         #endregion
 
-        #region "SOL Purchase Receive Report"
+        #region "SPU Purchase Receive Report"
 
         [RoleFilter]
         public async Task<ActionResult> SolPurchaseReceive()
@@ -1554,7 +1554,7 @@ namespace PosWarehouse.Controllers.Report
         private async Task<int> GenerateSolPurchaseReceiveReport(SolPurchaseReceiveReport objSolPurchaseReceiveReport)
         {
             DataSet objDataSet = null;
-            string strPath = Path.Combine(Server.MapPath("~/Reports/SolPurchaseReceive/SolPurchaseReceive.rpt"));
+            string strPath = Path.Combine(Server.MapPath("~/Reports/SolPurchaseReceive/SpuPurchaseReceive.rpt"));
             _objReportDocument.Load(strPath);
 
             objDataSet = (await _objReportDal.SolPurchaseReceive(objSolPurchaseReceiveReport));
@@ -1563,7 +1563,7 @@ namespace PosWarehouse.Controllers.Report
             _objReportDocument.SetDataSource(objDataSet);
             _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
 
-            ShowReport(objSolPurchaseReceiveReport.ReportType, "SOL Purchase Receive Report");
+            ShowReport(objSolPurchaseReceiveReport.ReportType, "SPU Purchase Receive Report");
             return 0;
         }
 
