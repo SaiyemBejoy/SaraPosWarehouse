@@ -27,7 +27,7 @@
                             <th> Requisition Date</th>
                             <th> Requisition By </th>
                             <th> Shop </th>
-                            <th> Delivery </th>
+                            <th> Delivery Status</th>
                             <th> Action </th>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@
                         <tr>
                             <td>@counter</td>
                             <td>@data.RequisitionNo</td>
-                            <td>@data.RequisitionDate</td>
+                            <td>@data.RequisitionDate.Substring(0, (data.RequisitionDate.Length-11))</td>
                             <td>@data.CreatedBy</td>
                             <td>@data.ShopId</td>
                             @if (data.Delivery_YN != "Y")
@@ -55,16 +55,21 @@
                                     <a class="btn btn-sm green"><i class="fa fa-check"></i> YES</a>
                                 </td>
                             }
-                            <td style="width: 15%">
-                                <a class="btn btn-primary orderItem" data-toggle="modal" href="#ShopOrderItemModal" data-id="@data.RequisitionAutoId" id="orderItem">
-                                    <i class="fa fa-pencil"></i>
-                                    View Item
-                                </a>
-                                <a class="btn btn-danger"  href="@Url.Action("CreateOrEdit","StoreDelivery")" >
-                                    <i class="fa fa-area-chart"></i>
-                                    Delivery
-                                </a>
-                            </td>
+                                <td style="width: 35%">
+                                    <a class="btn btn-primary orderItem" data-toggle="modal" href="#ShopOrderItemModal" data-id="@data.RequisitionAutoId" id="orderItem">
+                                        <i class="fa fa-pencil"></i>
+                                        View Item
+                                    </a>
+                                    <a class="btn btn-danger" href="@Url.Action("CreateOrEdit","StoreDelivery")">
+                                        <i class="fa fa-area-chart"></i>
+                                        Delivery
+                                    </a>
+                                    @Html.ActionLink("Show Report", "ShowReport", "ShopOrder", new { requAutoId = data.RequisitionAutoId }, new { @class = "btn btn-warning", target = "_blank" })
+                                    @if (data.Delivery_YN != "Y")
+                                    {
+                                        <a id="changeStatus" class="btn btn-info" data-id="@data.RequisitionAutoId">Change Delivery Status</a>
+                                    }
+                                </td>
                         </tr>
                                 counter = counter + 1;
                             }
@@ -120,7 +125,19 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label"><strong>Total Item</strong></label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control  input-circle" id="totalDamagedItem" style="width: 150px; background-color: yellow; font-weight:bold; font-size:20px;" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -130,6 +147,17 @@
 
 
 <script>
+    //for popup modal
+    function totalItemCount() {
+        var total = 0;
+        $("#ModalItemListTableBodyShop tr").each(function () {
+            total += parseInt($(this).find('td:eq(3)').html());
+
+        });
+        $("#totalDamagedItem").val(total);
+    }
+
+
     function orderItemList(requisitionId) {
 
         var dataId = JSON.stringify({ requisitionId: requisitionId });
@@ -158,11 +186,12 @@
                         '</td>' +
                         '</tr>'
                     );
+                    totalItemCount();
                 }
             }
         });
     }
-
+    
     jQuery(document).ready(function () {
 
         var table = $("#shopOrderList").dataTable();
@@ -171,6 +200,6 @@
             var requisitionId = $(this).data('id');
             orderItemList(requisitionId);
         });
-       
+        
     });
 </script>

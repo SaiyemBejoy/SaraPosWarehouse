@@ -92,7 +92,7 @@ namespace PosWarehouse.DAL
                       "USE_ACTION," +
                       "IP_ADDRESS," +
                       "CREATED_DATE " +
-                      "FROM USER_ACTION_HISTORY where EMPLOYEE_ID = :EMPLOYEE_ID  AND TO_CHAR (CREATED_DATE, 'DD/MM/YYYY') BETWEEN :FROM_DATE AND :TO_DATE ORDER BY CREATED_DATE DESC";
+                      "FROM USER_ACTION_HISTORY where EMPLOYEE_ID = :EMPLOYEE_ID  OR TO_CHAR (CREATED_DATE, 'DD/MM/YYYY') BETWEEN :FROM_DATE AND :TO_DATE ORDER BY CREATED_DATE DESC";
 
             using (OracleConnection objConnection = GetConnection())
             {

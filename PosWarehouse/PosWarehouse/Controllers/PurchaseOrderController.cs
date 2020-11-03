@@ -105,6 +105,7 @@ namespace PosWarehouse.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SearchProduct(string searchKey)

@@ -1,0 +1,191 @@
+﻿@model PosWarehouse.ViewModel.PriceDeclarationHtmlReport
+@{
+    ViewBag.Title = "PriceDecelarationReportForHtml";
+}
+
+<div class="row" id="target">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <h5 class="text-center"><b>Government of the People's Republic of Bangladesh</b></h5>
+                        <h6 class="text-center">National Board of Revenue</h6>
+                        <h6 class="text-center">Input-Output Coefficient</h6>
+                        <h6 class="text-center">(See Rule 21)</h6>
+                        <h6 class="text-right"><b>Musok-4.3</b></h6>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="font-size:9px;">
+                        <p>Name<b>: @Model.WarehouseName</b></p>
+                        <p>Address: @Model.WarehouseAddress</p>
+                        <p>BIN: @Model.BIN</p>
+                        <p>Submission Date: </p>
+                        <p>First date of supply of goods/servics according to the declared coefficient: </p>
+                    </div>
+                </div>
+                <table class="table table-responsive table-bordered table-hover table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <th rowspan="2" class="text-center" style="font-size:9px;"><b>SL.NO</b></th>
+                            <th rowspan="2" class="text-center" style="font-size:9px;">HS Code of Goods/ Service</th>
+                            <th rowspan="2" class="text-center" style="font-size:9px;">Name & description of goods/services (If applicable with specific brand name)</th>
+                            <th rowspan="2" class="text-center" style="font-size:9px;">Supply Unit</th>
+                            <th colspan="5" class="text-center" style="font-size:9px;">Details, quantity and purchase price of all materials / raw materials and packing materials used to supply a single product / service (including percentage of material based waste)</th>
+                            <th colspan="2" class="text-center" style="font-size:9px;">Details of value addition</th>
+                            <th rowspan="2" class="text-center" style="font-size:9px;">Remarks</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th class="text-center" style="font-size:9px;">Particular</th>
+                            <th class="text-center" style="font-size:9px;">Qty including wastage</th>
+                            <th class="text-center" style="font-size:9px;">Price</th>
+                            <th class="text-center" style="font-size:9px;">Wastage Qty</th>
+                            <th class="text-center" style="font-size:9px;">Percentage</th>
+                            <th class="text-center" style="font-size:9px;">Addition sector</th>
+                            <th class="text-center" style="font-size:9px;">Price</th>
+
+                        </tr>
+                        <tr class="text-center">
+                            <th class="text-center" style="font-size:9px;">(1)</th>
+                            <th class="text-center" style="font-size:9px;">(2)</th>
+                            <th class="text-center" style="font-size:9px;">(3)</th>
+                            <th class="text-center" style="font-size:9px;">(4)</th>
+                            <th class="text-center" style="font-size:9px;">(5)</th>
+                            <th class="text-center" style="font-size:9px;">(6)</th>
+                            <th class="text-center" style="font-size:9px;">(7)</th>
+                            <th class="text-center" style="font-size:9px;">(8)</th>
+                            <th class="text-center" style="font-size:9px;">(9)</th>
+                            <th class="text-center" style="font-size:9px;">(10)</th>
+                            <th class="text-center" style="font-size:9px;">(11)</th>
+                            <th class="text-center" style="font-size:9px;">(12)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  class="text-center" style="font-size:9px;padding:0px;">
+                           
+                            <td>1</td>
+                            <td style="font-size:9px;">@Model.HSCode</td>
+                            <td style="font-size:9px;">@Model.ProductStyle</td>
+                            <td style="font-size:9px;">@Model.MesuaringUnit</td>
+                            <td colspan="3">
+                                <table class="table table-responsive table-bordered table-hover table-striped" id="fabricTable">
+                                    @if (Model.ProductMaterialCostDetailsList != null)
+                                    {
+                                        foreach (var materialDetails in Model.ProductMaterialCostDetailsList)
+                                        {
+                                            <tr>
+                                                <td class="text-center" style="width:27.5%;font-size:9px;padding:0px;">@materialDetails.MaterialName</td>
+                                                <td class="text-center" style="width:55.5%;font-size:9px;padding:0px;">@materialDetails.UsedMaterial</td>
+                                                <td class="text-center" style="width:17%;font-size:9px;padding:0px;">@materialDetails.SubTotal</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                            <td style="font-size:9px;">@Model.WastageQty</td>
+                            <td style="font-size:9px;">@Model.Percentage</td>
+                            <td colspan="2">
+
+                                <table class="table table-responsive table-bordered table-hover table-striped" id="otherCostTable">
+                                    @if (Model.ProductOthersCostDetailsList != null)
+                                    {
+                                        foreach (var otherCostDetails in Model.ProductOthersCostDetailsList)
+                                        {
+                                            <tr>
+                                                <td class="text-center" style="width:60%;font-size:9px;padding:0px;">@otherCostDetails.PurposeOfCost</td>
+                                                <td class="text-center" style="width:40%;font-size:9px;padding:0px;">@otherCostDetails.CostValue</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </td>
+                            <td style="font-size:9px;"></td>
+
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" class="text-right" style="font-size:9px;padding:0px;font-weight:bold;">Total :</td>
+                            <td class="text-center" style="font-size:9px;padding:0px;font-weight:bold;" id="fabricTotal"></td>
+                            <td colspan="3" class="text-right" style="font-size:9px;padding:0px;font-weight:bold;">Total :</td>
+                            <td class="text-center" style="font-size:9px;padding:0px;font-weight:bold;" id="costTotal"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="row">
+                    <div class="col-md-6" style="font-size:9px;">
+                        <p><b>Name of the institution authority or nominee:</b></p>
+                        <p>Designation:</p>
+                        <p>Signature:</p>
+                        <p>Seal: </p>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-9"></div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <br />
+                            <a class="btn btn-lg blue hidden-print margin-bottom-5" onclick="javascript:window.print();">
+                                Export PDF <i class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function totalFabricCost() {
+        var total = 0;
+        $("#fabricTable tr").each(function () {
+            total += parseInt($(this).find('td:eq(2)').text());
+
+        });
+        $("#fabricTotal").html(total);
+    }
+
+    function totalOtherCost() {
+        var total = 0;
+        $("#otherCostTable tr").each(function () {
+            total += parseInt($(this).find('td:eq(1)').text());
+
+        });
+        $("#costTotal").html(total);
+    }
+
+    jQuery(document).ready(function () {
+
+        totalFabricCost();
+        totalOtherCost();
+    });
+</script>

@@ -372,12 +372,6 @@
       <DependentUpon>GiftVoucherDetails1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\GiftVoucher\GiftVoucherDetails2.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GiftVoucherDetails.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\MaterialPurchase\MaterialPurchase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -400,6 +394,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StyleWisePurchaseReceiveHistory.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\PriceDeclaration\PriceDeclaration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PriceDeclaration.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\PriceDeclaration\ProductPriceDeclaration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductPriceDeclaration.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.cs">
@@ -520,6 +526,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ShopDeliveryGvt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ShopOrder\ShopRequisition.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShopRequisition.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\SolPurchaseReceive\SpuPurchaseReceive.cs">
@@ -647,6 +659,12 @@
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\SubReport\MeterrialDetailsByProductId.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MeterrialDetailsByProductId.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\SubReport\PurchaseOrderFabric.cs">
       <AutoGen>True</AutoGen>
@@ -1430,6 +1448,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jspdf-plugin.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ProjectScripts\GiftVoucherDelivery.js" />
@@ -1550,6 +1569,8 @@
     <Content Include="Views\MaterialInvoices\Index.cshtml" />
     <Content Include="Views\MaterialSuppliers\Index.cshtml" />
     <Content Include="Views\MaterialPurchaseReport\Index.cshtml" />
+    <Content Include="Views\AllReport\PriceDeclaration.cshtml" />
+    <Content Include="Views\AllReport\PriceDecelarationReportForHtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1588,10 +1609,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>DamageProductDetails.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\GiftVoucher\GiftVoucherDetails.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>GiftVoucherDetails2.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Reports\GiftVoucher\GiftVoucherDetails1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>GiftVoucherDetails1.cs</LastGenOutput>
@@ -1611,6 +1628,14 @@
     <EmbeddedResource Include="Reports\POReceive\StyleWisePurchaseReceiveHistory.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>StyleWisePurchaseReceiveHistory.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PriceDeclaration\PriceDeclaration.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PriceDeclaration.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\PriceDeclaration\ProductPriceDeclaration.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProductPriceDeclaration.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ReturnReceive\ReturnReceiveChallanNumWise.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1691,6 +1716,10 @@
     <EmbeddedResource Include="Reports\ShopDeliveryForGvt\ShopDeliveryGvt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ShopDeliveryGvt.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ShopOrder\ShopRequisition.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ShopRequisition.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\SolPurchaseReceive\SpuPurchaseReceive.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1775,6 +1804,10 @@
     <EmbeddedResource Include="Reports\SubReport\InvoicePayment.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>InvoicePayment.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SubReport\MeterrialDetailsByProductId.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MeterrialDetailsByProductId.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\SubReport\PurchaseOrderFabric.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

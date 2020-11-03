@@ -27,7 +27,6 @@ namespace PosWarehouse.Controllers.Report
         private readonly ReportDal _objReportDal = new ReportDal();
         private readonly DataExchangeDal _objDataExchangeDal = new DataExchangeDal();
 
-
         public FileStreamResult ShowReport(string pReportType, string pFileDownloadName)
         {
 
@@ -1620,5 +1619,81 @@ namespace PosWarehouse.Controllers.Report
 
         #endregion
 
+        #region PriceDeclaration
+        [RoleFilter]
+        public async Task<ActionResult> PriceDeclaration()
+        {
+            LoadSession();
+            var model = new PriceDeclarationReport();
+            ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+
+            return View(model);
+        }
+
+        //Crystal Report 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PriceDeclaration(PriceDeclarationReport priceDeclarationReport)
+        {
+            LoadSession();
+            if (priceDeclarationReport.ReportType == "1")
+            {
+                priceDeclarationReport.ReportType = "PDF";
+
+                if (priceDeclarationReport.RadioFor == "PDR")
+                {
+                    await GeneratePriceDeclarationReport(priceDeclarationReport);
+                }
+            }
+
+            ViewBag.ProductStyleist = UtilityClass.GetSelectListByDataTable(await _objDropdownDal.GetAllProductStyleList(), "PRODUCT_ID", "PRODUCT_STYLE");
+            return View(priceDeclarationReport);
+        }
+
+        private async Task<int> GeneratePriceDeclarationReport(PriceDeclarationReport objPriceDeclarationReport)
+        {
+            DataSet objDataSet = null;
+            string strPath = Path.Combine(Server.MapPath("~/Reports/PriceDeclaration/ProductPriceDeclaration.rpt"));
+            _objReportDocument.Load(strPath);
+
+            objDataSet = (await _objReportDal.PriceDeclaration(objPriceDeclarationReport));
+
+            //_objReportDocument.Subreports[0].SetDataSource(objDataSet);
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+
+            //DataSet objDataSet2 = (await _objReportDal.materialDetails(objPriceDeclarationReport));
+
+          
+
+            _objReportDocument.Subreports[0].SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+            //_objReportDocument.Subreports[0].SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+
+
+
+            ShowReport(objPriceDeclarationReport.ReportType, "Price Declaration Report");
+
+            return 0;
+        }
+        //End
+
+
+        //HTML REPORT
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PriceDecelarationReportForHtml(PriceDeclarationReport priceDeclarationReport)
+        {
+            PriceDeclarationHtmlReport priceDeclarationHtmlReport = new PriceDeclarationHtmlReport();
+            priceDeclarationHtmlReport = await _objReportDal.GetAProductInfoForHtmlReport(priceDeclarationReport.ProductId);
+            priceDeclarationHtmlReport.ProductMaterialCostDetailsList = await _objReportDal.GetMaterialCostListByProductIdForHtmlReport(priceDeclarationReport.ProductId);
+            priceDeclarationHtmlReport.ProductOthersCostDetailsList = await _objReportDal.GetOtherCostListByProductIdForHtmlReport(priceDeclarationReport.ProductId);
+            return View(priceDeclarationHtmlReport);
+        }
+
+        //END
+        #endregion
     }
 }

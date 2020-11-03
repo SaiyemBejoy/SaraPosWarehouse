@@ -381,5 +381,42 @@ namespace PosWarehouse.ViewModel
         public string ReportType { get; set; }
     }
 
+    public class PriceDeclarationReport
+    {
+        public int ItemId { get; set; }
+
+        [Required]
+        public int ProductId { get; set; }
+
+        [DisplayName("Style")]
+        public string ProductStyle { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string RadioFor { get; set; }
+
+        public string RadioForZero { get; set; }
+
+        public string ReportType { get; set; }
+    }
+
+
+    public class PriceDeclarationHtmlReport
+    {
+        public string WarehouseName { get; set; }
+        public string WarehouseAddress { get; set; }
+        public string BIN { get; set; }
+
+        public int ProductId { get; set; }
+        public string ProductStyle { get; set; }
+        public string HSCode { get; set; }
+        public string MesuaringUnit { get; set; }
+        public string WastageQty { get; set; }
+        public string Percentage { get; set; }
+
+        public List<ProductMaterialCostDetails> ProductMaterialCostDetailsList { get; set; }
+        public List<ProductOthersCostDetails> ProductOthersCostDetailsList { get; set; }
+
+    }
 
 }

@@ -47,20 +47,20 @@
                                 {
                                     if (data.DApproverStatus.Contains("Y"))
                                     {
-                                        <td>
-                                            <b>Approved</b> <br /><b>Date:</b> @data.DApprovedDate
+                                        <td style="font-weight:bold; color: forestgreen;">
+                                            Approved <br />Date: @data.DApprovedDate
                                         </td>
                                     }
                                     else
                                     {
-                                        <td>
-                                            <b>Pending for Director Approval</b>
+                                        <td style="font-weight:bold; color: darkred;">
+                                            Pending for Director Approval
                                         </td>
                                     }
                                 }
                                 else
                                 {
-                                    <td><b>Pending</b></td>
+                                    <td style="font-weight:bold; color: red;">Pending</td>
                                 }
 
                                 <td style="width:20%">

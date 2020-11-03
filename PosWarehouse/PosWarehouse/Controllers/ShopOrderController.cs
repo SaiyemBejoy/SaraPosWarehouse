@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 using PosWarehouse.DAL;
 using PosWarehouse.Utility;
 using PosWarehouse.ViewModel;
+using PosWarehouse.ViewModel.ApiModel;
 
 namespace PosWarehouse.Controllers
 {
@@ -64,5 +69,54 @@ namespace PosWarehouse.Controllers
            }
             return Json(objShopOrderInfo, JsonRequestBehavior.AllowGet);
         }
+
+
+        #region Report
+        private readonly ReportDocument _objReportDocument = new ReportDocument();
+        private ExportFormatType _objExportFormatType = ExportFormatType.NoFormat;
+        private readonly ReportDal _objReportDal = new ReportDal();
+
+        public async Task<ActionResult> ShowReport(int requAutoId)
+        {
+            _objExportFormatType = ExportFormatType.PortableDocFormat;
+            ExportOptions option = new ExportOptions();
+            option.ExportFormatType = ExportFormatType.PortableDocFormat;
+            string strPath = Path.Combine(Server.MapPath("~/Reports/ShopOrder/ShopRequisition.rpt"));
+            _objReportDocument.Load(strPath);
+
+            RequisitionMainModel model = new RequisitionMainModel();
+            model.RequisitionAutoId = requAutoId;
+
+            DataSet objDataSet = (await _objReportDal.AutoIdWiseShopOrderDetails(model));
+
+            _objReportDocument.Load(strPath);
+            _objReportDocument.SetDataSource(objDataSet);
+            _objReportDocument.SetDatabaseLogon("POSWAREHOUSE", "POSWAREHOUSE");
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.Clear();
+            Response.Buffer = true;
+
+            _objExportFormatType = ExportFormatType.PortableDocFormat;
+
+            Stream oStream = _objReportDocument.ExportToStream(_objExportFormatType);
+            byte[] byteArray = new byte[oStream.Length];
+            oStream.Read(byteArray, 0, Convert.ToInt32(oStream.Length - 1));
+
+            Response.ContentType = "application/pdf";
+
+            string pFileDownloadName = "poReport.pdf";
+
+            Response.BinaryWrite(byteArray);
+            Response.Flush();
+            Response.Close();
+            _objReportDocument.Close();
+            _objReportDocument.Dispose();
+
+            return File(oStream, Response.ContentType, pFileDownloadName);
+        }
+        #endregion
     }
 }

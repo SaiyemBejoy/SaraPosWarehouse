@@ -153,4 +153,3 @@ E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.cspro
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csproj.CopyComplete
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.dll
 E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.pdb
-E:\SaRa Project\Warehouse\PosWarehouse\PosWarehouse\obj\Debug\PosWarehouse.csprojAssemblyReference.cache

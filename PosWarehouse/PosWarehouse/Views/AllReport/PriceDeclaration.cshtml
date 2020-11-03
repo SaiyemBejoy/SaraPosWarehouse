@@ -1,0 +1,133 @@
+﻿@model PosWarehouse.ViewModel.PriceDeclarationReport
+@{
+    ViewBag.Title = "PriceDeclarationReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-top-10">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Price Declaration
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                @using (Html.BeginForm("PriceDecelarationReportForHtml", "AllReport", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-1 text-center">
+                                <div class="form-group">
+                                    <div class="radio-list">
+                                        @Html.RadioButtonFor(model => model.ReportType, "1", new { @checked = true }) PDF
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-2"></div>
+                            @*<div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label"></label>
+                                        <div class="col-md-11">
+                                            <div class="radio-list">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.RadioForZero, "WZ", new { @checked = true }) <b>With Zero</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label"></label>
+                                        <div class="col-md-11">
+                                            <div class="radio-list">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.RadioForZero, "WOZ") <b>WithOut Zero</b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" id="styleDropdownHide">
+                                    @Html.LabelFor(c => c.ProductId, "StyleName", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        <div class="input-icon">
+                                            @Html.DropDownListFor(c => c.ProductId, new SelectList(ViewBag.ProductStyleist, "Value", "Text"), new { @class = "form-control input-circle select2" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-1 control-label"></label>
+                                            <div class="col-md-11">
+                                                <div class="radio-list">
+                                                    <label>
+                                                        @Html.RadioButtonFor(model => model.RadioFor, "PDR", new { @checked = true }) <b>Price Declaration Report</b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6 text-left">
+                                <button class="btn btn-success" type="submit" formtarget="_blank"><i class="fa fa-save"></i> Show</button>
+                                <a class="btn btn-danger" href="@Url.Action("PriceDeclaration", "AllReport")"><i class="fa fa-cut"></i> Clear</a>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({
+            allowClear: true
+        });
+        $('#styleDropdownHide').show();
+
+
+        $(':radio[name=RadioFor]').change(function() {
+            var value = $(this).val();
+            //if (value === 'PDR') {
+            //    $('#styleDropdownHide').show();
+            //}
+        });
+
+    });
+
+
+</script>
+
+
+

@@ -210,8 +210,9 @@ namespace PosWarehouse.DAL
                 "CREATE_DATE," +
                 "WARE_HOUSE_ID," +
                 "O_RECEIVE_YN, " +
+                "TOTAL_CHALLAN_QTY,"+
                 "HOLD_YN " +
-                "FROM OTHER_PURCHASE_RECEIVE s ORDER BY O_PURCHASE_RECEIVE_NUMBER DESC";
+                "FROM VEW_O_PURCHASE_RECEIVE_LIST s ORDER BY O_PURCHASE_RECEIVE_NUMBER DESC";
 
             using (OracleConnection objConnection = GetConnection())
             {
@@ -232,6 +233,7 @@ namespace PosWarehouse.DAL
                                     OtherPurchaseReceiveId = Convert.ToInt32(objDataReader["O_PURCHASE_RECEIVE_ID"].ToString()),
                                     OtherPurchaseReceiveNumber = objDataReader["O_PURCHASE_RECEIVE_NUMBER"].ToString(),
                                     VendorId = Convert.ToInt32(objDataReader["VENDOR_ID"].ToString()),
+                                    TotalChallanQty = Convert.ToInt32(objDataReader["TOTAL_CHALLAN_QTY"].ToString()),
                                     DeliveryShopId = objDataReader["DELIVERY_SHOP_ID"].ToString(),
                                     DeliveryShopName = objDataReader["DELIVERY_SHOP_NAME"].ToString(),
                                     UpdateBy = objDataReader["UPDATE_BY"].ToString(),

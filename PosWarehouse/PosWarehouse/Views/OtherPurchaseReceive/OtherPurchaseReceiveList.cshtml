@@ -33,6 +33,7 @@
                             <th>#</th>
                             <th style="display: none;"></th>
                             <th> Challan Number </th>
+                            <th>Challan Wise Total Qty</th>
                             <th> Delivery To</th>
                             <th> Created Date</th>
                             <th> Receive Status</th>
@@ -50,6 +51,7 @@
                             <td>@counter</td>
                             <td style="display: none;">@data.OtherPurchaseReceiveId</td>
                             <td>@data.OtherPurchaseReceiveNumber</td>
+                            <td>@data.TotalChallanQty</td>
                             <td>@data.DeliveryShopName</td>
                             <td>@data.CreatedDate</td>
                             @if (data.ReceiveYN == "Y")

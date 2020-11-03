@@ -266,6 +266,7 @@ namespace PosWarehouse.DAL
                         "DBBLGATEWAY, " +
                         "CITYGATEWAY, " +
                         "REDX, " +
+                        "ACILOGISTICS, " +
                         "TOTAL_PAYMENT_TYPE_AMOUNT, " +
                         "PAYMENT_AMOUNT_ALL  " +
                       
@@ -758,6 +759,70 @@ namespace PosWarehouse.DAL
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<DataSet> AutoIdWiseShopOrderDetails(RequisitionMainModel requisitionMainModel)
+        {
+            try
+            {
+                DataSet ds = null;
+                DataTable dt = new DataTable();
+                try
+                {
+                    var sql = "SELECT " +
+                                " 'Order Wise Requisition Details' RPT_TITLE , " +
+                                "REQUISITION_ID," +
+                                "REQUISITION_NO," +
+                                "REQUISITION_DATE," +
+                                "CREATED_BY," +
+                                "SHOP_ID," +
+                                "SHOP_NAME," +
+                                "DELIVERY_YN," +
+                                "REQUISITION_MAIN_ITEM_ID," +
+                                "BARCODE,ITEM_NAME," +
+                                "PRICE," +
+                                "REQUISITION_AUTO_ID," +
+                                "REQUISITION_MAIN_ITEM_AUTO_ID," +
+                                "QUANTITY " +
+                              " from VEW_RPT_SHOP_ORDR_DTLS where REQUISITION_AUTO_ID='" + requisitionMainModel.RequisitionAutoId + "'";
+
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_SHOP_ORDR_DTLS"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<DataSet> ChallanNumberWiseReturnReceiveDetails(StockReceiveModel stockReceiveModel)
         {
             try
@@ -4303,6 +4368,8 @@ namespace PosWarehouse.DAL
                                 "ITEM_NAME," +
                                 "CM," +
                                 "MATERIAL_COST," +
+                                "SUM(COGS) COGS," +
+                                "SUM(OTHER_COST) OTHER_COST," +
                                 "PURCHASE_PRICE," +
                                 "SALE_PRICE," +
                                 "SUM(TOTAL_VALUE)TOTAL_VALUE," +
@@ -5265,5 +5332,303 @@ namespace PosWarehouse.DAL
         #endregion
 
 
+        #region PriceDeclaration
+        public async Task<DataSet> PriceDeclaration(PriceDeclarationReport objPriceDeclarationReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                var sql = "";
+                DataTable dt = new DataTable();
+                try
+                {
+                    sql = "SELECT " +
+                             "PRODUCT_ID," +
+                             "PRODUCT_NAME," +
+                             "PRODUCT_STYLE," +
+                             "PRODUCT_DESCRIPTION," +
+                             "CATEGORY_ID," +
+                             "SUB_CATEGORY_ID," +
+                             "ACTIVE_YN," +
+                             "PRODUCT_IMAGE," +
+                             "VAT_YN," +
+                             "PURCHASE_PRICE," +
+                             "SALE_PRICE," +
+                             "UPDATE_BY," +
+                             "UPDATE_DATE," +
+                             "CREATE_BY," +
+                             "CREATE_DATE," +
+                             "WARE_HOUSE_ID," +
+                             "SHOP_ID," +
+                             "BRAND_ID," +
+                             "DESIGNER_ID," +
+                             "MERCHANDISER_ID," +
+                             "PURCMEASURUNIT_ID," +
+                             "SALEMEASURUNIT_ID," +
+                             "PURCUNITANDSALEUNIT," +
+                             "MATERIAL_COST," +
+                             "CM," +
+                             "KARCUPI," +
+                             "WASH,PRINT," +
+                             "EMBROIDERY," +
+                             "SEASON_ID,"+
+                             "COGS " +
+                             " From VEW_RPT_PRODUCT_PRICE_DECLARE WHERE 1=1 ";
+
+                    if (objPriceDeclarationReport.ProductId > 0)
+                    {
+                        sql = sql + " and PRODUCT_ID = " + objPriceDeclarationReport.ProductId;
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_PRODUCT_PRICE_DECLARE"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<DataSet> materialDetails(PriceDeclarationReport objPriceDeclarationReport)
+        {
+            try
+            {
+                DataSet ds = null;
+                var sql = "";
+                DataTable dt = new DataTable();
+                try
+                {
+                    sql = "SELECT " +
+                              "MATERIAL_COST_DETAILS_ID,"+
+                               "PRODUCT_ID,"+
+                               "MATERIAL_ID,"+
+                               "MATERIAL_NAME,"+
+                              " UNIT_PROCE,"+
+                               "USED_MATERIAL,"+
+                               "SUB_TOTAL,"+
+                               "WASTAGE_QTY,"+
+                               "PARCENTAGE,"+
+                               "CREATED_BY,"+
+                               "CREATED_DATE  "+
+                             " From VEW_RPT_PRODUCT_MATERIAL_INFO WHERE 1=1 ";
+
+                    if (objPriceDeclarationReport.ProductId > 0)
+                    {
+                        sql = sql + " and PRODUCT_ID = " + objPriceDeclarationReport.ProductId;
+                    }
+                    OracleCommand objOracleCommand = new OracleCommand(sql);
+                    using (OracleConnection strConn = GetConnection())
+                    {
+                        try
+                        {
+                            objOracleCommand.Connection = strConn;
+                            await strConn.OpenAsync();
+                            var objDataAdapter = new OracleDataAdapter(objOracleCommand);
+                            dt.Clear();
+                            ds = new System.Data.DataSet();
+                            await Task.Run(() => objDataAdapter.Fill(ds, "VEW_RPT_PRODUCT_MATERIAL_INFO"));
+                            objDataAdapter.Dispose();
+                            objOracleCommand.Dispose();
+                        }
+
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+
+                        finally
+                        {
+                            strConn.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<PriceDeclarationHtmlReport> GetAProductInfoForHtmlReport(int productId)
+        {
+
+            var sql = "SELECT  * FROM VEW_RPT_HTML_RPT_PRODUCT_INFO where PRODUCT_ID = :PRODUCT_ID ";
+
+            //OracleCommand objCommand = new OracleCommand(sql);
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = productId;
+                   
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        PriceDeclarationHtmlReport objPriceDeclarationHtmlReport = new PriceDeclarationHtmlReport();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                objPriceDeclarationHtmlReport.ProductId =
+                                    Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString());
+                                objPriceDeclarationHtmlReport.HSCode = objDataReader["HS_CODE"].ToString();
+                                objPriceDeclarationHtmlReport.WastageQty = objDataReader["WASTAGE_QTY"].ToString();
+                                objPriceDeclarationHtmlReport.Percentage = objDataReader["PERCENTAGE"].ToString();
+                                objPriceDeclarationHtmlReport.WarehouseName = objDataReader["WAREHOUSE_NAME"].ToString();
+                                objPriceDeclarationHtmlReport.WarehouseAddress = objDataReader["WAREHOUSE_ADDRESS"].ToString();
+                                objPriceDeclarationHtmlReport.BIN = objDataReader["CENTRAL_BIN_NO"].ToString();
+                                objPriceDeclarationHtmlReport.ProductStyle = objDataReader["PRODUCT_STYLE"].ToString();
+                                objPriceDeclarationHtmlReport.MesuaringUnit = objDataReader["PURCMEASUR_UNIT"].ToString();
+                            }
+
+                            return objPriceDeclarationHtmlReport;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        public async Task<List<ProductMaterialCostDetails>> GetMaterialCostListByProductIdForHtmlReport(int productId)
+        {
+            var sql = "SELECT * FROM VEW_PRODUCT_MATERIAL_DETAILS WHERE PRODUCT_ID =:PRODUCT_ID  ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+                    objCommand.Parameters.Add(":PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = productId;
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<ProductMaterialCostDetails> objProductMaterialCostDetails = new List<ProductMaterialCostDetails>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                ProductMaterialCostDetails model = new ProductMaterialCostDetails
+                                {
+                                    ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString()),
+                                    MaterialId = Convert.ToInt32(objDataReader["MATERIAL_ID"].ToString()),
+                                    MaterialName = objDataReader["MATERIAL_NAME"].ToString(),
+                                    UnitPrice = Convert.ToDouble(objDataReader["UNIT_PROCE"].ToString()),
+                                    UsedMaterial = Convert.ToDouble(objDataReader["USED_MATERIAL"].ToString()),
+                                    SubTotal = Convert.ToDouble(objDataReader["SUB_TOTAL"].ToString()),
+                                    UpdatedBy = objDataReader["CREATED_BY"].ToString()
+
+                                };
+                                objProductMaterialCostDetails.Add(model);
+                            }
+                            return objProductMaterialCostDetails;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        public async Task<List<ProductOthersCostDetails>> GetOtherCostListByProductIdForHtmlReport(int productId)
+        {
+
+            var sql = "SELECT  *  FROM VEW_PRODUCT_OTHER_COST_DETAILS WHERE PRODUCT_ID =:PRODUCT_ID  ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+               
+                        objCommand.Parameters.Add(":PRODUCT_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = productId;
+                        await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<ProductOthersCostDetails> objProductOthersCostDetails = new List<ProductOthersCostDetails>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                ProductOthersCostDetails model = new ProductOthersCostDetails
+                                {
+                                    ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString()),
+                                    PurposeOfCost = objDataReader["COST_PURPOSE"].ToString(),
+                                    CostValue = Convert.ToDouble(objDataReader["COST_VALUE"].ToString())
+                                };
+                                objProductOthersCostDetails.Add(model);
+                            }
+                            return objProductOthersCostDetails;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
+        #endregion
     }
 }

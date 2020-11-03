@@ -34,33 +34,38 @@ namespace PosWarehouse.DAL
                 {
                     var sql = "SELECT " +
                               " '  From ' || to_date( '" + purchaseReportModelApi.StartDate + "', 'dd/mm/yyyy') || ' to '|| to_date( '" + purchaseReportModelApi.EndDate + "', 'dd/mm/yyyy')  PERIOD, " +
-                    " PURCHASE_ID, " +
-                    " REQUISITION_ID, " +
-                    " REQUISITION_CODE, " +
-                    " CREATE_DATE, " +
-                    " STORE_ID, " +
-                    " PURCHASE_CODE, " +
-                    " INVOICE_NUMBER, " +
-                    " INVOICE_DATE, " +
-                    " SUPPLIER_NAME, " +
-                    " SUPPLIER_ADDRESS, " +
-                    " BIN, " +
-                    " MATERIAL_TYPE_ID, " +
-                    " MATERIAL_TYPE_NAME, " +
-                    " MATERIAL_SUB_TYPE_ID, " +
-                    " MATERIAL_SUB_TYPE_NAME, " +
-                    " UNIT_PRICE, " +
-                    " TOTAL_AMOUNT, " +
-                    " BULK_USED, " +
-                    " SAMPLE_USED, " +
-                    " UTILIZED_QUANTITY, " +
-                    " IN_STOCK, " +
-                    " BULK_UTILIZED_DATE, " +
-                    " SAMPLE_UTILIZED_DATE, " +
-                    "  OPENING_STOCK, " +
-                    " PERIOD_DATE, " +
-                    "  CLOSING_STOCK " +
-                    " From VEW_MMS_REPORT_PURCHASE_ERP WHERE 1= 1  ";
+                     "PURCHASE_ID, " +
+                     "REQUISITION_ID, " +
+                     "CREATE_DATE," +
+                     "STORE_ID," +
+                     "PURCHASE_CODE," +
+                     "INVOICE_NUMBER," +
+                     "INVOICE_DATE," +
+                     "SUPPLIER_NAME," +
+                     "SUPPLIER_ADDRESS," +
+                     "BIN," +
+                     "MATERIAL_TYPE_ID," +
+                     "MATERIAL_TYPE_NAME," +
+                     "MATERIAL_SUB_TYPE_ID," +
+                     "MATERIAL_SUB_TYPE_NAME," +
+                     "UNIT_PRICE," +
+                     "TOTAL_AMOUNT," +
+                     "QUANTITY," +
+                     "BULK_USED," +
+                     "BULK_UTILIZED_DATE," +
+                     "SAMPLE_USED," +
+                     "SAMPLE_UTILIZED_DATE," +
+                     "OPENING_STOCK," +
+                     "OPENING_AMOUNT," +
+                     "PURCHASE_QUANTITY," +
+                     "PURCHASE_AMOUNT," +
+                     "UTILIZED_QUANTITY," +
+                     "UTILIZED_AMOUNT," +
+                     "CLOSING_STOCK," +
+                     "CLOSING_AMOUNT," +
+                     "TOTAL_STOCK,"+
+                     "TOTAL_STOCK_AMOUNT " +
+                     " From VEW_MMS_REPORT_PURCHASE_ERP WHERE 1= 1  ";
 
 
                     if (purchaseReportModelApi.MaterialTypeId !=null)

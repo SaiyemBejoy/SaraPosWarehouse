@@ -30,6 +30,8 @@ namespace PosWarehouse.ViewModel
         public bool ReScanStatus { get; set; }
         public string Scan_Type { get; set; }
 
+        public int TotalChallanQty { get; set; }
+
         public List<OtherPurchaseReceiveItemModel> ReceiveItemsList { get; set; }
        
     }

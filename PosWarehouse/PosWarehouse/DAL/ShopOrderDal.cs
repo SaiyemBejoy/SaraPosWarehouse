@@ -30,13 +30,14 @@ namespace PosWarehouse.DAL
             var sql = "SELECT " +
                       "REQUISITION_ID," +
                         "REQUISITION_NO," +
-                        "to_date(REQUISITION_DATE,'dd/mm/yyyy')REQUISITION_DATE," +
+                         //"to_date(REQUISITION_DATE,'dd/mm/yyyy')REQUISITION_DATE," +
+                         "REQUISITION_DATE," +
                         "CREATED_BY," +
                         "REQUISITION_AUTO_ID," +
                         "DELIVERY_YN," +
                         "SHOP_ID," +
                         "SHOP_NAME " +
-                      "FROM VEW_REQUISITION_MAIN ";
+                      "FROM VEW_REQUISITION_MAIN ORDER BY DELIVERY_YN, REQUISITION_DATE DESC";
             using (OracleConnection objConnection = GetConnection())
             {
 
@@ -55,7 +56,7 @@ namespace PosWarehouse.DAL
                                     RequisitionAutoId = Convert.ToInt32(objDataReader["REQUISITION_AUTO_ID"].ToString()),
                                     RequisitionId = Convert.ToInt32(objDataReader["REQUISITION_ID"].ToString()),
                                     RequisitionNo = objDataReader["REQUISITION_NO"].ToString(),
-                                    RequisitionDate = objDataReader["REQUISITION_DATE"].ToString(),              
+                                    RequisitionDate =objDataReader["REQUISITION_DATE"].ToString(),              
                                     CreatedBy = objDataReader["CREATED_BY"].ToString(),
                                     Delivery_YN = objDataReader["DELIVERY_YN"].ToString(),
                                     ShopId = objDataReader["SHOP_NAME"].ToString()

@@ -4,7 +4,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    table {
+        width: 100px;
+        border: 1px solid #000;
+    }
 
+    th.style {
+        width: 150px;
+    }
+
+    th.name {
+        width: 550px;
+    }
+</style>
 
 <div class="portlet box red">
     <div class="portlet-title">
@@ -91,13 +104,13 @@
                     <table class="table table-bordered table-hover" id="prodductSearchTable">
                         <thead>
                             <tr>
-                                <th>
+                                <th class="style">
                                     Style
                                 </th>
                                 <th>
                                     Barcode
                                 </th>
-                                <th>
+                                <th class="name">
                                     Name
                                 </th>
                                 <th>
@@ -121,7 +134,7 @@
                                 <th>
                                     STOCK
                                 </th>
-                                <th>
+                                <th class="style">
                                     SHOP Name
                                 </th>
                                 @*<th>
@@ -138,6 +151,7 @@
 
     </div>
 </div>
+
 <script>
     //var dataObject = {};
     jQuery(document).ready(function () {
@@ -203,20 +217,51 @@
                     data: {
                         objQuickSearchModel: dataObject
                     },
+                   
                     type: 'POST'
                 },
                 "columns": [
-                    { "data": "ProductStyle" },
-                    { "data": "Barcode" },
-                    { "data": "ItemName" },
+                    {
+                        "data": "ProductStyle",
+                       
+
+                    },
+                    {
+                        "data": "Barcode",
+                        
+                    },
+                    {
+                        "data": "ItemName",
+                        
+                    },
                     { "data": "CategoryName" },
                     { "data": "SubCategoryName" },
                     { "data": "Vat" },
                     { "data": "SalePrice" },
                     { "data": "PurchasePrice" },
-                    { "data": "Stock" },
-                    { "data": "ShopName" }
+                    {
+                        "data": "Stock",
+                        render: function (data, type, object) {
+                            if (object.Stock) {
+                                return "<p style='text-align: center;background-color: #1BBC9B; font-weight: bold;'>" + object.Stock + "</p>";
+                            } else {
+                                return "<p style='text-align: center;background-color: #f18973;font-weight: bold;'>" + object.Stock + "</p>";
+                            }
+                        }
+
+                    },
+                    {
+                        "data": "ShopName",
+                        render: function (data, type, object) {
+                            if (object.Stock) {
+                                return "<p style='text-align: center;background-color: #1BBC9B; font-weight: bold;'>" + object.ShopName + "</p>";
+                            } else {
+                                return "<p style='text-align: center;background-color: #f18973;font-weight: bold;'>" + object.ShopName + "</p>";
+                            }
+                        }
+                    }
                 ]
+               
             });
             //$.ajax({
             //    type: 'POST',
