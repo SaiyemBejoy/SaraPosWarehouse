@@ -64,12 +64,19 @@ namespace PosWarehouse.Controllers
            var objShopOrderInfo = await _objShopOrderDal.ShopOrderListByRequisitionNum(requisitionNumber);
            if (objShopOrderInfo != null)
            {
-               var requisitionId = objShopOrderInfo.RequisitionId;
-               objShopOrderInfo.RequisitionDeliveryItemList = await _objShopOrderDal.GetShopOrderItemInfoDelivery(requisitionId);
+                var requisitionAutoId = objShopOrderInfo.RequisitionAutoId;
+               objShopOrderInfo.RequisitionDeliveryItemList = await _objShopOrderDal.GetShopOrderItemInfoDelivery(requisitionAutoId);
            }
             return Json(objShopOrderInfo, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<ActionResult> UpdateStoreDeliveryStatus(int requisitionId)
+        {
+            string message = await _objShopOrderDal.UpdateStoreDeliveryStatus(requisitionId);
+            TempData["message"] = message;
+
+            return RedirectToAction("Index");
+        }
 
         #region Report
         private readonly ReportDocument _objReportDocument = new ReportDocument();

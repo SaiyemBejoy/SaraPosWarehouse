@@ -5282,7 +5282,7 @@ namespace PosWarehouse.DAL
                                "WARE_HOUSE_NAME,"+
                                "WARE_HOUSE_ADDRESS,"+
                                " 'Gift Voucher History Report' RPT_TITLE "+
-                             " From VEW_RPT_GIFT_VOU_HISTORY WHERE 1=1 ";
+                             " From VEW_RPT_GIFT_VOU_HISTORY WHERE DEPOSIT_DATE BETWEEN  to_date('" + objGiftVoucherHitoryModel.FromDate.Trim() + "', 'dd/mm/yyyy') AND  to_date('" + objGiftVoucherHitoryModel.ToDate.Trim() + "' , 'dd/mm/yyyy')   ";
 
                     if (objGiftVoucherHitoryModel.ShopId > 0)
                     {
@@ -5513,6 +5513,8 @@ namespace PosWarehouse.DAL
                                 objPriceDeclarationHtmlReport.BIN = objDataReader["CENTRAL_BIN_NO"].ToString();
                                 objPriceDeclarationHtmlReport.ProductStyle = objDataReader["PRODUCT_STYLE"].ToString();
                                 objPriceDeclarationHtmlReport.MesuaringUnit = objDataReader["PURCMEASUR_UNIT"].ToString();
+                                objPriceDeclarationHtmlReport.TotalAdditionalCost =
+                                    Convert.ToDouble(objDataReader["ADDITIONAL_COST"].ToString());
                             }
 
                             return objPriceDeclarationHtmlReport;
@@ -5612,6 +5614,53 @@ namespace PosWarehouse.DAL
                                 objProductOthersCostDetails.Add(model);
                             }
                             return objProductOthersCostDetails;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Error : " + ex.Message);
+                        }
+                        finally
+                        {
+                            objDataReader.Dispose();
+                            objCommand.Dispose();
+                            objConnection.Dispose();
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        public async Task<List<AdditionalCostDetails>> GetAdditionalCostListByProductIdForHtmlReport()
+        {
+
+            var sql = "SELECT  *  FROM ADDITIONAL_COST_DETAILS WHERE ACTIVE_YN = 'Y'  ";
+
+            using (OracleConnection objConnection = GetConnection())
+            {
+
+                using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
+                {
+
+                   
+                    await objConnection.OpenAsync();
+                    using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
+                    {
+                        List<AdditionalCostDetails> objAdditionalCostDetails = new List<AdditionalCostDetails>();
+                        try
+                        {
+                            while (await objDataReader.ReadAsync())
+                            {
+                                AdditionalCostDetails model = new AdditionalCostDetails
+                                {
+                                    //ProductId = Convert.ToInt32(objDataReader["PRODUCT_ID"].ToString()),
+                                    AdditionalCostName = objDataReader["ADDITIONAL_COST_NAME"].ToString(),
+                                    Percentage = Convert.ToDouble(objDataReader["PERCENTAGE"].ToString())
+                                };
+                                objAdditionalCostDetails.Add(model);
+                            }
+                            return objAdditionalCostDetails;
                         }
                         catch (Exception ex)
                         {

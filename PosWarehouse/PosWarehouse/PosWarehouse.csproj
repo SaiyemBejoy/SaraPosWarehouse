@@ -238,6 +238,7 @@
     <Compile Include="Controllers\Api\Ecom\ProductController.cs" />
     <Compile Include="Controllers\Api\EmployeeDistributionController.cs" />
     <Compile Include="Controllers\Api\GiftVoucherController.cs" />
+    <Compile Include="Controllers\Api\GiftVoucherDataUpdateController.cs" />
     <Compile Include="Controllers\Api\InvoiceInfoController.cs" />
     <Compile Include="Controllers\Api\ItemInfoForDirectShopReceiveController.cs" />
     <Compile Include="Controllers\Api\MaxRequisitionNumberController.cs" />

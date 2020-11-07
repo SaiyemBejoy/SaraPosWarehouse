@@ -141,6 +141,7 @@ namespace PosWarehouse.DAL
         public async Task<RequisitionMainModel> ShopOrderListByRequisitionNum(string requisitionNumber)
         {
             var sql = "SELECT " +
+                " REQUISITION_AUTO_ID, " +
                       "REQUISITION_ID," +
                         "REQUISITION_NO," +
                         "to_date(REQUISITION_DATE,'dd/mm/yyyy')REQUISITION_DATE," +
@@ -164,7 +165,8 @@ namespace PosWarehouse.DAL
                         {
                             while (await objDataReader.ReadAsync())
                             {
-
+                                objRequisitionMainModel.RequisitionAutoId =
+                                    Convert.ToInt32(objDataReader["REQUISITION_AUTO_ID"].ToString());
                                 objRequisitionMainModel.RequisitionId =
                                     Convert.ToInt32(objDataReader["REQUISITION_ID"].ToString());
                                 objRequisitionMainModel.RequisitionNo = objDataReader["REQUISITION_NO"].ToString();
@@ -192,7 +194,7 @@ namespace PosWarehouse.DAL
             }
         }
 
-        public async Task<List<RequisitionDeliveryModel>> GetShopOrderItemInfoDelivery(int requisitionId)
+        public async Task<List<RequisitionDeliveryModel>> GetShopOrderItemInfoDelivery(int requisitionAutoId)
         {
             var sql = "SELECT " +
                       "REQUISITION_MAIN_ITEM_ID," +
@@ -210,7 +212,7 @@ namespace PosWarehouse.DAL
 
                 using (OracleCommand objCommand = new OracleCommand(sql, objConnection) { CommandType = CommandType.Text })
                 {
-                    objCommand.Parameters.Add(":REQUISITION_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = requisitionId;
+                    objCommand.Parameters.Add(":REQUISITION_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = requisitionAutoId;
 
                     await objConnection.OpenAsync();
                     using (OracleDataReader objDataReader = (OracleDataReader)await objCommand.ExecuteReaderAsync())
@@ -252,6 +254,46 @@ namespace PosWarehouse.DAL
 
                 }
             }
+        }
+
+        public async Task<string> UpdateStoreDeliveryStatus(int requisitionId)
+        {
+            string strMessage;
+
+            OracleCommand objOracleCommand = new OracleCommand("PRO_SHP_DLVRY_STUS_UPDATE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_REQUISITION_AUTO_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = requisitionId;
+
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMessage = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+            return strMessage;
         }
     }
 }

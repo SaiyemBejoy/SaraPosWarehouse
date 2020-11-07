@@ -1604,7 +1604,7 @@ namespace PosWarehouse.Controllers.Report
         private async Task<int> GenerateGiftVoucherHistoryReport(GiftVoucherHistoryReport giftVoucherHitoryModel)
         {
             DataSet objDataSet = null;
-            string strPath = Path.Combine(Server.MapPath("~/Reports/GiftVoucher/GiftVoucherDetails.rpt"));
+            string strPath = Path.Combine(Server.MapPath("~/Reports/GiftVoucher/GiftVoucherDetails1.rpt"));
             _objReportDocument.Load(strPath);
 
             objDataSet = (await _objReportDal.GiftVoucherHistory(giftVoucherHitoryModel));
@@ -1686,10 +1686,24 @@ namespace PosWarehouse.Controllers.Report
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PriceDecelarationReportForHtml(PriceDeclarationReport priceDeclarationReport)
         {
+            List<AdditionalCostDetails> AdditionalCostDetailsList = new List<AdditionalCostDetails>();
+
             PriceDeclarationHtmlReport priceDeclarationHtmlReport = new PriceDeclarationHtmlReport();
             priceDeclarationHtmlReport = await _objReportDal.GetAProductInfoForHtmlReport(priceDeclarationReport.ProductId);
             priceDeclarationHtmlReport.ProductMaterialCostDetailsList = await _objReportDal.GetMaterialCostListByProductIdForHtmlReport(priceDeclarationReport.ProductId);
-            priceDeclarationHtmlReport.ProductOthersCostDetailsList = await _objReportDal.GetOtherCostListByProductIdForHtmlReport(priceDeclarationReport.ProductId);
+            //priceDeclarationHtmlReport.ProductOthersCostDetailsList = await _objReportDal.GetOtherCostListByProductIdForHtmlReport(priceDeclarationReport.ProductId);
+            priceDeclarationHtmlReport.AdditionalCostDetailsList = await _objReportDal.GetAdditionalCostListByProductIdForHtmlReport();
+
+            double totalCost = priceDeclarationHtmlReport.TotalAdditionalCost;
+
+            foreach (var item in priceDeclarationHtmlReport.AdditionalCostDetailsList)
+            {
+                item.CostValue = ((totalCost / 100) * item.Percentage);
+
+                AdditionalCostDetailsList.Add(item);
+            }
+
+            priceDeclarationHtmlReport.AdditionalCostDetailsList = AdditionalCostDetailsList;
             return View(priceDeclarationHtmlReport);
         }
 

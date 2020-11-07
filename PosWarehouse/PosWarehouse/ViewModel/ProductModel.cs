@@ -265,8 +265,21 @@ namespace PosWarehouse.ViewModel
 
         public double CostValue { get; set; }
 
+        public string AdditionalCostPercentage { get; set; }  
+
         public string UpdatedBy { get; set; }
 
 
+    }
+
+    public class AdditionalCostDetails
+    {
+        public int AdditionalCostId { get; set; }
+
+        public string AdditionalCostName { get; set; }
+
+        public double Percentage { get; set; }
+
+        public double CostValue { get; set; }
     }
 }

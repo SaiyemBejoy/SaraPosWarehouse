@@ -60,14 +60,17 @@
                                         <i class="fa fa-pencil"></i>
                                         View Item
                                     </a>
-                                    <a class="btn btn-danger" href="@Url.Action("CreateOrEdit","StoreDelivery")">
-                                        <i class="fa fa-area-chart"></i>
-                                        Delivery
-                                    </a>
-                                    @Html.ActionLink("Show Report", "ShowReport", "ShopOrder", new { requAutoId = data.RequisitionAutoId }, new { @class = "btn btn-warning", target = "_blank" })
                                     @if (data.Delivery_YN != "Y")
                                     {
-                                        <a id="changeStatus" class="btn btn-info" data-id="@data.RequisitionAutoId">Change Delivery Status</a>
+                                        <a class="btn btn-danger" href="@Url.Action("CreateOrEdit","StoreDelivery")">
+                                            <i class="fa fa-area-chart"></i>
+                                            Delivery
+                                        </a>
+                                    }
+                                    @Html.ActionLink(" Show Report", "ShowReport", "ShopOrder", new { requAutoId = data.RequisitionAutoId }, new { @class = "btn btn-warning", target = "_blank" })
+                                    @if (data.Delivery_YN != "Y")
+                                    {
+                                        @Html.ActionLink("Change Delivery Status", "UpdateStoreDeliveryStatus", "ShopOrder", new { requisitionId = data.RequisitionAutoId }, new { @class = "btn btn-success changeStatusBtn" })
                                     }
                                 </td>
                         </tr>
@@ -199,6 +202,10 @@
         $(".orderItem").click(function () {
             var requisitionId = $(this).data('id');
             orderItemList(requisitionId);
+        }); 
+
+        $(".changeStatusBtn").click(function () {
+            alert("You have changed the delivery status to Yes");
         });
         
     });

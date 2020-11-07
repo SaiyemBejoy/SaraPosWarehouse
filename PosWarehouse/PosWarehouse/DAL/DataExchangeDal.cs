@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -846,6 +847,47 @@ namespace PosWarehouse.DAL
           
             objOracleCommand.Parameters.Add("P_DEPOSIT_SHOP_ID", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objGiftVoucherDeliveryApiModel.DepositShopId) ? objGiftVoucherDeliveryApiModel.DepositShopId : null;
             objOracleCommand.Parameters.Add("P_UPDATED_BY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objGiftVoucherDeliveryApiModel.UpdateBy) ? objGiftVoucherDeliveryApiModel.UpdateBy : null;
+            objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
+
+            using (OracleConnection strConn = GetConnection())
+            {
+                try
+                {
+                    objOracleCommand.Connection = strConn;
+                    await strConn.OpenAsync();
+                    _trans = strConn.BeginTransaction();
+                    await objOracleCommand.ExecuteNonQueryAsync();
+                    _trans.Commit();
+                    strConn.Close();
+
+                    strMessage = objOracleCommand.Parameters["P_MESSAGE"].Value.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error : " + ex.Message);
+                }
+                finally
+                {
+                    strConn.Close();
+                    strConn.Dispose();
+                    objOracleCommand.Dispose();
+                }
+            }
+            return strMessage;
+        }
+
+        public async Task<string> GiftVoucherDataUpdate(GiftVoucherDeliveryApiModel objGiftVoucherDeliveryModel)
+        {
+            string strMessage;
+
+            OracleCommand objOracleCommand = new OracleCommand("PRO_GIFTVOUCHER_DATA_UPDATE")
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            objOracleCommand.Parameters.Add("P_GIFT_VOUCHER_CODE", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objGiftVoucherDeliveryModel.GiftVoucherCode) ? objGiftVoucherDeliveryModel.GiftVoucherCode : null;
+            objOracleCommand.Parameters.Add("P_GIFT_VOUCHER_REMAIN_VALUE", OracleDbType.Varchar2, ParameterDirection.Input).Value = objGiftVoucherDeliveryModel.RemainingValue > 0 ? objGiftVoucherDeliveryModel.RemainingValue.ToString(CultureInfo.InvariantCulture) : "0";
+            objOracleCommand.Parameters.Add("P_UPDATED_BY", OracleDbType.Varchar2, ParameterDirection.Input).Value = !string.IsNullOrWhiteSpace(objGiftVoucherDeliveryModel.UpdateBy) ? objGiftVoucherDeliveryModel.UpdateBy : null;
             objOracleCommand.Parameters.Add("P_MESSAGE", OracleDbType.Varchar2, 500).Direction = ParameterDirection.Output;
 
             using (OracleConnection strConn = GetConnection())

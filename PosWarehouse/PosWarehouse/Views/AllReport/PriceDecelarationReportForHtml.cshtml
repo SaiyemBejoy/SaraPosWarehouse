@@ -98,13 +98,13 @@
                             <td colspan="2">
 
                                 <table class="table table-responsive table-bordered table-hover table-striped" id="otherCostTable">
-                                    @if (Model.ProductOthersCostDetailsList != null)
+                                    @if (Model.AdditionalCostDetailsList != null)
                                     {
-                                        foreach (var otherCostDetails in Model.ProductOthersCostDetailsList)
+                                        foreach (var additionalCost in Model.AdditionalCostDetailsList)
                                         {
                                             <tr>
-                                                <td class="text-center" style="width:60%;font-size:9px;padding:0px;">@otherCostDetails.PurposeOfCost</td>
-                                                <td class="text-center" style="width:40%;font-size:9px;padding:0px;">@otherCostDetails.CostValue</td>
+                                                <td class="text-center" style="width:60%;font-size:9px;padding:0px;">@additionalCost.AdditionalCostName</td>
+                                                <td class="text-center" style="width:40%;font-size:9px;padding:0px;">@additionalCost.CostValue</td>
                                             </tr>
                                         }
                                     }
@@ -168,7 +168,7 @@
     function totalFabricCost() {
         var total = 0;
         $("#fabricTable tr").each(function () {
-            total += parseInt($(this).find('td:eq(2)').text());
+            total += parseFloat($(this).find('td:eq(2)').text());
 
         });
         $("#fabricTotal").html(total);
@@ -177,7 +177,7 @@
     function totalOtherCost() {
         var total = 0;
         $("#otherCostTable tr").each(function () {
-            total += parseInt($(this).find('td:eq(1)').text());
+            total += parseFloat($(this).find('td:eq(1)').text());
 
         });
         $("#costTotal").html(total);

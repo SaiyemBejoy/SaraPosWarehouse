@@ -356,6 +356,10 @@ namespace PosWarehouse.ViewModel
 
     public class GiftVoucherHistoryReport
     {
+        public string FromDate { get; set; }
+
+        public string ToDate { get; set; }
+
         public int ShopId { get; set; }
 
         public string GiftVoucherCode { get; set; }
@@ -413,9 +417,10 @@ namespace PosWarehouse.ViewModel
         public string MesuaringUnit { get; set; }
         public string WastageQty { get; set; }
         public string Percentage { get; set; }
+        public double TotalAdditionalCost { get; set; }
 
         public List<ProductMaterialCostDetails> ProductMaterialCostDetailsList { get; set; }
-        public List<ProductOthersCostDetails> ProductOthersCostDetailsList { get; set; }
+        public List<AdditionalCostDetails> AdditionalCostDetailsList { get; set; }
 
     }
 

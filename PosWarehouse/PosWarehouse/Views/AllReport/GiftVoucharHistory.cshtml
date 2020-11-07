@@ -36,16 +36,37 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group" id="shopDropdownHide">
-                                    @Html.LabelFor(c => c.ShopId, "Shop Name", new { @class = "col-md-3 control-label" })
-                                    <div class="col-md-6">
-                                        <div class="input-icon">
-                                            @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle select2" })
+                                <div class="row">
+                                    <div class="form-group" id="FromDateDiv">
+                                        @Html.LabelFor(c => c.FromDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-calendar"></i>
+                                                @Html.TextBoxFor(c => c.FromDate, new { @class = "form-control input-circle datepicker", @autocomplete = "off", @required = "required", @placeholder = "From Date" })
+                                            </div>
                                         </div>
+                                        <div class="col-md-3"></div>
                                     </div>
-                                    <div class="col-md-3"></div>
+                                    <div class="form-group" id="ToDateDiv">
+                                        @Html.LabelFor(c => c.ToDate, new { @class = "col-md-3 control-label" })<span style="color: red">*</span>
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-calendar"></i>
+                                                @Html.TextBoxFor(c => c.ToDate, new { @class = "form-control input-circle datepicker", @autocomplete = "off", @required = "required", @placeholder = "From Date" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="form-group" id="shopDropdownHide">
+                                        @Html.LabelFor(c => c.ShopId, "Shop Name", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-6">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(c => c.ShopId, new SelectList(ViewBag.ShopList, "Value", "Text"), new { @class = "form-control input-circle select2" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
                                 </div>
-
                             </div>
                             <div class="col-md-6">
 
@@ -86,6 +107,14 @@
 
 <script>
     $(document).ready(function () {
+        $(function () {
+            $(".datepicker").datepicker({
+                format: 'dd-MMM-yy',//check change
+                changeMonth: true,
+                changeYear: true
+            }).datepicker("setDate", new Date());
+        });
+
         $('.select2').select2({
             allowClear: true
         });
